@@ -3,17 +3,19 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 
-const CreateDocumentSchema = z.object({
-  title: z.string().min(2).max(300),
+const CreateDocSchema = z.object({
+  title: z.string().min(2).max(200),
   description: z.string().optional(),
-  type: z.string().min(1),
+  type: z.enum(["POLICY", "PROCEDURE", "FORM", "RECORD", "INSTRUCTION", "REPORT", "CONTRACT", "OTHER"]),
   category: z.string().optional(),
-  fileUrl: z.string().url().optional(),
-  fileSize: z.number().int().positive().optional(),
-  mimeType: z.string().optional(),
-  version: z.number().int().positive().default(1),
-  tags: z.array(z.string()).default([]),
+  version: z.string().default("1.0"),
+  status: z.enum(["DRAFT", "PENDING_REVIEW", "APPROVED", "ARCHIVED"]).default("DRAFT"),
+  tags: z.array(z.string()).optional(),
   expiresAt: z.string().datetime().optional(),
+  fileUrl: z.string().url().optional(),
+  fileSize: z.number().optional(),
+  mimeType: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 export async function GET(req: NextRequest) {
@@ -35,7 +37,7 @@ export async function GET(req: NextRequest) {
       ...(status ? { status: status as "DRAFT" | "PENDING_REVIEW" | "APPROVED" | "ARCHIVED" | "OBSOLETE" } : {}),
       ...(type ? { type } : {}),
     },
-    orderBy: { updatedAt: "desc" },
+    orderBy: { createdAt: "desc" },
   });
 
   return NextResponse.json(docs);
@@ -49,14 +51,18 @@ export async function POST(req: NextRequest) {
   if (!orgId) return NextResponse.json({ error: "Organisation requise" }, { status: 400 });
 
   const body = await req.json();
-  const parsed = CreateDocumentSchema.safeParse(body);
+  const parsed = CreateDocSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
-  const { expiresAt, ...rest } = parsed.data;
+  const { expiresAt, notes: _notes, version, fileSize, ...rest } = parsed.data;
+
+  const versionInt = parseInt(version.split(".")[0], 10) || 1;
 
   const doc = await db.document.create({
     data: {
       ...rest,
+      version: versionInt,
+      ...(fileSize !== undefined ? { fileSize: Math.round(fileSize) } : {}),
       organizationId: orgId,
       createdBy: session.user.id,
       ...(expiresAt ? { expiresAt: new Date(expiresAt) } : {}),

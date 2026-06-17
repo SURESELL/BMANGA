@@ -5,28 +5,27 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, FileText, Upload } from "lucide-react";
 
 const DOC_TYPES = [
-  "Procédure", "Instruction de travail", "Formulaire", "Enregistrement",
-  "Plan", "Rapport", "Certificat", "Contrat", "Fiche technique", "Autre",
+  { value: "POLICY", label: "Politique" },
+  { value: "PROCEDURE", label: "Procédure" },
+  { value: "FORM", label: "Formulaire" },
+  { value: "RECORD", label: "Enregistrement" },
+  { value: "INSTRUCTION", label: "Instruction" },
+  { value: "REPORT", label: "Rapport" },
+  { value: "CONTRACT", label: "Contrat" },
+  { value: "OTHER", label: "Autre" },
 ];
 
-const DOC_CATEGORIES = [
-  "HSE / Sécurité", "Qualité / ISO", "HACCP / Alimentaire", "Environnement",
-  "RH / Social", "Juridique / Réglementaire", "Formation", "Audit",
-  "Commercial", "Technique", "Autre",
+const DOC_STATUSES = [
+  { value: "DRAFT", label: "Brouillon" },
+  { value: "PENDING_REVIEW", label: "En révision" },
+  { value: "APPROVED", label: "Approuvé" },
+  { value: "ARCHIVED", label: "Archivé" },
 ];
 
 export default function DocumentNewPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState("");
-
-  function addTag() {
-    const t = tagInput.trim().toLowerCase();
-    if (t && !tags.includes(t)) setTags((prev) => [...prev, t]);
-    setTagInput("");
-  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -34,14 +33,27 @@ export default function DocumentNewPage() {
     setError("");
 
     const fd = new FormData(e.currentTarget);
+
+    const fileInput = e.currentTarget.querySelector<HTMLInputElement>('input[type="file"]');
+    if (fileInput?.files?.length) {
+      alert("Upload S3 bientôt disponible. Enregistrement sans fichier.");
+    }
+
+    const tagsRaw = (fd.get("tags") as string) ?? "";
+    const tags = tagsRaw
+      .split(",")
+      .map((t) => t.trim().toLowerCase())
+      .filter(Boolean);
+
     const body: Record<string, unknown> = {
       title: fd.get("title"),
-      description: fd.get("description") || undefined,
+      description: (fd.get("description") as string) || undefined,
       type: fd.get("type"),
-      category: fd.get("category") || undefined,
-      fileUrl: fd.get("fileUrl") || undefined,
-      version: Number(fd.get("version") ?? 1),
+      category: (fd.get("category") as string) || undefined,
+      version: (fd.get("version") as string) || "1.0",
+      status: fd.get("status"),
       tags,
+      notes: (fd.get("notes") as string) || undefined,
     };
 
     const expiresAt = fd.get("expiresAt") as string;
@@ -56,7 +68,7 @@ export default function DocumentNewPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error?.message ?? "Erreur lors de la création");
+        setError(data.error?.message ?? JSON.stringify(data.error) ?? "Erreur lors de la création");
       } else {
         router.push("/documents");
         router.refresh();
@@ -94,6 +106,8 @@ export default function DocumentNewPage() {
             <input
               name="title"
               required
+              minLength={2}
+              maxLength={200}
               placeholder="Ex: Procédure de gestion des déchets chimiques"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
             />
@@ -109,28 +123,40 @@ export default function DocumentNewPage() {
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
             >
               <option value="">Sélectionner...</option>
-              {DOC_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+              {DOC_TYPES.map((t) => (
+                <option key={t.value} value={t.value}>{t.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+            <select
+              name="status"
+              defaultValue="DRAFT"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+            >
+              {DOC_STATUSES.map((s) => (
+                <option key={s.value} value={s.value}>{s.label}</option>
+              ))}
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
-            <select
+            <input
               name="category"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
-            >
-              <option value="">Aucune</option>
-              {DOC_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
+              placeholder="Ex: HSE, Qualité, RH..."
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Version</label>
             <input
               name="version"
-              type="number"
-              min="1"
-              defaultValue="1"
+              defaultValue="1.0"
+              placeholder="1.0"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
             />
           </div>
@@ -144,18 +170,20 @@ export default function DocumentNewPage() {
             />
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+            <input
+              name="tags"
+              placeholder="hse, securite, qualite (séparés par des virgules)"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            />
+          </div>
+
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              URL du fichier
-            </label>
-            <div className="flex items-center gap-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Fichier</label>
+            <div className="flex items-center gap-2 border border-dashed border-gray-300 rounded-lg px-3 py-4 bg-gray-50">
               <Upload className="w-4 h-4 text-gray-400 shrink-0" />
-              <input
-                name="fileUrl"
-                type="url"
-                placeholder="https://... (lien S3 ou URL externe)"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
-              />
+              <input type="file" className="text-sm text-gray-600 flex-1" />
             </div>
             <p className="text-xs text-gray-400 mt-1">L&apos;upload direct sera disponible prochainement (S3)</p>
           </div>
@@ -170,33 +198,14 @@ export default function DocumentNewPage() {
             />
           </div>
 
-          {/* Tags */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
-            <div className="flex gap-2 mb-2 flex-wrap">
-              {tags.map((t) => (
-                <span key={t} className="flex items-center gap-1 bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">
-                  {t}
-                  <button type="button" onClick={() => setTags((p) => p.filter((x) => x !== t))} className="hover:text-blue-900">×</button>
-                </span>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <input
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
-                placeholder="Ajouter un tag..."
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
-              />
-              <button
-                type="button"
-                onClick={addTag}
-                className="px-3 py-2 border border-gray-300 text-gray-600 rounded-lg text-sm hover:bg-gray-50"
-              >
-                + Tag
-              </button>
-            </div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+            <textarea
+              name="notes"
+              rows={2}
+              placeholder="Notes internes, remarques..."
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+            />
           </div>
         </div>
 
