@@ -94,9 +94,9 @@ export default async function QualiopiCriterionPage({ params }: { params: Promis
                   ) : (
                     <div className="mt-3 border border-dashed border-gray-300 rounded-lg p-3 flex items-center justify-between">
                       <span className="text-xs text-gray-400">Aucune preuve ajoutée</span>
-                      <button className="flex items-center gap-1 text-xs text-[#1E3A5F] font-medium hover:underline">
+                      <a href={`/qualiopi/${indicator.id}/evidence/new`} className="flex items-center gap-1 text-xs text-[#1E3A5F] font-medium hover:underline">
                         <Plus className="w-3 h-3" /> Ajouter une preuve
-                      </button>
+                      </a>
                     </div>
                   )}
                 </div>

@@ -80,7 +80,16 @@ const NAV_GROUPS: NavGroup[] = [
     title: "Administration",
     items: [
       { label: "Abonnement", href: "/billing", icon: CreditCard },
-      { label: "Paramètres", href: "/settings", icon: Settings },
+      {
+        label: "Paramètres", href: "/settings", icon: Settings,
+        children: [
+          { label: "Profil", href: "/settings/profile", icon: Settings },
+          { label: "Organisation", href: "/settings/organization", icon: Building2 },
+          { label: "Utilisateurs", href: "/settings/users", icon: Users },
+          { label: "Notifications", href: "/settings/notifications", icon: Settings },
+          { label: "Intégrations", href: "/settings/integrations", icon: Settings },
+        ],
+      },
     ],
   },
 ];
@@ -136,27 +145,55 @@ export function DashboardSidebar() {
               )}
               {group.items.map((item) => {
                 const active = pathname === item.href || pathname.startsWith(item.href + "/");
+                const childrenActive = item.children?.some((c) => pathname === c.href || pathname.startsWith(c.href + "/"));
+                const expanded = active || childrenActive;
                 return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition-colors group",
-                      active
-                        ? "bg-[#1E3A5F] text-white"
-                        : "text-white/60 hover:bg-white/10 hover:text-white"
+                  <div key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        "flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition-colors group",
+                        expanded
+                          ? "bg-[#1E3A5F] text-white"
+                          : "text-white/60 hover:bg-white/10 hover:text-white"
+                      )}
+                      title={collapsed ? item.label : undefined}
+                    >
+                      <item.icon className="w-4 h-4 shrink-0" />
+                      {!collapsed && <span className="truncate">{item.label}</span>}
+                      {!collapsed && item.badge && (
+                        <span className="ml-auto text-xs bg-red-500 text-white px-1.5 rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
+                      {!collapsed && item.children && (
+                        <ChevronDown className={cn("ml-auto w-3 h-3 transition-transform", expanded ? "rotate-180" : "")} />
+                      )}
+                    </Link>
+                    {!collapsed && item.children && expanded && (
+                      <div className="ml-3 mt-0.5 space-y-0.5 border-l border-white/10 pl-3">
+                        {item.children.map((child) => {
+                          const childActive = pathname === child.href;
+                          return (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              onClick={() => setMobileOpen(false)}
+                              className={cn(
+                                "flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs transition-colors",
+                                childActive
+                                  ? "text-white bg-white/10"
+                                  : "text-white/50 hover:text-white hover:bg-white/5"
+                              )}
+                            >
+                              {child.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
                     )}
-                    title={collapsed ? item.label : undefined}
-                  >
-                    <item.icon className="w-4 h-4 shrink-0" />
-                    {!collapsed && <span className="truncate">{item.label}</span>}
-                    {!collapsed && item.badge && (
-                      <span className="ml-auto text-xs bg-red-500 text-white px-1.5 rounded-full">
-                        {item.badge}
-                      </span>
-                    )}
-                  </Link>
+                  </div>
                 );
               })}
             </div>
