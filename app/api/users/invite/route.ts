@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
       resource: "User",
       resourceId: user.id,
       organizationId: orgId,
-      metadata: { email, role },
+      details: { email, role },
     },
   });
 
