@@ -41,7 +41,7 @@ export default async function SettingsPage() {
         <div className="bg-white border border-gray-200 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-900">Informations de l&apos;organisation</h2>
-            <button className="text-sm text-[#1E3A5F] hover:underline">Modifier</button>
+            <a href="/settings/organization" className="text-sm text-[#1E3A5F] hover:underline">Modifier</a>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InfoRow label="Nom" value={org.name} />
@@ -68,9 +68,9 @@ function InfoRow({ label, value }: { label: string; value?: string | null }) {
 
 const SETTING_SECTIONS = [
   { title: "Organisation", description: "Nom, logo, infos légales", href: "/settings/organization", icon: Building2, bg: "bg-blue-100", color: "text-blue-600" },
-  { title: "Utilisateurs & Rôles", description: "Gérer les accès", href: "/settings/users", icon: Users, bg: "bg-purple-100", color: "text-purple-600" },
+  { title: "Utilisateurs & Rôles", description: "Inviter et gérer les accès", href: "/settings/users", icon: Users, bg: "bg-purple-100", color: "text-purple-600" },
+  { title: "Mon profil", description: "Mes informations, RGPD", href: "/settings/profile", icon: Shield, bg: "bg-red-100", color: "text-red-600" },
   { title: "Notifications", description: "Alertes et emails", href: "/settings/notifications", icon: Bell, bg: "bg-yellow-100", color: "text-yellow-600" },
-  { title: "Sécurité", description: "Mot de passe, 2FA", href: "/settings/security", icon: Shield, bg: "bg-red-100", color: "text-red-600" },
   { title: "Intégrations", description: "API, webhooks", href: "/settings/integrations", icon: Globe, bg: "bg-green-100", color: "text-green-600" },
   { title: "Paramètres avancés", description: "Modules, configuration", href: "/settings/advanced", icon: Settings, bg: "bg-gray-100", color: "text-gray-600" },
 ];
