@@ -6,7 +6,7 @@ import {
   ShieldCheck, LayoutDashboard, AlertTriangle, ClipboardList,
   BookOpen, CheckSquare, FileText, BarChart3, Settings,
   Building2, Users, HardHat, Leaf, Truck, Award, CreditCard,
-  ChevronDown, ChevronRight, Menu, X
+  ChevronDown, ChevronRight, Menu, X, FlaskConical, TrendingUp
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -58,14 +58,15 @@ const NAV_GROUPS: NavGroup[] = [
       { label: "Audits", href: "/audits", icon: ClipboardList },
       { label: "Non-conformités", href: "/non-conformities", icon: AlertTriangle },
       { label: "Qualiopi", href: "/qualiopi", icon: Award },
+      { label: "HACCP / PMS", href: "/haccp", icon: FlaskConical },
     ],
   },
   {
     title: "Environnement & Réglementation",
     items: [
-      { label: "Environnement", href: "/environment", icon: Leaf },
-      { label: "TMD / ADR", href: "/tmd", icon: Truck },
+      { label: "Environnement / ICPE", href: "/environment", icon: Leaf },
       { label: "Réglementation", href: "/regulation", icon: FileText },
+      { label: "ESG / RSE", href: "/esg", icon: TrendingUp },
     ],
   },
   {
