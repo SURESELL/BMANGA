@@ -1,0 +1,1218 @@
+// NORMIA - Prisma Schema
+// Multi-tenant SaaS platform for HSE, DUERP, LMS, Qualiopi, RegTech
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum UserRole {
+  SUPER_ADMIN
+  ORG_ADMIN
+  SITE_MANAGER
+  EMPLOYEE
+  TRAINER
+  LEARNER
+  CONSULTANT
+  AUDITOR
+  VIEWER
+}
+
+enum SubscriptionPlan {
+  FREE
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  UNPAID
+}
+
+enum RiskLevel {
+  NEGLIGIBLE
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ActionStatus {
+  DRAFT
+  TODO
+  IN_PROGRESS
+  DONE
+  OVERDUE
+  CANCELED
+}
+
+enum IncidentSeverity {
+  NEAR_MISS
+  MINOR
+  SIGNIFICANT
+  SERIOUS
+  CRITICAL
+  FATAL
+}
+
+enum IncidentStatus {
+  DECLARED
+  UNDER_INVESTIGATION
+  CLOSED
+  ARCHIVED
+}
+
+enum TrainingType {
+  E_LEARNING
+  FACE_TO_FACE
+  HYBRID
+  VIRTUAL_CLASS
+  WEBINAR
+}
+
+enum TrainingStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum SessionStatus {
+  PLANNED
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
+enum AuditStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CLOSED
+}
+
+enum DocumentStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  ARCHIVED
+  OBSOLETE
+}
+
+enum ComplianceLevel {
+  COMPLIANT
+  PARTIAL
+  NON_COMPLIANT
+  NOT_APPLICABLE
+  TO_EVALUATE
+}
+
+enum EvidenceType {
+  DOCUMENT
+  PHOTO
+  VIDEO
+  LINK
+  SIGNATURE
+  FORM
+}
+
+// ─────────────────────────────────────────────
+// CORE - MULTI-TENANT
+// ─────────────────────────────────────────────
+
+model Organization {
+  id               String             @id @default(cuid())
+  name             String
+  slug             String             @unique
+  siret            String?
+  naf              String?
+  address          String?
+  city             String?
+  postalCode       String?
+  country          String             @default("FR")
+  phone            String?
+  email            String?
+  website          String?
+  logoUrl          String?
+  sector           String?
+  employeeCount    Int?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  deletedAt        DateTime?
+
+  // Relations
+  users            User[]
+  sites            Site[]
+  workUnits        WorkUnit[]
+  risks            Risk[]
+  duerps           DUERP[]
+  actionPlans      ActionPlan[]
+  incidents        Incident[]
+  documents        Document[]
+  trainings        TrainingCourse[]
+  sessions         TrainingSession[]
+  audits           Audit[]
+  regulations      Regulation[]
+  haccp            HACCPPlan[]
+  envAspects       EnvironmentalAspect[]
+  icpeItems        ICPEItem[]
+  tmdItems         TMDItem[]
+  esgIndicators    ESGIndicator[]
+  subscription     Subscription?
+  invoices         Invoice[]
+  notifications    Notification[]
+  auditLogs        AuditLog[]
+  supportTickets   SupportTicket[]
+  epiItems         EPIItem[]
+  verifications    PeriodicVerification[]
+
+  @@map("organizations")
+}
+
+model Site {
+  id             String      @id @default(cuid())
+  organizationId String
+  name           String
+  address        String?
+  city           String?
+  postalCode     String?
+  siret          String?
+  phone          String?
+  managerId      String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  deletedAt      DateTime?
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  workUnits      WorkUnit[]
+  risks          Risk[]
+  incidents      Incident[]
+  audits         Audit[]
+  users          User[]       @relation("UserSites")
+  epiItems       EPIItem[]
+  verifications  PeriodicVerification[]
+
+  @@map("sites")
+}
+
+model WorkUnit {
+  id             String      @id @default(cuid())
+  organizationId String
+  siteId         String?
+  name           String
+  description    String?
+  employeeCount  Int?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  deletedAt      DateTime?
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  site           Site?        @relation(fields: [siteId], references: [id])
+  risks          Risk[]
+  duerps         DUERP[]      @relation("DUERPWorkUnits")
+
+  @@map("work_units")
+}
+
+// ─────────────────────────────────────────────
+// AUTH & RBAC
+// ─────────────────────────────────────────────
+
+model User {
+  id               String    @id @default(cuid())
+  organizationId   String?
+  email            String    @unique
+  emailVerified    DateTime?
+  name             String?
+  firstName        String?
+  lastName         String?
+  phone            String?
+  avatarUrl        String?
+  role             UserRole  @default(EMPLOYEE)
+  isActive         Boolean   @default(true)
+  lastLoginAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+  gdprDeletedAt    DateTime?
+
+  organization     Organization? @relation(fields: [organizationId], references: [id])
+  sites            Site[]        @relation("UserSites")
+  accounts         Account[]
+  sessions         Session[]
+  permissions      UserPermission[]
+  auditLogs        AuditLog[]    @relation("UserAuditLogs")
+  trainingSessions TrainingEnrollment[]
+  certificates     Certificate[]
+  incidentsReported Incident[]   @relation("IncidentReporter")
+  actionPlansOwned ActionPlan[]  @relation("ActionPlanOwner")
+  notifications    Notification[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  module      String
+  action      String
+  description String?
+
+  userPermissions UserPermission[]
+
+  @@unique([module, action])
+  @@map("permissions")
+}
+
+model UserPermission {
+  id           String   @id @default(cuid())
+  userId       String
+  permissionId String
+  granted      Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, permissionId])
+  @@map("user_permissions")
+}
+
+// ─────────────────────────────────────────────
+// HSE / DUERP
+// ─────────────────────────────────────────────
+
+model Hazard {
+  id          String  @id @default(cuid())
+  code        String  @unique
+  family      String
+  name        String
+  description String?
+  category    String
+
+  risks Risk[]
+
+  @@map("hazards")
+}
+
+model Risk {
+  id               String    @id @default(cuid())
+  organizationId   String
+  siteId           String?
+  workUnitId       String?
+  hazardId         String?
+
+  // Identification
+  hazardDescription    String
+  situationDangereux   String?
+  exposedPersons       String?
+  existingMeasures     String?
+
+  // Cotation brute
+  grossFrequency   Int       @default(1) // 1-5
+  grossGravity     Int       @default(1) // 1-5
+  grossMastery     Int       @default(1) // 1-3
+  grossRisk        Int       @default(1) // calculé
+
+  // Cotation résiduelle
+  residualFrequency Int      @default(1)
+  residualGravity   Int      @default(1)
+  residualMastery   Int      @default(1)
+  residualRisk      Int      @default(1)
+
+  riskLevel        RiskLevel @default(LOW)
+  priority         Int       @default(3)
+  notes            String?
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  site          Site?        @relation(fields: [siteId], references: [id])
+  workUnit      WorkUnit?    @relation(fields: [workUnitId], references: [id])
+  hazard        Hazard?      @relation(fields: [hazardId], references: [id])
+  actionPlans   ActionPlan[]
+  duerps        DUERP[]      @relation("DUERPRisks")
+
+  @@map("risks")
+}
+
+model DUERP {
+  id             String    @id @default(cuid())
+  organizationId String
+  version        Int       @default(1)
+  year           Int
+  status         String    @default("DRAFT")
+  validatedAt    DateTime?
+  validatedBy    String?
+  nextReviewDate DateTime?
+  notes          String?
+  pdfUrl         String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  workUnits    WorkUnit[]   @relation("DUERPWorkUnits")
+  risks        Risk[]       @relation("DUERPRisks")
+  evidences    Evidence[]
+
+  @@map("duerps")
+}
+
+model ActionPlan {
+  id             String       @id @default(cuid())
+  organizationId String
+  riskId         String?
+  incidentId     String?
+  auditId        String?
+  title          String
+  description    String?
+  type           String       @default("CORRECTIVE") // CORRECTIVE, PREVENTIVE, IMPROVEMENT
+  priority       Int          @default(3) // 1=critique, 5=faible
+  status         ActionStatus @default(TODO)
+  ownerId        String?
+  dueDate        DateTime?
+  completedAt    DateTime?
+  budget         Float?
+  notes          String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  organization Organization  @relation(fields: [organizationId], references: [id])
+  risk         Risk?         @relation(fields: [riskId], references: [id])
+  incident     Incident?     @relation(fields: [incidentId], references: [id])
+  audit        Audit?        @relation(fields: [auditId], references: [id])
+  owner        User?         @relation("ActionPlanOwner", fields: [ownerId], references: [id])
+  evidences    Evidence[]
+
+  @@map("action_plans")
+}
+
+// ─────────────────────────────────────────────
+// INCIDENTS / ACCIDENTS
+// ─────────────────────────────────────────────
+
+model Incident {
+  id               String           @id @default(cuid())
+  organizationId   String
+  siteId           String?
+  reporterId       String?
+  type             String           // INCIDENT, ACCIDENT, NEAR_MISS
+  severity         IncidentSeverity @default(MINOR)
+  status           IncidentStatus   @default(DECLARED)
+  title            String
+  description      String
+  occurredAt       DateTime
+  location         String?
+  injuredPersons   Int              @default(0)
+  firstAidGiven    Boolean          @default(false)
+  workStopped      Boolean          @default(false)
+  witnesses        String?
+  immediateActions String?
+  rootCauses       String?
+  closedAt         DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  organization Organization  @relation(fields: [organizationId], references: [id])
+  site         Site?         @relation(fields: [siteId], references: [id])
+  reporter     User?         @relation("IncidentReporter", fields: [reporterId], references: [id])
+  actionPlans  ActionPlan[]
+  evidences    Evidence[]
+
+  @@map("incidents")
+}
+
+// ─────────────────────────────────────────────
+// EPI / EPC / VÉRIFICATIONS
+// ─────────────────────────────────────────────
+
+model EPIItem {
+  id             String    @id @default(cuid())
+  organizationId String
+  siteId         String?
+  name           String
+  reference      String?
+  category       String
+  standard       String?
+  quantity       Int       @default(0)
+  assignedTo     String?
+  assignedDate   DateTime?
+  expiryDate     DateTime?
+  nextControlDate DateTime?
+  notes          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+  evidences    Evidence[]
+
+  @@map("epi_items")
+}
+
+model PeriodicVerification {
+  id              String       @id @default(cuid())
+  organizationId  String
+  siteId          String?
+  name            String
+  equipment       String
+  frequency       String
+  lastVerifiedAt  DateTime?
+  nextVerificationAt DateTime?
+  verifiedBy      String?
+  result          String?
+  status          ActionStatus @default(TODO)
+  notes           String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+  evidences    Evidence[]
+
+  @@map("periodic_verifications")
+}
+
+// ─────────────────────────────────────────────
+// LMS - FORMATIONS
+// ─────────────────────────────────────────────
+
+model TrainingCourse {
+  id             String         @id @default(cuid())
+  organizationId String?        // null = catalogue public
+  title          String
+  description    String?
+  objectives     String?
+  prerequisites  String?
+  duration       Int?           // minutes
+  type           TrainingType   @default(E_LEARNING)
+  level          String?        // BEGINNER, INTERMEDIATE, ADVANCED
+  category       String?
+  tags           String[]
+  price          Float?
+  currency       String         @default("EUR")
+  thumbnailUrl   String?
+  status         TrainingStatus @default(DRAFT)
+  isPublic       Boolean        @default(false)
+  isCertifying   Boolean        @default(false)
+  certificateTemplateId String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization   Organization?   @relation(fields: [organizationId], references: [id])
+  modules        TrainingModule[]
+  sessions       TrainingSession[]
+  enrollments    TrainingEnrollment[]
+
+  @@map("training_courses")
+}
+
+model TrainingModule {
+  id          String   @id @default(cuid())
+  courseId    String
+  title       String
+  description String?
+  order       Int      @default(0)
+  duration    Int?
+  videoUrl    String?
+  pdfUrl      String?
+  content     String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  course    TrainingCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  quizzes   Quiz[]
+  progress  LearnerProgress[]
+
+  @@map("training_modules")
+}
+
+model TrainingSession {
+  id             String        @id @default(cuid())
+  organizationId String?
+  courseId       String
+  title          String?
+  type           TrainingType  @default(FACE_TO_FACE)
+  status         SessionStatus @default(PLANNED)
+  startDate      DateTime
+  endDate        DateTime
+  location       String?
+  virtualLink    String?
+  maxLearners    Int?
+  trainerId      String?
+  notes          String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  organization   Organization?    @relation(fields: [organizationId], references: [id])
+  course         TrainingCourse   @relation(fields: [courseId], references: [id])
+  enrollments    TrainingEnrollment[]
+  attendanceSheets AttendanceSheet[]
+
+  @@map("training_sessions")
+}
+
+model TrainingEnrollment {
+  id         String    @id @default(cuid())
+  userId     String
+  courseId   String
+  sessionId  String?
+  enrolledAt DateTime  @default(now())
+  completedAt DateTime?
+  score      Float?
+  passed     Boolean?
+  progress   Float     @default(0) // 0-100
+
+  user     User            @relation(fields: [userId], references: [id])
+  course   TrainingCourse  @relation(fields: [courseId], references: [id])
+  session  TrainingSession? @relation(fields: [sessionId], references: [id])
+  moduleProgress LearnerProgress[]
+
+  @@unique([userId, courseId])
+  @@map("training_enrollments")
+}
+
+model LearnerProgress {
+  id           String    @id @default(cuid())
+  enrollmentId String
+  moduleId     String
+  completed    Boolean   @default(false)
+  completedAt  DateTime?
+  timeSpent    Int?      // seconds
+
+  enrollment TrainingEnrollment @relation(fields: [enrollmentId], references: [id])
+  module     TrainingModule     @relation(fields: [moduleId], references: [id])
+
+  @@unique([enrollmentId, moduleId])
+  @@map("learner_progress")
+}
+
+model Quiz {
+  id          String   @id @default(cuid())
+  moduleId    String
+  title       String
+  description String?
+  passingScore Float   @default(70)
+  timeLimit   Int?    // minutes
+  maxAttempts Int?
+  createdAt   DateTime @default(now())
+
+  module    TrainingModule @relation(fields: [moduleId], references: [id])
+  questions Question[]
+  attempts  QuizAttempt[]
+
+  @@map("quizzes")
+}
+
+model Question {
+  id           String   @id @default(cuid())
+  quizId       String
+  text         String
+  type         String   @default("MULTIPLE_CHOICE") // MCQ, TRUE_FALSE, OPEN
+  order        Int      @default(0)
+  points       Float    @default(1)
+  explanation  String?
+
+  quiz    Quiz     @relation(fields: [quizId], references: [id])
+  answers Answer[]
+
+  @@map("questions")
+}
+
+model Answer {
+  id         String  @id @default(cuid())
+  questionId String
+  text       String
+  isCorrect  Boolean @default(false)
+  order      Int     @default(0)
+
+  question Question @relation(fields: [questionId], references: [id])
+
+  @@map("answers")
+}
+
+model QuizAttempt {
+  id          String    @id @default(cuid())
+  quizId      String
+  userId      String
+  score       Float
+  passed      Boolean
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  answers     Json?
+
+  quiz Quiz @relation(fields: [quizId], references: [id])
+
+  @@map("quiz_attempts")
+}
+
+model Certificate {
+  id           String    @id @default(cuid())
+  userId       String
+  courseId     String?
+  title        String
+  issuedAt     DateTime  @default(now())
+  expiresAt    DateTime?
+  score        Float?
+  pdfUrl       String?
+  verifyCode   String    @unique @default(cuid())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("certificates")
+}
+
+model AttendanceSheet {
+  id        String   @id @default(cuid())
+  sessionId String
+  date      DateTime
+  pdfUrl    String?
+  createdAt DateTime @default(now())
+
+  session   TrainingSession @relation(fields: [sessionId], references: [id])
+  entries   AttendanceEntry[]
+
+  @@map("attendance_sheets")
+}
+
+model AttendanceEntry {
+  id         String   @id @default(cuid())
+  sheetId    String
+  userId     String
+  present    Boolean  @default(false)
+  signature  String?
+  notes      String?
+
+  sheet AttendanceSheet @relation(fields: [sheetId], references: [id])
+
+  @@map("attendance_entries")
+}
+
+// ─────────────────────────────────────────────
+// QUALIOPI
+// ─────────────────────────────────────────────
+
+model QualiopiCriterion {
+  id          String  @id @default(cuid())
+  code        String  @unique
+  title       String
+  description String?
+  order       Int
+
+  indicators QualiopiIndicator[]
+
+  @@map("qualiopi_criteria")
+}
+
+model QualiopiIndicator {
+  id          String          @id @default(cuid())
+  criterionId String
+  code        String          @unique
+  title       String
+  description String?
+  isRequired  Boolean         @default(true)
+
+  criterion QualiopiCriterion   @relation(fields: [criterionId], references: [id])
+  evidences QualiopiEvidence[]
+
+  @@map("qualiopi_indicators")
+}
+
+model QualiopiEvidence {
+  id             String          @id @default(cuid())
+  organizationId String
+  indicatorId    String
+  title          String
+  description    String?
+  fileUrl        String?
+  complianceLevel ComplianceLevel @default(TO_EVALUATE)
+  verifiedAt     DateTime?
+  verifiedBy     String?
+  notes          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  indicator QualiopiIndicator @relation(fields: [indicatorId], references: [id])
+
+  @@map("qualiopi_evidences")
+}
+
+// ─────────────────────────────────────────────
+// AUDITS
+// ─────────────────────────────────────────────
+
+model Audit {
+  id             String      @id @default(cuid())
+  organizationId String
+  siteId         String?
+  type           String      // INTERNAL, SUPPLIER, SAFETY, ENVIRONMENT, HACCP, QUALIOPI, ISO
+  title          String
+  status         AuditStatus @default(PLANNED)
+  scheduledAt    DateTime?
+  startedAt      DateTime?
+  closedAt       DateTime?
+  auditorId      String?
+  notes          String?
+  pdfUrl         String?
+  score          Float?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  organization Organization  @relation(fields: [organizationId], references: [id])
+  site         Site?         @relation(fields: [siteId], references: [id])
+  checklists   AuditChecklist[]
+  findings     AuditFinding[]
+  nonConformities NonConformity[]
+  actionPlans  ActionPlan[]
+  evidences    Evidence[]
+
+  @@map("audits")
+}
+
+model AuditChecklist {
+  id       String @id @default(cuid())
+  auditId  String
+  section  String
+  question String
+  order    Int    @default(0)
+
+  audit    Audit        @relation(fields: [auditId], references: [id])
+  findings AuditFinding[]
+
+  @@map("audit_checklists")
+}
+
+model AuditFinding {
+  id           String          @id @default(cuid())
+  auditId      String
+  checklistId  String?
+  type         String          @default("OBSERVATION") // OBSERVATION, MINOR_NC, MAJOR_NC, OPPORTUNITY
+  description  String
+  reference    String?
+  complianceLevel ComplianceLevel @default(TO_EVALUATE)
+  createdAt    DateTime        @default(now())
+
+  audit     Audit           @relation(fields: [auditId], references: [id])
+  checklist AuditChecklist? @relation(fields: [checklistId], references: [id])
+  evidences Evidence[]
+
+  @@map("audit_findings")
+}
+
+model NonConformity {
+  id             String       @id @default(cuid())
+  organizationId String?
+  auditId        String?
+  title          String
+  description    String
+  type           String       @default("MINOR") // MINOR, MAJOR, CRITICAL
+  status         ActionStatus @default(TODO)
+  dueDate        DateTime?
+  closedAt       DateTime?
+  rootCause      String?
+  correctiveAction String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  audit     Audit?   @relation(fields: [auditId], references: [id])
+  evidences Evidence[]
+
+  @@map("non_conformities")
+}
+
+// ─────────────────────────────────────────────
+// HACCP / PMS
+// ─────────────────────────────────────────────
+
+model HACCPPlan {
+  id             String   @id @default(cuid())
+  organizationId String
+  name           String
+  version        Int      @default(1)
+  productType    String?
+  scope          String?
+  validatedAt    DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  ccps         CCP[]
+  prpos        PRPo[]
+
+  @@map("haccp_plans")
+}
+
+model CCP {
+  id             String  @id @default(cuid())
+  planId         String
+  step           String
+  hazard         String
+  hazardType     String  // BIOLOGICAL, CHEMICAL, PHYSICAL, ALLERGEN
+  criticalLimit  String
+  monitoring     String
+  correctiveAction String?
+  verification   String?
+  records        String?
+  createdAt      DateTime @default(now())
+
+  plan HACCPPlan @relation(fields: [planId], references: [id])
+
+  @@map("ccps")
+}
+
+model PRPo {
+  id          String  @id @default(cuid())
+  planId      String
+  name        String
+  description String?
+  monitoring  String?
+  frequency   String?
+  responsible String?
+  createdAt   DateTime @default(now())
+
+  plan HACCPPlan @relation(fields: [planId], references: [id])
+
+  @@map("prpos")
+}
+
+// ─────────────────────────────────────────────
+// ENVIRONNEMENT / ICPE / TMD
+// ─────────────────────────────────────────────
+
+model EnvironmentalAspect {
+  id             String          @id @default(cuid())
+  organizationId String
+  activity       String
+  aspect         String
+  impact         String
+  impactType     String          // AIR, WATER, SOIL, WASTE, ENERGY, BIODIVERSITY, NOISE
+  significance   String          // SIGNIFICANT, NOT_SIGNIFICANT
+  complianceLevel ComplianceLevel @default(TO_EVALUATE)
+  controlMeasures String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("environmental_aspects")
+}
+
+model ICPEItem {
+  id              String   @id @default(cuid())
+  organizationId  String
+  rubrique        String
+  designation     String
+  regime          String   // DECLARATION, ENREGISTREMENT, AUTORISATION
+  threshold       String?
+  actualQuantity  String?
+  status          String   @default("TO_EVALUATE")
+  prescriptions   String?
+  nextInspectionAt DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("icpe_items")
+}
+
+model TMDItem {
+  id             String   @id @default(cuid())
+  organizationId String
+  unNumber       String
+  designation    String
+  hazardClass    String
+  packagingGroup String?
+  transportMode  String   // ROAD_ADR, RAIL_RID, WATERWAY_ADN
+  quantity       Float?
+  unit           String?
+  notes          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("tmd_items")
+}
+
+// ─────────────────────────────────────────────
+// ESG / RSE
+// ─────────────────────────────────────────────
+
+model ESGIndicator {
+  id             String   @id @default(cuid())
+  organizationId String
+  category       String   // ENVIRONMENTAL, SOCIAL, GOVERNANCE
+  name           String
+  unit           String?
+  target         Float?
+  actual         Float?
+  year           Int
+  source         String?
+  notes          String?
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("esg_indicators")
+}
+
+// ─────────────────────────────────────────────
+// RÉGLEMENTATION
+// ─────────────────────────────────────────────
+
+model Regulation {
+  id               String   @id @default(cuid())
+  organizationId   String?  // null = référentiel global
+  title            String
+  description      String?
+  domain           String   // HSE, FOOD, ENV, TRANSPORT, QUALITY, SOCIAL, FISCAL
+  source           String   // Code du travail, JORF, Directive UE...
+  officialLink     String?
+  publicationDate  DateTime?
+  effectiveDate    DateTime?
+  applicableScope  String?
+  conditions       String?
+  obligations      Obligation[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+
+  @@map("regulations")
+}
+
+model Obligation {
+  id              String          @id @default(cuid())
+  regulationId    String
+  organizationId  String?
+  title           String
+  description     String
+  expectedEvidence String?
+  dueDate         DateTime?
+  frequency       String?
+  responsibleRole String?
+  complianceLevel ComplianceLevel @default(TO_EVALUATE)
+  criticality     RiskLevel       @default(MEDIUM)
+  isValidatedByExpert Boolean     @default(false)
+  expertValidationNote String?
+  disclaimer      String          @default("À vérifier avec la source officielle applicable et validation expert avant usage juridique.")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  regulation  Regulation @relation(fields: [regulationId], references: [id])
+  evidences   Evidence[]
+
+  @@map("obligations")
+}
+
+// ─────────────────────────────────────────────
+// DOCUMENTS & PREUVES
+// ─────────────────────────────────────────────
+
+model Document {
+  id             String         @id @default(cuid())
+  organizationId String
+  title          String
+  description    String?
+  type           String
+  category       String?
+  fileUrl        String?
+  fileSize       Int?
+  mimeType       String?
+  version        Int            @default(1)
+  status         DocumentStatus @default(DRAFT)
+  tags           String[]
+  expiresAt      DateTime?
+  createdBy      String?
+  approvedBy     String?
+  approvedAt     DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("documents")
+}
+
+model Evidence {
+  id             String       @id @default(cuid())
+  organizationId String?
+  type           EvidenceType @default(DOCUMENT)
+  title          String
+  description    String?
+  fileUrl        String?
+  mimeType       String?
+
+  // Polymorphic relations
+  duerp          DUERP?     @relation(fields: [duerpId], references: [id])
+  duerpId        String?
+  actionPlan     ActionPlan? @relation(fields: [actionPlanId], references: [id])
+  actionPlanId   String?
+  incident       Incident?   @relation(fields: [incidentId], references: [id])
+  incidentId     String?
+  audit          Audit?      @relation(fields: [auditId], references: [id])
+  auditId        String?
+  auditFinding   AuditFinding? @relation(fields: [auditFindingId], references: [id])
+  auditFindingId String?
+  nonConformity  NonConformity? @relation(fields: [nonConformityId], references: [id])
+  nonConformityId String?
+  epiItem        EPIItem?    @relation(fields: [epiItemId], references: [id])
+  epiItemId      String?
+  verification   PeriodicVerification? @relation(fields: [verificationId], references: [id])
+  verificationId String?
+  obligation     Obligation? @relation(fields: [obligationId], references: [id])
+  obligationId   String?
+
+  createdAt DateTime @default(now())
+
+  @@map("evidences")
+}
+
+// ─────────────────────────────────────────────
+// PAIEMENTS / ABONNEMENTS
+// ─────────────────────────────────────────────
+
+model Subscription {
+  id                  String             @id @default(cuid())
+  organizationId      String             @unique
+  plan                SubscriptionPlan   @default(FREE)
+  status              SubscriptionStatus @default(TRIALING)
+  stripeCustomerId    String?
+  stripeSubscriptionId String?
+  currentPeriodStart  DateTime?
+  currentPeriodEnd    DateTime?
+  cancelAtPeriodEnd   Boolean            @default(false)
+  seats               Int                @default(5)
+  modules             String[]
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("subscriptions")
+}
+
+model Invoice {
+  id             String   @id @default(cuid())
+  organizationId String
+  stripeInvoiceId String?
+  amount         Float
+  currency       String   @default("EUR")
+  status         String   @default("PENDING")
+  paidAt         DateTime?
+  pdfUrl         String?
+  description    String?
+  createdAt      DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@map("invoices")
+}
+
+// ─────────────────────────────────────────────
+// NOTIFICATIONS / LOGS / SUPPORT
+// ─────────────────────────────────────────────
+
+model Notification {
+  id             String   @id @default(cuid())
+  organizationId String?
+  userId         String?
+  type           String
+  title          String
+  message        String
+  readAt         DateTime?
+  link           String?
+  createdAt      DateTime @default(now())
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  user         User?         @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+model AuditLog {
+  id             String   @id @default(cuid())
+  organizationId String?
+  userId         String?
+  action         String
+  resource       String
+  resourceId     String?
+  details        Json?
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime @default(now())
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+  user         User?         @relation("UserAuditLogs", fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+model SupportTicket {
+  id             String   @id @default(cuid())
+  organizationId String?
+  subject        String
+  message        String   @db.Text
+  status         String   @default("OPEN")
+  priority       String   @default("MEDIUM")
+  resolvedAt     DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+
+  @@map("support_tickets")
+}
