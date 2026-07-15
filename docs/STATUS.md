@@ -10,7 +10,7 @@ Légende : ✅ Réel/opérationnel · 🟡 Partiel/scaffold · ⛔ Simulé/absen
 |---|---|---|
 | 0.1 Rebrand NORMIA → PREUVIA DUERP | ✅ | Toutes les occurrences renommées (package.json, env, UI, seed, palette exacte du spec §13) |
 | 0.2 Authentification réelle (Argon2id, rate limit) | ✅ | `authorize()` vérifie réellement le mot de passe (faille critique corrigée) ; lockout 5 tentatives/15min ; forgot/reset password ; changement forcé via `/change-password` |
-| 0.3 RBAC appliqué côté serveur | 🟡 | `requirePermission()` ajouté à `lib/rbac.ts` et branché sur les routes de mutation (create/update/delete) de risks, duerp, action-plans, incidents, sites, users/invite ; **routes LMS/Qualiopi/HACCP/ESG/ICPE/TMD/audits/documents encore non couvertes** |
+| 0.3 RBAC appliqué côté serveur | ✅ | `requirePermission()` branché sur toutes les routes de mutation (create/update/delete) : risks, duerp, action-plans, incidents, sites, users, documents, audits, qualiopi, haccp, environment, tmd, esg, non-conformities, epi, training (cours/modules/sessions/inscriptions) |
 | 0.4 Config Stripe centralisée (liens officiels) | ✅ | `lib/billing/plans.ts`, 4 liens officiels exacts, `client_reference_id` + `prefilled_email` |
 | 0.5 Plans/entitlements PREUVIA | ✅ | `lib/billing/entitlements.ts` : limites sites/users réellement appliquées côté serveur sur `POST /api/sites` et `POST /api/users/invite`, testées (DIAGNOSTIC 1 site/3 users, ESSENTIEL 1 site, PARTNER illimité) |
 | 0.6 Webhook Stripe signé + idempotent | ✅ | `/api/webhooks/stripe`, signature brute vérifiée, `WebhookEvent` idempotent, gère checkout/subscription/invoice/charge ; **jamais testé avec une vraie clé Stripe (aucune fournie)** |
@@ -53,7 +53,7 @@ du 2026-07-15).
 
 ## Risques de sécurité/conformité restants (voir aussi docs/REPOSITORY_AUDIT.md §6)
 
-1. RBAC appliqué sur les routes de mutation du coeur DUERP (risks, duerp, action-plans, incidents, sites, users) mais pas encore sur les modules hérités (LMS, Qualiopi, HACCP, ESG, ICPE/TMD, audits, documents) — ces routes ne vérifient toujours que l'appartenance à l'organisation, pas le rôle. À généraliser avant production.
+1. RBAC désormais appliqué à toutes les routes de mutation (coeur DUERP + modules hérités). Une faille IDOR inter-tenant réelle a été trouvée et corrigée au passage : `PATCH /api/training/.../enrollments` ne vérifiait aucune appartenance à l'organisation (voir `tests/integration/training-enrollment-isolation.test.ts`). Reste à auditer : les routes GET/liste ne filtrent que par organisation, pas par site/unité (portée fine par site — hors périmètre Phase 0).
 2. Rate limiting en mémoire (single-instance) — à migrer vers un store partagé avant tout déploiement multi-instance.
 3. Aucune UI de gestion des mots de passe temporaires consultant → client (Phase 2 non commencée) : le champ `User.mustChangePassword`/`passwordExpiresAt` existe déjà côté schéma pour l'accueillir.
 4. `PREUVIA_DISCLAIMER`/mentions légales présentes dans le code mais pas d'audit juridique/RGPD/fiscal effectué (hors périmètre technique).
@@ -63,7 +63,7 @@ du 2026-07-15).
 ```
 npx eslint .                 → 0 erreur
 npx tsc --noEmit              → 0 erreur
-npx vitest run                → 9 fichiers, 58 tests, tous passants
+npx vitest run                → 10 fichiers, 60 tests, tous passants
 npm run build                 → succès (build de production complet)
 npx prisma migrate deploy     → 7 migrations appliquées proprement sur base vierge
 ```
