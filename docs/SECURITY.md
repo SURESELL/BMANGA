@@ -1,0 +1,140 @@
+# SECURITY.md — PREUVIA DUERP
+
+État réel au 2026-07-15. Ce document décrit ce qui est **implémenté et
+testé**, ce qui est **partiel**, et les **risques connus** — pas un objectif
+aspirationnel. Voir `docs/REPOSITORY_AUDIT.md` pour l'historique des failles
+trouvées et corrigées.
+
+## 1. Authentification
+
+- Mots de passe hachés avec **Argon2id** (`lib/password.ts`, package `argon2`,
+  memoryCost 19 MiB / timeCost 2 — minimum recommandé OWASP).
+- `lib/auth.ts` (`authorize()`) vérifie réellement le mot de passe. **Historique** :
+  la version héritée du dépôt (NORMIA) ne vérifiait jamais le mot de passe —
+  faille critique corrigée en tout début de cette session, voir
+  `docs/REPOSITORY_AUDIT.md` §4.
+- **Rate limiting** : 10 tentatives / 15 min par identifiant (`lib/rate-limit.ts`).
+- **Verrouillage de compte** : 5 échecs consécutifs → verrouillage 15 min
+  (`User.failedLoginAttempts`, `User.lockedUntil`).
+- **Mot de passe temporaire** (invitation consultant/admin) : généré
+  serveur (`generateTemporaryPassword()`), haché immédiatement, renvoyé **une
+  seule fois** dans la réponse API (jamais journalisé, jamais stocké en
+  clair), expire après 48h (`User.passwordExpiresAt`), force un changement à
+  la première connexion (`User.mustChangePassword`) via le gate
+  `/change-password` dans `middleware.ts`.
+- **Mot de passe oublié** : jeton opaque, seul son hash SHA-256 est stocké
+  (`PasswordResetToken.tokenHash`), expire après 1h, usage unique
+  (`usedAt`), réponse HTTP identique que le compte existe ou non (pas
+  d'énumération d'e-mails).
+- Réponses constantes en cas d'échec (compte inexistant, inactif, sans mot de
+  passe, ou mauvais mot de passe → même comportement, pas de fuite d'information).
+
+**Limite connue** : `lib/rate-limit.ts` est un limiteur **en mémoire, par
+instance**. Il ne partage pas d'état entre plusieurs instances serveur. À
+remplacer par un store partagé (Redis) avant tout déploiement multi-instance.
+
+## 2. Autorisation (RBAC)
+
+- `lib/rbac.ts` définit la hiérarchie de rôles et la matrice
+  `module × action → rôle minimum`.
+- `requirePermission(role, module, action)` est branché sur **toutes** les
+  routes de mutation (POST/PATCH/DELETE) : risks, duerp, action-plans,
+  incidents, sites, users, documents, audits, qualiopi, haccp, environment,
+  tmd, esg, non-conformities, epi, training (cours/modules/sessions/inscriptions).
+- Les actions de validation/verrouillage (ex. faire passer un DUERP ou un
+  document au statut validé/approuvé) exigent une permission `validate`
+  distincte, plus élevée que `update`.
+
+**Limite connue** : les routes de **lecture** (GET/liste) filtrent uniquement
+par `organizationId`, pas par rôle ni par portée fine (site/unité de
+travail). Un `EMPLOYEE` peut donc lire toutes les ressources de son
+organisation, ce qui est conforme au rôle `VIEWER` minimum requis en lecture
+dans la matrice, mais la portée par site/établissement n'est pas encore
+implémentée (`AccessScope` du spec, Phase 2+).
+
+## 3. Isolation multi-tenant (IDOR)
+
+Pattern uniforme : `db.model.findFirst({ where: { id, organizationId: orgId } })`
+où `orgId` vient **toujours** de la session serveur. Testé dans
+`tests/integration/tenant-isolation.test.ts` et
+`tests/integration/consultant-access.test.ts`.
+
+**Faille trouvée et corrigée durant cette session** :
+`PATCH /api/training/[id]/sessions/[sessionId]/enrollments` ne vérifiait
+aucune appartenance organisationnelle avant de modifier le statut d'une
+inscription — un utilisateur authentifié dans n'importe quelle organisation
+pouvait modifier une inscription d'une autre organisation en devinant les
+identifiants. Corrigé par jointure sur `session.organizationId`. Régression
+couverte par `tests/integration/training-enrollment-isolation.test.ts`.
+
+Cette classe de bug (route de mutation imbriquée qui oublie le filtre
+`organizationId`) est le risque résiduel le plus probable dans les routes
+non auditées ligne à ligne. Toute nouvelle route de mutation doit être
+accompagnée d'un test IDOR suivant le même modèle.
+
+## 4. Secrets
+
+- Aucun secret commité. `.env.example` et `.env.test.example` ne contiennent
+  que des placeholders ou, pour les Payment Links Stripe, les URLs
+  **publiques** et officielles (pas des secrets).
+- `.gitignore` exclut `.env`, `.env.local`, `.env.test.local`,
+  `.env.development.local`, `.env.production.local`.
+- Clé INSEE (`INSEE_API_KEY`) et clés Stripe (`STRIPE_SECRET_KEY`,
+  `STRIPE_WEBHOOK_SECRET`) ne sont lues que côté serveur
+  (`lib/insee/client.ts`, `lib/stripe.ts`) — jamais exposées via
+  `NEXT_PUBLIC_*` ni envoyées au client.
+- Aucune clé de production n'a été utilisée ou configurée dans cette session.
+
+## 5. Paiements
+
+- Aucune donnée de carte n'est stockée par l'application (délégué
+  entièrement à Stripe Checkout via les Payment Links officiels).
+- Webhook Stripe : signature vérifiée sur le corps brut
+  (`stripe.webhooks.constructEvent`), idempotence par `WebhookEvent.eventId`
+  (chaque `event.id` Stripe n'est traité qu'une fois).
+- Activation d'abonnement **uniquement** via webhook signé, jamais sur la
+  base du retour navigateur (`checkout.session.completed` côté serveur).
+- Rapprochement par `client_reference_id` (identifiant PREUVIA de
+  l'organisation), jamais par e-mail seul.
+
+## 6. Intégration INSEE
+
+- Clé serveur uniquement, jamais exposée au frontend.
+- Confirmation humaine explicite exigée avant tout enregistrement
+  (`POST /api/company/import` requiert `confirmed: true` dans le corps de la
+  requête).
+- Traçabilité : `Organization.siretSource`, `siretFetchedAt`,
+  `siretConfirmedBy`, `siretConfirmedAt`.
+
+## 7. RGPD
+
+- `POST /api/rgpd/export` et `DELETE /api/rgpd/delete` existent
+  (export/anonymisation des données personnelles d'un utilisateur).
+- Pas d'audit RGPD/DPO formel effectué — hors périmètre technique de cette
+  session (voir `DELIVERY_CHECKLIST.md` « Validation avant production »).
+
+## 8. Ce qui reste à faire avant production
+
+Voir aussi `docs/STATUS.md`.
+
+1. Généraliser le rate limiting vers un store partagé (Redis) pour un
+   déploiement multi-instance.
+2. Auditer et tester chaque nouvelle route de mutation pour IDOR
+   systématiquement (pattern établi, à industrialiser en CI).
+3. Configurer les clés réelles (Stripe test d'abord, puis production
+   seulement après validation explicite), et tester le webhook contre un
+   vrai événement Stripe signé.
+4. Configurer l'API Sirene avec une vraie clé et valider le comportement
+   réel (jamais appelée en conditions réelles dans cette session).
+5. Mettre en place CSP/HSTS. `npm audit` : la vulnérabilité critique
+   Next.js (DoS via Server Actions + exposition du serveur de dev) a été
+   corrigée dans cette session en passant `next` de 15.0.4 à 15.5.20 (même
+   version majeure, build/lint/tests/tests re-vérifiés après la montée de
+   version). Reste une vulnérabilité **critique** sur `vitest` (dépendance
+   de test uniquement, jamais expédiée en production) qui nécessiterait une
+   montée de version majeure (vitest 2 → 4) non tentée dans cette session par
+   prudence — à planifier avec sa propre vérification de compatibilité des
+   tests plutôt que d'être faite à l'aveugle.
+6. Sauvegarde/restauration de la base : non testées dans cette session
+   (voir `docs/RUNBOOKS.md` pour la procédure documentée mais non exercée
+   en conditions réelles).
