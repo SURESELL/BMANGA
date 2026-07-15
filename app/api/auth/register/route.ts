@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { slugify } from "@/lib/utils";
+import { hashPassword, isPasswordStrong } from "@/lib/password";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 const registerSchema = z.object({
   firstName: z.string().min(1).max(50),
@@ -22,7 +23,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Données invalides." }, { status: 400 });
     }
 
-    const { firstName, lastName, email, password, orgName, orgSector, orgSize } = parsed.data;
+    const { firstName, lastName, email: rawEmail, password, orgName, orgSector, orgSize } = parsed.data;
+    const email = rawEmail.toLowerCase().trim();
+
+    const rl = checkRateLimit(`register:${email}`, 5, 15 * 60 * 1000);
+    if (!rl.allowed) {
+      return NextResponse.json({ error: "Trop de tentatives. Réessayez plus tard." }, { status: 429 });
+    }
+
+    if (!isPasswordStrong(password)) {
+      return NextResponse.json(
+        { error: "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre." },
+        { status: 400 }
+      );
+    }
 
     // Check email uniqueness
     const existing = await db.user.findUnique({ where: { email } });
@@ -35,6 +49,10 @@ export async function POST(req: NextRequest) {
     const existing_slug = await db.organization.findUnique({ where: { slug } });
     if (existing_slug) slug = `${slug}-${Date.now()}`;
 
+    // Argon2id hors transaction : évite de garder une connexion DB ouverte
+    // pendant le calcul intensif du hash.
+    const passwordHash = await hashPassword(password);
+
     // Create org + user in transaction
     const result = await db.$transaction(async (tx) => {
       const org = await tx.organization.create({
@@ -46,8 +64,6 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      const passwordHash = await bcrypt.hash(password, 12);
-
       const user = await tx.user.create({
         data: {
           email,
@@ -56,17 +72,8 @@ export async function POST(req: NextRequest) {
           lastName,
           role: "ORG_ADMIN",
           organizationId: org.id,
-        },
-      });
-
-      // Store password hash in account table
-      await tx.account.create({
-        data: {
-          userId: user.id,
-          type: "credentials",
-          provider: "credentials",
-          providerAccountId: email,
-          access_token: passwordHash,
+          passwordHash,
+          mustChangePassword: false,
         },
       });
 

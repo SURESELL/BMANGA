@@ -248,6 +248,14 @@ model User {
   deletedAt        DateTime?
   gdprDeletedAt    DateTime?
 
+  // Authentification par mot de passe (Argon2id — voir lib/password.ts)
+  passwordHash         String?
+  mustChangePassword   Boolean   @default(false)
+  passwordExpiresAt    DateTime?
+  failedLoginAttempts  Int       @default(0)
+  lockedUntil          DateTime?
+  createdByConsultantId String?
+
   organization     Organization? @relation(fields: [organizationId], references: [id])
   sites            Site[]        @relation("UserSites")
   accounts         Account[]
@@ -259,8 +267,23 @@ model User {
   incidentsReported Incident[]   @relation("IncidentReporter")
   actionPlansOwned ActionPlan[]  @relation("ActionPlanOwner")
   notifications    Notification[]
+  passwordResetTokens PasswordResetToken[]
 
   @@map("users")
+}
+
+model PasswordResetToken {
+  id         String    @id @default(cuid())
+  userId     String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
 }
 
 model Account {
