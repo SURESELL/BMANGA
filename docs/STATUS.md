@@ -21,6 +21,17 @@ Légende : ✅ Réel/opérationnel · 🟡 Partiel/scaffold · ⛔ Simulé/absen
 
 Build/lint/typecheck : `npm run build`, `npx eslint .`, `npx tsc --noEmit` tous verts en fin de session (voir résumé exécutif final).
 
+## Documentation
+
+`docs/ARCHITECTURE.md`, `docs/SECURITY.md`, `docs/DATA_MODEL.md`,
+`docs/DEPLOYMENT.md`, `docs/RUNBOOKS.md` créés (mandatés par `CLAUDE.md`,
+aucun n'existait avant cette session sauf `STATUS.md`). Vulnérabilité
+**critique** Next.js corrigée au passage (`next` 15.0.4 → 15.5.20, même
+majeure, aucun changement de code nécessaire, build/lint/60 tests
+re-vérifiés). Vulnérabilité critique restante : `vitest` (dépendance de
+test uniquement, jamais expédiée en production, nécessite une montée de
+version majeure non tentée à l'aveugle).
+
 ## Phases 1 à 8
 
 Non commencées dans cette session. Voir `PLANS.md` pour le détail :
