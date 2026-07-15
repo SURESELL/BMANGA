@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 export default function NCNewPage() {
   const router = useRouter();
@@ -50,9 +51,9 @@ export default function NCNewPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-3">
-        <a href="/non-conformities" className="text-gray-500 hover:text-gray-700 transition-colors">
+        <Link href="/non-conformities" className="text-gray-500 hover:text-gray-700 transition-colors">
           <ArrowLeft className="w-5 h-5" />
-        </a>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Déclarer une non-conformité</h1>
           <p className="text-sm text-gray-500 mt-0.5">Enregistrez une NC manuelle (hors audit)</p>
@@ -148,12 +149,12 @@ export default function NCNewPage() {
           >
             {loading ? "Enregistrement..." : "Déclarer la NC"}
           </button>
-          <a
+          <Link
             href="/non-conformities"
             className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
           >
             Annuler
-          </a>
+          </Link>
         </div>
       </form>
     </div>

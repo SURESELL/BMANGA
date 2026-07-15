@@ -217,7 +217,6 @@ export default function NewRiskPage() {
 
 function ScoreInput({
   label,
-  name,
   value,
   max,
   onChange,

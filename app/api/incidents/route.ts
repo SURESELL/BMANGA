@@ -18,7 +18,7 @@ const createIncidentSchema = z.object({
   immediateActions: z.string().optional(),
 });
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 

@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { HelpCircle, CheckCircle, Clock, PlusCircle } from "lucide-react";
+import { HelpCircle, CheckCircle, Clock } from "lucide-react";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 

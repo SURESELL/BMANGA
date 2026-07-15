@@ -58,15 +58,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   // If passed and course is certifying, create certificate
   if (passed) {
-    const module = await db.trainingModule.findFirst({
+    const trainingModule = await db.trainingModule.findFirst({
       where: { quizzes: { some: { id: quizId } } },
       include: { course: true },
     });
 
-    if (module?.course.isCertifying) {
+    if (trainingModule?.course.isCertifying) {
       // Check all modules completed
       const enrollment = await db.trainingEnrollment.findUnique({
-        where: { userId_courseId: { userId, courseId: module.courseId } },
+        where: { userId_courseId: { userId, courseId: trainingModule.courseId } },
         include: { moduleProgress: true },
       });
 
@@ -77,15 +77,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         });
 
         // Check if all modules done -> issue certificate
-        const allModules = await db.trainingModule.count({ where: { courseId: module.courseId } });
+        const allModules = await db.trainingModule.count({ where: { courseId: trainingModule.courseId } });
         const completedModules = enrollment.moduleProgress.filter((p) => p.completed).length;
 
         if (completedModules >= allModules - 1) {
           await db.certificate.create({
             data: {
               userId,
-              courseId: module.courseId,
-              title: module.course.title,
+              courseId: trainingModule.courseId,
+              title: trainingModule.course.title,
               score,
               issuedAt: new Date(),
             },

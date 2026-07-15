@@ -55,9 +55,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     parsed.data.order = (lastModule?.order ?? 0) + 1;
   }
 
-  const module = await db.trainingModule.create({
+  const trainingModule = await db.trainingModule.create({
     data: { ...parsed.data, courseId: id },
   });
 
-  return NextResponse.json(module, { status: 201 });
+  return NextResponse.json(trainingModule, { status: 201 });
 }

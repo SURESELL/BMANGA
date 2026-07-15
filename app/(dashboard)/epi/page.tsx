@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { HardHat, PlusCircle, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { formatDate, isOverdue, getDaysUntil } from "@/lib/utils";
+import Link from "next/link";
 
 export const metadata = { title: "EPI / Vérifications" };
 
@@ -30,7 +31,6 @@ export default async function EPIPage() {
   ]);
 
   const epiExpiring = epiItems.filter((e) => e.expiryDate && getDaysUntil(e.expiryDate) <= 30).length;
-  const verificationsDue = verifications.filter((v) => v.nextVerificationAt && getDaysUntil(v.nextVerificationAt) <= 30).length;
   const overdueVerifications = verifications.filter((v) => v.nextVerificationAt && isOverdue(v.nextVerificationAt)).length;
 
   return (
@@ -41,12 +41,12 @@ export default async function EPIPage() {
           <p className="text-sm text-gray-500 mt-1">Gestion des équipements de protection et contrôles réglementaires</p>
         </div>
         <div className="flex gap-2">
-          <a href="/epi/verification/new" className="border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+          <Link href="/epi/verification/new" className="border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
             + Vérification
-          </a>
-          <a href="/epi/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
+          </Link>
+          <Link href="/epi/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
             <PlusCircle className="w-4 h-4" /> Ajouter EPI
-          </a>
+          </Link>
         </div>
       </div>
 

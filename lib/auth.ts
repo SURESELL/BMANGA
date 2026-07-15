@@ -6,6 +6,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { verifyPassword } from "@/lib/password";
 import { checkRateLimit, resetRateLimit } from "@/lib/rate-limit";
+import { authConfig } from "@/lib/auth.config";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -18,12 +19,8 @@ const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_ATTEMPTS = 10;
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(db),
-  session: { strategy: "jwt" },
-  pages: {
-    signIn: "/login",
-    error: "/login",
-  },
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -108,23 +105,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as { role?: string }).role;
-        token.organizationId = (user as { organizationId?: string }).organizationId;
-        token.mustChangePassword = (user as { mustChangePassword?: boolean }).mustChangePassword ?? false;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub!;
-        (session.user as { role?: string }).role = token.role as string;
-        (session.user as { organizationId?: string }).organizationId = token.organizationId as string;
-        (session.user as { mustChangePassword?: boolean }).mustChangePassword = token.mustChangePassword as boolean;
-      }
-      return session;
-    },
-  },
+  // jwt/session callbacks viennent de authConfig (lib/auth.config.ts),
+  // partagées avec le middleware Edge Runtime.
 });

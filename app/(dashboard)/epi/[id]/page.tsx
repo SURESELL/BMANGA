@@ -120,11 +120,11 @@ export default function EPIDetailPage() {
               <dd className="font-medium text-gray-800">{resource.assignedTo ?? "—"}</dd>
             </div>
             <div>
-              <dt className="text-gray-500">Date d'attribution</dt>
+              <dt className="text-gray-500">Date d&apos;attribution</dt>
               <dd className="font-medium text-gray-800">{formatDate(resource.assignedDate)}</dd>
             </div>
             <div>
-              <dt className="text-gray-500">Date d'expiration</dt>
+              <dt className="text-gray-500">Date d&apos;expiration</dt>
               <dd className={`font-medium ${expired ? "text-red-600" : "text-gray-800"}`}>
                 {formatDate(resource.expiryDate)}
               </dd>

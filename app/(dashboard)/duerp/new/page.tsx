@@ -55,7 +55,7 @@ export default function NewDUERPPage() {
           Nouveau DUERP
         </h1>
         <p className="text-gray-500 text-sm mb-8">
-          Créez une nouvelle version du Document Unique d'Évaluation des Risques Professionnels.
+          Créez une nouvelle version du Document Unique d&apos;Évaluation des Risques Professionnels.
         </p>
 
         {error && (

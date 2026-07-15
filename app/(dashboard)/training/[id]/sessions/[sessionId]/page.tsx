@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import { ArrowLeft, Users, MapPin, Link2, Calendar, UserPlus, CheckCircle, Clock, XCircle } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
@@ -99,9 +100,9 @@ export default function TrainingSessionDetailPage() {
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-          <a href="/training" className="hover:underline">Formations</a>
+          <Link href="/training" className="hover:underline">Formations</Link>
           <span>/</span>
-          <a href={`/training/${id}`} className="hover:underline truncate max-w-xs">{sess.course.title}</a>
+          <Link href={`/training/${id}`} className="hover:underline truncate max-w-xs">{sess.course.title}</Link>
           <span>/</span>
           <span className="text-gray-700 font-medium">{sess.title ?? TYPE_LABELS[sess.type] ?? sess.type}</span>
         </div>
@@ -112,9 +113,9 @@ export default function TrainingSessionDetailPage() {
               {TYPE_LABELS[sess.type] ?? sess.type}
             </span>
           </div>
-          <a href={`/training/${id}`} className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0">
+          <Link href={`/training/${id}`} className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0">
             <ArrowLeft className="w-5 h-5" />
-          </a>
+          </Link>
         </div>
       </div>
 

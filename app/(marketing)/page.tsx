@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {
   ShieldCheck, BookOpen, ClipboardList, BarChart3, AlertTriangle,
-  CheckCircle, ArrowRight, Building2, Users, Award
+  CheckCircle, ArrowRight, Building2
 } from "lucide-react";
 
 export default function LandingPage() {

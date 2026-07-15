@@ -54,7 +54,7 @@ export default function NewIncidentPage() {
     <div className="p-6 max-w-2xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-[#0B1F33]">Déclarer un incident</h1>
-        <p className="text-gray-500 text-sm mt-1">Renseignez les informations relatives à l'événement</p>
+        <p className="text-gray-500 text-sm mt-1">Renseignez les informations relatives à l&apos;événement</p>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-5">
@@ -90,7 +90,7 @@ export default function NewIncidentPage() {
 
         {/* Type */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Type d'événement *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Type d&apos;événement *</label>
           <div className="flex gap-4">
             {[
               { value: "INCIDENT", label: "Incident" },

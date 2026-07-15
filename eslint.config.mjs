@@ -17,6 +17,17 @@ const eslintConfig = [
       "*.tsbuildinfo",
     ],
   },
+  {
+    rules: {
+      // Convention du dépôt : préfixer d'un underscore une variable extraite
+      // intentionnellement (ex. exclusion d'un champ via rest-destructuring)
+      // pour signaler explicitement qu'elle n'est pas utilisée.
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

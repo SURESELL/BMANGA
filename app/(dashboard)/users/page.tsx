@@ -54,7 +54,7 @@ export default async function UsersPage() {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-[#145B8C] flex items-center justify-center text-white text-xs font-bold shrink-0">
-                        {getInitials(user.name ?? `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim() || user.email)}
+                        {getInitials(user.name ?? (`${user.firstName ?? ""} ${user.lastName ?? ""}`.trim() || user.email))}
                       </div>
                       <div>
                         <p className="font-medium text-gray-900">

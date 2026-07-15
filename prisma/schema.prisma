@@ -114,6 +114,7 @@ enum AuditStatus {
   IN_PROGRESS
   COMPLETED
   CLOSED
+  CANCELED
 }
 
 enum DocumentStatus {
@@ -144,6 +145,22 @@ enum EvidenceType {
 enum ConsultantAccessStatus {
   ACTIVE
   REVOKED
+}
+
+enum TrainingEnrollmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+// Mode de délivrance d'une session de formation (distinct de TrainingType,
+// qui décrit le format du cours lui-même).
+enum TrainingSessionType {
+  FACE_TO_FACE
+  REMOTE
+  ELEARNING
+  BLENDED
 }
 
 // ─────────────────────────────────────────────
@@ -331,6 +348,7 @@ model User {
   permissions          UserPermission[]
   auditLogs            AuditLog[]            @relation("UserAuditLogs")
   trainingSessions     TrainingEnrollment[]
+  trainingSessionsLed  TrainingSession[]     @relation("SessionTrainer")
   certificates         Certificate[]
   incidentsReported    Incident[]            @relation("IncidentReporter")
   actionPlansOwned     ActionPlan[]          @relation("ActionPlanOwner")
@@ -671,12 +689,12 @@ model TrainingModule {
 }
 
 model TrainingSession {
-  id             String        @id @default(cuid())
+  id             String              @id @default(cuid())
   organizationId String?
   courseId       String
   title          String?
-  type           TrainingType  @default(FACE_TO_FACE)
-  status         SessionStatus @default(PLANNED)
+  type           TrainingSessionType @default(FACE_TO_FACE)
+  status         SessionStatus       @default(PLANNED)
   startDate      DateTime
   endDate        DateTime
   location       String?
@@ -684,11 +702,12 @@ model TrainingSession {
   maxLearners    Int?
   trainerId      String?
   notes          String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
 
   organization     Organization?        @relation(fields: [organizationId], references: [id])
   course           TrainingCourse       @relation(fields: [courseId], references: [id])
+  trainer          User?                @relation("SessionTrainer", fields: [trainerId], references: [id])
   enrollments      TrainingEnrollment[]
   attendanceSheets AttendanceSheet[]
 
@@ -696,15 +715,16 @@ model TrainingSession {
 }
 
 model TrainingEnrollment {
-  id          String    @id @default(cuid())
+  id          String                   @id @default(cuid())
   userId      String
   courseId    String
   sessionId   String?
-  enrolledAt  DateTime  @default(now())
+  status      TrainingEnrollmentStatus @default(PENDING)
+  enrolledAt  DateTime                 @default(now())
   completedAt DateTime?
   score       Float?
   passed      Boolean?
-  progress    Float     @default(0) // 0-100
+  progress    Float                    @default(0) // 0-100
 
   user           User              @relation(fields: [userId], references: [id])
   course         TrainingCourse    @relation(fields: [courseId], references: [id])

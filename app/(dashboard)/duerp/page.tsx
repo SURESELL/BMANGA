@@ -22,7 +22,7 @@ export default async function DuerpPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#0B1F33]">Document Unique d'Évaluation des Risques</h1>
+          <h1 className="text-2xl font-bold text-[#0B1F33]">Document Unique d&apos;Évaluation des Risques</h1>
           <p className="text-gray-500 text-sm mt-1">Gérez vos DUERP par année</p>
         </div>
         <Link

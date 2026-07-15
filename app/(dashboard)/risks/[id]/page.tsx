@@ -104,7 +104,7 @@ export default async function RiskDetailPage({ params }: PageProps) {
           ← Retour aux risques
         </Link>
         <h1 className="mt-2 text-3xl font-bold text-[#145B8C]">
-          {risk.description ?? "Risque sans description"}
+          {risk.hazardDescription ?? "Risque sans description"}
         </h1>
         <p className="text-gray-500 text-sm mt-1">
           {risk.workUnit?.name}
@@ -167,7 +167,7 @@ export default async function RiskDetailPage({ params }: PageProps) {
       {/* Action Plans */}
       <section className="bg-white rounded-xl shadow border border-gray-200 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-[#145B8C]">Plans d'action</h2>
+          <h2 className="text-lg font-semibold text-[#145B8C]">Plans d&apos;action</h2>
           <Link
             href={`/action-plans/new?riskId=${id}`}
             className="inline-flex items-center gap-1 rounded-lg bg-[#145B8C] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
@@ -177,7 +177,7 @@ export default async function RiskDetailPage({ params }: PageProps) {
         </div>
 
         {risk.actionPlans.length === 0 ? (
-          <p className="text-sm text-gray-400">Aucun plan d'action pour ce risque.</p>
+          <p className="text-sm text-gray-400">Aucun plan d&apos;action pour ce risque.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">

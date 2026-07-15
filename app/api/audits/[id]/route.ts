@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { z } from "zod";
 
 const UpdateAuditSchema = z.object({
-  status: z.enum(["PLANNED", "IN_PROGRESS", "CLOSED", "CANCELED"]).optional(),
+  status: z.enum(["PLANNED", "IN_PROGRESS", "COMPLETED", "CLOSED", "CANCELED"]).optional(),
   score: z.number().min(0).max(100).optional(),
   notes: z.string().optional(),
   closedAt: z.string().datetime().optional(),

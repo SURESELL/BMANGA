@@ -19,7 +19,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
     include: {
       trainer: { select: { id: true, name: true, email: true } },
       enrollments: {
-        include: { learner: { select: { id: true, name: true, email: true } } },
+        include: { user: { select: { id: true, name: true, email: true } } },
         orderBy: { enrolledAt: "asc" },
       },
       _count: { select: { enrollments: true } },
@@ -28,5 +28,9 @@ export async function GET(_req: NextRequest, { params }: Params) {
 
   if (!trainingSession) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
 
-  return NextResponse.json({ ...trainingSession, course: { title: course.title } });
+  return NextResponse.json({
+    ...trainingSession,
+    course: { title: course.title },
+    enrollments: trainingSession.enrollments.map(({ user, ...rest }) => ({ ...rest, learner: user })),
+  });
 }

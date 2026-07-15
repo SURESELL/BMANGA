@@ -36,7 +36,7 @@ export default async function OnboardingPage() {
       description: "Renseignez les informations de votre entreprise : secteur, taille, adresse.",
       href: "/settings/organization",
       icon: Building2,
-      completed: !!(org?.industry && org?.size),
+      completed: !!(org?.sector && org?.employeeCount),
     },
     {
       id: "sites",

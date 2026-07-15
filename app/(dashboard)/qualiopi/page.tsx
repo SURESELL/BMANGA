@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { Award, CheckCircle, AlertCircle, Clock, ChevronRight } from "lucide-react";
+import { CheckCircle, AlertCircle, Clock, ChevronRight } from "lucide-react";
 import type { ComplianceLevel } from "@/types";
 import { COMPLIANCE_LEVELS } from "@/types";
 
@@ -29,7 +29,7 @@ export default async function QualiopiPage() {
   // Compute compliance per criterion
   const criteriaWithStats = criteria.map((c) => {
     const allIndicators = c.indicators.length;
-    if (allIndicators === 0) return { ...c, score: 0, compliant: 0, total: 0 };
+    if (allIndicators === 0) return { ...c, score: 0, compliant: 0, partial: 0, total: 0 };
 
     const compliant = c.indicators.filter((i) => {
       const evidence = i.evidences[0];

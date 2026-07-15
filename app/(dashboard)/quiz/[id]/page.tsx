@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Clock, ChevronRight, ChevronLeft, CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
@@ -17,7 +17,6 @@ type Phase = "intro" | "quiz" | "result";
 
 export default function QuizPlayerPage() {
   const { id } = useParams<{ id: string }>();
-  const router = useRouter();
 
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [phase, setPhase] = useState<Phase>("intro");

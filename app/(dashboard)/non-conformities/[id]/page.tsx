@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { ChevronRight, CheckCircle, Clock, AlertTriangle, Edit2, Save, X } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import Link from "next/link";
 
 const STATUS_CONFIG = {
   TODO:        { label: "À faire",   bg: "bg-blue-100",   color: "text-blue-700",   icon: Clock },
@@ -81,7 +82,7 @@ export default function NonConformityDetailPage() {
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-          <a href="/non-conformities" className="hover:underline">Non-conformités</a>
+          <Link href="/non-conformities" className="hover:underline">Non-conformités</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-gray-700 font-medium truncate max-w-xs">{nc.title}</span>
         </div>

@@ -23,7 +23,7 @@ export default async function AnalyticsPage() {
   const [
     risksByLevel,
     actionsByStatus,
-    incidentsByStatus,
+    ,
     incidentsBySeverity,
     totalEnrollments,
     certifiedEnrollments,

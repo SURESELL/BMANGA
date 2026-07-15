@@ -28,7 +28,6 @@ export default async function DocumentsPage() {
     : [];
 
   // Group by category
-  const categories = [...new Set(documents.map((d) => d.category ?? "Général"))];
 
   return (
     <div className="space-y-6">

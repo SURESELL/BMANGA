@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { PlusCircle, ShieldAlert, AlertTriangle, CheckCircle, FlaskConical } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { PREUVIA_DISCLAIMER } from "@/types";
+import Link from "next/link";
 
 export const metadata = { title: "HACCP / PMS" };
 
@@ -45,12 +46,12 @@ export default async function HACCPPage() {
           <h1 className="text-2xl font-bold text-gray-900">HACCP / PMS</h1>
           <p className="text-sm text-gray-500 mt-1">Plans de maîtrise sanitaire, CCP et PRPo</p>
         </div>
-        <a
+        <Link
           href="/haccp/new"
           className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           <PlusCircle className="w-4 h-4" /> Nouveau plan
-        </a>
+        </Link>
       </div>
 
       {/* Disclaimer */}
@@ -128,12 +129,12 @@ export default async function HACCPPage() {
                   <span className="text-xs text-gray-500">{plan.ccps.length} CCP</span>
                   <span className="text-xs text-gray-400">·</span>
                   <span className="text-xs text-gray-500">{plan.prpos.length} PRPo</span>
-                  <a
+                  <Link
                     href={`/haccp/${plan.id}`}
                     className="text-xs text-[#145B8C] hover:underline ml-2"
                   >
                     Voir →
-                  </a>
+                  </Link>
                 </div>
               </div>
 

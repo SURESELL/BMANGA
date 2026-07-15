@@ -172,7 +172,7 @@ export default async function OrganizationsPage() {
         {/* Edit form placeholder */}
         <div className="border-t border-gray-200 pt-6">
           <p className="text-sm text-gray-500 italic">
-            La modification des informations de l'organisation sera disponible prochainement.
+            La modification des informations de l&apos;organisation sera disponible prochainement.
           </p>
           <button
             disabled

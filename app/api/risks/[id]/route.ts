@@ -17,7 +17,6 @@ const UpdateSchema = z.object({
   riskLevel: z.enum(["NEGLIGIBLE", "LOW", "MEDIUM", "HIGH", "CRITICAL"]).optional(),
   priority: z.number().int().min(1).max(5).optional(),
   notes: z.string().optional(),
-  ownerId: z.string().optional(),
   siteId: z.string().optional(),
 });
 
@@ -32,7 +31,6 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     where: { id, organizationId: orgId ?? undefined },
     include: {
       site: { select: { name: true } },
-      owner: { select: { name: true, email: true } },
       actionPlans: { select: { id: true } },
     },
   });
@@ -80,7 +78,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     },
     include: {
       site: { select: { name: true } },
-      owner: { select: { name: true, email: true } },
     },
   });
 

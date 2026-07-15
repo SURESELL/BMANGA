@@ -26,7 +26,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     where: { id, organizationId: orgId ?? undefined },
     include: {
       owner: { select: { id: true, name: true, email: true } },
-      risk: { select: { title: true, riskLevel: true } },
+      risk: { select: { hazardDescription: true, riskLevel: true } },
       incident: { select: { title: true, severity: true } },
       audit: { select: { title: true, type: true } },
     },

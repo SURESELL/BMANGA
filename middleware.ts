@@ -1,6 +1,12 @@
-import { auth } from "@/lib/auth";
+import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { authConfig } from "@/lib/auth.config";
+
+// Instance Edge-safe distincte de lib/auth.ts : le middleware tourne dans
+// l'Edge Runtime, incompatible avec argon2/Prisma (modules Node natifs) que
+// lib/auth.ts charge pour le provider Credentials complet.
+const { auth } = NextAuth(authConfig);
 
 const PUBLIC_ROUTES = ["/", "/login", "/register", "/forgot-password", "/reset-password", "/pricing", "/features", "/about", "/contact", "/privacy", "/terms", "/legal"];
 const AUTH_ROUTES = ["/login", "/register"];

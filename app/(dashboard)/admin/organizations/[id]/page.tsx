@@ -204,14 +204,14 @@ export default function AdminOrganizationDetailPage() {
           <div className="flex-1">
             <h3 className="font-semibold text-red-800 text-sm">Zone dangereuse</h3>
             <p className="text-xs text-red-600 mt-1">
-              Désactiver l'organisation bloquera l'accès à tous ses utilisateurs.
+              Désactiver l&apos;organisation bloquera l&apos;accès à tous ses utilisateurs.
             </p>
             {!showConfirm ? (
               <button
                 onClick={() => setShowConfirm(true)}
                 className="mt-3 px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
               >
-                Désactiver l'organisation
+                Désactiver l&apos;organisation
               </button>
             ) : (
               <div className="mt-3 flex items-center gap-3">

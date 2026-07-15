@@ -22,7 +22,7 @@ export async function GET() {
       select: { id: true, title: true, occurredAt: true, status: true },
     }),
     db.actionPlan.findMany({
-      where: { assignedToId: userId },
+      where: { ownerId: userId },
       select: { id: true, title: true, status: true, dueDate: true },
     }),
     db.trainingEnrollment.findMany({

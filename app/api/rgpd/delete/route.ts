@@ -31,7 +31,7 @@ export async function DELETE() {
       data: {
         name: "[Supprimé]",
         email: `deleted-${userId}@preuvia-duerp.invalid`,
-        image: null,
+        avatarUrl: null,
         isActive: false,
         deletedAt: new Date(),
       },

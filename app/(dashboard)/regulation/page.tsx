@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { FileText, AlertTriangle, CheckCircle, Clock, ExternalLink } from "lucide-react";
+import { FileText, AlertTriangle, ExternalLink } from "lucide-react";
 import { ComplianceBadge } from "@/components/ui/badge";
 import { PREUVIA_DISCLAIMER } from "@/types";
 import type { ComplianceLevel, RiskLevel } from "@/types";

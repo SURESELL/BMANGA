@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { UserPlus, Trash2, Shield, Mail, ArrowLeft } from "lucide-react";
+import { UserPlus, Shield, Mail, ArrowLeft } from "lucide-react";
 
 const ROLES = [
   { value: "VIEWER",       label: "Lecteur",           description: "Accès lecture seule" },

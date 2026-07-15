@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import { ChevronRight, Download, FileText, CheckCircle, Clock, Archive, X } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
@@ -59,7 +60,7 @@ export default function DocumentDetailPage() {
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-          <a href="/documents" className="hover:underline">Documents</a>
+          <Link href="/documents" className="hover:underline">Documents</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-gray-700 font-medium truncate max-w-xs">{doc.title}</span>
         </div>

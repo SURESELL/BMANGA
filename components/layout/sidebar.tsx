@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   ShieldCheck, LayoutDashboard, AlertTriangle, ClipboardList,
   BookOpen, CheckSquare, FileText, BarChart3, Settings,
-  Building2, Users, HardHat, Leaf, Truck, Award, CreditCard,
+  Building2, Users, HardHat, Leaf, Award, CreditCard,
   ChevronDown, ChevronRight, Menu, X, FlaskConical, TrendingUp
 } from "lucide-react";
 import { cn } from "@/lib/utils";

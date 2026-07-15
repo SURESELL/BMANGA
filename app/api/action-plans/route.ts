@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import type { ActionStatus } from "@/types";
+
+const VALID_STATUSES: ActionStatus[] = ["DRAFT", "TODO", "IN_PROGRESS", "DONE", "OVERDUE", "CANCELED"];
 
 export async function GET(req: NextRequest) {
   const session = await auth();
@@ -16,7 +19,8 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const riskId = searchParams.get("riskId");
   const incidentId = searchParams.get("incidentId");
-  const status = searchParams.get("status");
+  const statusParam = searchParams.get("status");
+  const status = statusParam && VALID_STATUSES.includes(statusParam as ActionStatus) ? (statusParam as ActionStatus) : null;
 
   const actionPlans = await db.actionPlan.findMany({
     where: {
@@ -27,7 +31,7 @@ export async function GET(req: NextRequest) {
     },
     include: {
       owner: { select: { id: true, name: true, email: true } },
-      risk: { select: { id: true, description: true } },
+      risk: { select: { id: true, hazardDescription: true } },
       incident: { select: { id: true, title: true } },
     },
     orderBy: { dueDate: "asc" },
