@@ -10,13 +10,13 @@ Légende : ✅ Réel/opérationnel · 🟡 Partiel/scaffold · ⛔ Simulé/absen
 |---|---|---|
 | 0.1 Rebrand NORMIA → PREUVIA DUERP | ✅ | Toutes les occurrences renommées (package.json, env, UI, seed, palette exacte du spec §13) |
 | 0.2 Authentification réelle (Argon2id, rate limit) | ✅ | `authorize()` vérifie réellement le mot de passe (faille critique corrigée) ; lockout 5 tentatives/15min ; forgot/reset password ; changement forcé via `/change-password` |
-| 0.3 RBAC appliqué côté serveur | 🟡 | `lib/rbac.ts` existait déjà mais n'était branché nulle part ; utilisé dans les nouvelles routes (`/api/company/import`) ; **généralisation aux ~40 routes existantes non faite** |
+| 0.3 RBAC appliqué côté serveur | 🟡 | `requirePermission()` ajouté à `lib/rbac.ts` et branché sur les routes de mutation (create/update/delete) de risks, duerp, action-plans, incidents, sites, users/invite ; **routes LMS/Qualiopi/HACCP/ESG/ICPE/TMD/audits/documents encore non couvertes** |
 | 0.4 Config Stripe centralisée (liens officiels) | ✅ | `lib/billing/plans.ts`, 4 liens officiels exacts, `client_reference_id` + `prefilled_email` |
-| 0.5 Plans/entitlements PREUVIA | 🟡 | Enums `SubscriptionPlan`/`SubscriptionStatus` migrés vers les 6 offres réelles ; **limites (sites/users par plan) définies en code mais pas encore appliquées côté serveur sur les routes de création** |
+| 0.5 Plans/entitlements PREUVIA | ✅ | `lib/billing/entitlements.ts` : limites sites/users réellement appliquées côté serveur sur `POST /api/sites` et `POST /api/users/invite`, testées (DIAGNOSTIC 1 site/3 users, ESSENTIEL 1 site, PARTNER illimité) |
 | 0.6 Webhook Stripe signé + idempotent | ✅ | `/api/webhooks/stripe`, signature brute vérifiée, `WebhookEvent` idempotent, gère checkout/subscription/invoice/charge ; **jamais testé avec une vraie clé Stripe (aucune fournie)** |
 | 0.7 Scaffolding consultant multi-tenant | 🟡 | `ConsultancyWorkspace`/`ConsultantClientAccess` réels, testés IDOR ; API list/create/revoke fonctionnelle ; **aucune UI `/consultant/*`, aucune invitation, aucun mot de passe temporaire client** |
 | 0.8 Proxy INSEE Sirene | ✅ (jamais appelé en conditions réelles) | Validation SIREN/SIRET+Luhn, cache, timeout, retries, mapping erreurs complet ; **aucune clé INSEE fournie, jamais testé contre l'API réelle** |
-| 0.9 Outillage (eslint/vitest) + tests | ✅ | `eslint.config.mjs` fonctionnel (0 erreur sur tout le dépôt), Vitest configuré, 43 tests (IDOR, tenant isolation, auth, billing, INSEE) |
+| 0.9 Outillage (eslint/vitest) + tests | ✅ | `eslint.config.mjs` fonctionnel (0 erreur sur tout le dépôt), Vitest configuré, 58 tests (IDOR, tenant isolation, auth, billing, INSEE, RBAC, entitlements) |
 | 0.10 Migrations Prisma versionnées | ✅ | 7 migrations dans `prisma/migrations/`, `migrate deploy` testé sur base fraîche |
 
 Build/lint/typecheck : `npm run build`, `npx eslint .`, `npx tsc --noEmit` tous verts en fin de session (voir résumé exécutif final).
@@ -53,7 +53,7 @@ du 2026-07-15).
 
 ## Risques de sécurité/conformité restants (voir aussi docs/REPOSITORY_AUDIT.md §6)
 
-1. RBAC déclaré mais appliqué seulement sur les routes neuves de cette session — les ~40 routes API pré-existantes ne vérifient que l'appartenance à l'organisation, pas le rôle. À généraliser avant production.
+1. RBAC appliqué sur les routes de mutation du coeur DUERP (risks, duerp, action-plans, incidents, sites, users) mais pas encore sur les modules hérités (LMS, Qualiopi, HACCP, ESG, ICPE/TMD, audits, documents) — ces routes ne vérifient toujours que l'appartenance à l'organisation, pas le rôle. À généraliser avant production.
 2. Rate limiting en mémoire (single-instance) — à migrer vers un store partagé avant tout déploiement multi-instance.
 3. Aucune UI de gestion des mots de passe temporaires consultant → client (Phase 2 non commencée) : le champ `User.mustChangePassword`/`passwordExpiresAt` existe déjà côté schéma pour l'accueillir.
 4. `PREUVIA_DISCLAIMER`/mentions légales présentes dans le code mais pas d'audit juridique/RGPD/fiscal effectué (hors périmètre technique).
@@ -63,7 +63,7 @@ du 2026-07-15).
 ```
 npx eslint .                 → 0 erreur
 npx tsc --noEmit              → 0 erreur
-npx vitest run                → 7 fichiers, 43 tests, tous passants
+npx vitest run                → 9 fichiers, 58 tests, tous passants
 npm run build                 → succès (build de production complet)
 npx prisma migrate deploy     → 7 migrations appliquées proprement sur base vierge
 ```
