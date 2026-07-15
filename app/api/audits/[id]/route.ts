@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const UpdateAuditSchema = z.object({
   status: z.enum(["PLANNED", "IN_PROGRESS", "COMPLETED", "CLOSED", "CANCELED"]).optional(),
@@ -39,6 +41,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   const { id } = await params;
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "audits", "update");
+  if (forbidden) return forbidden;
 
   const audit = await db.audit.findFirst({ where: { id, organizationId: orgId ?? undefined } });
   if (!audit) return NextResponse.json({ error: "Introuvable" }, { status: 404 });

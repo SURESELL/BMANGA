@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const UpdateSchema = z.object({
   title: z.string().min(2).max(200).optional(),
@@ -39,6 +41,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   const { id } = await params;
 
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "non_conformities", "update");
+  if (forbidden) return forbidden;
+
   const nc = await db.nonConformity.findFirst({ where: { id, organizationId: orgId ?? undefined } });
   if (!nc) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
 
@@ -70,6 +75,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   const { id } = await params;
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "non_conformities", "delete");
+  if (forbidden) return forbidden;
 
   const nc = await db.nonConformity.findFirst({ where: { id, organizationId: orgId ?? undefined } });
   if (!nc) return NextResponse.json({ error: "Introuvable" }, { status: 404 });

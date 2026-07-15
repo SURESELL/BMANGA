@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
 import type { TrainingEnrollmentStatus } from "@prisma/client";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const EnrollSchema = z.object({ learnerId: z.string() });
 const UpdateStatusSchema = z.object({
@@ -23,6 +25,9 @@ export async function POST(req: NextRequest, { params }: Params) {
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation requise" }, { status: 400 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "training", "update");
+  if (forbidden) return forbidden;
 
   const { id, sessionId } = await params;
 
@@ -62,14 +67,25 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
-  const { sessionId } = await params;
+  const orgId = (session.user as { organizationId?: string }).organizationId;
+  if (!orgId) return NextResponse.json({ error: "Organisation requise" }, { status: 400 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "training", "update");
+  if (forbidden) return forbidden;
+
+  const { id, sessionId } = await params;
   const body = await req.json();
   const parsed = UpdateStatusSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
   const { enrollmentId, status } = parsed.data;
 
-  const enrollment = await db.trainingEnrollment.findFirst({ where: { id: enrollmentId, sessionId } });
+  // La session ET son organisation doivent correspondre — sans cette
+  // vérification, un appelant pouvait modifier le statut d'une inscription
+  // appartenant à une autre organisation en devinant un enrollmentId.
+  const enrollment = await db.trainingEnrollment.findFirst({
+    where: { id: enrollmentId, sessionId, session: { courseId: id, organizationId: orgId } },
+  });
   if (!enrollment) return NextResponse.json({ error: "Inscription introuvable" }, { status: 404 });
 
   const updated = await db.trainingEnrollment.update({

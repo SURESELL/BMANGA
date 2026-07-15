@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const CreateModuleSchema = z.object({
   title: z.string().min(2).max(200),
@@ -37,6 +39,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   const { id } = await params;
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "training", "update");
+  if (forbidden) return forbidden;
 
   const course = await db.trainingCourse.findFirst({ where: { id, organizationId: orgId ?? undefined } });
   if (!course) return NextResponse.json({ error: "Formation introuvable" }, { status: 404 });

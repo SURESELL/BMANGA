@@ -23,7 +23,8 @@ export type Module =
   | "documents" | "training" | "quiz" | "certificates"
   | "audits" | "qualiopi" | "regulation" | "haccp"
   | "environment" | "tmd" | "esg" | "settings"
-  | "billing" | "users" | "organizations" | "sites";
+  | "billing" | "users" | "organizations" | "sites"
+  | "epi" | "non_conformities";
 
 export type Action = "view" | "create" | "update" | "delete" | "export" | "validate";
 
@@ -48,6 +49,8 @@ const PERMISSIONS: Record<Module, Record<Action, UserRole[]>> = {
   users:         { view: ["SITE_MANAGER"], create: ["ORG_ADMIN"], update: ["ORG_ADMIN"], delete: ["ORG_ADMIN"], export: ["ORG_ADMIN"], validate: ["ORG_ADMIN"] },
   organizations: { view: ["ORG_ADMIN"], create: ["SUPER_ADMIN"], update: ["ORG_ADMIN"], delete: ["SUPER_ADMIN"], export: ["ORG_ADMIN"], validate: ["SUPER_ADMIN"] },
   sites:         { view: ["VIEWER"], create: ["ORG_ADMIN"], update: ["ORG_ADMIN"], delete: ["ORG_ADMIN"], export: ["ORG_ADMIN"], validate: ["ORG_ADMIN"] },
+  epi:               { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
+  non_conformities:  { view: ["VIEWER"], create: ["AUDITOR"], update: ["AUDITOR"], delete: ["ORG_ADMIN"], export: ["AUDITOR"], validate: ["ORG_ADMIN"] },
 };
 
 export function canAccess(userRole: UserRole, module: Module, action: Action): boolean {
