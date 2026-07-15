@@ -2,47 +2,68 @@
 
 Dernière mise à jour : 2026-07-15 (session Phase 0).
 
-Légende : ✅ Réel/opérationnel · 🟡 Partiel · ⛔ Simulé/absent
+Légende : ✅ Réel/opérationnel · 🟡 Partiel/scaffold · ⛔ Simulé/absent
 
 ## Phase 0 — Fondations
 
 | Sous-lot | Statut | Détail |
 |---|---|---|
-| 0.1 Rebrand NORMIA → PREUVIA DUERP | 🟡 en cours | voir commits de cette session |
-| 0.2 Authentification réelle (Argon2id, rate limit) | 🟡 en cours | |
-| 0.3 RBAC appliqué côté serveur | 🟡 en cours | helper créé, branché sur routes retouchées uniquement |
-| 0.4 Config Stripe centralisée (liens officiels) | 🟡 en cours | |
-| 0.5 Plans/entitlements PREUVIA | 🟡 en cours | |
-| 0.6 Webhook Stripe signé + idempotent | 🟡 en cours | |
-| 0.7 Scaffolding consultant multi-tenant | 🟡 en cours | |
-| 0.8 Proxy INSEE Sirene | 🟡 en cours | |
-| 0.9 Outillage (eslint/vitest) + tests | 🟡 en cours | |
-| 0.10 Migrations Prisma versionnées | 🟡 en cours | |
+| 0.1 Rebrand NORMIA → PREUVIA DUERP | ✅ | Toutes les occurrences renommées (package.json, env, UI, seed, palette exacte du spec §13) |
+| 0.2 Authentification réelle (Argon2id, rate limit) | ✅ | `authorize()` vérifie réellement le mot de passe (faille critique corrigée) ; lockout 5 tentatives/15min ; forgot/reset password ; changement forcé via `/change-password` |
+| 0.3 RBAC appliqué côté serveur | 🟡 | `lib/rbac.ts` existait déjà mais n'était branché nulle part ; utilisé dans les nouvelles routes (`/api/company/import`) ; **généralisation aux ~40 routes existantes non faite** |
+| 0.4 Config Stripe centralisée (liens officiels) | ✅ | `lib/billing/plans.ts`, 4 liens officiels exacts, `client_reference_id` + `prefilled_email` |
+| 0.5 Plans/entitlements PREUVIA | 🟡 | Enums `SubscriptionPlan`/`SubscriptionStatus` migrés vers les 6 offres réelles ; **limites (sites/users par plan) définies en code mais pas encore appliquées côté serveur sur les routes de création** |
+| 0.6 Webhook Stripe signé + idempotent | ✅ | `/api/webhooks/stripe`, signature brute vérifiée, `WebhookEvent` idempotent, gère checkout/subscription/invoice/charge ; **jamais testé avec une vraie clé Stripe (aucune fournie)** |
+| 0.7 Scaffolding consultant multi-tenant | 🟡 | `ConsultancyWorkspace`/`ConsultantClientAccess` réels, testés IDOR ; API list/create/revoke fonctionnelle ; **aucune UI `/consultant/*`, aucune invitation, aucun mot de passe temporaire client** |
+| 0.8 Proxy INSEE Sirene | ✅ (jamais appelé en conditions réelles) | Validation SIREN/SIRET+Luhn, cache, timeout, retries, mapping erreurs complet ; **aucune clé INSEE fournie, jamais testé contre l'API réelle** |
+| 0.9 Outillage (eslint/vitest) + tests | ✅ | `eslint.config.mjs` fonctionnel (0 erreur sur tout le dépôt), Vitest configuré, 43 tests (IDOR, tenant isolation, auth, billing, INSEE) |
+| 0.10 Migrations Prisma versionnées | ✅ | 7 migrations dans `prisma/migrations/`, `migrate deploy` testé sur base fraîche |
 
-Ce tableau est mis à jour à la fin de la session avec l'état réel constaté après
-exécution de lint/typecheck/tests/build (voir section « Résultats » en bas de fichier).
+Build/lint/typecheck : `npm run build`, `npx eslint .`, `npx tsc --noEmit` tous verts en fin de session (voir résumé exécutif final).
 
 ## Phases 1 à 8
 
-Non commencées dans cette session. Voir `PLANS.md` pour le détail. Aucune fonctionnalité
-de ces phases n'est présentée comme opérationnelle.
+Non commencées dans cette session. Voir `PLANS.md` pour le détail :
+- Phase 1 (commercial/onboarding UI complet, Super Admin) — non commencée.
+- Phase 2 (UI consultant complète, invitations, mots de passe temporaires) — non commencée, scaffold serveur seul (0.7).
+- Phase 3 (DUERP versions immuables, workflow validation, exports PDF) — non commencée.
+- Phase 4 (fiches de poste, communication sécurité) — non commencée.
+- Phase 5 (entreprises extérieures, permis de travail) — non commencée.
+- Phase 6 (virement bancaire Stripe) — non commencée.
+- Phase 7 (PREUVIA COPILOT) — non commencée, correctement désactivé par défaut (absent).
+- Phase 8 (docs ARCHITECTURE/SECURITY/DATA_MODEL/DEPLOYMENT/RUNBOOKS, sauvegarde/restauration) — non commencée.
 
 ## Modules hérités (LMS, Qualiopi, HACCP, ICPE/TMD, ESG, Audits, Non-conformités)
 
-✅ Conservés et fonctionnels tels qu'audités (CRUD + scoping organisationId). Renommés
-sous la marque PREUVIA dans cette session mais **non retouchés fonctionnellement** —
-hors périmètre principal du spec PREUVIA DUERP mais non supprimés (décision propriétaire).
+✅ Conservés, renommés sous la marque PREUVIA, et leurs bugs de compilation
+pré-existants (drift schéma/code) corrigés dans cette session pour que le
+build passe. **Non développés fonctionnellement davantage** — hors périmètre
+principal du spec PREUVIA DUERP mais non supprimés (décision propriétaire
+du 2026-07-15).
 
 ## Secrets et intégrations restant à configurer avant toute mise en production
 
-- `DATABASE_URL` (PostgreSQL réel).
+- `DATABASE_URL` (PostgreSQL réel — un DB de dev/test local a servi à cette session, jamais exposé).
 - `NEXTAUTH_SECRET`.
-- `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` (clés de test uniquement dans cette session — aucune clé n'a été fournie, le webhook est testé avec des événements simulés/signés localement).
-- `INSEE_API_KEY` (aucune clé fournie — le proxy est implémenté et testé avec des réponses mockées ; jamais appelé en conditions réelles dans cette session).
-- `RESEND_API_KEY` / SMTP (envoi d'e-mails d'invitation — non implémenté cette session).
-- `S3_*` (stockage fichiers — champs `fileUrl` existants mais pas d'intégration d'upload réelle).
+- `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_ID_*` (clés de test — **aucune clé fournie dans cette session**, webhook testé uniquement par relecture de code, pas par appel réel).
+- `INSEE_API_KEY` (**aucune clé fournie**, proxy jamais appelé en conditions réelles).
+- `RESEND_API_KEY` (sans clé, `lib/email.ts` journalise au lieu d'envoyer — comportement explicite, jamais un faux succès).
+- `S3_*` (aucune intégration d'upload réelle — champs `fileUrl` seulement).
+- `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` (provider OAuth présent dans le code, jamais configuré).
 
-## Résultats des commandes (mis à jour en fin de session)
+## Risques de sécurité/conformité restants (voir aussi docs/REPOSITORY_AUDIT.md §6)
 
-Voir le résumé exécutif final de la session pour les résultats détaillés de
-`npm run lint`, `npx tsc --noEmit`, `npm test`, `npm run build`.
+1. RBAC déclaré mais appliqué seulement sur les routes neuves de cette session — les ~40 routes API pré-existantes ne vérifient que l'appartenance à l'organisation, pas le rôle. À généraliser avant production.
+2. Rate limiting en mémoire (single-instance) — à migrer vers un store partagé avant tout déploiement multi-instance.
+3. Aucune UI de gestion des mots de passe temporaires consultant → client (Phase 2 non commencée) : le champ `User.mustChangePassword`/`passwordExpiresAt` existe déjà côté schéma pour l'accueillir.
+4. `PREUVIA_DISCLAIMER`/mentions légales présentes dans le code mais pas d'audit juridique/RGPD/fiscal effectué (hors périmètre technique).
+
+## Résultats des commandes (fin de session)
+
+```
+npx eslint .                 → 0 erreur
+npx tsc --noEmit              → 0 erreur
+npx vitest run                → 7 fichiers, 43 tests, tous passants
+npm run build                 → succès (build de production complet)
+npx prisma migrate deploy     → 7 migrations appliquées proprement sur base vierge
+```
