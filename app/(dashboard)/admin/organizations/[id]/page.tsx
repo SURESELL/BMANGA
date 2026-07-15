@@ -113,7 +113,7 @@ export default function AdminOrganizationDetailPage() {
         <div>
           <h1 className="text-2xl font-bold text-[#145B8C]">{org.name}</h1>
           <p className="text-sm text-gray-500 mt-0.5">
-            Créée le {new Date(org.createdAt).toLocaleDateString("fr-FR")} · Plan {org.subscription?.plan ?? "FREE"} · {org.subscription?.seats ?? 5} sièges
+            Créée le {new Date(org.createdAt).toLocaleDateString("fr-FR")} · Plan {org.subscription?.plan ?? "DIAGNOSTIC"} · {org.subscription?.seats ?? 5} sièges
           </p>
         </div>
       </div>

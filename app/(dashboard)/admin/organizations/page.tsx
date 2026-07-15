@@ -13,7 +13,7 @@ type Org = {
 };
 
 function StatusBadge({ status }: { status: string }) {
-  const active = status === "ACTIVE" || status === "TRIALING";
+  const active = status === "ACTIVE";
   return (
     <span
       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
@@ -28,10 +28,12 @@ function StatusBadge({ status }: { status: string }) {
 
 function PlanBadge({ plan }: { plan: string }) {
   const colors: Record<string, string> = {
-    FREE: "bg-gray-100 text-gray-600",
-    STARTER: "bg-blue-100 text-blue-700",
-    PROFESSIONAL: "bg-purple-100 text-purple-700",
+    DIAGNOSTIC: "bg-gray-100 text-gray-600",
+    ESSENTIEL: "bg-blue-100 text-blue-700",
+    PILOTAGE: "bg-indigo-100 text-indigo-700",
+    MAITRISE: "bg-purple-100 text-purple-700",
     ENTERPRISE: "bg-[#145B8C] text-white",
+    PARTNER: "bg-[#6D28D9] text-white",
   };
   return (
     <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${colors[plan] ?? "bg-gray-100 text-gray-600"}`}>
@@ -70,7 +72,7 @@ export default function AdminOrganizationsPage() {
 
   const totalOrgs = orgs.length;
   const activeOrgs = orgs.filter(
-    (o) => o.subscription?.status === "ACTIVE" || o.subscription?.status === "TRIALING"
+    (o) => o.subscription?.status === "ACTIVE"
   ).length;
 
   return (
@@ -135,7 +137,7 @@ export default function AdminOrganizationsPage() {
                 <tr key={org.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 font-medium text-[#145B8C]">{org.name}</td>
                   <td className="px-6 py-4">
-                    <PlanBadge plan={org.subscription?.plan ?? "FREE"} />
+                    <PlanBadge plan={org.subscription?.plan ?? "DIAGNOSTIC"} />
                   </td>
                   <td className="px-6 py-4 text-center text-gray-700">{org._count.users}</td>
                   <td className="px-6 py-4 text-gray-600">

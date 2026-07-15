@@ -26,19 +26,32 @@ enum UserRole {
   VIEWER
 }
 
+// Offres commerciales PREUVIA DUERP — voir lib/billing/plans.ts pour les prix,
+// limites et Payment Links officiels associés à chaque valeur.
 enum SubscriptionPlan {
-  FREE
-  STARTER
-  PROFESSIONAL
+  DIAGNOSTIC
+  ESSENTIEL
+  PILOTAGE
+  MAITRISE
   ENTERPRISE
+  PARTNER
 }
 
+// Statuts PREUVIA (PRODUCT_SPEC.md §9.4) — distincts des statuts Stripe internes.
 enum SubscriptionStatus {
+  FREE
+  PENDING_PAYMENT
   ACTIVE
-  TRIALING
   PAST_DUE
+  GRACE_PERIOD
+  SUSPENDED
   CANCELED
-  UNPAID
+  EXPIRED
+}
+
+enum PaymentMethodType {
+  CARD
+  BANK_TRANSFER
 }
 
 enum RiskLevel {
@@ -1151,10 +1164,12 @@ model Evidence {
 model Subscription {
   id                  String             @id @default(cuid())
   organizationId      String             @unique
-  plan                SubscriptionPlan   @default(FREE)
-  status              SubscriptionStatus @default(TRIALING)
+  plan                SubscriptionPlan   @default(DIAGNOSTIC)
+  status              SubscriptionStatus @default(FREE)
+  paymentMethodType   PaymentMethodType?
   stripeCustomerId    String?
   stripeSubscriptionId String?
+  stripePriceId       String?
   currentPeriodStart  DateTime?
   currentPeriodEnd    DateTime?
   cancelAtPeriodEnd   Boolean            @default(false)
@@ -1166,6 +1181,23 @@ model Subscription {
   organization Organization @relation(fields: [organizationId], references: [id])
 
   @@map("subscriptions")
+}
+
+// Idempotence des webhooks Stripe : chaque event.id Stripe n'est traité qu'une
+// seule fois, quel que soit le nombre de fois où Stripe le renvoie.
+model WebhookEvent {
+  id            String   @id @default(cuid())
+  provider      String   @default("stripe")
+  eventId       String   @unique
+  type          String
+  organizationId String?
+  payload       Json
+  processedAt   DateTime?
+  error         String?
+  createdAt     DateTime @default(now())
+
+  @@index([type])
+  @@map("webhook_events")
 }
 
 model Invoice {

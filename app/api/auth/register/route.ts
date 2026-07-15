@@ -80,8 +80,8 @@ export async function POST(req: NextRequest) {
       await tx.subscription.create({
         data: {
           organizationId: org.id,
-          plan: "FREE",
-          status: "TRIALING",
+          plan: "DIAGNOSTIC",
+          status: "FREE",
           seats: 3,
           modules: ["core", "duerp"],
         },

@@ -46,7 +46,7 @@ export default async function OrganizationsPage() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {organizations.map((org) => {
-                const planKey = org.subscription?.plan ?? "FREE";
+                const planKey = org.subscription?.plan ?? "DIAGNOSTIC";
                 const planInfo = SUBSCRIPTION_PLANS[planKey as keyof typeof SUBSCRIPTION_PLANS];
                 return (
                   <tr key={org.id} className="hover:bg-gray-50 transition">
@@ -109,7 +109,7 @@ export default async function OrganizationsPage() {
 
   if (!org) redirect("/login");
 
-  const planKey = org.subscription?.plan ?? "FREE";
+  const planKey = org.subscription?.plan ?? "DIAGNOSTIC";
   const planInfo = SUBSCRIPTION_PLANS[planKey as keyof typeof SUBSCRIPTION_PLANS];
 
   return (
