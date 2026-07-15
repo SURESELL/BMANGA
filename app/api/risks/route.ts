@@ -3,6 +3,8 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { calculateRiskScore, getRiskLevel } from "@/lib/utils";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const createRiskSchema = z.object({
   workUnitId:           z.string().optional(),
@@ -52,6 +54,9 @@ export async function POST(req: NextRequest) {
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   if (!orgId) return NextResponse.json({ error: "Aucune organisation" }, { status: 400 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "risks", "create");
+  if (forbidden) return forbidden;
 
   const body = await req.json();
   const parsed = createRiskSchema.safeParse(body);

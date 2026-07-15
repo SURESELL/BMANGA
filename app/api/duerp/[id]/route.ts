@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -80,6 +82,16 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
   } catch {
     return NextResponse.json({ error: "Corps de la requête invalide" }, { status: 400 });
   }
+
+  // La validation (verrouillage de version) exige un rôle plus élevé qu'une
+  // simple modification de brouillon.
+  const isValidating = body.status === "VALIDATED";
+  const forbidden = requirePermission(
+    (session.user as { role?: UserRole }).role,
+    "duerp",
+    isValidating ? "validate" : "update"
+  );
+  if (forbidden) return forbidden;
 
   const updateData: Record<string, unknown> = {};
 

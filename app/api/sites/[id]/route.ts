@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -29,6 +31,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "sites", "update");
+  if (forbidden) return forbidden;
 
   const existing = await db.site.findFirst({ where: { id: id, organizationId: orgId } });
   if (!existing) return NextResponse.json({ error: "Site introuvable" }, { status: 404 });
@@ -61,6 +66,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "sites", "delete");
+  if (forbidden) return forbidden;
 
   const site = await db.site.findFirst({
     where: { id: id, organizationId: orgId },

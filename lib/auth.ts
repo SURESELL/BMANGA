@@ -55,6 +55,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
+        // Mot de passe temporaire expiré (invitation consultant/admin) : le
+        // compte doit passer par "mot de passe oublié" pour en obtenir un
+        // nouveau plutôt que de continuer à utiliser l'ancien indéfiniment.
+        if (user.mustChangePassword && user.passwordExpiresAt && user.passwordExpiresAt.getTime() < Date.now()) {
+          return null;
+        }
+
         const valid = await verifyPassword(user.passwordHash, parsed.data.password);
 
         if (!valid) {

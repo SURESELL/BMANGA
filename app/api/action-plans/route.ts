@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import type { ActionStatus } from "@/types";
+import type { ActionStatus, UserRole } from "@/types";
+import { requirePermission } from "@/lib/rbac";
 
 const VALID_STATUSES: ActionStatus[] = ["DRAFT", "TODO", "IN_PROGRESS", "DONE", "OVERDUE", "CANCELED"];
 
@@ -52,6 +53,9 @@ export async function POST(req: NextRequest) {
   if (!orgId || !userId) {
     return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
   }
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "action_plans", "create");
+  if (forbidden) return forbidden;
 
   let body: {
     title?: unknown;
