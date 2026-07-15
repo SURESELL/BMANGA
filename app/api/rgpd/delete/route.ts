@@ -30,7 +30,7 @@ export async function DELETE() {
       where: { id: userId },
       data: {
         name: "[Supprimé]",
-        email: `deleted-${userId}@normia.invalid`,
+        email: `deleted-${userId}@preuvia-duerp.invalid`,
         image: null,
         isActive: false,
         deletedAt: new Date(),

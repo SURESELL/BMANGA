@@ -86,7 +86,7 @@ export default function AuditNewPage() {
 
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <ClipboardList className="w-5 h-5 text-[#1E3A5F]" />
+          <ClipboardList className="w-5 h-5 text-[#145B8C]" />
           <p className="text-sm font-medium text-gray-700">Détails de l&apos;audit</p>
         </div>
 
@@ -98,7 +98,7 @@ export default function AuditNewPage() {
             <select
               name="type"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Sélectionner...</option>
               {AUDIT_TYPES.map((t) => (
@@ -112,7 +112,7 @@ export default function AuditNewPage() {
             <input
               name="scheduledAt"
               type="datetime-local"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -124,7 +124,7 @@ export default function AuditNewPage() {
               name="title"
               required
               placeholder="Ex: Audit interne ISO 9001 — Site de Paris"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -132,7 +132,7 @@ export default function AuditNewPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Site audité</label>
             <select
               name="siteId"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Tous les sites</option>
               {sites.map((s) => (
@@ -145,7 +145,7 @@ export default function AuditNewPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Auditeur responsable</label>
             <select
               name="auditorId"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Non assigné</option>
               {users.map((u) => (
@@ -160,7 +160,7 @@ export default function AuditNewPage() {
               name="notes"
               rows={4}
               placeholder="Décrivez le périmètre de l'audit, les processus concernés..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -173,7 +173,7 @@ export default function AuditNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Création..." : "Planifier l'audit"}
           </button>

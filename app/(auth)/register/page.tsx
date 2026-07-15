@@ -58,12 +58,12 @@ export default function RegisterPage() {
 
   if (step === 2) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0D1B2A] to-[#1E3A5F] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#0B1F33] to-[#145B8C] flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-[#0D1B2A] mb-2">Compte créé !</h2>
+          <h2 className="text-2xl font-bold text-[#0B1F33] mb-2">Compte créé !</h2>
           <p className="text-gray-500 text-sm">Vérifiez votre email pour activer votre compte. Vous serez redirigé vers la page de connexion...</p>
         </div>
       </div>
@@ -71,14 +71,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0D1B2A] to-[#1E3A5F] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#0B1F33] to-[#145B8C] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-white">
             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
               <ShieldCheck className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold">NORMIA</span>
+            <span className="text-2xl font-bold">PREUVIA DUERP</span>
           </Link>
         </div>
 
@@ -88,10 +88,10 @@ export default function RegisterPage() {
             {STEPS.slice(0, 2).map((s, i) => (
               <div key={s} className="flex items-center gap-2">
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                  i <= step ? "bg-[#1E3A5F] text-white" : "bg-gray-100 text-gray-400"
+                  i <= step ? "bg-[#145B8C] text-white" : "bg-gray-100 text-gray-400"
                 }`}>{i + 1}</div>
-                <span className={`text-xs ${i <= step ? "text-[#1E3A5F] font-medium" : "text-gray-400"}`}>{s}</span>
-                {i < 1 && <div className={`flex-1 h-px mx-1 ${i < step ? "bg-[#1E3A5F]" : "bg-gray-200"}`} style={{ width: 20 }} />}
+                <span className={`text-xs ${i <= step ? "text-[#145B8C] font-medium" : "text-gray-400"}`}>{s}</span>
+                {i < 1 && <div className={`flex-1 h-px mx-1 ${i < step ? "bg-[#145B8C]" : "bg-gray-200"}`} style={{ width: 20 }} />}
               </div>
             ))}
           </div>
@@ -103,32 +103,32 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {step === 0 && (
               <>
-                <h1 className="text-xl font-bold text-[#0D1B2A] mb-4">Créer votre compte</h1>
+                <h1 className="text-xl font-bold text-[#0B1F33] mb-4">Créer votre compte</h1>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">Prénom</label>
                     <input type="text" value={form.firstName} onChange={(e) => update("firstName", e.target.value)}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
                       placeholder="Jean" required />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">Nom</label>
                     <input type="text" value={form.lastName} onChange={(e) => update("lastName", e.target.value)}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
                       placeholder="Dupont" required />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Email professionnel</label>
                   <input type="email" value={form.email} onChange={(e) => update("email", e.target.value)}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
                     placeholder="jean.dupont@entreprise.fr" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Mot de passe</label>
                   <div className="relative">
                     <input type={showPassword ? "text" : "password"} value={form.password} onChange={(e) => update("password", e.target.value)}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] pr-10"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] pr-10"
                       placeholder="8+ caractères" minLength={8} required />
                     <button type="button" onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -141,17 +141,17 @@ export default function RegisterPage() {
 
             {step === 1 && (
               <>
-                <h1 className="text-xl font-bold text-[#0D1B2A] mb-4">Votre organisation</h1>
+                <h1 className="text-xl font-bold text-[#0B1F33] mb-4">Votre organisation</h1>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Nom de l&apos;entreprise</label>
                   <input type="text" value={form.orgName} onChange={(e) => update("orgName", e.target.value)}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
                     placeholder="Mon Entreprise SAS" required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Secteur d&apos;activité</label>
                   <select value={form.orgSector} onChange={(e) => update("orgSector", e.target.value)}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
                     required>
                     <option value="">Sélectionner...</option>
                     <option value="INDUSTRIE">Industrie / Manufacture</option>
@@ -169,7 +169,7 @@ export default function RegisterPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Effectif</label>
                   <select value={form.orgSize} onChange={(e) => update("orgSize", e.target.value)}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
                     required>
                     <option value="">Sélectionner...</option>
                     <option value="1-9">1 à 9 salariés (TPE)</option>
@@ -181,8 +181,8 @@ export default function RegisterPage() {
                 </div>
                 <label className="flex items-start gap-2 text-sm text-gray-600">
                   <input type="checkbox" checked={form.acceptTerms} onChange={(e) => update("acceptTerms", e.target.checked)}
-                    className="mt-0.5 rounded border-gray-300 text-[#1E3A5F]" required />
-                  <span>J&apos;accepte les <Link href="/terms" className="text-[#1E3A5F] hover:underline">conditions d&apos;utilisation</Link> et la <Link href="/privacy" className="text-[#1E3A5F] hover:underline">politique de confidentialité</Link></span>
+                    className="mt-0.5 rounded border-gray-300 text-[#145B8C]" required />
+                  <span>J&apos;accepte les <Link href="/terms" className="text-[#145B8C] hover:underline">conditions d&apos;utilisation</Link> et la <Link href="/privacy" className="text-[#145B8C] hover:underline">politique de confidentialité</Link></span>
                 </label>
               </>
             )}
@@ -195,7 +195,7 @@ export default function RegisterPage() {
                 </button>
               )}
               <button type="submit" disabled={loading}
-                className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+                className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
                 {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Création...</> : step === 1 ? "Créer mon compte" : "Continuer"}
               </button>
             </div>
@@ -203,7 +203,7 @@ export default function RegisterPage() {
 
           <p className="text-center text-sm text-gray-500 mt-4">
             Déjà un compte ?{" "}
-            <Link href="/login" className="text-[#1E3A5F] font-medium hover:underline">Se connecter</Link>
+            <Link href="/login" className="text-[#145B8C] font-medium hover:underline">Se connecter</Link>
           </p>
         </div>
       </div>

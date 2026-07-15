@@ -5,11 +5,11 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "NORMIA", template: "%s | NORMIA" },
+  title: { default: "PREUVIA DUERP", template: "%s | PREUVIA DUERP" },
   description: "Plateforme SaaS de gestion HSE, DUERP, Formation professionnelle et conformité réglementaire",
   keywords: ["HSE", "DUERP", "Qualiopi", "ISO 9001", "HACCP", "formation professionnelle", "RGPD", "conformité"],
-  authors: [{ name: "NORMIA" }],
-  creator: "NORMIA",
+  authors: [{ name: "PREUVIA DUERP" }],
+  creator: "PREUVIA DUERP",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

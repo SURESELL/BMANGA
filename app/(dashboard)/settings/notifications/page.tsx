@@ -14,8 +14,8 @@ function Toggle({ checked, onChange }: ToggleProps) {
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]/30 ${
-        checked ? "bg-[#1E3A5F]" : "bg-gray-200"
+      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#145B8C]/30 ${
+        checked ? "bg-[#145B8C]" : "bg-gray-200"
       }`}
     >
       <span
@@ -67,7 +67,7 @@ export default function NotificationsSettingsPage() {
       <div>
         <h1 className="text-xl font-bold text-gray-900">Notifications</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Configurez vos préférences de notification pour NORMIA.
+          Configurez vos préférences de notification pour PREUVIA DUERP.
         </p>
       </div>
 
@@ -98,7 +98,7 @@ export default function NotificationsSettingsPage() {
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-gray-100">
           <h2 className="font-semibold text-gray-900">Notifications in-app</h2>
-          <p className="text-xs text-gray-500 mt-0.5">Affichez des alertes dans l&apos;interface NORMIA.</p>
+          <p className="text-xs text-gray-500 mt-0.5">Affichez des alertes dans l&apos;interface PREUVIA DUERP.</p>
         </div>
         <ul className="divide-y divide-gray-100">
           {NOTIFICATION_CATEGORIES.map((cat) => (
@@ -116,7 +116,7 @@ export default function NotificationsSettingsPage() {
       <div className="flex items-center gap-3">
         <button
           onClick={handleSave}
-          className="bg-[#1E3A5F] text-white text-sm font-medium px-5 py-2 rounded-lg hover:bg-[#0D1B2A] transition-colors"
+          className="bg-[#145B8C] text-white text-sm font-medium px-5 py-2 rounded-lg hover:bg-[#0B1F33] transition-colors"
         >
           Enregistrer les préférences
         </button>

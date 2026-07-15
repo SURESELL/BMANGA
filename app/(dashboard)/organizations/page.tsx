@@ -27,7 +27,7 @@ export default async function OrganizationsPage() {
       <div className="max-w-6xl mx-auto py-10 px-4">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-[#1E3A5F]">Organisations</h1>
+            <h1 className="text-3xl font-bold text-[#145B8C]">Organisations</h1>
             <p className="text-gray-500 text-sm mt-1">{organizations.length} organisation{organizations.length !== 1 ? "s" : ""} enregistrée{organizations.length !== 1 ? "s" : ""}</p>
           </div>
         </div>
@@ -51,7 +51,7 @@ export default async function OrganizationsPage() {
                 return (
                   <tr key={org.id} className="hover:bg-gray-50 transition">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-[#1E3A5F]">{org.name}</div>
+                      <div className="font-medium text-[#145B8C]">{org.name}</div>
                       {org.siret && (
                         <div className="text-xs text-gray-400 mt-0.5">SIRET: {org.siret}</div>
                       )}
@@ -73,7 +73,7 @@ export default async function OrganizationsPage() {
                     <td className="px-6 py-4 text-right">
                       <Link
                         href={`/organizations/${org.id}`}
-                        className="text-xs text-[#1E3A5F] font-semibold hover:underline"
+                        className="text-xs text-[#145B8C] font-semibold hover:underline"
                       >
                         Détail →
                       </Link>
@@ -114,12 +114,12 @@ export default async function OrganizationsPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold text-[#1E3A5F] mb-8">Mon organisation</h1>
+      <h1 className="text-3xl font-bold text-[#145B8C] mb-8">Mon organisation</h1>
 
       <div className="bg-white rounded-xl shadow border border-gray-200 p-8 space-y-6">
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-[#1E3A5F]">{org.name}</h2>
+            <h2 className="text-xl font-semibold text-[#145B8C]">{org.name}</h2>
             {org.siret && <p className="text-sm text-gray-500 mt-0.5">SIRET: {org.siret}</p>}
           </div>
           <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700">
@@ -129,11 +129,11 @@ export default async function OrganizationsPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 text-center">
-            <div className="text-3xl font-bold text-[#1E3A5F]">{org._count.users}</div>
+            <div className="text-3xl font-bold text-[#145B8C]">{org._count.users}</div>
             <div className="text-xs text-gray-500 mt-1">Utilisateurs</div>
           </div>
           <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 text-center">
-            <div className="text-3xl font-bold text-[#1E3A5F]">{org._count.sites}</div>
+            <div className="text-3xl font-bold text-[#145B8C]">{org._count.sites}</div>
             <div className="text-xs text-gray-500 mt-1">Sites</div>
           </div>
         </div>

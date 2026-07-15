@@ -153,7 +153,7 @@ export default function ActionPlanDetailPage() {
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold text-gray-700">Notes de suivi</p>
           {!editing ? (
-            <button onClick={() => setEditing(true)} className="flex items-center gap-1 text-xs text-[#1E3A5F] hover:underline">
+            <button onClick={() => setEditing(true)} className="flex items-center gap-1 text-xs text-[#145B8C] hover:underline">
               <Edit2 className="w-3 h-3" /> Modifier
             </button>
           ) : (
@@ -172,7 +172,7 @@ export default function ActionPlanDetailPage() {
             value={editNotes}
             onChange={(e) => setEditNotes(e.target.value)}
             rows={4}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
           />
         ) : (
           <p className="text-sm text-gray-600 whitespace-pre-wrap">{ap.notes || <span className="text-gray-400 italic">Aucune note</span>}</p>

@@ -44,14 +44,14 @@ export default function NewDUERPPage() {
       <div className="mb-6">
         <Link
           href="/duerp"
-          className="text-sm text-[#1E3A5F] hover:underline flex items-center gap-1"
+          className="text-sm text-[#145B8C] hover:underline flex items-center gap-1"
         >
           ← Retour à la liste
         </Link>
       </div>
 
       <div className="bg-white rounded-xl shadow border border-gray-200 p-8">
-        <h1 className="text-2xl font-bold text-[#1E3A5F] mb-2">
+        <h1 className="text-2xl font-bold text-[#145B8C] mb-2">
           Nouveau DUERP
         </h1>
         <p className="text-gray-500 text-sm mb-8">
@@ -82,7 +82,7 @@ export default function NewDUERPPage() {
               onChange={(e) => setYear(Number(e.target.value))}
               className={cn(
                 "w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm",
-                "focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent",
+                "focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent",
                 "transition"
               )}
             />
@@ -103,7 +103,7 @@ export default function NewDUERPPage() {
               placeholder="Décrivez le contexte de cette version, les changements majeurs..."
               className={cn(
                 "w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm",
-                "focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent",
+                "focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent",
                 "transition resize-none"
               )}
             />
@@ -114,7 +114,7 @@ export default function NewDUERPPage() {
               type="submit"
               disabled={loading}
               className={cn(
-                "flex-1 bg-[#1E3A5F] text-white rounded-lg px-6 py-2.5 text-sm font-semibold",
+                "flex-1 bg-[#145B8C] text-white rounded-lg px-6 py-2.5 text-sm font-semibold",
                 "hover:bg-[#162d4a] transition",
                 "disabled:opacity-60 disabled:cursor-not-allowed"
               )}

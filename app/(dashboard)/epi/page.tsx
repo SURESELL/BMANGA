@@ -44,7 +44,7 @@ export default async function EPIPage() {
           <a href="/epi/verification/new" className="border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
             + Vérification
           </a>
-          <a href="/epi/new" className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+          <a href="/epi/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
             <PlusCircle className="w-4 h-4" /> Ajouter EPI
           </a>
         </div>
@@ -204,7 +204,7 @@ export default async function EPIPage() {
 }
 
 function Stat({ label, value, color }: { label: string; value: number; color: "blue" | "orange" | "red" }) {
-  const colors = { blue: "text-[#1E3A5F]", orange: "text-orange-600", red: "text-red-600" };
+  const colors = { blue: "text-[#145B8C]", orange: "text-orange-600", red: "text-red-600" };
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
       <p className={`text-2xl font-bold ${colors[color]}`}>{value}</p>

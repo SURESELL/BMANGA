@@ -21,12 +21,12 @@ export default async function TrainingPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#0D1B2A]">Formations</h1>
+          <h1 className="text-2xl font-bold text-[#0B1F33]">Formations</h1>
           <p className="text-gray-500 text-sm mt-1">{trainings.length} formation(s) disponible(s)</p>
         </div>
         <Link
           href="/training/new"
-          className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+          className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           + Créer une formation
         </Link>
@@ -98,7 +98,7 @@ function TrainingCard({
     <Link href={`/training/${training.id}`} className="block">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow overflow-hidden">
         {/* Thumbnail placeholder */}
-        <div className="h-32 bg-gradient-to-br from-[#1E3A5F] to-[#0D1B2A] flex items-center justify-center">
+        <div className="h-32 bg-gradient-to-br from-[#145B8C] to-[#0B1F33] flex items-center justify-center">
           <svg className="w-12 h-12 text-white opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -106,7 +106,7 @@ function TrainingCard({
         </div>
         <div className="p-4 space-y-3">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="text-sm font-semibold text-[#0D1B2A] line-clamp-2">{training.title}</h3>
+            <h3 className="text-sm font-semibold text-[#0B1F33] line-clamp-2">{training.title}</h3>
             <span className={`shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${typeStyles[training.type] ?? "bg-gray-100 text-gray-600"}`}>
               {typeLabels[training.type] ?? training.type}
             </span>

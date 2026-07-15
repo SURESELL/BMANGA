@@ -1,4 +1,4 @@
-// NORMIA - Prisma Schema
+// PREUVIA DUERP - Prisma Schema
 // Multi-tenant SaaS platform for HSE, DUERP, LMS, Qualiopi, RegTech
 
 generator client {

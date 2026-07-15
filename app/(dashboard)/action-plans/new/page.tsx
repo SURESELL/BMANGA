@@ -90,7 +90,7 @@ export default function NewActionPlanPage() {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
           <h2 className="font-semibold text-gray-900 flex items-center gap-2">
-            <ClipboardList className="w-4 h-4 text-[#1E3A5F]" /> Description de l&apos;action
+            <ClipboardList className="w-4 h-4 text-[#145B8C]" /> Description de l&apos;action
           </h2>
 
           <div>
@@ -98,7 +98,7 @@ export default function NewActionPlanPage() {
               Titre de l&apos;action <span className="text-red-500">*</span>
             </label>
             <input type="text" value={form.title} onChange={(e) => update("title", e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               placeholder="ex: Mettre en place des protections sur machines" required />
           </div>
 
@@ -106,7 +106,7 @@ export default function NewActionPlanPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Description</label>
             <textarea value={form.description} onChange={(e) => update("description", e.target.value)}
               rows={3}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
               placeholder="Décrivez les actions à réaliser..." />
           </div>
 
@@ -116,8 +116,8 @@ export default function NewActionPlanPage() {
             <div className="grid grid-cols-3 gap-2">
               {ACTION_TYPES.map((t) => (
                 <button key={t.value} type="button" onClick={() => update("type", t.value)}
-                  className={`p-3 rounded-lg border-2 text-left transition-colors ${form.type === t.value ? "border-[#1E3A5F] bg-blue-50" : "border-gray-200 hover:border-gray-300"}`}>
-                  <p className={`text-xs font-semibold ${form.type === t.value ? "text-[#1E3A5F]" : "text-gray-700"}`}>{t.label}</p>
+                  className={`p-3 rounded-lg border-2 text-left transition-colors ${form.type === t.value ? "border-[#145B8C] bg-blue-50" : "border-gray-200 hover:border-gray-300"}`}>
+                  <p className={`text-xs font-semibold ${form.type === t.value ? "text-[#145B8C]" : "text-gray-700"}`}>{t.label}</p>
                   <p className="text-xs text-gray-400 mt-0.5">{t.desc}</p>
                 </button>
               ))}
@@ -132,7 +132,7 @@ export default function NewActionPlanPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Priorité</label>
               <select value={form.priority} onChange={(e) => update("priority", e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#145B8C]">
                 <option value="1">P1 — Critique (immédiat)</option>
                 <option value="2">P2 — Haute (1 semaine)</option>
                 <option value="3">P3 — Moyenne (1 mois)</option>
@@ -144,14 +144,14 @@ export default function NewActionPlanPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Échéance</label>
               <input type="date" value={form.dueDate} onChange={(e) => update("dueDate", e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]" />
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]" />
             </div>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Responsable</label>
             <select value={form.ownerId} onChange={(e) => update("ownerId", e.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#145B8C]">
               <option value="">Non assigné</option>
               {users.map((u) => (
                 <option key={u.id} value={u.id}>{u.name ?? u.email}</option>
@@ -163,7 +163,7 @@ export default function NewActionPlanPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Budget estimé (€)</label>
             <input type="number" value={form.budget} onChange={(e) => update("budget", e.target.value)}
               min={0} step={0.01}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               placeholder="ex: 1500.00" />
           </div>
 
@@ -171,7 +171,7 @@ export default function NewActionPlanPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Notes</label>
             <textarea value={form.notes} onChange={(e) => update("notes", e.target.value)}
               rows={2}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
               placeholder="Informations complémentaires..." />
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function NewActionPlanPage() {
             Annuler
           </Link>
           <button type="submit" disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
             {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Création...</> : "Créer l'action"}
           </button>
         </div>

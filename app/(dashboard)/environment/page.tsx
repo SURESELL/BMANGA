@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { Leaf, PlusCircle, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { formatDate, isOverdue } from "@/lib/utils";
 import { ComplianceBadge } from "@/components/ui/badge";
-import { NORMIA_DISCLAIMER } from "@/types";
+import { PREUVIA_DISCLAIMER } from "@/types";
 import type { ComplianceLevel } from "@/types";
 
 export const metadata = { title: "Environnement / ICPE" };
@@ -73,7 +73,7 @@ export default async function EnvironmentPage() {
           <a href="/environment/icpe/new" className="border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
             + ICPE
           </a>
-          <a href="/environment/new" className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+          <a href="/environment/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
             <PlusCircle className="w-4 h-4" /> Aspect env.
           </a>
         </div>
@@ -83,7 +83,7 @@ export default async function EnvironmentPage() {
       <div className="bg-amber-50 border border-amber-300 rounded-xl p-4">
         <div className="flex items-start gap-2">
           <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-          <p className="text-sm text-amber-800">{NORMIA_DISCLAIMER}</p>
+          <p className="text-sm text-amber-800">{PREUVIA_DISCLAIMER}</p>
         </div>
       </div>
 
@@ -102,7 +102,7 @@ export default async function EnvironmentPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-[#1E3A5F]">{aspects.length}</p>
+          <p className="text-2xl font-bold text-[#145B8C]">{aspects.length}</p>
           <p className="text-xs text-gray-500 mt-0.5">Aspects environnementaux</p>
         </div>
         <div className="bg-orange-50 border border-gray-200 rounded-xl p-4 text-center">
@@ -246,7 +246,7 @@ export default async function EnvironmentPage() {
             <h2 className="font-semibold text-gray-900">Transport de Matières Dangereuses (TMD/ADR)</h2>
             <p className="text-xs text-gray-400 mt-0.5">Accord européen relatif au transport international des marchandises dangereuses</p>
           </div>
-          <a href="/environment/tmd/new" className="text-xs text-[#1E3A5F] hover:underline">
+          <a href="/environment/tmd/new" className="text-xs text-[#145B8C] hover:underline">
             + Ajouter
           </a>
         </div>

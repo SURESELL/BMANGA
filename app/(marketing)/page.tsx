@@ -12,21 +12,21 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#1E3A5F] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-[#145B8C] flex items-center justify-center">
                 <ShieldCheck className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-[#0D1B2A]">NORMIA</span>
+              <span className="text-xl font-bold text-[#0B1F33]">PREUVIA DUERP</span>
             </div>
             <nav className="hidden md:flex items-center gap-8 text-sm text-gray-600">
-              <Link href="/pricing" className="hover:text-[#1E3A5F] transition-colors">Tarifs</Link>
-              <Link href="/modules" className="hover:text-[#1E3A5F] transition-colors">Modules</Link>
-              <Link href="/about" className="hover:text-[#1E3A5F] transition-colors">À propos</Link>
+              <Link href="/pricing" className="hover:text-[#145B8C] transition-colors">Tarifs</Link>
+              <Link href="/modules" className="hover:text-[#145B8C] transition-colors">Modules</Link>
+              <Link href="/about" className="hover:text-[#145B8C] transition-colors">À propos</Link>
             </nav>
             <div className="flex items-center gap-3">
-              <Link href="/login" className="text-sm text-gray-600 hover:text-[#1E3A5F] transition-colors px-4 py-2">
+              <Link href="/login" className="text-sm text-gray-600 hover:text-[#145B8C] transition-colors px-4 py-2">
                 Connexion
               </Link>
-              <Link href="/register" className="text-sm bg-[#1E3A5F] text-white px-4 py-2 rounded-lg hover:bg-[#0D1B2A] transition-colors">
+              <Link href="/register" className="text-sm bg-[#145B8C] text-white px-4 py-2 rounded-lg hover:bg-[#0B1F33] transition-colors">
                 Essai gratuit
               </Link>
             </div>
@@ -35,7 +35,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-[#0D1B2A] via-[#1E3A5F] to-[#0D1B2A] text-white py-24 lg:py-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#0B1F33] via-[#145B8C] to-[#0B1F33] text-white py-24 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-64 h-64 bg-blue-400 rounded-full blur-3xl" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-600 rounded-full blur-3xl" />
@@ -50,11 +50,11 @@ export default function LandingPage() {
             <span className="text-blue-300">HSE, Formation & Qualité</span>
           </h1>
           <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto mb-10">
-            NORMIA centralise la gestion des risques professionnels, la formation réglementaire,
+            PREUVIA DUERP centralise la gestion des risques professionnels, la formation réglementaire,
             la conformité Qualiopi et le pilotage qualité dans une seule plateforme SaaS sécurisée.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register" className="inline-flex items-center gap-2 bg-white text-[#1E3A5F] px-8 py-3.5 rounded-xl font-semibold text-base hover:bg-blue-50 transition-colors shadow-lg">
+            <Link href="/register" className="inline-flex items-center gap-2 bg-white text-[#145B8C] px-8 py-3.5 rounded-xl font-semibold text-base hover:bg-blue-50 transition-colors shadow-lg">
               Démarrer gratuitement
               <ArrowRight className="w-4 h-4" />
             </Link>
@@ -70,7 +70,7 @@ export default function LandingPage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-[#0D1B2A] mb-4">Une plateforme, tous vos enjeux de conformité</h2>
+            <h2 className="text-3xl font-bold text-[#0B1F33] mb-4">Une plateforme, tous vos enjeux de conformité</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Des modules intégrés couvrant l&apos;ensemble de votre démarche réglementaire et qualité.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -79,7 +79,7 @@ export default function LandingPage() {
                 <div className={`w-12 h-12 rounded-xl ${mod.bg} flex items-center justify-center mb-4 group-hover:scale-105 transition-transform`}>
                   <mod.icon className={`w-6 h-6 ${mod.color}`} />
                 </div>
-                <h3 className="font-semibold text-[#0D1B2A] mb-2">{mod.title}</h3>
+                <h3 className="font-semibold text-[#0B1F33] mb-2">{mod.title}</h3>
                 <p className="text-sm text-gray-500">{mod.description}</p>
                 <div className="mt-4 flex flex-wrap gap-1">
                   {mod.tags.map((tag) => (
@@ -93,7 +93,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-16 bg-[#1E3A5F]">
+      <section className="py-16 bg-[#145B8C]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-white text-center">
             {STATS.map((stat) => (
@@ -109,11 +109,11 @@ export default function LandingPage() {
       {/* Pricing preview */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-[#0D1B2A] mb-4">Des tarifs adaptés à votre taille</h2>
-          <p className="text-gray-600 mb-12">De la TPE à l&apos;ETI, NORMIA s&apos;adapte à vos besoins.</p>
+          <h2 className="text-3xl font-bold text-[#0B1F33] mb-4">Des tarifs adaptés à votre taille</h2>
+          <p className="text-gray-600 mb-12">De la TPE à l&apos;ETI, PREUVIA DUERP s&apos;adapte à vos besoins.</p>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {PRICING.map((plan) => (
-              <div key={plan.name} className={`border rounded-xl p-6 ${plan.featured ? "border-[#1E3A5F] shadow-lg bg-[#1E3A5F] text-white" : "border-gray-200 bg-white"}`}>
+              <div key={plan.name} className={`border rounded-xl p-6 ${plan.featured ? "border-[#145B8C] shadow-lg bg-[#145B8C] text-white" : "border-gray-200 bg-white"}`}>
                 <div className="text-sm font-medium mb-1 opacity-70">{plan.name}</div>
                 <div className="text-3xl font-bold mb-1">
                   {plan.price === 0 ? "Gratuit" : `${plan.price}€`}
@@ -131,8 +131,8 @@ export default function LandingPage() {
                   href="/register"
                   className={`block text-center text-sm font-medium py-2 rounded-lg transition-colors ${
                     plan.featured
-                      ? "bg-white text-[#1E3A5F] hover:bg-blue-50"
-                      : "bg-[#1E3A5F] text-white hover:bg-[#0D1B2A]"
+                      ? "bg-white text-[#145B8C] hover:bg-blue-50"
+                      : "bg-[#145B8C] text-white hover:bg-[#0B1F33]"
                   }`}
                 >
                   Commencer
@@ -141,7 +141,7 @@ export default function LandingPage() {
             ))}
           </div>
           <div className="mt-8">
-            <Link href="/pricing" className="text-[#1E3A5F] text-sm font-medium hover:underline inline-flex items-center gap-1">
+            <Link href="/pricing" className="text-[#145B8C] text-sm font-medium hover:underline inline-flex items-center gap-1">
               Voir tous les détails des tarifs <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
@@ -149,15 +149,15 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#0D1B2A] text-white/60 py-12">
+      <footer className="bg-[#0B1F33] text-white/60 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 rounded-lg bg-[#1E3A5F] flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[#145B8C] flex items-center justify-center">
                   <ShieldCheck className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-white font-bold">NORMIA</span>
+                <span className="text-white font-bold">PREUVIA DUERP</span>
               </div>
               <p className="text-xs">Plateforme professionnelle de conformité réglementaire.</p>
             </div>
@@ -173,7 +173,7 @@ export default function LandingPage() {
             ))}
           </div>
           <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-            <p>© {new Date().getFullYear()} NORMIA. Tous droits réservés.</p>
+            <p>© {new Date().getFullYear()} PREUVIA DUERP. Tous droits réservés.</p>
             <div className="flex gap-4">
               <Link href="/privacy" className="hover:text-white">Politique de confidentialité</Link>
               <Link href="/terms" className="hover:text-white">CGU</Link>
@@ -189,42 +189,42 @@ export default function LandingPage() {
 const MODULES = [
   {
     icon: ShieldCheck,
-    title: "NORMIA HSE / DUERP",
+    title: "HSE / DUERP",
     description: "Évaluation des risques, document unique, plans d'action, incidents, EPI, vérifications périodiques.",
     bg: "bg-blue-100", color: "text-blue-700",
     tags: ["DUERP", "Risques", "Incidents", "EPI"],
   },
   {
     icon: BookOpen,
-    title: "NORMIA Academy / LMS",
+    title: "PREUVIA Academy / LMS",
     description: "E-learning, formations présentielles, hybrides, quiz, attestations, suivi pédagogique complet.",
     bg: "bg-purple-100", color: "text-purple-700",
     tags: ["E-learning", "Quiz", "Attestations", "Qualiopi"],
   },
   {
     icon: ClipboardList,
-    title: "NORMIA Audit",
+    title: "PREUVIA Audit",
     description: "Audits internes, checklists, constats, non-conformités, plans d'action, rapports PDF.",
     bg: "bg-orange-100", color: "text-orange-700",
     tags: ["Audits", "NC", "Checklists"],
   },
   {
     icon: BarChart3,
-    title: "NORMIA Data",
+    title: "PREUVIA Data",
     description: "Tableaux de bord, KPI conformité, scores risque, comparaisons multi-sites, alertes.",
     bg: "bg-green-100", color: "text-green-700",
     tags: ["KPI", "Dashboard", "Alertes"],
   },
   {
     icon: AlertTriangle,
-    title: "NORMIA Food / HACCP",
+    title: "PREUVIA Food / HACCP",
     description: "PMS, BPH, CCP, PRPo, traçabilité, allergènes, non-conformités alimentaires.",
     bg: "bg-yellow-100", color: "text-yellow-700",
     tags: ["HACCP", "PMS", "Traçabilité"],
   },
   {
     icon: Building2,
-    title: "NORMIA Reg",
+    title: "PREUVIA Reg",
     description: "Moteur réglementaire, obligations, sources officielles, preuves, alertes de mise à jour.",
     bg: "bg-red-100", color: "text-red-700",
     tags: ["Réglementation", "Obligations", "Veille"],

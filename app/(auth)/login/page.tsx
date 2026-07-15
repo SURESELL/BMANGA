@@ -35,7 +35,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0D1B2A] to-[#1E3A5F] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#0B1F33] to-[#145B8C] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
@@ -43,15 +43,15 @@ export default function LoginPage() {
             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
               <ShieldCheck className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold">NORMIA</span>
+            <span className="text-2xl font-bold">PREUVIA DUERP</span>
           </Link>
           <p className="text-white/60 text-sm mt-2">Votre espace sécurisé de conformité</p>
         </div>
 
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <h1 className="text-2xl font-bold text-[#0D1B2A] mb-1">Connexion</h1>
-          <p className="text-gray-500 text-sm mb-6">Accédez à votre espace NORMIA</p>
+          <h1 className="text-2xl font-bold text-[#0B1F33] mb-1">Connexion</h1>
+          <p className="text-gray-500 text-sm mb-6">Accédez à votre espace PREUVIA DUERP</p>
 
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
@@ -66,7 +66,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent transition"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent transition"
                 placeholder="nom@entreprise.fr"
                 required
                 autoComplete="email"
@@ -76,7 +76,7 @@ export default function LoginPage() {
             <div>
               <div className="flex justify-between items-center mb-1.5">
                 <label className="block text-sm font-medium text-gray-700">Mot de passe</label>
-                <Link href="/forgot-password" className="text-xs text-[#1E3A5F] hover:underline">
+                <Link href="/forgot-password" className="text-xs text-[#145B8C] hover:underline">
                   Mot de passe oublié ?
                 </Link>
               </div>
@@ -85,7 +85,7 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent transition pr-10"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent transition pr-10"
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
@@ -103,7 +103,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#1E3A5F] text-white py-2.5 rounded-lg font-medium text-sm hover:bg-[#0D1B2A] transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#145B8C] text-white py-2.5 rounded-lg font-medium text-sm hover:bg-[#0B1F33] transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Connexion...</> : "Se connecter"}
             </button>
@@ -131,7 +131,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-gray-500 mt-6">
             Pas encore de compte ?{" "}
-            <Link href="/register" className="text-[#1E3A5F] font-medium hover:underline">
+            <Link href="/register" className="text-[#145B8C] font-medium hover:underline">
               Créer un compte
             </Link>
           </p>

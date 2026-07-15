@@ -28,7 +28,7 @@ export default async function UsersPage() {
           <h1 className="text-2xl font-bold text-gray-900">Utilisateurs</h1>
           <p className="text-sm text-gray-500 mt-1">{users.length} utilisateur{users.length > 1 ? "s" : ""}</p>
         </div>
-        <button className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+        <button className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
           <UserPlus className="w-4 h-4" /> Inviter un utilisateur
         </button>
       </div>
@@ -53,7 +53,7 @@ export default async function UsersPage() {
                 <tr key={user.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#1E3A5F] flex items-center justify-center text-white text-xs font-bold shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-[#145B8C] flex items-center justify-center text-white text-xs font-bold shrink-0">
                         {getInitials(user.name ?? `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim() || user.email)}
                       </div>
                       <div>

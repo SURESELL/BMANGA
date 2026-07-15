@@ -42,14 +42,14 @@ export default async function NonConformitiesPage() {
           <h1 className="text-2xl font-bold text-gray-900">Non-conformités</h1>
           <p className="text-sm text-gray-500 mt-1">{ncs.length} non-conformité{ncs.length > 1 ? "s" : ""}</p>
         </div>
-        <a href="/non-conformities/new" className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+        <a href="/non-conformities/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
           <PlusCircle className="w-4 h-4" /> Déclarer une NC
         </a>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-[#1E3A5F]">{stats.total}</p>
+          <p className="text-2xl font-bold text-[#145B8C]">{stats.total}</p>
           <p className="text-xs text-gray-500 mt-0.5">Total</p>
         </div>
         <div className="bg-orange-50 border border-gray-200 rounded-xl p-4 text-center">

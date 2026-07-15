@@ -94,7 +94,7 @@ export default function DocumentNewPage() {
 
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <FileText className="w-5 h-5 text-[#1E3A5F]" />
+          <FileText className="w-5 h-5 text-[#145B8C]" />
           <p className="text-sm font-medium text-gray-700">Informations du document</p>
         </div>
 
@@ -109,7 +109,7 @@ export default function DocumentNewPage() {
               minLength={2}
               maxLength={200}
               placeholder="Ex: Procédure de gestion des déchets chimiques"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -120,7 +120,7 @@ export default function DocumentNewPage() {
             <select
               name="type"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Sélectionner...</option>
               {DOC_TYPES.map((t) => (
@@ -134,7 +134,7 @@ export default function DocumentNewPage() {
             <select
               name="status"
               defaultValue="DRAFT"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               {DOC_STATUSES.map((s) => (
                 <option key={s.value} value={s.value}>{s.label}</option>
@@ -147,7 +147,7 @@ export default function DocumentNewPage() {
             <input
               name="category"
               placeholder="Ex: HSE, Qualité, RH..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -157,7 +157,7 @@ export default function DocumentNewPage() {
               name="version"
               defaultValue="1.0"
               placeholder="1.0"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -166,7 +166,7 @@ export default function DocumentNewPage() {
             <input
               name="expiresAt"
               type="date"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -175,7 +175,7 @@ export default function DocumentNewPage() {
             <input
               name="tags"
               placeholder="hse, securite, qualite (séparés par des virgules)"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -194,7 +194,7 @@ export default function DocumentNewPage() {
               name="description"
               rows={2}
               placeholder="Décrivez le contenu ou l'objectif du document..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
 
@@ -204,7 +204,7 @@ export default function DocumentNewPage() {
               name="notes"
               rows={2}
               placeholder="Notes internes, remarques..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function DocumentNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Enregistrement..." : "Enregistrer le document"}
           </button>

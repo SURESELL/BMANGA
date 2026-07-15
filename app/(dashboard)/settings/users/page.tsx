@@ -94,7 +94,7 @@ export default function SettingsUsersPage() {
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+          className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           <UserPlus className="w-4 h-4" /> Inviter
         </button>
@@ -102,7 +102,7 @@ export default function SettingsUsersPage() {
 
       {/* Invite form */}
       {showForm && (
-        <form onSubmit={handleInvite} className="bg-white border border-[#1E3A5F] rounded-xl p-5 space-y-4">
+        <form onSubmit={handleInvite} className="bg-white border border-[#145B8C] rounded-xl p-5 space-y-4">
           <p className="text-sm font-semibold text-gray-800">Inviter un utilisateur</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="md:col-span-1">
@@ -110,7 +110,7 @@ export default function SettingsUsersPage() {
               <input
                 name="name"
                 placeholder="Jean Dupont"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div className="md:col-span-1">
@@ -120,7 +120,7 @@ export default function SettingsUsersPage() {
                 type="email"
                 required
                 placeholder="jean.dupont@exemple.fr"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div>
@@ -129,7 +129,7 @@ export default function SettingsUsersPage() {
                 name="role"
                 required
                 defaultValue="EMPLOYEE"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
               >
                 {ROLES.map((r) => (
                   <option key={r.value} value={r.value}>{r.label}</option>
@@ -145,7 +145,7 @@ export default function SettingsUsersPage() {
             <button
               type="submit"
               disabled={inviting}
-              className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+              className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
             >
               {inviting ? "Invitation..." : "Confirmer l'invitation"}
             </button>
@@ -177,7 +177,7 @@ export default function SettingsUsersPage() {
           <div className="divide-y divide-gray-100">
             {users.map((user) => (
               <div key={user.id} className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors">
-                <div className="w-9 h-9 rounded-full bg-[#1E3A5F] flex items-center justify-center text-white text-sm font-semibold shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#145B8C] flex items-center justify-center text-white text-sm font-semibold shrink-0">
                   {(user.name ?? user.email).charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">

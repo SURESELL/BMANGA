@@ -82,7 +82,7 @@ export default async function AuditDetailPage({ params }: { params: Promise<{ id
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-xl font-bold text-[#1E3A5F]">{audit.checklists.length}</p>
+          <p className="text-xl font-bold text-[#145B8C]">{audit.checklists.length}</p>
           <p className="text-xs text-gray-500 mt-0.5">Points de contrôle</p>
         </div>
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">

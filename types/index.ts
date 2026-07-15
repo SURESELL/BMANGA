@@ -1,4 +1,4 @@
-// NORMIA - Core TypeScript Types
+// PREUVIA DUERP - Core TypeScript Types
 
 export type UserRole =
   | "SUPER_ADMIN"
@@ -110,5 +110,5 @@ export const SUBSCRIPTION_PLANS = {
   ENTERPRISE:   { label: "Entreprise",    price: 399, seats: -1, modules: ["all"] },
 } as const;
 
-export const NORMIA_DISCLAIMER =
+export const PREUVIA_DISCLAIMER =
   "⚠️ À vérifier avec la source officielle applicable et validation expert avant tout usage juridique ou réglementaire.";

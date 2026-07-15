@@ -109,23 +109,23 @@ export function DashboardSidebar() {
       {/* Mobile toggle button */}
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="fixed top-3 left-3 z-50 lg:hidden p-2 bg-[#1E3A5F] text-white rounded-lg shadow-md"
+        className="fixed top-3 left-3 z-50 lg:hidden p-2 bg-[#145B8C] text-white rounded-lg shadow-md"
       >
         {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
       </button>
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed lg:relative z-40 lg:z-auto h-full bg-[#0D1B2A] text-white flex flex-col transition-all duration-300",
+        "fixed lg:relative z-40 lg:z-auto h-full bg-[#0B1F33] text-white flex flex-col transition-all duration-300",
         collapsed ? "w-16" : "w-64",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-[#1E3A5F] flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-[#145B8C] flex items-center justify-center shrink-0">
             <ShieldCheck className="w-5 h-5 text-white" />
           </div>
-          {!collapsed && <span className="font-bold text-lg tracking-tight">NORMIA</span>}
+          {!collapsed && <span className="font-bold text-lg tracking-tight">PREUVIA DUERP</span>}
           <button
             onClick={() => setCollapsed(!collapsed)}
             className="ml-auto hidden lg:flex text-white/40 hover:text-white transition-colors"
@@ -155,7 +155,7 @@ export function DashboardSidebar() {
                       className={cn(
                         "flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition-colors group",
                         expanded
-                          ? "bg-[#1E3A5F] text-white"
+                          ? "bg-[#145B8C] text-white"
                           : "text-white/60 hover:bg-white/10 hover:text-white"
                       )}
                       title={collapsed ? item.label : undefined}
@@ -203,7 +203,7 @@ export function DashboardSidebar() {
         {/* Footer */}
         {!collapsed && (
           <div className="px-4 py-3 border-t border-white/10 text-xs text-white/30">
-            NORMIA v0.1 — MVP
+            PREUVIA DUERP v0.1 — MVP
           </div>
         )}
       </aside>

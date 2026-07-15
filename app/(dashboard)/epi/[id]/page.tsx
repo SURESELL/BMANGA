@@ -66,10 +66,10 @@ export default function EPIDetailPage() {
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">
       <div className="mb-6 flex items-center justify-between">
-        <Link href="/epi" className="text-sm text-[#1E3A5F] hover:underline">← Retour</Link>
+        <Link href="/epi" className="text-sm text-[#145B8C] hover:underline">← Retour</Link>
         <button
           onClick={() => alert("Modification bientôt disponible")}
-          className="rounded-lg bg-[#1E3A5F] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
+          className="rounded-lg bg-[#145B8C] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
         >
           Modifier
         </button>
@@ -81,7 +81,7 @@ export default function EPIDetailPage() {
             <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">
               {isEPI ? "Équipement de Protection Individuelle" : "Vérification Périodique"}
             </p>
-            <h1 className="text-2xl font-bold text-[#1E3A5F]">{resource.name}</h1>
+            <h1 className="text-2xl font-bold text-[#145B8C]">{resource.name}</h1>
           </div>
           <div className="flex flex-col items-end gap-2">
             {isEPI && resource.category && (

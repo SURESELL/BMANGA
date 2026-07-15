@@ -22,12 +22,12 @@ export default async function DuerpPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#0D1B2A]">Document Unique d'Évaluation des Risques</h1>
+          <h1 className="text-2xl font-bold text-[#0B1F33]">Document Unique d'Évaluation des Risques</h1>
           <p className="text-gray-500 text-sm mt-1">Gérez vos DUERP par année</p>
         </div>
         <Link
           href="/duerp/new"
-          className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+          className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           + Nouveau DUERP
         </Link>
@@ -55,7 +55,7 @@ export default async function DuerpPage() {
               </tr>
             ) : duerps.map((duerp) => (
               <tr key={duerp.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm font-medium text-[#0D1B2A]">v{duerp.version}</td>
+                <td className="px-6 py-4 text-sm font-medium text-[#0B1F33]">v{duerp.version}</td>
                 <td className="px-6 py-4 text-sm text-gray-600">{duerp.year}</td>
                 <td className="px-6 py-4">
                   <StatusBadge status={duerp.status} />
@@ -69,7 +69,7 @@ export default async function DuerpPage() {
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/duerp/${duerp.id}`}
-                      className="text-[#1E3A5F] hover:text-[#0D1B2A] text-sm font-medium"
+                      className="text-[#145B8C] hover:text-[#0B1F33] text-sm font-medium"
                     >
                       Voir
                     </Link>

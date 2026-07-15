@@ -104,7 +104,7 @@ export default function RegulationDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 animate-spin text-[#1E3A5F]" />
+        <Loader2 className="w-6 h-6 animate-spin text-[#145B8C]" />
       </div>
     );
   }
@@ -118,7 +118,7 @@ export default function RegulationDetailPage() {
     <div className="space-y-6 max-w-4xl">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1 text-sm text-gray-500">
-        <Link href="/regulation" className="hover:text-[#1E3A5F] transition-colors">
+        <Link href="/regulation" className="hover:text-[#145B8C] transition-colors">
           Réglementation
         </Link>
         <ChevronRight className="w-4 h-4" />
@@ -128,7 +128,7 @@ export default function RegulationDetailPage() {
       {/* Header */}
       <div className="flex flex-wrap items-start gap-3">
         <div className="flex-1">
-          <h1 className="text-2xl font-bold text-[#1E3A5F]">{regulation.title}</h1>
+          <h1 className="text-2xl font-bold text-[#145B8C]">{regulation.title}</h1>
           <p className="text-xs text-gray-400 mt-1">Ajouté le {formatDate(regulation.createdAt)}</p>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
@@ -164,7 +164,7 @@ export default function RegulationDetailPage() {
                   href={regulation.officialLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm text-[#1E3A5F] hover:underline"
+                  className="inline-flex items-center gap-1 text-sm text-[#145B8C] hover:underline"
                 >
                   Consulter
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -219,7 +219,7 @@ export default function RegulationDetailPage() {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="w-full sm:w-64 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full sm:w-64 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
           >
             <option value="">— Non défini —</option>
             <option value="APPLICABLE">Applicable</option>
@@ -238,7 +238,7 @@ export default function RegulationDetailPage() {
             onChange={(e) => setNotes(e.target.value)}
             rows={4}
             placeholder="Ajouter des notes internes sur cette réglementation…"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
           />
         </div>
 
@@ -252,7 +252,7 @@ export default function RegulationDetailPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="inline-flex items-center gap-2 bg-[#1E3A5F] text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-[#162e4d] transition-colors disabled:opacity-60"
+          className="inline-flex items-center gap-2 bg-[#145B8C] text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-[#162e4d] transition-colors disabled:opacity-60"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Enregistrer

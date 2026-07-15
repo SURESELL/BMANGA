@@ -62,7 +62,7 @@ export default function TrainingModuleNewPage() {
 
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <BookOpen className="w-5 h-5 text-[#1E3A5F]" />
+          <BookOpen className="w-5 h-5 text-[#145B8C]" />
           <p className="text-sm font-medium text-gray-700">Contenu du module</p>
         </div>
 
@@ -75,7 +75,7 @@ export default function TrainingModuleNewPage() {
               name="title"
               required
               placeholder="Ex: Introduction aux risques chimiques"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -85,7 +85,7 @@ export default function TrainingModuleNewPage() {
               name="description"
               rows={2}
               placeholder="Objectifs pédagogiques de ce module..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
 
@@ -96,7 +96,7 @@ export default function TrainingModuleNewPage() {
               type="number"
               min="1"
               placeholder="30"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -106,7 +106,7 @@ export default function TrainingModuleNewPage() {
               name="videoUrl"
               type="url"
               placeholder="https://..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -116,7 +116,7 @@ export default function TrainingModuleNewPage() {
               name="pdfUrl"
               type="url"
               placeholder="https://..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -126,7 +126,7 @@ export default function TrainingModuleNewPage() {
               name="content"
               rows={8}
               placeholder="Contenu pédagogique du module..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none font-mono text-xs"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none font-mono text-xs"
             />
           </div>
         </div>
@@ -139,7 +139,7 @@ export default function TrainingModuleNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Enregistrement..." : "Ajouter le module"}
           </button>

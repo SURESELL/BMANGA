@@ -101,11 +101,11 @@ export default async function QualiopiPage() {
           <a
             key={criterion.id}
             href={`/qualiopi/${criterion.id}`}
-            className="block bg-white border border-gray-200 rounded-xl p-5 hover:border-[#1E3A5F] hover:shadow-sm transition-all group"
+            className="block bg-white border border-gray-200 rounded-xl p-5 hover:border-[#145B8C] hover:shadow-sm transition-all group"
           >
             <div className="flex items-start gap-4">
               {/* Code badge */}
-              <div className="w-12 h-12 rounded-xl bg-[#1E3A5F] text-white flex items-center justify-center font-bold text-lg shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-[#145B8C] text-white flex items-center justify-center font-bold text-lg shrink-0">
                 {criterion.code}
               </div>
 
@@ -116,7 +116,7 @@ export default async function QualiopiPage() {
                     <span className={`text-sm font-bold ${criterion.score >= 70 ? "text-green-600" : criterion.score >= 50 ? "text-orange-500" : "text-gray-400"}`}>
                       {criterion.score}%
                     </span>
-                    <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#1E3A5F] transition-colors" />
+                    <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#145B8C] transition-colors" />
                   </div>
                 </div>
 

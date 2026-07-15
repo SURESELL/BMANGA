@@ -104,7 +104,7 @@ export default function DocumentDetailPage() {
       {doc.tags && doc.tags.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {doc.tags.map((tag) => (
-            <span key={tag} className="text-xs bg-[#1E3A5F]/10 text-[#1E3A5F] px-2 py-0.5 rounded-full font-medium">
+            <span key={tag} className="text-xs bg-[#145B8C]/10 text-[#145B8C] px-2 py-0.5 rounded-full font-medium">
               {tag}
             </span>
           ))}
@@ -125,7 +125,7 @@ export default function DocumentDetailPage() {
             href={doc.fileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#16304f] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#16304f] transition-colors"
           >
             <Download className="w-4 h-4" /> Télécharger
           </a>

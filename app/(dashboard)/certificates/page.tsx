@@ -31,7 +31,7 @@ export default async function CertificatesPage() {
           <Award className="w-10 h-10 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500 font-medium">Aucun certificat</p>
           <p className="text-sm text-gray-400 mt-1">Complétez des formations pour obtenir vos certificats</p>
-          <a href="/training" className="inline-flex items-center gap-1.5 mt-4 text-sm text-[#1E3A5F] font-medium hover:underline">
+          <a href="/training" className="inline-flex items-center gap-1.5 mt-4 text-sm text-[#145B8C] font-medium hover:underline">
             Voir les formations
           </a>
         </div>
@@ -75,13 +75,13 @@ export default async function CertificatesPage() {
                   )}
                   <div className="flex justify-between">
                     <span>Code de vérification</span>
-                    <span className="font-mono text-xs text-[#1E3A5F]">{cert.verifyCode.slice(0, 8).toUpperCase()}</span>
+                    <span className="font-mono text-xs text-[#145B8C]">{cert.verifyCode.slice(0, 8).toUpperCase()}</span>
                   </div>
                 </div>
 
                 <div className="flex gap-2 mt-4 pt-3 border-t border-gray-100">
                   {cert.pdfUrl && (
-                    <a href={cert.pdfUrl} download className="flex-1 flex items-center justify-center gap-1.5 text-xs font-medium text-[#1E3A5F] border border-[#1E3A5F] py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
+                    <a href={cert.pdfUrl} download className="flex-1 flex items-center justify-center gap-1.5 text-xs font-medium text-[#145B8C] border border-[#145B8C] py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
                       <Download className="w-3 h-3" /> PDF
                     </a>
                   )}

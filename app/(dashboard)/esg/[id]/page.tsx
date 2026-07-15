@@ -72,7 +72,7 @@ export default function ESGDetailPage() {
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">
       <div className="mb-6">
-        <Link href="/esg" className="text-sm text-[#1E3A5F] hover:underline">← Retour aux indicateurs ESG</Link>
+        <Link href="/esg" className="text-sm text-[#145B8C] hover:underline">← Retour aux indicateurs ESG</Link>
       </div>
 
       <div className="bg-white rounded-xl shadow border border-gray-200 p-6 mb-6">
@@ -81,7 +81,7 @@ export default function ESGDetailPage() {
             <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium mb-2 ${cat.color}`}>
               {cat.label}
             </span>
-            <h1 className="text-2xl font-bold text-[#1E3A5F]">{indicator.name}</h1>
+            <h1 className="text-2xl font-bold text-[#145B8C]">{indicator.name}</h1>
             <p className="text-sm text-gray-500 mt-0.5">Année {indicator.year}{indicator.unit ? ` · ${indicator.unit}` : ""}</p>
           </div>
         </div>
@@ -92,14 +92,14 @@ export default function ESGDetailPage() {
             <span className="font-medium text-gray-700">
               {indicator.actual ?? "—"} / {indicator.target ?? "—"}{indicator.unit ? ` ${indicator.unit}` : ""}
               {progress !== null && (
-                <span className="ml-2 text-[#1E3A5F] font-semibold">{progress}%</span>
+                <span className="ml-2 text-[#145B8C] font-semibold">{progress}%</span>
               )}
             </span>
           </div>
           {progress !== null ? (
             <div className="w-full bg-gray-200 rounded-full h-3">
               <div
-                className={`h-3 rounded-full transition-all ${progress >= 100 ? "bg-green-500" : progress >= 50 ? "bg-[#1E3A5F]" : "bg-yellow-400"}`}
+                className={`h-3 rounded-full transition-all ${progress >= 100 ? "bg-green-500" : progress >= 50 ? "bg-[#145B8C]" : "bg-yellow-400"}`}
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -122,7 +122,7 @@ export default function ESGDetailPage() {
           {!editingNotes && (
             <button
               onClick={() => setEditingNotes(true)}
-              className="text-xs text-[#1E3A5F] hover:underline"
+              className="text-xs text-[#145B8C] hover:underline"
             >
               Modifier
             </button>
@@ -135,14 +135,14 @@ export default function ESGDetailPage() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={5}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
               placeholder="Ajouter des notes…"
             />
             <div className="flex gap-2">
               <button
                 onClick={handleSaveNotes}
                 disabled={saving}
-                className="rounded-lg bg-[#1E3A5F] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition disabled:opacity-50"
+                className="rounded-lg bg-[#145B8C] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition disabled:opacity-50"
               >
                 {saving ? "Enregistrement…" : "Enregistrer"}
               </button>

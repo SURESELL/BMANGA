@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { FileText, AlertTriangle, CheckCircle, Clock, ExternalLink } from "lucide-react";
 import { ComplianceBadge } from "@/components/ui/badge";
-import { NORMIA_DISCLAIMER } from "@/types";
+import { PREUVIA_DISCLAIMER } from "@/types";
 import type { ComplianceLevel, RiskLevel } from "@/types";
 import { RISK_LEVELS } from "@/types";
 
@@ -59,14 +59,14 @@ export default async function RegulationPage() {
       <div className="bg-amber-50 border border-amber-300 rounded-xl p-4">
         <div className="flex items-start gap-2">
           <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-          <p className="text-sm text-amber-800">{NORMIA_DISCLAIMER}</p>
+          <p className="text-sm text-amber-800">{PREUVIA_DISCLAIMER}</p>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-[#1E3A5F]">{stats.total}</p>
+          <p className="text-2xl font-bold text-[#145B8C]">{stats.total}</p>
           <p className="text-xs text-gray-500 mt-0.5">Obligations totales</p>
         </div>
         <div className="bg-green-50 border border-gray-200 rounded-xl p-4 text-center">
@@ -104,7 +104,7 @@ export default async function RegulationPage() {
                       <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${domainCfg.color}`}>{domainCfg.label}</span>
                       {reg.officialLink && (
                         <a href={reg.officialLink} target="_blank" rel="noopener noreferrer"
-                          className="text-xs text-[#1E3A5F] hover:underline flex items-center gap-0.5">
+                          className="text-xs text-[#145B8C] hover:underline flex items-center gap-0.5">
                           Source <ExternalLink className="w-2.5 h-2.5" />
                         </a>
                       )}

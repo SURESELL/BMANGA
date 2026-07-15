@@ -108,7 +108,7 @@ export default function TrainingSessionDetailPage() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold text-gray-900">{sess.title ?? TYPE_LABELS[sess.type]}</h1>
-            <span className="inline-block mt-1 text-xs bg-[#1E3A5F]/10 text-[#1E3A5F] px-2 py-0.5 rounded-full font-medium">
+            <span className="inline-block mt-1 text-xs bg-[#145B8C]/10 text-[#145B8C] px-2 py-0.5 rounded-full font-medium">
               {TYPE_LABELS[sess.type] ?? sess.type}
             </span>
           </div>
@@ -147,7 +147,7 @@ export default function TrainingSessionDetailPage() {
       {sess.virtualLink && (
         <div className="flex items-center gap-2 text-sm">
           <Link2 className="w-4 h-4 text-gray-400" />
-          <a href={sess.virtualLink} target="_blank" rel="noopener noreferrer" className="text-[#1E3A5F] hover:underline truncate">
+          <a href={sess.virtualLink} target="_blank" rel="noopener noreferrer" className="text-[#145B8C] hover:underline truncate">
             {sess.virtualLink}
           </a>
         </div>
@@ -159,7 +159,7 @@ export default function TrainingSessionDetailPage() {
           {!isFull && (
             <button
               onClick={openEnroll}
-              className="flex items-center gap-1.5 text-xs bg-[#1E3A5F] text-white px-3 py-1.5 rounded-lg hover:bg-[#0D1B2A] transition-colors"
+              className="flex items-center gap-1.5 text-xs bg-[#145B8C] text-white px-3 py-1.5 rounded-lg hover:bg-[#0B1F33] transition-colors"
             >
               <UserPlus className="w-3.5 h-3.5" /> Inscrire
             </button>
@@ -172,7 +172,7 @@ export default function TrainingSessionDetailPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Rechercher par nom ou email..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] mb-2"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] mb-2"
             />
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {filteredUsers.length === 0 && (

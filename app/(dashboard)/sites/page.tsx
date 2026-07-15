@@ -24,14 +24,14 @@ export default async function SitesPage() {
     <div className="max-w-6xl mx-auto py-10 px-4">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-[#1E3A5F]">Sites</h1>
+          <h1 className="text-3xl font-bold text-[#145B8C]">Sites</h1>
           <p className="text-gray-500 text-sm mt-1">
             {sites.length} site{sites.length !== 1 ? "s" : ""} enregistré{sites.length !== 1 ? "s" : ""}
           </p>
         </div>
         <Link
           href="/sites/new"
-          className="inline-flex items-center gap-1 rounded-lg bg-[#1E3A5F] text-white px-5 py-2.5 text-sm font-semibold hover:bg-[#162d4a] transition"
+          className="inline-flex items-center gap-1 rounded-lg bg-[#145B8C] text-white px-5 py-2.5 text-sm font-semibold hover:bg-[#162d4a] transition"
         >
           + Ajouter un site
         </Link>
@@ -42,7 +42,7 @@ export default async function SitesPage() {
           <p className="text-gray-400 text-sm">Aucun site enregistré.</p>
           <Link
             href="/sites/new"
-            className="mt-4 inline-flex items-center gap-1 rounded-lg bg-[#1E3A5F] text-white px-5 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
+            className="mt-4 inline-flex items-center gap-1 rounded-lg bg-[#145B8C] text-white px-5 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
           >
             Créer le premier site
           </Link>
@@ -63,7 +63,7 @@ export default async function SitesPage() {
             <tbody className="divide-y divide-gray-100">
               {sites.map((site) => (
                 <tr key={site.id} className="hover:bg-gray-50 transition">
-                  <td className="px-6 py-4 font-medium text-[#1E3A5F]">{site.name}</td>
+                  <td className="px-6 py-4 font-medium text-[#145B8C]">{site.name}</td>
                   <td className="px-6 py-4 text-gray-600">
                     {site.address ?? <span className="text-gray-400">—</span>}
                   </td>
@@ -81,7 +81,7 @@ export default async function SitesPage() {
                   <td className="px-6 py-4 text-right">
                     <Link
                       href={`/sites/${site.id}`}
-                      className="text-xs text-[#1E3A5F] font-semibold hover:underline"
+                      className="text-xs text-[#145B8C] font-semibold hover:underline"
                     >
                       Détail →
                     </Link>

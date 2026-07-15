@@ -23,7 +23,7 @@ export default async function BillingPage() {
     <div className="max-w-4xl space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Abonnement</h1>
-        <p className="text-sm text-gray-500 mt-1">Gérez votre abonnement NORMIA</p>
+        <p className="text-sm text-gray-500 mt-1">Gérez votre abonnement PREUVIA DUERP</p>
       </div>
 
       {/* Current plan */}
@@ -51,7 +51,7 @@ export default async function BillingPage() {
             )}
           </div>
           {currentPlan !== "ENTERPRISE" && (
-            <button className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+            <button className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
               Mettre à niveau
             </button>
           )}
@@ -61,10 +61,10 @@ export default async function BillingPage() {
       {/* Plans comparison */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {Object.entries(SUBSCRIPTION_PLANS).map(([key, plan]) => (
-          <div key={key} className={`border rounded-xl p-5 ${key === currentPlan ? "border-[#1E3A5F] ring-2 ring-[#1E3A5F]/20" : "border-gray-200"}`}>
+          <div key={key} className={`border rounded-xl p-5 ${key === currentPlan ? "border-[#145B8C] ring-2 ring-[#145B8C]/20" : "border-gray-200"}`}>
             <div className="flex items-center justify-between mb-1">
               <h3 className="font-semibold text-gray-900">{plan.label}</h3>
-              {key === currentPlan && <span className="text-xs bg-[#1E3A5F] text-white px-2 py-0.5 rounded-full">Actuel</span>}
+              {key === currentPlan && <span className="text-xs bg-[#145B8C] text-white px-2 py-0.5 rounded-full">Actuel</span>}
             </div>
             <p className="text-2xl font-bold text-gray-900 mb-0.5">
               {plan.price === 0 ? "Gratuit" : `${plan.price}€`}
@@ -83,7 +83,7 @@ export default async function BillingPage() {
               ))}
             </ul>
             {key !== currentPlan && (
-              <button className="w-full mt-4 border border-[#1E3A5F] text-[#1E3A5F] py-2 rounded-lg text-sm font-medium hover:bg-[#1E3A5F] hover:text-white transition-colors">
+              <button className="w-full mt-4 border border-[#145B8C] text-[#145B8C] py-2 rounded-lg text-sm font-medium hover:bg-[#145B8C] hover:text-white transition-colors">
                 Choisir
               </button>
             )}
@@ -95,7 +95,7 @@ export default async function BillingPage() {
       <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-gray-900">Moyen de paiement</h2>
-          <button className="text-sm text-[#1E3A5F] hover:underline">Modifier</button>
+          <button className="text-sm text-[#145B8C] hover:underline">Modifier</button>
         </div>
         {subscription?.stripeCustomerId ? (
           <div className="flex items-center gap-3">

@@ -74,7 +74,7 @@ export default function NCNewPage() {
               name="title"
               required
               placeholder="Ex: Procédure de nettoyage non respectée"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -85,7 +85,7 @@ export default function NCNewPage() {
             <select
               name="type"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="MINOR">Mineure</option>
               <option value="MAJOR">Majeure</option>
@@ -98,7 +98,7 @@ export default function NCNewPage() {
             <input
               name="dueDate"
               type="date"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -111,7 +111,7 @@ export default function NCNewPage() {
               required
               rows={3}
               placeholder="Décrivez précisément la non-conformité constatée..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
 
@@ -121,7 +121,7 @@ export default function NCNewPage() {
               name="rootCause"
               rows={2}
               placeholder="5 Pourquoi, analyse des causes..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
 
@@ -131,7 +131,7 @@ export default function NCNewPage() {
               name="correctiveAction"
               rows={2}
               placeholder="Mesures à prendre pour corriger et prévenir la récurrence..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function NCNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Enregistrement..." : "Déclarer la NC"}
           </button>

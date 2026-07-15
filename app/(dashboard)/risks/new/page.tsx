@@ -73,7 +73,7 @@ export default function NewRiskPage() {
   return (
     <div className="p-6 max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#0D1B2A]">Nouveau risque</h1>
+        <h1 className="text-2xl font-bold text-[#0B1F33]">Nouveau risque</h1>
         <p className="text-gray-500 text-sm mt-1">Évaluez et documentez un nouveau risque professionnel</p>
       </div>
 
@@ -89,7 +89,7 @@ export default function NewRiskPage() {
             value={form.workUnitId}
             onChange={handleChange}
             required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent"
           >
             <option value="">Sélectionner une unité de travail</option>
             {workUnits.map((wu) => (
@@ -105,7 +105,7 @@ export default function NewRiskPage() {
             value={form.hazardFamily}
             onChange={handleChange}
             required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent"
           >
             <option value="">Sélectionner une famille</option>
             {RISK_FAMILIES.map((f) => (
@@ -122,7 +122,7 @@ export default function NewRiskPage() {
             onChange={handleChange}
             required
             rows={3}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent resize-none"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent resize-none"
             placeholder="Décrivez le danger identifié..."
           />
         </div>
@@ -134,7 +134,7 @@ export default function NewRiskPage() {
             name="exposedPersons"
             value={form.exposedPersons}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent"
             placeholder="Ex: Opérateurs de ligne, techniciens..."
           />
         </div>
@@ -146,7 +146,7 @@ export default function NewRiskPage() {
             value={form.existingMeasures}
             onChange={handleChange}
             rows={2}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent resize-none"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent resize-none"
             placeholder="Mesures de prévention déjà en place..."
           />
         </div>
@@ -185,7 +185,7 @@ export default function NewRiskPage() {
           <div className="mt-4 p-4 bg-gray-50 rounded-lg flex items-center justify-between">
             <div>
               <p className="text-xs text-gray-500">Score de risque brut</p>
-              <p className="text-3xl font-bold text-[#0D1B2A]">{grossRisk}</p>
+              <p className="text-3xl font-bold text-[#0B1F33]">{grossRisk}</p>
               <p className="text-xs text-gray-400 mt-0.5">F({form.grossFrequency}) × G({form.grossGravity}) / M({form.grossMastery})</p>
             </div>
             <span className={`px-3 py-1.5 rounded-full text-sm font-semibold ${riskLevel.color}`}>
@@ -205,7 +205,7 @@ export default function NewRiskPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-50"
+            className="flex-1 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-50"
           >
             {loading ? "Création..." : "Créer le risque"}
           </button>
@@ -241,7 +241,7 @@ function ScoreInput({
             onClick={() => onChange(n)}
             className={`w-8 h-8 rounded text-xs font-semibold transition-colors ${
               value === n
-                ? "bg-[#1E3A5F] text-white"
+                ? "bg-[#145B8C] text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >

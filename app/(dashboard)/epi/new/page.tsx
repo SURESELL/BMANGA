@@ -90,7 +90,7 @@ export default function EPINewPage() {
               name="name"
               required
               placeholder="Ex: Casque de chantier classe 1"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent"
             />
           </div>
 
@@ -101,7 +101,7 @@ export default function EPINewPage() {
             <select
               name="category"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Sélectionner...</option>
               {EPI_CATEGORIES.map((c) => (
@@ -115,7 +115,7 @@ export default function EPINewPage() {
             <input
               name="reference"
               placeholder="Ex: MSA V-Gard 500"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -124,7 +124,7 @@ export default function EPINewPage() {
             <input
               name="standard"
               placeholder="Ex: EN 397, EN ISO 20345"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -135,7 +135,7 @@ export default function EPINewPage() {
               type="number"
               min="0"
               defaultValue="1"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -144,7 +144,7 @@ export default function EPINewPage() {
             <input
               name="assignedTo"
               placeholder="Nom / service"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -153,7 +153,7 @@ export default function EPINewPage() {
             <input
               name="expiryDate"
               type="date"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -162,7 +162,7 @@ export default function EPINewPage() {
             <input
               name="nextControlDate"
               type="date"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -172,7 +172,7 @@ export default function EPINewPage() {
               name="notes"
               rows={3}
               placeholder="Informations complémentaires..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -185,7 +185,7 @@ export default function EPINewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Enregistrement..." : "Enregistrer l'EPI"}
           </button>

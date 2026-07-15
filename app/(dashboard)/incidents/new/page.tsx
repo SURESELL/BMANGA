@@ -53,7 +53,7 @@ export default function NewIncidentPage() {
   return (
     <div className="p-6 max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#0D1B2A]">Déclarer un incident</h1>
+        <h1 className="text-2xl font-bold text-[#0B1F33]">Déclarer un incident</h1>
         <p className="text-gray-500 text-sm mt-1">Renseignez les informations relatives à l'événement</p>
       </div>
 
@@ -70,7 +70,7 @@ export default function NewIncidentPage() {
             value={form.title}
             onChange={handleChange}
             required
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             placeholder="Résumé de l'événement..."
           />
         </div>
@@ -83,7 +83,7 @@ export default function NewIncidentPage() {
             onChange={handleChange}
             required
             rows={4}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             placeholder="Décrivez les circonstances de l'événement..."
           />
         </div>
@@ -104,7 +104,7 @@ export default function NewIncidentPage() {
                   value={opt.value}
                   checked={form.type === opt.value}
                   onChange={handleChange}
-                  className="text-[#1E3A5F]"
+                  className="text-[#145B8C]"
                 />
                 <span className="text-sm text-gray-700">{opt.label}</span>
               </label>
@@ -119,7 +119,7 @@ export default function NewIncidentPage() {
               name="severity"
               value={form.severity}
               onChange={handleChange}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             >
               <option value="NEAR_MISS">Presque accident</option>
               <option value="MINOR">Mineur</option>
@@ -137,7 +137,7 @@ export default function NewIncidentPage() {
               value={form.occurredAt}
               onChange={handleChange}
               required
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function NewIncidentPage() {
             name="location"
             value={form.location}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             placeholder="Atelier, bureau, parking..."
           />
         </div>
@@ -163,7 +163,7 @@ export default function NewIncidentPage() {
               value={form.injuredPersons}
               onChange={handleChange}
               min={0}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
           <div className="flex flex-col gap-3 pt-6">
@@ -173,7 +173,7 @@ export default function NewIncidentPage() {
                 name="firstAidGiven"
                 checked={form.firstAidGiven}
                 onChange={handleChange}
-                className="rounded text-[#1E3A5F]"
+                className="rounded text-[#145B8C]"
               />
               <span className="text-sm text-gray-700">Premiers secours prodigués</span>
             </label>
@@ -183,7 +183,7 @@ export default function NewIncidentPage() {
                 name="workStopped"
                 checked={form.workStopped}
                 onChange={handleChange}
-                className="rounded text-[#1E3A5F]"
+                className="rounded text-[#145B8C]"
               />
               <span className="text-sm text-gray-700">Arrêt de travail</span>
             </label>
@@ -197,7 +197,7 @@ export default function NewIncidentPage() {
             name="witnesses"
             value={form.witnesses}
             onChange={handleChange}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             placeholder="Noms des témoins éventuels..."
           />
         </div>
@@ -209,7 +209,7 @@ export default function NewIncidentPage() {
             value={form.immediateActions}
             onChange={handleChange}
             rows={3}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             placeholder="Actions prises immédiatement après l'événement..."
           />
         </div>
@@ -225,7 +225,7 @@ export default function NewIncidentPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-50"
+            className="flex-1 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-50"
           >
             {loading ? "Enregistrement..." : "Déclarer l'incident"}
           </button>

@@ -45,7 +45,7 @@ function CotationCard({
         </div>
         <div className="flex justify-between border-t border-gray-200 pt-2 mt-2">
           <dt className="font-semibold text-gray-700">Score</dt>
-          <dd className="font-bold text-[#1E3A5F] text-lg">{score ?? "—"}</dd>
+          <dd className="font-bold text-[#145B8C] text-lg">{score ?? "—"}</dd>
         </div>
         <div className="flex justify-between items-center">
           <dt className="font-semibold text-gray-700">Niveau</dt>
@@ -100,10 +100,10 @@ export default async function RiskDetailPage({ params }: PageProps) {
     <div className="max-w-5xl mx-auto py-10 px-4 space-y-8">
       {/* Header */}
       <div>
-        <Link href="/risks" className="text-sm text-[#1E3A5F] hover:underline">
+        <Link href="/risks" className="text-sm text-[#145B8C] hover:underline">
           ← Retour aux risques
         </Link>
-        <h1 className="mt-2 text-3xl font-bold text-[#1E3A5F]">
+        <h1 className="mt-2 text-3xl font-bold text-[#145B8C]">
           {risk.description ?? "Risque sans description"}
         </h1>
         <p className="text-gray-500 text-sm mt-1">
@@ -115,7 +115,7 @@ export default async function RiskDetailPage({ params }: PageProps) {
       {/* Risk Info Card */}
       <section className="bg-white rounded-xl shadow border border-gray-200 p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h2 className="text-lg font-semibold text-[#1E3A5F] mb-4">Informations</h2>
+          <h2 className="text-lg font-semibold text-[#145B8C] mb-4">Informations</h2>
           <dl className="space-y-3 text-sm">
             <div>
               <dt className="text-gray-500 mb-0.5">Famille de danger</dt>
@@ -132,7 +132,7 @@ export default async function RiskDetailPage({ params }: PageProps) {
           </dl>
         </div>
         <div>
-          <h2 className="text-lg font-semibold text-[#1E3A5F] mb-4">Mesures existantes</h2>
+          <h2 className="text-lg font-semibold text-[#145B8C] mb-4">Mesures existantes</h2>
           {risk.existingMeasures ? (
             <p className="text-sm text-gray-800 whitespace-pre-wrap">{risk.existingMeasures}</p>
           ) : (
@@ -143,7 +143,7 @@ export default async function RiskDetailPage({ params }: PageProps) {
 
       {/* Cotation */}
       <section>
-        <h2 className="text-lg font-semibold text-[#1E3A5F] mb-3">Cotation</h2>
+        <h2 className="text-lg font-semibold text-[#145B8C] mb-3">Cotation</h2>
         <div className="flex gap-4 flex-col sm:flex-row">
           <CotationCard
             title="Cotation brute"
@@ -167,10 +167,10 @@ export default async function RiskDetailPage({ params }: PageProps) {
       {/* Action Plans */}
       <section className="bg-white rounded-xl shadow border border-gray-200 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-[#1E3A5F]">Plans d'action</h2>
+          <h2 className="text-lg font-semibold text-[#145B8C]">Plans d'action</h2>
           <Link
             href={`/action-plans/new?riskId=${id}`}
-            className="inline-flex items-center gap-1 rounded-lg bg-[#1E3A5F] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
+            className="inline-flex items-center gap-1 rounded-lg bg-[#145B8C] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
           >
             + Ajouter une action
           </Link>
@@ -197,7 +197,7 @@ export default async function RiskDetailPage({ params }: PageProps) {
                       <td className="py-2.5 pr-4">
                         <Link
                           href={`/action-plans/${ap.id}`}
-                          className="font-medium text-[#1E3A5F] hover:underline"
+                          className="font-medium text-[#145B8C] hover:underline"
                         >
                           {ap.title}
                         </Link>
@@ -231,21 +231,21 @@ export default async function RiskDetailPage({ params }: PageProps) {
         const allEvidences = risk.actionPlans.flatMap((ap) => ap.evidences);
         return (
           <section className="bg-white rounded-xl shadow border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-[#1E3A5F] mb-4">Preuves / Documents</h2>
+            <h2 className="text-lg font-semibold text-[#145B8C] mb-4">Preuves / Documents</h2>
             {allEvidences.length === 0 ? (
               <p className="text-sm text-gray-400">Aucune preuve associée.</p>
             ) : (
               <ul className="space-y-2">
                 {allEvidences.map((ev) => (
                   <li key={ev.id} className="flex items-center gap-3 text-sm text-gray-700">
-                    <span className="inline-block w-2 h-2 rounded-full bg-[#1E3A5F] shrink-0" />
+                    <span className="inline-block w-2 h-2 rounded-full bg-[#145B8C] shrink-0" />
                     <span>{ev.title}</span>
                     {ev.fileUrl && (
                       <a
                         href={ev.fileUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[#1E3A5F] hover:underline text-xs"
+                        className="text-[#145B8C] hover:underline text-xs"
                       >
                         Ouvrir
                       </a>

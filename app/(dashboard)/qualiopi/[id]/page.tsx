@@ -38,7 +38,7 @@ export default async function QualiopiCriterionPage({ params }: { params: Promis
         </a>
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-white bg-[#1E3A5F] px-2 py-0.5 rounded">{criterion.code}</span>
+            <span className="text-xs font-bold text-white bg-[#145B8C] px-2 py-0.5 rounded">{criterion.code}</span>
             <h1 className="text-xl font-bold text-gray-900">{criterion.title}</h1>
           </div>
           {criterion.description && <p className="text-sm text-gray-500 mt-0.5">{criterion.description}</p>}
@@ -78,7 +78,7 @@ export default async function QualiopiCriterionPage({ params }: { params: Promis
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           {evidence.fileUrl && (
-                            <a href={evidence.fileUrl} className="text-xs text-[#1E3A5F] hover:underline">Voir</a>
+                            <a href={evidence.fileUrl} className="text-xs text-[#145B8C] hover:underline">Voir</a>
                           )}
                           <span className="text-xs text-gray-400">{formatDate(evidence.createdAt)}</span>
                         </div>
@@ -94,7 +94,7 @@ export default async function QualiopiCriterionPage({ params }: { params: Promis
                   ) : (
                     <div className="mt-3 border border-dashed border-gray-300 rounded-lg p-3 flex items-center justify-between">
                       <span className="text-xs text-gray-400">Aucune preuve ajoutée</span>
-                      <a href={`/qualiopi/${indicator.id}/evidence/new`} className="flex items-center gap-1 text-xs text-[#1E3A5F] font-medium hover:underline">
+                      <a href={`/qualiopi/${indicator.id}/evidence/new`} className="flex items-center gap-1 text-xs text-[#145B8C] font-medium hover:underline">
                         <Plus className="w-3 h-3" /> Ajouter une preuve
                       </a>
                     </div>

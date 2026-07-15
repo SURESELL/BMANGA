@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { PlusCircle, ShieldAlert, AlertTriangle, CheckCircle, FlaskConical } from "lucide-react";
 import { formatDate } from "@/lib/utils";
-import { NORMIA_DISCLAIMER } from "@/types";
+import { PREUVIA_DISCLAIMER } from "@/types";
 
 export const metadata = { title: "HACCP / PMS" };
 
@@ -47,7 +47,7 @@ export default async function HACCPPage() {
         </div>
         <a
           href="/haccp/new"
-          className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+          className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           <PlusCircle className="w-4 h-4" /> Nouveau plan
         </a>
@@ -57,14 +57,14 @@ export default async function HACCPPage() {
       <div className="bg-amber-50 border border-amber-300 rounded-xl p-4">
         <div className="flex items-start gap-2">
           <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-          <p className="text-sm text-amber-800">{NORMIA_DISCLAIMER}</p>
+          <p className="text-sm text-amber-800">{PREUVIA_DISCLAIMER}</p>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-[#1E3A5F]">{stats.plans}</p>
+          <p className="text-2xl font-bold text-[#145B8C]">{stats.plans}</p>
           <p className="text-xs text-gray-500 mt-0.5">Plans PMS</p>
         </div>
         <div className="bg-green-50 border border-gray-200 rounded-xl p-4 text-center">
@@ -130,7 +130,7 @@ export default async function HACCPPage() {
                   <span className="text-xs text-gray-500">{plan.prpos.length} PRPo</span>
                   <a
                     href={`/haccp/${plan.id}`}
-                    className="text-xs text-[#1E3A5F] hover:underline ml-2"
+                    className="text-xs text-[#145B8C] hover:underline ml-2"
                   >
                     Voir →
                   </a>
