@@ -161,6 +161,12 @@ model Organization {
   logoUrl          String?
   sector           String?
   employeeCount    Int?
+  // Traçabilité de l'import Sirene (PRODUCT_SPEC.md 6.3) : source, date de
+  // récupération, et confirmation humaine explicite avant enregistrement.
+  siretSource      String?
+  siretFetchedAt   DateTime?
+  siretConfirmedBy String?
+  siretConfirmedAt DateTime?
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   deletedAt        DateTime?
