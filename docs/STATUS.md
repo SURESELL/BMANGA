@@ -1,6 +1,47 @@
 # STATUS.md — PREUVIA DUERP
 
-Dernière mise à jour : 2026-07-15 (session Phase 0).
+Dernière mise à jour : 2026-07-16 (Phase 0 + passe sur les Phases 1 à 8, voir résumé ci-dessous).
+
+## Résumé exécutif (2026-07-16)
+
+Toutes les phases du spec ont été examinées ; ce qui suit est un état
+honnête, pas une déclaration de complétude. ✅ = réellement construit,
+testé, et pour les fonctionnalités UI significatives, vérifié en
+navigateur réel (pas seulement lu). 🟡 = partiel, avec le manquant explicité.
+
+- Phase 0 (fondations) — ✅ voir tableau ci-dessous.
+- Phase 1 (commercial/onboarding) — 🟡 Super Admin complet (organisations,
+  webhooks, journal d'audit) ; onboarding piloté par Sirene volontairement
+  non tenté (jamais testé contre l'API réelle, risque de mapping faux).
+- Phase 2 (espace consultant) — 🟡 boucle coeur bout-en-bout (provisionnement
+  cabinet → client → vue d'ensemble client) ; missions/rapports détaillés/
+  équipe/marque blanche non commencés.
+- Phase 3 (DUERP avancé) — 🟡 immuabilité/révision + export PDF réels ;
+  méthodes de cotation configurables volontairement non tentées (risque de
+  méthodologie légale simulée).
+- Phase 4 (prévention opérationnelle) — 🟡 fiches de poste + communication
+  sécurité réelles ; matrice de compétences et rondes/inspections non
+  commencées (aucun modèle spécifié).
+- Phase 5 (entreprises extérieures/permis) — ✅ cycle de vie complet et
+  testé ; protocoles de chargement/déchargement et signature électronique
+  réelle non commencés.
+- Phase 6 (virement bancaire) — 🟡 émission facture + activation post-
+  paiement réelles ; rapprochement des sous/trop-perçus non commencé.
+- Phase 7 (PREUVIA COPILOT) — ⛔ intentionnellement absent, conformément à
+  la règle absolue du spec (désactivé tant que les sources ne sont pas
+  validées).
+- Phase 8 (docs/tests) — ✅ les 5 documents mandatés existent ; sauvegarde/
+  restauration réellement exercée.
+
+**Ce qui ne sera jamais vrai sans action humaine**, quel que soit le temps
+investi en session autonome : clés Stripe/INSEE réelles (aucune fournie,
+jamais testé en conditions réelles), audit juridique/RGPD/fiscal (hors
+périmètre technique), volumétrie de production pour sauvegarde/
+restauration, et bien sûr Phase 7 (doit rester désactivée tant qu'un humain
+n'a pas validé les sources).
+
+Vérification finale (2026-07-16) : `npx tsc --noEmit` 0 erreur, `npx eslint .`
+0 erreur, `npx vitest run` 103/103 tests passants, `npm run build` succès.
 
 Légende : ✅ Réel/opérationnel · 🟡 Partiel/scaffold · ⛔ Simulé/absent
 
