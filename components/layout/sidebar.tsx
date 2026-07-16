@@ -111,6 +111,8 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Organisations", href: "/admin/organizations", icon: Building2 },
       { label: "Cabinets consultants", href: "/admin/consultancy-workspaces", icon: Briefcase },
+      { label: "Webhooks", href: "/admin/webhooks", icon: FileText },
+      { label: "Journal d'audit", href: "/admin/audit-logs", icon: ClipboardList },
     ],
   },
 ];

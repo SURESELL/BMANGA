@@ -33,11 +33,38 @@ Rollback : chaque sous-lot est un commit séparé ; `git revert` du commit conce
 l'état antérieur. La migration Prisma de Phase 0 est additive (nouvelles tables/colonnes
 nullable ou avec défaut) — rollback via `prisma migrate resolve` + migration inverse fournie.
 
-## Phase 1 — Commercial et onboarding (non commencée)
+## Phase 1 — Commercial et onboarding (partiellement présent)
 
 Landing/Tarifs/Fonctionnalités finalisées avec les 6 offres et CTA Stripe réels,
 mot de passe oublié, onboarding organisation/établissements/sites/unités piloté par
 l'API Sirene, espace Super Admin PREUVIA (organisations, offres, webhooks, audit logs).
+
+✅ Déjà présents (sessions précédentes) : mot de passe oublié
+(`/forgot-password`, `/reset-password`), les 6 offres avec CTA Stripe réels
+sur `/billing`, checklist d'onboarding fonctionnelle (`/onboarding`,
+progression réelle basée sur l'état de l'organisation), Super Admin
+« organisations » (`/admin/organizations`).
+
+✅ Fait cette session : Super Admin « webhooks » (`/admin/webhooks` — tous
+les `WebhookEvent` de la plateforme, statut traité/échec/en attente) et
+« journal d'audit » (`/admin/audit-logs` — tous les `AuditLog`, filtrable
+par organisation/action côté API), complétant la liste explicite du spec
+(« organisations, offres, webhooks, audit logs »). Vérifié en navigateur
+réel avec de vraies données (webhook en échec affiché avec son message
+d'erreur, entrée d'audit affichée avec son organisation).
+
+**Non fait, délibérément** : onboarding piloté par l'API Sirene (auto-
+remplissage des champs organisation/établissement depuis un SIRET/SIREN).
+Le proxy INSEE existe et est testé unitairement, mais **n'a jamais été
+appelé contre l'API réelle** (aucune clé INSEE fournie dans aucune
+session) — la forme exacte de la réponse Sirene 3.11 telle que retournée
+en conditions réelles n'a jamais été observée. Construire une UI qui
+suppose des noms de champs jamais vérifiés contre une vraie réponse
+risquerait de livrer un mapping silencieusement faux — pire qu'une absence
+de fonctionnalité. À reprendre dès qu'une clé INSEE de test est
+disponible, en vérifiant d'abord la forme réelle de la réponse. La page
+« offres » marketing complète (Landing/Tarifs/Fonctionnalités) reste aussi
+non commencée (seule la vue `/billing` post-connexion existe).
 Dépend de Phase 0 (0.4, 0.5, 0.8).
 
 ## Phase 2 — Espace consultant multi-clients (partiellement présent)
