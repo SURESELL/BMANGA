@@ -59,8 +59,15 @@ pour ce client, ce qui manquait aussi — et de révoquer l'accès. Vérifié de
 bout en bout avec un vrai navigateur Chromium : provisionnement du cabinet →
 connexion consultant → changement de mot de passe forcé → création d'un
 client → connexion du nouvel administrateur client, sans aucune erreur.
-Reste à faire : prospects/actifs/archivés, missions, échéances, rapports par
-client, équipe, modèles, marque blanche — non commencés (pas de modèles de
+`GET /api/consultant/clients/[organizationId]/overview` +
+`/consultant/clients/[organizationId]` : vue en lecture seule d'un client
+(plan/statut d'abonnement, dernier DUERP, risques par niveau, incidents
+ouverts, nombre de sites/utilisateurs) — un début de « rapports par client »,
+gaté par `hasActiveClientAccess` (jamais par le seul organizationId de
+l'URL), IDOR-testé et vérifié en navigateur réel (données correctes pour un
+client accessible, 404 pour un autre). Reste à faire : prospects/actifs/
+archivés, missions, échéances, rapports détaillés (au-delà de ce snapshot),
+équipe, modèles, marque blanche — non commencés (pas de modèles de
 données pour ces entités).
 
 ## Phase 3 — DUERP et risques avancés (partiellement présent)

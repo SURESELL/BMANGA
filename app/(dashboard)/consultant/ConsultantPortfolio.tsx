@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Building2, PlusCircle, Trash2 } from "lucide-react";
 
 interface Client {
@@ -193,10 +194,10 @@ export function ConsultantPortfolio({ initialClients }: { initialClients: Client
                 <div className="w-9 h-9 rounded-lg bg-[#145B8C]/10 flex items-center justify-center shrink-0">
                   <Building2 className="w-4 h-4 text-[#145B8C]" />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">{client.name}</p>
+                <Link href={`/consultant/clients/${client.id}`} className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 hover:text-[#145B8C] transition-colors">{client.name}</p>
                   <p className="text-xs text-gray-400">{client.sector ?? "Secteur non renseigné"}{client.siret ? ` · SIRET ${client.siret}` : ""}</p>
-                </div>
+                </Link>
                 <button
                   onClick={() => handleRevoke(client.id)}
                   disabled={revoking === client.id}
