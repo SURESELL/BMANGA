@@ -47,6 +47,7 @@ const NAV_GROUPS: NavGroup[] = [
       { label: "Incidents", href: "/incidents", icon: AlertTriangle },
       { label: "EPI / Vérifications", href: "/epi", icon: HardHat },
       { label: "Entreprises extérieures", href: "/external-companies", icon: Briefcase },
+      { label: "Prévention opérationnelle", href: "/prevention", icon: HardHat },
     ],
   },
   {

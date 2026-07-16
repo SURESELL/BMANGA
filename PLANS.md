@@ -83,6 +83,22 @@ Fiches de poste, fiches sécurité, matrice de compétences, VGP/vérifications 
 « Donnée à valider avec une source officielle à jour » systématique, rondes/inspections/
 causeries, communication sécurité (affiches, flashs).
 
+✅ Fait : `JobRiskSheet` (fiches de poste — description, EPI requis,
+formations requises, risques identifiés) et `SafetyCommunication`
+(affiches/flashs) avec un cycle brouillon → publié distinct (publier exige
+la permission `validate`, plus élevée qu'une simple édition — même
+principe que la validation DUERP ou l'émission d'un permis de travail).
+Mention légale `PREUVIA_DISCLAIMER` affichée sur `/prevention` (et
+désormais aussi sur `/epi`, en parité, cf. VGP). UI `/prevention` (hub +
+formulaires + fiche communication avec publier/dépublier). IDOR-testé
+(`tests/integration/prevention.test.ts`), vérifié en navigateur réel :
+création fiche de poste → visible sur le hub, création communication
+(brouillon) → publication → dépublication, zéro erreur.
+**Non fait** : matrice de compétences (aucun modèle — nécessiterait de
+croiser `User`/poste/formations, pas spécifié), rondes/inspections/
+causeries (aucun modèle — nécessiterait sa propre planification et ses
+propres check-lists, pas spécifié).
+
 ## Phase 5 — Entreprises extérieures et permis (fait, hors protocoles chargement/déchargement)
 
 `ExternalCompany`, plans de prévention, protocoles de chargement/déchargement, permis

@@ -25,7 +25,8 @@ export type Module =
   | "environment" | "tmd" | "esg" | "settings"
   | "billing" | "users" | "organizations" | "sites"
   | "epi" | "non_conformities"
-  | "external_companies" | "work_permits";
+  | "external_companies" | "work_permits"
+  | "job_risk_sheets" | "safety_communications";
 
 export type Action = "view" | "create" | "update" | "delete" | "export" | "validate";
 
@@ -56,6 +57,8 @@ const PERMISSIONS: Record<Module, Record<Action, UserRole[]>> = {
   // "validate" = émission d'un permis (DRAFT -> ISSUED) ou suspension/reprise :
   // décisions de sécurité, réservées au responsable de site au minimum.
   work_permits:       { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["SITE_MANAGER"] },
+  job_risk_sheets:        { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
+  safety_communications:  { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
 };
 
 export function canAccess(userRole: UserRole, module: Module, action: Action): boolean {

@@ -158,6 +158,7 @@ actuelle d'UI Super Admin pour ça (Phase 1, non commencée).
 | `20260716000000_duerp_revision_chain` | `DUERP.previousVersionId` (auto-relation de révision, immuabilité des versions validées) |
 | `20260716010000_bank_transfer_billing` | `Subscription.pendingPlan`, `Invoice.stripeInvoiceId` devient `@unique` (upsert par facture, parcours virement bancaire) |
 | `20260716020000_external_companies_work_permits` | `ExternalCompany`, `PreventionPlan`, `WorkPermit` (Phase 5) |
+| `20260716030000_job_risk_sheets_safety_communications` | `JobRiskSheet`, `SafetyCommunication` (Phase 4) |
 
 Toutes générées avec `prisma migrate diff` contre une base miroir (« shadow
 database ») puis appliquées avec `prisma migrate deploy` — voir

@@ -251,6 +251,8 @@ model Organization {
   externalCompanies ExternalCompany[]
   preventionPlans   PreventionPlan[]
   workPermits       WorkPermit[]
+  jobRiskSheets       JobRiskSheet[]
+  safetyCommunications SafetyCommunication[]
 
   @@map("organizations")
 }
@@ -279,6 +281,8 @@ model Site {
   verifications PeriodicVerification[]
   preventionPlans PreventionPlan[]
   workPermits     WorkPermit[]
+  jobRiskSheets       JobRiskSheet[]
+  safetyCommunications SafetyCommunication[]
 
   @@map("sites")
 }
@@ -751,6 +755,53 @@ model WorkPermit {
   site            Site?            @relation(fields: [siteId], references: [id])
 
   @@map("work_permits")
+}
+
+// ─────────────────────────────────────────────
+// PRÉVENTION OPÉRATIONNELLE — FICHES DE POSTE ET COMMUNICATION (PLANS.md Phase 4)
+// ─────────────────────────────────────────────
+
+model JobRiskSheet {
+  id                String    @id @default(cuid())
+  organizationId    String
+  siteId            String?
+  jobTitle          String
+  description       String?
+  requiredPPE       String?
+  requiredTraining  String?
+  risksDescription  String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+
+  @@map("job_risk_sheets")
+}
+
+enum SafetyCommunicationType {
+  POSTER
+  FLASH
+}
+
+model SafetyCommunication {
+  id             String                   @id @default(cuid())
+  organizationId String
+  siteId         String?
+  type           SafetyCommunicationType
+  title          String
+  content        String
+  fileUrl        String?
+  publishedAt    DateTime?
+  expiresAt      DateTime?
+  createdById    String?
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+
+  @@map("safety_communications")
 }
 
 // ─────────────────────────────────────────────
