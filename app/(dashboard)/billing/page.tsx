@@ -2,10 +2,12 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { CheckCircle, CreditCard, AlertTriangle } from "lucide-react";
+import { CheckCircle, CreditCard, AlertTriangle, Landmark } from "lucide-react";
 import { formatDate } from "@/lib/utils";
-import { SUBSCRIPTION_PLANS } from "@/types";
+import { SUBSCRIPTION_PLANS, type UserRole } from "@/types";
 import { PAYABLE_PLAN_IDS, buildCheckoutUrl, type PlanId } from "@/lib/billing/plans";
+import { canAccess } from "@/lib/rbac";
+import { BankTransferButton } from "./BankTransferButton";
 
 export const metadata = { title: "Abonnement" };
 
@@ -33,6 +35,14 @@ export default async function BillingPage() {
   const currentPlan = (subscription?.plan ?? "DIAGNOSTIC") as keyof typeof SUBSCRIPTION_PLANS;
   const planInfo = SUBSCRIPTION_PLANS[currentPlan];
   const statusInfo = STATUS_LABELS[subscription?.status ?? "FREE"];
+  const canManageBilling = canAccess((session.user as { role?: UserRole }).role ?? "VIEWER", "billing", "create");
+  const pendingInvoice =
+    subscription?.status === "PENDING_PAYMENT" && subscription.pendingPlan
+      ? await db.invoice.findFirst({
+          where: { organizationId: orgId, status: "PENDING" },
+          orderBy: { createdAt: "desc" },
+        })
+      : null;
 
   return (
     <div className="max-w-4xl space-y-6">
@@ -40,6 +50,26 @@ export default async function BillingPage() {
         <h1 className="text-2xl font-bold text-gray-900">Abonnement</h1>
         <p className="text-sm text-gray-500 mt-1">Gérez votre abonnement PREUVIA DUERP</p>
       </div>
+
+      {/* Pending bank-transfer invoice */}
+      {subscription?.status === "PENDING_PAYMENT" && subscription.pendingPlan && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-start gap-3">
+          <Landmark className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
+          <div className="text-sm text-yellow-800">
+            <p className="font-medium">
+              Facture en attente de règlement par virement — plan {SUBSCRIPTION_PLANS[subscription.pendingPlan as keyof typeof SUBSCRIPTION_PLANS].label}
+            </p>
+            <p className="mt-0.5">
+              L&apos;abonnement passera automatiquement à &laquo; Actif &raquo; dès réception du virement (confirmée par Stripe).
+            </p>
+            {pendingInvoice?.pdfUrl && (
+              <a href={pendingInvoice.pdfUrl} target="_blank" rel="noopener noreferrer" className="underline mt-1 inline-block">
+                Télécharger la facture (RIB / coordonnées de virement)
+              </a>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Current plan */}
       <div className="bg-white border border-gray-200 rounded-xl p-6">
@@ -104,6 +134,9 @@ export default async function BillingPage() {
                 >
                   Choisir (paiement test)
                 </a>
+              )}
+              {!isCurrent && PAYABLE_PLAN_IDS.includes(planId) && canManageBilling && (
+                <BankTransferButton planId={planId} planLabel={plan.label} />
               )}
               {!isCurrent && !checkoutUrl && planId === "ENTERPRISE" && (
                 <Link

@@ -110,6 +110,23 @@ accompagnée d'un test IDOR suivant le même modèle.
   plan n'est **pas** deviné : l'accès est activé (le paiement a eu lieu) mais
   l'événement est journalisé (`console.error` + `AuditLog`) pour
   rapprochement manuel plutôt que d'attribuer des droits au hasard.
+- **Virement bancaire** (`POST /api/billing/bank-transfer`, permission
+  `billing:create`, ORG_ADMIN) : émet une facture Stripe
+  (`collection_method: "send_invoice"`) au lieu d'un Payment Link carte. Le
+  plan demandé est posé sur `Subscription.pendingPlan` — **jamais** sur
+  `plan` tant que la facture n'est pas payée, pour ne pas accorder les
+  entitlements d'un plan non réglé (couvert par
+  `tests/integration/bank-transfer-billing.test.ts`). Le webhook
+  `invoice.paid` promeut `pendingPlan` → `plan` et passe le statut à
+  `ACTIVE` uniquement à réception confirmée du paiement. La ligne `Invoice`
+  pré-créée en `PENDING` à l'émission de la facture est mise à jour (upsert
+  par `stripeInvoiceId`, désormais `@unique`) plutôt que dupliquée. Comme le
+  reste de l'intégration Stripe de ce dépôt, **jamais exercé contre une
+  vraie facture Stripe** (aucune clé fournie) — logique vérifiée par
+  tests d'intégration reproduisant les requêtes exactes du webhook, pas par
+  un paiement réel. Le rapprochement manuel des sous/trop-perçus mentionné
+  dans `PLANS.md` (Phase 6) n'est pas implémenté — hors périmètre de cette
+  session.
 
 ## 6. Intégration INSEE
 

@@ -217,18 +217,42 @@ async function handleEvent(event: Stripe.Event, stripe: Stripe): Promise<void> {
       if (customerId) {
         const subscription = await db.subscription.findFirst({ where: { stripeCustomerId: customerId } });
         if (subscription) {
-          await db.subscription.update({ where: { id: subscription.id }, data: { status: "ACTIVE" } });
-          await db.invoice.create({
+          // Le virement bancaire (POST /api/billing/bank-transfer) pose le
+          // plan demandé sur `pendingPlan` avant paiement, sans jamais toucher
+          // à `plan` (qui gouverne les entitlements) tant que la facture n'est
+          // pas réglée. On ne le promeut qu'ici, à réception effective du paiement.
+          await db.subscription.update({
+            where: { id: subscription.id },
             data: {
-              organizationId: subscription.organizationId,
-              stripeInvoiceId: invoice.id,
-              amount: (invoice.amount_paid ?? 0) / 100,
-              currency: invoice.currency?.toUpperCase() ?? "EUR",
-              status: "PAID",
-              paidAt: new Date(),
-              pdfUrl: invoice.invoice_pdf ?? undefined,
+              status: "ACTIVE",
+              ...(subscription.pendingPlan ? { plan: subscription.pendingPlan, pendingPlan: null } : {}),
             },
           });
+          // upsert plutôt que create : pour le parcours virement bancaire, la
+          // ligne Invoice existe déjà en PENDING depuis l'émission de la
+          // facture (voir POST /api/billing/bank-transfer) — on la met à jour
+          // au lieu d'en créer un doublon. Pour un renouvellement carte
+          // classique, aucune ligne préexistante ne correspond : elle est créée.
+          if (invoice.id) {
+            await db.invoice.upsert({
+              where: { stripeInvoiceId: invoice.id },
+              create: {
+                organizationId: subscription.organizationId,
+                stripeInvoiceId: invoice.id,
+                amount: (invoice.amount_paid ?? 0) / 100,
+                currency: invoice.currency?.toUpperCase() ?? "EUR",
+                status: "PAID",
+                paidAt: new Date(),
+                pdfUrl: invoice.invoice_pdf ?? undefined,
+              },
+              update: {
+                amount: (invoice.amount_paid ?? 0) / 100,
+                status: "PAID",
+                paidAt: new Date(),
+                pdfUrl: invoice.invoice_pdf ?? undefined,
+              },
+            });
+          }
         }
       }
       break;

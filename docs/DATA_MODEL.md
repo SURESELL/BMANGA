@@ -86,10 +86,14 @@ Obligation).
 
 ### Paiements et abonnements
 `Subscription` (`plan: SubscriptionPlan` = les 6 offres PREUVIA réelles,
-`status: SubscriptionStatus` = FREE/PENDING_PAYMENT/ACTIVE/PAST_DUE/
-GRACE_PERIOD/SUSPENDED/CANCELED/EXPIRED, `paymentMethodType`,
-`stripeCustomerId`/`stripeSubscriptionId`/`stripePriceId`), `WebhookEvent`
-(idempotence, `eventId` unique), `Invoice`.
+`pendingPlan: SubscriptionPlan?` = plan demandé via virement bancaire mais
+pas encore payé — jamais lu par les entitlements, promu en `plan`
+uniquement à réception du paiement, `status: SubscriptionStatus` =
+FREE/PENDING_PAYMENT/ACTIVE/PAST_DUE/GRACE_PERIOD/SUSPENDED/CANCELED/
+EXPIRED, `paymentMethodType`, `stripeCustomerId`/`stripeSubscriptionId`/
+`stripePriceId`), `WebhookEvent` (idempotence, `eventId` unique), `Invoice`
+(`stripeInvoiceId` unique — permet un upsert par facture au lieu d'un doublon
+lors du paiement d'une facture pré-émise pour virement bancaire).
 
 ### Notifications, logs, support
 `Notification`, `AuditLog` (journal d'audit générique — `action`, `resource`,
@@ -145,6 +149,8 @@ actuelle d'UI Super Admin pour ça (Phase 1, non commencée).
 | `20260715163000_consultant_workspace` | `ConsultancyWorkspace`, `ConsultantClientAccess`, `User.consultancyWorkspaceId` |
 | `20260715170000_audit_status_canceled` | Ajout de `CANCELED` à `AuditStatus` (additive, `ALTER TYPE ... ADD VALUE`) |
 | `20260715171500_training_enrollment_status_session_type` | `TrainingEnrollment.status`, `TrainingSessionType` (remplace `TrainingType` sur `TrainingSession.type`), `TrainingSession.trainer` |
+| `20260716000000_duerp_revision_chain` | `DUERP.previousVersionId` (auto-relation de révision, immuabilité des versions validées) |
+| `20260716010000_bank_transfer_billing` | `Subscription.pendingPlan`, `Invoice.stripeInvoiceId` devient `@unique` (upsert par facture, parcours virement bancaire) |
 
 Toutes générées avec `prisma migrate diff` contre une base miroir (« shadow
 database ») puis appliquées avec `prisma migrate deploy` — voir

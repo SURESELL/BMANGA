@@ -40,7 +40,7 @@ Non commencées dans cette session. Voir `PLANS.md` pour le détail :
 - Phase 3 (DUERP versions immuables, workflow validation, exports PDF) — 🟡 immuabilité + chaîne de révision réelles (`validatedAt` verrouille `PATCH`, `POST /api/duerp/[id]/revise` crée une nouvelle version `DRAFT` liée via `previousVersionId`, testé) ; exports PDF non commencés.
 - Phase 4 (fiches de poste, communication sécurité) — non commencée.
 - Phase 5 (entreprises extérieures, permis de travail) — non commencée.
-- Phase 6 (virement bancaire Stripe) — non commencée.
+- Phase 6 (virement bancaire Stripe) — 🟡 `POST /api/billing/bank-transfer` (émission facture `send_invoice`, statut `PENDING_PAYMENT`, `Subscription.pendingPlan`), activation via `invoice.paid` uniquement, testé (`tests/integration/bank-transfer-billing.test.ts`) ; rapprochement manuel des sous/trop-perçus non implémenté, jamais exercé contre une vraie facture Stripe (aucune clé fournie).
 - Phase 7 (PREUVIA COPILOT) — non commencée, correctement désactivé par défaut (absent).
 - Phase 8 (docs ARCHITECTURE/SECURITY/DATA_MODEL/DEPLOYMENT/RUNBOOKS, sauvegarde/restauration) — non commencée.
 

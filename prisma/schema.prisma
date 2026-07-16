@@ -1247,6 +1247,11 @@ model Subscription {
   id                   String             @id @default(cuid())
   organizationId       String             @unique
   plan                 SubscriptionPlan   @default(DIAGNOSTIC)
+  // Plan demandé mais pas encore actif : posé lors de la création d'une
+  // facture à régler par virement bancaire (statut PENDING_PAYMENT), promu en
+  // `plan` uniquement à réception du paiement (webhook invoice.paid) — jamais
+  // avant, pour ne pas accorder les entitlements d'un plan non payé.
+  pendingPlan          SubscriptionPlan?
   status               SubscriptionStatus @default(FREE)
   paymentMethodType    PaymentMethodType?
   stripeCustomerId     String?
@@ -1285,7 +1290,11 @@ model WebhookEvent {
 model Invoice {
   id              String    @id @default(cuid())
   organizationId  String
-  stripeInvoiceId String?
+  // Unique (et non plus simplement String?) : permet un upsert par facture
+  // Stripe côté webhook, indispensable au parcours virement bancaire où la
+  // ligne Invoice est créée en PENDING dès l'émission de la facture, puis
+  // mise à jour (pas recréée) à réception du paiement (invoice.paid).
+  stripeInvoiceId String?   @unique
   amount          Float
   currency        String    @default("EUR")
   status          String    @default("PENDING")

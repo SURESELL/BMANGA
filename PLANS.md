@@ -67,11 +67,20 @@ causeries, communication sécurité (affiches, flashs).
 (feu, hauteur, levage, espace confiné, électrique, consignation, ATEX, chimique) avec
 signatures, suspension, reprise, clôture, historique.
 
-## Phase 6 — Paiement virement bancaire (non commencée)
+## Phase 6 — Paiement virement bancaire (partiellement présent)
 
 Parcours Stripe Billing/Invoicing distinct (`send_invoice`, `customer_balance`,
 `bank_transfer`), statut `pending_payment`, activation uniquement après `invoice.paid`,
 rapprochement manuel des sous/trop-perçus.
+
+🟡 Fait : `POST /api/billing/bank-transfer` émet une facture Stripe
+(`collection_method: "send_invoice"`), pose `Subscription.status =
+PENDING_PAYMENT` et `pendingPlan` (jamais `plan` avant paiement effectif) ;
+le webhook `invoice.paid` promeut `pendingPlan` → `plan` et passe le statut
+à `ACTIVE`. UI minimale sur `/billing` (bouton par plan payant, bannière
+facture en attente). Reste à faire : rapprochement manuel des sous/
+trop-perçus, jamais exercé contre une vraie facture Stripe (voir
+`docs/STATUS.md`/`docs/SECURITY.md`).
 
 ## Phase 7 — PREUVIA COPILOT (non commencée, désactivé par défaut)
 
