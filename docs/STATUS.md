@@ -44,7 +44,7 @@ Non commencées dans cette session. Voir `PLANS.md` pour le détail :
 - Phase 5 (entreprises extérieures, permis de travail) — non commencée.
 - Phase 6 (virement bancaire Stripe) — 🟡 `POST /api/billing/bank-transfer` (émission facture `send_invoice`, statut `PENDING_PAYMENT`, `Subscription.pendingPlan`), activation via `invoice.paid` uniquement, testé (`tests/integration/bank-transfer-billing.test.ts`) ; rapprochement manuel des sous/trop-perçus non implémenté, jamais exercé contre une vraie facture Stripe (aucune clé fournie).
 - Phase 7 (PREUVIA COPILOT) — non commencée, correctement désactivé par défaut (absent).
-- Phase 8 (docs ARCHITECTURE/SECURITY/DATA_MODEL/DEPLOYMENT/RUNBOOKS, sauvegarde/restauration) — non commencée.
+- Phase 8 (docs ARCHITECTURE/SECURITY/DATA_MODEL/DEPLOYMENT/RUNBOOKS) — 🟡 les 5 documents mandatés sont écrits ; sauvegarde/restauration désormais réellement exercée (`pg_dump`/`pg_restore` bout-en-bout contre une base peuplée, `prisma migrate status` + 87/87 tests + comptages de lignes vérifiés sur la base restaurée — voir `docs/RUNBOOKS.md` §2) ; reste : automatisation planifiée, chiffrement au repos, politique de rétention, volumétrie de production.
 
 ## Modules hérités (LMS, Qualiopi, HACCP, ICPE/TMD, ESG, Audits, Non-conformités)
 

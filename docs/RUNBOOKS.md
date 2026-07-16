@@ -35,7 +35,9 @@ dans `AuditLog` sans jamais y écrire la valeur du mot de passe.
 
 ## 2. Sauvegarde et restauration PostgreSQL
 
-**Sauvegarde** (à automatiser en production, non fait dans cette session) :
+**Sauvegarde** (procédure exercée avec succès dans cette session — voir
+« Vérification effectuée » ci-dessous ; reste à automatiser en production,
+non fait dans cette session) :
 
 ```bash
 pg_dump --format=custom --file=preuvia_$(date +%Y%m%d_%H%M).dump "$DATABASE_URL"
@@ -52,11 +54,23 @@ applicatif. Politique de rétention à définir avec le propriétaire du produit
 pg_restore --clean --if-exists --dbname="$DATABASE_URL" preuvia_20260715_1200.dump
 ```
 
-**Test de restauration** (à faire régulièrement, jamais fait dans cette
-session) : restaurer vers une base temporaire, lancer
-`npx prisma migrate status` pour vérifier la cohérence du schéma, puis
-`npx vitest run` avec `DATABASE_URL` pointant vers cette base restaurée pour
-détecter toute corruption silencieuse.
+**Test de restauration** (à faire régulièrement) : restaurer vers une base
+temporaire, lancer `npx prisma migrate status` pour vérifier la cohérence du
+schéma, puis `npx vitest run` avec `DATABASE_URL` pointant vers cette base
+restaurée pour détecter toute corruption silencieuse.
+
+**Vérification effectuée dans cette session** (2026-07-16) : le cycle complet
+a été exécuté pour de vrai contre `preuvia_duerp_dev` (peuplée via
+`npx tsx prisma/seed.ts`, pas une base vide) — `pg_dump` (succès),
+`pg_restore --clean --if-exists` vers une base temporaire (succès),
+`npx prisma migrate status` sur la base restaurée → « Database schema is up
+to date ! », `npx vitest run` (DATABASE_URL sur la base restaurée) → 87/87
+tests passants, et comparaison des comptages de lignes table par table
+(`hazards`, `qualiopi_criteria`) entre la base source et la base restaurée →
+identiques. La procédure documentée ci-dessus est donc confirmée exacte et
+opérationnelle, pas seulement théorique. Reste non fait : exercice sur un
+volume de données représentatif de la production, chiffrement au repos,
+automatisation planifiée, politique de rétention.
 
 ## 3. Webhook Stripe : événement non traité ou en échec
 
