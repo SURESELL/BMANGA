@@ -96,6 +96,20 @@ accompagnée d'un test IDOR suivant le même modèle.
   base du retour navigateur (`checkout.session.completed` côté serveur).
 - Rapprochement par `client_reference_id` (identifiant PREUVIA de
   l'organisation), jamais par e-mail seul.
+- Rapprochement du **plan** payé : les Payment Links officiels ne portent
+  aucune métadonnée de plan exploitable dans l'événement Stripe. Le webhook
+  résout le plan à partir du Price ID de la ligne achetée
+  (`stripe.checkout.sessions.listLineItems` sur `checkout.session.completed`,
+  `subscription.items.data[0].price.id` sur `customer.subscription.updated`)
+  via `resolvePlanFromPriceId()` (`lib/billing/plans.ts`, variables
+  `STRIPE_PRICE_ID_*`). **Bug corrigé dans cette session** : ce rapprochement
+  n'existait pas — `Subscription.plan` restait à `DIAGNOSTIC` (limites du
+  plan gratuit) même après un paiement réel sur une offre payante, malgré le
+  paiement effectivement accepté et le statut passé à `ACTIVE`. Si le Price
+  ID est inconnu ou la variable d'environnement correspondante absente, le
+  plan n'est **pas** deviné : l'accès est activé (le paiement a eu lieu) mais
+  l'événement est journalisé (`console.error` + `AuditLog`) pour
+  rapprochement manuel plutôt que d'attribuer des droits au hasard.
 
 ## 6. Intégration INSEE
 

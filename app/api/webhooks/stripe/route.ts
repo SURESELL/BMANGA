@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { db } from "@/lib/db";
 import { getStripeClient, isStripeConfigured } from "@/lib/stripe";
+import { resolvePlanFromPriceId } from "@/lib/billing/plans";
 
 // Next.js App Router routes ne parsent pas le corps par défaut pour les
 // Route Handlers — req.text() renvoie bien le corps brut nécessaire à la
@@ -73,7 +74,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await handleEvent(event);
+    await handleEvent(event, stripe);
     await db.webhookEvent.update({ where: { id: webhookEvent.id }, data: { processedAt: new Date() } });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Erreur inconnue";
@@ -95,7 +96,7 @@ function extractOrganizationId(event: Stripe.Event): string | undefined {
   return undefined;
 }
 
-async function handleEvent(event: Stripe.Event): Promise<void> {
+async function handleEvent(event: Stripe.Event, stripe: Stripe): Promise<void> {
   switch (event.type) {
     case "checkout.session.completed":
     case "checkout.session.async_payment_succeeded": {
@@ -113,29 +114,55 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
       const customerId = typeof session.customer === "string" ? session.customer : session.customer?.id;
       const subscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription?.id;
 
+      // Les Payment Links Stripe (immuables, voir lib/billing/plans.ts) ne
+      // portent aucune métadonnée de plan dans l'événement checkout.session —
+      // seul le Price ID de la ligne achetée permet de savoir quel plan a été
+      // payé. Sans ce rapprochement, `Subscription.plan` resterait à sa valeur
+      // par défaut (DIAGNOSTIC) même après un paiement réel, plafonnant les
+      // limites d'un client payant au niveau gratuit.
+      const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 });
+      const priceId = lineItems.data[0]?.price?.id;
+      const resolvedPlan = resolvePlanFromPriceId(priceId);
+
       await db.subscription.upsert({
         where: { organizationId },
         create: {
           organizationId,
           status: "ACTIVE",
+          plan: resolvedPlan ?? "DIAGNOSTIC",
           stripeCustomerId: customerId,
           stripeSubscriptionId: subscriptionId,
           paymentMethodType: "CARD",
         },
         update: {
           status: "ACTIVE",
+          ...(resolvedPlan ? { plan: resolvedPlan } : {}),
           stripeCustomerId: customerId,
           stripeSubscriptionId: subscriptionId,
           paymentMethodType: "CARD",
         },
       });
 
+      if (!resolvedPlan) {
+        // Ne jamais assigner un plan au hasard : on active l'accès (le
+        // paiement a bien eu lieu) mais on journalise pour rapprochement
+        // manuel plutôt que de risquer de sous- ou sur-attribuer des droits.
+        console.error(
+          `[stripe-webhook] Price ID Stripe introuvable/non mappé pour checkout.session ${session.id} (priceId=${priceId ?? "absent"}) — plan non mis à jour, rapprochement manuel requis. Vérifier les variables STRIPE_PRICE_ID_*.`
+        );
+      }
+
       await db.auditLog.create({
         data: {
           organizationId,
           action: "SUBSCRIPTION_ACTIVATED",
           resource: "subscription",
-          details: { stripeEventId: event.id, checkoutSessionId: session.id },
+          details: {
+            stripeEventId: event.id,
+            checkoutSessionId: session.id,
+            resolvedPlan,
+            priceId: priceId ?? null,
+          },
         },
       });
       break;
@@ -158,10 +185,15 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
       // Depuis l'API Stripe 2025+, les dates de période sont portées par
       // chaque ligne d'abonnement (items), plus par l'objet Subscription.
       const item = sub.items.data[0];
+      // Un changement de plan (upgrade/downgrade) se traduit par un nouveau
+      // Price ID sur la ligne d'abonnement — sans ce rapprochement, une
+      // organisation qui change d'offre garderait les limites de l'ancienne.
+      const resolvedPlan = resolvePlanFromPriceId(item?.price?.id);
       await db.subscription.updateMany({
         where: { stripeSubscriptionId: sub.id },
         data: {
           status: mapStripeSubscriptionStatus(sub.status),
+          ...(resolvedPlan ? { plan: resolvedPlan } : {}),
           cancelAtPeriodEnd: sub.cancel_at_period_end,
           currentPeriodStart: item ? new Date(item.current_period_start * 1000) : undefined,
           currentPeriodEnd: item ? new Date(item.current_period_end * 1000) : undefined,

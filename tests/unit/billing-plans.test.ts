@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { PLANS, buildCheckoutUrl, getPaymentLink } from "@/lib/billing/plans";
+import { afterEach, describe, expect, it } from "vitest";
+import { PLANS, buildCheckoutUrl, getPaymentLink, getPriceId, resolvePlanFromPriceId } from "@/lib/billing/plans";
 
 const OFFICIAL_LINKS: Record<"ESSENTIEL" | "PILOTAGE" | "MAITRISE" | "PARTNER", string> = {
   ESSENTIEL: "https://buy.stripe.com/7sYbJ15FA2J75RMeQy5os00",
@@ -46,5 +46,55 @@ describe("buildCheckoutUrl", () => {
   it("returns null for non-payable plans", () => {
     expect(buildCheckoutUrl("DIAGNOSTIC", { organizationId: "org_1" })).toBeNull();
     expect(buildCheckoutUrl("ENTERPRISE", { organizationId: "org_1" })).toBeNull();
+  });
+});
+
+// Régression : le webhook Stripe (checkout.session.completed /
+// customer.subscription.updated) doit retrouver le plan payé à partir du
+// Price ID de la ligne achetée, faute de quoi Subscription.plan reste à sa
+// valeur par défaut (DIAGNOSTIC) même après un paiement réel — un client
+// payant PILOTAGE resterait plafonné aux limites du plan gratuit.
+describe("resolvePlanFromPriceId", () => {
+  const ENV_VARS = [
+    "STRIPE_PRICE_ID_ESSENTIEL",
+    "STRIPE_PRICE_ID_PILOTAGE",
+    "STRIPE_PRICE_ID_MAITRISE",
+    "STRIPE_PRICE_ID_PARTNER",
+  ] as const;
+  const originalValues = ENV_VARS.map((key) => [key, process.env[key]] as const);
+
+  afterEach(() => {
+    for (const [key, value] of originalValues) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  });
+
+  it("maps a configured Price ID back to its plan", () => {
+    process.env.STRIPE_PRICE_ID_PILOTAGE = "price_pilotage_test";
+    expect(getPriceId("PILOTAGE")).toEqual("price_pilotage_test");
+    expect(resolvePlanFromPriceId("price_pilotage_test")).toEqual("PILOTAGE");
+  });
+
+  it("returns null for an unknown Price ID rather than guessing a plan", () => {
+    process.env.STRIPE_PRICE_ID_PILOTAGE = "price_pilotage_test";
+    expect(resolvePlanFromPriceId("price_completely_unknown")).toBeNull();
+  });
+
+  it("returns null when no Price ID is configured at all", () => {
+    for (const key of ENV_VARS) delete process.env[key];
+    expect(resolvePlanFromPriceId("price_pilotage_test")).toBeNull();
+  });
+
+  it("returns null for a null/undefined Price ID", () => {
+    expect(resolvePlanFromPriceId(null)).toBeNull();
+    expect(resolvePlanFromPriceId(undefined)).toBeNull();
+  });
+
+  it("DIAGNOSTIC and ENTERPRISE never have a configurable Price ID (free / quote-based)", () => {
+    expect(PLANS.DIAGNOSTIC.priceIdEnvVar).toBeNull();
+    expect(PLANS.ENTERPRISE.priceIdEnvVar).toBeNull();
+    expect(getPriceId("DIAGNOSTIC")).toBeNull();
+    expect(getPriceId("ENTERPRISE")).toBeNull();
   });
 });

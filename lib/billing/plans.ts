@@ -23,6 +23,10 @@ export interface PlanDefinition {
   paymentLinkEnvVar: string | null;
   /** Valeur par défaut du Payment Link officiel (source de vérité si l'env var est absente). */
   defaultPaymentLink: string | null;
+  /** Nom de la variable d'environnement contenant le Price ID Stripe du plan
+   * (utilisé pour retrouver le plan souscrit à partir d'un événement webhook,
+   * les Payment Links ne portant aucune métadonnée de plan exploitable). */
+  priceIdEnvVar: string | null;
   limits: {
     sites: number | null; // null = illimité
     users: number | null; // null = illimité (politique d'usage raisonnable)
@@ -37,6 +41,7 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
     billingPeriod: null,
     paymentLinkEnvVar: null,
     defaultPaymentLink: null,
+    priceIdEnvVar: null,
     limits: { sites: 1, users: 3 },
   },
   ESSENTIEL: {
@@ -46,6 +51,7 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
     billingPeriod: "MONTH",
     paymentLinkEnvVar: "STRIPE_PAYMENT_LINK_ESSENTIEL",
     defaultPaymentLink: "https://buy.stripe.com/7sYbJ15FA2J75RMeQy5os00",
+    priceIdEnvVar: "STRIPE_PRICE_ID_ESSENTIEL",
     limits: { sites: 1, users: null },
   },
   PILOTAGE: {
@@ -55,6 +61,7 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
     billingPeriod: "MONTH",
     paymentLinkEnvVar: "STRIPE_PAYMENT_LINK_PILOTAGE",
     defaultPaymentLink: "https://buy.stripe.com/eVq28r1pkfvTeoi37Q5os01",
+    priceIdEnvVar: "STRIPE_PRICE_ID_PILOTAGE",
     limits: { sites: 3, users: null },
   },
   MAITRISE: {
@@ -64,6 +71,7 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
     billingPeriod: "MONTH",
     paymentLinkEnvVar: "STRIPE_PAYMENT_LINK_MAITRISE",
     defaultPaymentLink: "https://buy.stripe.com/aFa7sLc3Y1F3bc6eQy5os02",
+    priceIdEnvVar: "STRIPE_PRICE_ID_MAITRISE",
     limits: { sites: 10, users: null },
   },
   ENTERPRISE: {
@@ -73,6 +81,7 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
     billingPeriod: null,
     paymentLinkEnvVar: null,
     defaultPaymentLink: null,
+    priceIdEnvVar: null,
     limits: { sites: null, users: null },
   },
   PARTNER: {
@@ -82,6 +91,7 @@ export const PLANS: Record<PlanId, PlanDefinition> = {
     billingPeriod: "MONTH",
     paymentLinkEnvVar: "STRIPE_PAYMENT_LINK_PARTNER",
     defaultPaymentLink: "https://buy.stripe.com/bJe00j6JEcjH4NI7o65os03",
+    priceIdEnvVar: "STRIPE_PRICE_ID_PARTNER",
     limits: { sites: null, users: null },
   },
 };
@@ -94,6 +104,33 @@ export function getPaymentLink(planId: PlanId): string | null {
   if (!plan.paymentLinkEnvVar || !plan.defaultPaymentLink) return null;
   const fromEnv = process.env[plan.paymentLinkEnvVar];
   return fromEnv && fromEnv.trim().length > 0 ? fromEnv : plan.defaultPaymentLink;
+}
+
+/** Price ID Stripe configuré pour ce plan, ou `null` si non configuré (aucune
+ * valeur par défaut ici contrairement aux Payment Links : un Price ID est
+ * propre à chaque compte Stripe, il n'existe pas de "Price ID officiel"). */
+export function getPriceId(planId: PlanId): string | null {
+  const envVar = PLANS[planId].priceIdEnvVar;
+  if (!envVar) return null;
+  const value = process.env[envVar];
+  return value && value.trim().length > 0 ? value : null;
+}
+
+/**
+ * Retrouve le plan PREUVIA correspondant à un Price ID Stripe. Utilisé par le
+ * webhook pour appliquer le bon plan (donc les bonnes limites d'entitlement)
+ * après un paiement, puisque les Payment Links ne portent aucune métadonnée
+ * de plan exploitable dans l'événement — seul le Price ID de la ligne achetée
+ * permet ce rapprochement. Renvoie `null` si aucun plan ne correspond (Price
+ * ID inconnu ou variable d'environnement STRIPE_PRICE_ID_* non configurée) :
+ * dans ce cas l'appelant doit journaliser plutôt que d'assigner un plan au hasard.
+ */
+export function resolvePlanFromPriceId(priceId: string | null | undefined): PlanId | null {
+  if (!priceId) return null;
+  for (const planId of PAYABLE_PLAN_IDS) {
+    if (getPriceId(planId) === priceId) return planId;
+  }
+  return null;
 }
 
 /**
