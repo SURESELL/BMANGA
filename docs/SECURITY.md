@@ -126,13 +126,23 @@ Voir aussi `docs/STATUS.md`.
    vrai événement Stripe signé.
 4. Configurer l'API Sirene avec une vraie clé et valider le comportement
    réel (jamais appelée en conditions réelles dans cette session).
-5. Mettre en place CSP/HSTS. `npm audit` : la vulnérabilité critique
-   Next.js (DoS via Server Actions + exposition du serveur de dev) a été
-   corrigée dans cette session en passant `next` de 15.0.4 à 15.5.20 (même
-   version majeure, build/lint/tests/tests re-vérifiés après la montée de
-   version). Reste une vulnérabilité **critique** sur `vitest` (dépendance
-   de test uniquement, jamais expédiée en production) qui nécessiterait une
-   montée de version majeure (vitest 2 → 4) non tentée dans cette session par
+5. ~~Mettre en place CSP/HSTS.~~ **Fait** : `middleware.ts`/`lib/security-headers.ts`
+   posent sur chaque réponse `Content-Security-Policy` (nonce par requête,
+   `script-src 'nonce-...' 'strict-dynamic'` — pas de `unsafe-inline`/`unsafe-eval`
+   pour les scripts), `Strict-Transport-Security` (2 ans, sous-domaines,
+   preload), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`,
+   `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`
+   (caméra/micro/géoloc désactivés). Le nonce est propagé via `app/layout.tsx`
+   (`headers()`) pour que Next.js l'applique automatiquement à ses scripts
+   inline d'hydratation/streaming. Vérifié : build de production + navigation
+   Chromium headless sur `/`, `/login`, `/register` sans violation CSP ni
+   erreur d'hydratation (`tests/unit/security-headers.test.ts` couvre la
+   génération des en-têtes). `npm audit` : la vulnérabilité critique Next.js
+   (DoS via Server Actions + exposition du serveur de dev) a été corrigée
+   dans une session précédente en passant `next` de 15.0.4 à 15.5.20 (même
+   version majeure). Reste une vulnérabilité **critique** sur `vitest`
+   (dépendance de test uniquement, jamais expédiée en production) qui
+   nécessiterait une montée de version majeure (vitest 2 → 4) non tentée par
    prudence — à planifier avec sa propre vérification de compatibilité des
    tests plutôt que d'être faite à l'aveugle.
 6. Sauvegarde/restauration de la base : non testées dans cette session

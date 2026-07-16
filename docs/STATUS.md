@@ -69,6 +69,17 @@ du 2026-07-15).
 3. Aucune UI de gestion des mots de passe temporaires consultant → client (Phase 2 non commencée) : le champ `User.mustChangePassword`/`passwordExpiresAt` existe déjà côté schéma pour l'accueillir.
 4. `PREUVIA_DISCLAIMER`/mentions légales présentes dans le code mais pas d'audit juridique/RGPD/fiscal effectué (hors périmètre technique).
 
+## En-têtes de sécurité HTTP (CSP/HSTS)
+
+✅ `middleware.ts` + `lib/security-headers.ts` posent sur chaque réponse un
+CSP à nonce par requête (`script-src 'nonce-...' 'strict-dynamic'`, aucun
+`unsafe-inline`/`unsafe-eval` pour les scripts), HSTS 2 ans, `X-Frame-Options:
+DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`.
+Vérifié par build de production + navigation Chromium headless réelle
+(`/`, `/login`, `/register`) : aucune violation CSP, aucune erreur
+d'hydratation React. Testé unitairement (`tests/unit/security-headers.test.ts`).
+Voir `docs/SECURITY.md` §8.5.
+
 ## Résultats des commandes (fin de session)
 
 ```
