@@ -26,10 +26,16 @@ stade — le reste de l'espace consultant est un scaffold, voir
 Sirene (`siretSource`, `siretFetchedAt`, `siretConfirmedBy`,
 `siretConfirmedAt`).
 
-### Espace consultant (scaffold serveur, Phase 2 UI non commencée)
+### Espace consultant (boucle coeur opérationnelle, voir docs/STATUS.md Phase 2)
 `ConsultancyWorkspace`, `ConsultantClientAccess` (seule table qui relie un
 cabinet à ses clients — `@@unique([consultancyWorkspaceId, organizationId])`,
-statut `ACTIVE`/`REVOKED`).
+statut `ACTIVE`/`REVOKED`). `User.consultancyWorkspaceId` rattache un
+consultant à son cabinet (`organizationId` reste `null` pour ce rôle) ;
+`User.createdByConsultantId` trace quel consultant a provisionné le compte
+admin d'un client. Avant cette fonctionnalité, rien ne pouvait jamais
+peupler `consultancyWorkspaceId` — l'espace consultant était inaccessible en
+pratique (`POST /api/admin/consultancy-workspaces`, Super Admin uniquement,
+comble ce vide).
 
 ### Authentification & RBAC
 `User` (porte `passwordHash`, `mustChangePassword`, `passwordExpiresAt`,

@@ -6,7 +6,7 @@ import {
   ShieldCheck, LayoutDashboard, AlertTriangle, ClipboardList,
   BookOpen, CheckSquare, FileText, BarChart3, Settings,
   Building2, Users, HardHat, Leaf, Award, CreditCard,
-  ChevronDown, ChevronRight, Menu, X, FlaskConical, TrendingUp
+  ChevronDown, ChevronRight, Menu, X, FlaskConical, TrendingUp, Briefcase
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -14,6 +14,8 @@ import { useState } from "react";
 interface NavGroup {
   title: string;
   items: NavItem[];
+  /** Groupe affiché uniquement pour ces rôles ; omis = affiché à tous. */
+  roles?: string[];
 }
 
 interface NavItem {
@@ -22,6 +24,8 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
   badge?: string;
   children?: Omit<NavItem, "children">[];
+  /** Élément affiché uniquement pour ces rôles ; omis = affiché à tous. */
+  roles?: string[];
 }
 
 const NAV_GROUPS: NavGroup[] = [
@@ -77,6 +81,13 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    title: "Consultant",
+    roles: ["CONSULTANT", "SUPER_ADMIN"],
+    items: [
+      { label: "Portefeuille clients", href: "/consultant", icon: Briefcase },
+    ],
+  },
+  {
     title: "Administration",
     items: [
       { label: "Abonnement", href: "/billing", icon: CreditCard },
@@ -92,12 +103,22 @@ const NAV_GROUPS: NavGroup[] = [
       },
     ],
   },
+  {
+    title: "Super Admin PREUVIA",
+    roles: ["SUPER_ADMIN"],
+    items: [
+      { label: "Organisations", href: "/admin/organizations", icon: Building2 },
+      { label: "Cabinets consultants", href: "/admin/consultancy-workspaces", icon: Briefcase },
+    ],
+  },
 ];
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ role }: { role?: string }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const visibleGroups = NAV_GROUPS.filter((g) => !g.roles || (role && g.roles.includes(role)));
 
   return (
     <>
@@ -136,14 +157,16 @@ export function DashboardSidebar() {
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-1">
-          {NAV_GROUPS.map((group) => (
+          {visibleGroups.map((group) => (
             <div key={group.title}>
               {!collapsed && (
                 <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-white/30">
                   {group.title}
                 </p>
               )}
-              {group.items.map((item) => {
+              {group.items
+                .filter((item) => !item.roles || (role && item.roles.includes(role)))
+                .map((item) => {
                 const active = pathname === item.href || pathname.startsWith(item.href + "/");
                 const childrenActive = item.children?.some((c) => pathname === c.href || pathname.startsWith(c.href + "/"));
                 const expanded = active || childrenActive;

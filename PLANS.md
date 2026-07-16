@@ -40,13 +40,28 @@ mot de passe oublié, onboarding organisation/établissements/sites/unités pilo
 l'API Sirene, espace Super Admin PREUVIA (organisations, offres, webhooks, audit logs).
 Dépend de Phase 0 (0.4, 0.5, 0.8).
 
-## Phase 2 — Espace consultant multi-clients (non commencée)
+## Phase 2 — Espace consultant multi-clients (partiellement présent)
 
 UI complète `/consultant/*` : portefeuille, prospects/actifs/archivés, missions,
 échéances, rapports par client, équipe, modèles, marque blanche. Création d'accès
 clients avec mot de passe temporaire (génération, affichage unique, hachage immédiat,
 expiration 48h configurable, changement forcé à la première connexion, révocation).
 Dépend de Phase 0 (0.7) et Phase 1 (invitations e-mail).
+
+🟡 Fait : la boucle coeur bout-en-bout. `POST /api/admin/consultancy-workspaces`
+(Super Admin uniquement) provisionne un cabinet et son consultant principal
+avec mot de passe temporaire (48h, changement forcé) — avant cette route,
+rien ne pouvait jamais peupler `User.consultancyWorkspaceId`, l'espace
+consultant était donc inaccessible en pratique malgré le scaffold serveur de
+Phase 0. `/consultant` (portefeuille) permet de créer un client — avec cette
+fois un compte administrateur réel (mot de passe temporaire, même politique)
+pour ce client, ce qui manquait aussi — et de révoquer l'accès. Vérifié de
+bout en bout avec un vrai navigateur Chromium : provisionnement du cabinet →
+connexion consultant → changement de mot de passe forcé → création d'un
+client → connexion du nouvel administrateur client, sans aucune erreur.
+Reste à faire : prospects/actifs/archivés, missions, échéances, rapports par
+client, équipe, modèles, marque blanche — non commencés (pas de modèles de
+données pour ces entités).
 
 ## Phase 3 — DUERP et risques avancés (partiellement présent)
 

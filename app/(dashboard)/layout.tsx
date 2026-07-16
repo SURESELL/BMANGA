@@ -9,7 +9,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <DashboardSidebar />
+      <DashboardSidebar role={(session.user as { role?: string }).role} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <DashboardHeader user={session.user} />
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
