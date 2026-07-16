@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { formatDate } from "@/lib/utils";
 import { RISK_LEVELS, type RiskLevel } from "@/types";
+import { ValidateDuerpButton } from "./ValidateDuerpButton";
+import { ReviseDuerpButton } from "./ReviseDuerpButton";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -98,25 +100,15 @@ export default async function DUERPDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex items-start gap-3">
           <a
-            href={`/api/duerp/${id}/pdf`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/api/duerp/${id}/export/pdf`}
             className="inline-flex items-center gap-2 rounded-lg border border-[#145B8C] text-[#145B8C] px-4 py-2 text-sm font-semibold hover:bg-[#145B8C]/5 transition"
           >
             ↓ Exporter PDF
           </a>
-          <form action={`/api/duerp/${id}`} method="POST">
-            <input type="hidden" name="_method" value="PATCH" />
-            <input type="hidden" name="action" value="validate" />
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#145B8C] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
-            >
-              Valider / Clôturer
-            </button>
-          </form>
+          {!duerp.validatedAt && <ValidateDuerpButton duerpId={id} />}
+          {duerp.validatedAt && <ReviseDuerpButton duerpId={id} />}
         </div>
       </div>
 

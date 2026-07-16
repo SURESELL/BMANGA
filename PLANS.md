@@ -77,6 +77,36 @@ crée une révision), consultations, workflow de validation, exports PDF, métho
 cotation configurables (G×P, G×P×E, personnalisée) avec mention légale obligatoire.
 Dépend de Phase 0.
 
+✅ Fait (en plus de l'immuabilité/révision, voir plus haut) : export PDF réel
+via `GET /api/duerp/[id]/export/pdf` (généré à la demande avec `pdfkit`,
+jamais stocké — aucune intégration de stockage de fichiers dans ce dépôt),
+contenu structuré à partir des données réelles (organisation, risques,
+cotations brutes/résiduelles, niveaux), mention légale obligatoire en pied
+de chaque page. Vérifié en conditions réelles : PDF valide (2 pages,
+en-tête `%PDF`) téléchargé depuis un DUERP réel via un vrai navigateur.
+Au passage, deux boutons de la fiche DUERP qui n'avaient **jamais
+fonctionné** ont été trouvés et corrigés : « Exporter PDF » pointait vers
+une route qui n'a jamais existé (`/api/duerp/[id]/pdf`), et « Valider »
+soumettait un `<form method="POST">` avec un faux override
+`_method=PATCH` que rien dans le dépôt n'interprète — la route DUERP
+n'expose qu'un handler `PATCH`, ce bouton échouait donc systématiquement
+(405). Les deux sont remplacés par de vrais appels `fetch`, vérifiés en
+navigateur (validation puis création de révision fonctionnelles de bout en
+bout).
+
+**Non fait, délibérément** : méthodes de cotation configurables (G×P,
+G×P×E, personnalisée). Une évaluation a montré qu'une simple étiquette
+« méthode déclarée » sans faire varier le calcul serait pire que l'absence
+de la fonctionnalité — un professionnel HSE pourrait croire que
+l'application a réellement appliqué la méthode choisie alors que le calcul
+resterait inchangé (Fréquence × Gravité / Maîtrise, seule formule
+implémentée). Contraire à la règle absolue du projet contre les
+fonctionnalités simulées présentées comme opérationnelles. Nécessiterait
+une refonte du moteur de cotation (actuellement un score unique par
+`Risk`, alors qu'un même risque peut être lié à plusieurs versions de
+DUERP) — hors périmètre de cette session, à spécifier avec le propriétaire
+produit avant implémentation.
+
 ## Phase 4 — Prévention opérationnelle (partiellement présent)
 
 Fiches de poste, fiches sécurité, matrice de compétences, VGP/vérifications avec mention

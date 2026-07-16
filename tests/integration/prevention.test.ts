@@ -10,7 +10,7 @@ const suffix = `test-${Date.now()}`;
 let orgA: { id: string };
 let orgB: { id: string };
 let sheetA: { id: string };
-let commA: { id: string };
+let commA: Awaited<ReturnType<typeof db.safetyCommunication.create>>;
 
 beforeAll(async () => {
   orgA = await db.organization.create({ data: { name: `Prevention Org A ${suffix}`, slug: `prevention-org-a-${suffix}` } });
