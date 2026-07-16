@@ -70,12 +70,12 @@ export default async function TrainingDetailPage({ params }: { params: Promise<{
             <div className="flex gap-2 shrink-0">
               {!enrollment ? (
                 <form action={`/api/training/${id}/enroll`} method="POST">
-                  <button type="submit" className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+                  <button type="submit" className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
                     S&apos;inscrire
                   </button>
                 </form>
               ) : (
-                <Link href={`/training/${id}/learn`} className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors flex items-center gap-1.5">
+                <Link href={`/training/${id}/learn`} className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors flex items-center gap-1.5">
                   <Play className="w-3.5 h-3.5" /> Continuer
                 </Link>
               )}
@@ -126,13 +126,13 @@ export default async function TrainingDetailPage({ params }: { params: Promise<{
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <h2 className="font-semibold text-gray-900">Contenu de la formation</h2>
-              <Link href={`/training/${id}/modules/new`} className="flex items-center gap-1 text-xs text-[#1E3A5F] font-medium hover:underline">
+              <Link href={`/training/${id}/modules/new`} className="flex items-center gap-1 text-xs text-[#145B8C] font-medium hover:underline">
                 <PlusCircle className="w-3.5 h-3.5" /> Ajouter un module
               </Link>
             </div>
             {course.modules.length === 0 ? (
               <div className="px-5 py-8 text-center text-gray-400 text-sm">
-                Aucun module créé. <Link href={`/training/${id}/modules/new`} className="text-[#1E3A5F] hover:underline">Ajouter un module</Link>
+                Aucun module créé. <Link href={`/training/${id}/modules/new`} className="text-[#145B8C] hover:underline">Ajouter un module</Link>
               </div>
             ) : (
               <ul className="divide-y divide-gray-100">
@@ -152,7 +152,7 @@ export default async function TrainingDetailPage({ params }: { params: Promise<{
                           {mod.duration && <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {mod.duration} min</span>}
                         </div>
                       </div>
-                      <Link href={`/training/${id}/modules/${mod.id}`} className="text-xs text-[#1E3A5F] hover:underline shrink-0">
+                      <Link href={`/training/${id}/modules/${mod.id}`} className="text-xs text-[#145B8C] hover:underline shrink-0">
                         {enrollment ? "Accéder" : "Aperçu"}
                       </Link>
                     </li>
@@ -169,7 +169,7 @@ export default async function TrainingDetailPage({ params }: { params: Promise<{
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
               <h3 className="font-semibold text-gray-900 text-sm">Sessions planifiées</h3>
-              <Link href={`/training/${id}/sessions/new`} className="text-xs text-[#1E3A5F] hover:underline">+ Session</Link>
+              <Link href={`/training/${id}/sessions/new`} className="text-xs text-[#145B8C] hover:underline">+ Session</Link>
             </div>
             {course.sessions.length === 0 ? (
               <p className="px-4 py-4 text-xs text-gray-400 text-center">Aucune session planifiée</p>

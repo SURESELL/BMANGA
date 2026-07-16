@@ -105,7 +105,7 @@ export default function TMDNewPage() {
 
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <Truck className="w-5 h-5 text-[#1E3A5F]" />
+          <Truck className="w-5 h-5 text-[#145B8C]" />
           <p className="text-sm font-medium text-gray-700">Identification de la matière</p>
         </div>
 
@@ -120,7 +120,7 @@ export default function TMDNewPage() {
               pattern="\d{4}"
               maxLength={4}
               placeholder="Ex: 1203"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
             <p className="text-xs text-gray-400 mt-1">4 chiffres (ex : 1203 pour essence)</p>
           </div>
@@ -133,7 +133,7 @@ export default function TMDNewPage() {
               name="transportMode"
               required
               defaultValue="ROAD_ADR"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               {TRANSPORT_MODES.map((m) => (
                 <option key={m.value} value={m.value}>{m.label}</option>
@@ -151,7 +151,7 @@ export default function TMDNewPage() {
               minLength={2}
               maxLength={300}
               placeholder="Ex: ESSENCE POUR MOTEURS"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -162,7 +162,7 @@ export default function TMDNewPage() {
             <select
               name="hazardClass"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Sélectionner...</option>
               {HAZARD_CLASSES.map((c) => (
@@ -175,7 +175,7 @@ export default function TMDNewPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Groupe d&apos;emballage</label>
             <select
               name="packagingGroup"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               {PACKAGING_GROUPS.map((g) => (
                 <option key={g.value} value={g.value}>{g.label}</option>
@@ -191,7 +191,7 @@ export default function TMDNewPage() {
               min="0"
               step="any"
               placeholder="Ex: 500"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -200,7 +200,7 @@ export default function TMDNewPage() {
             <input
               name="unit"
               placeholder="Ex: L, kg, t"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -210,7 +210,7 @@ export default function TMDNewPage() {
               name="notes"
               rows={3}
               placeholder="Précautions particulières, conditions de stockage, références documentaires..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -223,7 +223,7 @@ export default function TMDNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Enregistrement..." : "Ajouter la matière"}
           </button>

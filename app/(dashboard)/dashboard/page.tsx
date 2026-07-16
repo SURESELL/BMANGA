@@ -5,7 +5,7 @@ import {
   CheckCircle, TrendingUp, TrendingDown, Clock, FileWarning
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
-import { RISK_LEVELS } from "@/types";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -134,7 +134,7 @@ export default async function DashboardPage() {
         <div className="bg-white border border-gray-200 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-900">Incidents récents</h3>
-            <a href="/incidents" className="text-xs text-[#1E3A5F] hover:underline">Voir tout</a>
+            <Link href="/incidents" className="text-xs text-[#145B8C] hover:underline">Voir tout</Link>
           </div>
           {recentIncidents.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 text-gray-400">
@@ -163,7 +163,7 @@ export default async function DashboardPage() {
         <div className="bg-white border border-gray-200 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-900">Actions en retard</h3>
-            <a href="/action-plans" className="text-xs text-[#1E3A5F] hover:underline">Voir tout</a>
+            <Link href="/action-plans" className="text-xs text-[#145B8C] hover:underline">Voir tout</Link>
           </div>
           {overdueActions.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 text-gray-400">
@@ -189,10 +189,10 @@ export default async function DashboardPage() {
       {/* Quick links */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {QUICK_LINKS.map((link) => (
-          <a
+          <Link
             key={link.href}
             href={link.href}
-            className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl p-4 hover:border-[#1E3A5F] hover:shadow-sm transition-all group"
+            className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl p-4 hover:border-[#145B8C] hover:shadow-sm transition-all group"
           >
             <div className={`w-9 h-9 rounded-lg ${link.bg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform`}>
               <link.icon className={`w-4 h-4 ${link.color}`} />
@@ -201,7 +201,7 @@ export default async function DashboardPage() {
               <p className="text-sm font-medium text-gray-900">{link.label}</p>
               <p className="text-xs text-gray-400">{link.description}</p>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </div>

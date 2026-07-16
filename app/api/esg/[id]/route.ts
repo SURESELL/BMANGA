@@ -1,28 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
 
-  const indicator = await db.eSGIndicator.findFirst({ where: { id: params.id, organizationId: orgId } });
+  const indicator = await db.eSGIndicator.findFirst({ where: { id: id, organizationId: orgId } });
   if (!indicator) return NextResponse.json({ error: "Indicateur introuvable" }, { status: 404 });
 
   return NextResponse.json(indicator);
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
 
-  const existing = await db.eSGIndicator.findFirst({ where: { id: params.id, organizationId: orgId } });
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "esg", "update");
+  if (forbidden) return forbidden;
+
+  const existing = await db.eSGIndicator.findFirst({ where: { id: id, organizationId: orgId } });
   if (!existing) return NextResponse.json({ error: "Indicateur introuvable" }, { status: 404 });
 
   let body: { notes?: string; actual?: number; status?: string };
@@ -33,7 +40,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   }
 
   const updated = await db.eSGIndicator.update({
-    where: { id: params.id },
+    where: { id: id },
     data: {
       ...(body.notes !== undefined && { notes: body.notes }),
       ...(body.actual !== undefined && { actual: body.actual }),
@@ -44,16 +51,20 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
 
-  const existing = await db.eSGIndicator.findFirst({ where: { id: params.id, organizationId: orgId } });
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "esg", "delete");
+  if (forbidden) return forbidden;
+
+  const existing = await db.eSGIndicator.findFirst({ where: { id: id, organizationId: orgId } });
   if (!existing) return NextResponse.json({ error: "Indicateur introuvable" }, { status: 404 });
 
-  await db.eSGIndicator.delete({ where: { id: params.id } });
+  await db.eSGIndicator.delete({ where: { id: id } });
 
   return NextResponse.json({ success: true });
 }

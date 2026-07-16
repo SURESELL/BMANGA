@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Clock, ChevronRight, ChevronLeft, CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
@@ -17,7 +17,6 @@ type Phase = "intro" | "quiz" | "result";
 
 export default function QuizPlayerPage() {
   const { id } = useParams<{ id: string }>();
-  const router = useRouter();
 
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [phase, setPhase] = useState<Phase>("intro");
@@ -68,7 +67,7 @@ export default function QuizPlayerPage() {
 
   if (loading) return (
     <div className="flex items-center justify-center h-64">
-      <Loader2 className="w-6 h-6 animate-spin text-[#1E3A5F]" />
+      <Loader2 className="w-6 h-6 animate-spin text-[#145B8C]" />
     </div>
   );
 
@@ -92,22 +91,22 @@ export default function QuizPlayerPage() {
 
         <div className="grid grid-cols-3 gap-4 mb-8 text-sm">
           <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-2xl font-bold text-[#1E3A5F]">{totalQ}</p>
+            <p className="text-2xl font-bold text-[#145B8C]">{totalQ}</p>
             <p className="text-gray-500 text-xs mt-0.5">Questions</p>
           </div>
           <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-2xl font-bold text-[#1E3A5F]">{quiz.passingScore}%</p>
+            <p className="text-2xl font-bold text-[#145B8C]">{quiz.passingScore}%</p>
             <p className="text-gray-500 text-xs mt-0.5">Score requis</p>
           </div>
           <div className="bg-gray-50 rounded-lg p-3">
-            <p className="text-2xl font-bold text-[#1E3A5F]">{quiz.timeLimit ?? "∞"}</p>
+            <p className="text-2xl font-bold text-[#145B8C]">{quiz.timeLimit ?? "∞"}</p>
             <p className="text-gray-500 text-xs mt-0.5">{quiz.timeLimit ? "minutes" : "Illimité"}</p>
           </div>
         </div>
 
         <button
           onClick={() => setPhase("quiz")}
-          className="w-full bg-[#1E3A5F] text-white py-3 rounded-xl font-semibold text-base hover:bg-[#0D1B2A] transition-colors"
+          className="w-full bg-[#145B8C] text-white py-3 rounded-xl font-semibold text-base hover:bg-[#0B1F33] transition-colors"
         >
           Commencer le quiz
         </button>
@@ -150,7 +149,7 @@ export default function QuizPlayerPage() {
           </button>
           <Link
             href={`/training/${quiz.module.course.id}`}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors text-center"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors text-center"
           >
             Retour à la formation
           </Link>
@@ -174,7 +173,7 @@ export default function QuizPlayerPage() {
           )}
         </div>
         <div className="w-full bg-gray-100 rounded-full h-2">
-          <div className="bg-[#1E3A5F] h-2 rounded-full transition-all" style={{ width: `${progressPct}%` }} />
+          <div className="bg-[#145B8C] h-2 rounded-full transition-all" style={{ width: `${progressPct}%` }} />
         </div>
       </div>
 
@@ -191,7 +190,7 @@ export default function QuizPlayerPage() {
                 onClick={() => setAnswers((prev) => ({ ...prev, [question.id]: answer.id }))}
                 className={`w-full text-left px-4 py-3 rounded-xl border-2 text-sm transition-all ${
                   selected
-                    ? "border-[#1E3A5F] bg-blue-50 text-[#1E3A5F] font-medium"
+                    ? "border-[#145B8C] bg-blue-50 text-[#145B8C] font-medium"
                     : "border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50"
                 }`}
               >
@@ -217,7 +216,7 @@ export default function QuizPlayerPage() {
           <button
             onClick={() => setCurrentQ((q) => q + 1)}
             disabled={!answers[question.id]}
-            className="flex items-center gap-1.5 bg-[#1E3A5F] text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center gap-1.5 bg-[#145B8C] text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Suivant <ChevronRight className="w-4 h-4" />
           </button>

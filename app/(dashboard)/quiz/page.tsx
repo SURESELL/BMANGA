@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { HelpCircle, CheckCircle, Clock, PlusCircle } from "lucide-react";
+import { HelpCircle, CheckCircle, Clock } from "lucide-react";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 
@@ -40,7 +40,7 @@ export default async function QuizPage() {
           <HelpCircle className="w-10 h-10 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500 font-medium">Aucun quiz disponible</p>
           <p className="text-sm text-gray-400 mt-1">Les quiz sont créés dans les modules de formation</p>
-          <Link href="/training" className="inline-flex items-center gap-1.5 mt-4 text-sm text-[#1E3A5F] font-medium hover:underline">
+          <Link href="/training" className="inline-flex items-center gap-1.5 mt-4 text-sm text-[#145B8C] font-medium hover:underline">
             Voir les formations
           </Link>
         </div>
@@ -51,7 +51,7 @@ export default async function QuizPage() {
             const attempted = quiz._count.attempts > 0;
 
             return (
-              <div key={quiz.id} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-[#1E3A5F] hover:shadow-sm transition-all">
+              <div key={quiz.id} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-[#145B8C] hover:shadow-sm transition-all">
                 <div className="flex items-start gap-3 mb-3">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${attempted && lastAttempt?.passed ? "bg-green-100" : attempted ? "bg-red-100" : "bg-blue-100"}`}>
                     <HelpCircle className={`w-5 h-5 ${attempted && lastAttempt?.passed ? "text-green-600" : attempted ? "text-red-600" : "text-blue-600"}`} />
@@ -95,7 +95,7 @@ export default async function QuizPage() {
 
                 <Link
                   href={`/quiz/${quiz.id}`}
-                  className="block w-full text-center bg-[#1E3A5F] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+                  className="block w-full text-center bg-[#145B8C] text-white py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
                 >
                   {attempted ? (lastAttempt?.passed ? "Refaire le quiz" : "Réessayer") : "Commencer"}
                 </Link>

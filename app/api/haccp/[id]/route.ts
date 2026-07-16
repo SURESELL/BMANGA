@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac";
+import { omitProtectedFields } from "@/lib/api-utils";
+import type { UserRole } from "@/types";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
@@ -10,13 +14,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
 
   const plan = await db.hACCPPlan.findFirst({
-    where: { id: params.id, organizationId: orgId },
+    where: { id: id, organizationId: orgId },
     include: { ccps: true, prpos: true },
   });
   if (plan) return NextResponse.json({ ...plan, resourceType: "plan" });
 
   const ccp = await db.cCP.findFirst({
-    where: { id: params.id },
+    where: { id: id },
     include: { plan: { select: { organizationId: true, name: true } } },
   });
   if (ccp && ccp.plan.organizationId === orgId) {
@@ -28,11 +32,15 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "haccp", "update");
+  if (forbidden) return forbidden;
 
   let body: Record<string, unknown>;
   try {
@@ -41,24 +49,29 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Corps invalide" }, { status: 400 });
   }
 
-  const { resourceType, ...fields } = body;
+  const { resourceType, ...rawFields } = body;
+  // organizationId/planId ne doivent jamais être assignables depuis le corps
+  // de la requête — sans ce filtre, un appelant pourrait réassigner sa propre
+  // ressource à une AUTRE organisation (ou un CCP à un plan d'une autre
+  // organisation) en incluant simplement le champ dans le PATCH.
+  const fields = omitProtectedFields(rawFields, ["planId"]);
 
   if (resourceType === "plan") {
-    const existing = await db.hACCPPlan.findFirst({ where: { id: params.id, organizationId: orgId } });
+    const existing = await db.hACCPPlan.findFirst({ where: { id: id, organizationId: orgId } });
     if (!existing) return NextResponse.json({ error: "Plan HACCP introuvable" }, { status: 404 });
-    const updated = await db.hACCPPlan.update({ where: { id: params.id }, data: fields });
+    const updated = await db.hACCPPlan.update({ where: { id: id }, data: fields });
     return NextResponse.json({ ...updated, resourceType: "plan" });
   }
 
   if (resourceType === "ccp") {
     const existing = await db.cCP.findFirst({
-      where: { id: params.id },
+      where: { id: id },
       include: { plan: { select: { organizationId: true } } },
     });
     if (!existing || existing.plan.organizationId !== orgId) {
       return NextResponse.json({ error: "CCP introuvable" }, { status: 404 });
     }
-    const updated = await db.cCP.update({ where: { id: params.id }, data: fields });
+    const updated = await db.cCP.update({ where: { id: id }, data: fields });
     return NextResponse.json({ ...updated, resourceType: "ccp" });
   }
 
@@ -66,24 +79,28 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
 
-  const plan = await db.hACCPPlan.findFirst({ where: { id: params.id, organizationId: orgId } });
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "haccp", "delete");
+  if (forbidden) return forbidden;
+
+  const plan = await db.hACCPPlan.findFirst({ where: { id: id, organizationId: orgId } });
   if (plan) {
-    await db.hACCPPlan.delete({ where: { id: params.id } });
+    await db.hACCPPlan.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   }
 
   const ccp = await db.cCP.findFirst({
-    where: { id: params.id },
+    where: { id: id },
     include: { plan: { select: { organizationId: true } } },
   });
   if (ccp && ccp.plan.organizationId === orgId) {
-    await db.cCP.delete({ where: { id: params.id } });
+    await db.cCP.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   }
 

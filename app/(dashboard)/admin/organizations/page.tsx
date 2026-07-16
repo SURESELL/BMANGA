@@ -13,7 +13,7 @@ type Org = {
 };
 
 function StatusBadge({ status }: { status: string }) {
-  const active = status === "ACTIVE" || status === "TRIALING";
+  const active = status === "ACTIVE";
   return (
     <span
       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
@@ -28,10 +28,12 @@ function StatusBadge({ status }: { status: string }) {
 
 function PlanBadge({ plan }: { plan: string }) {
   const colors: Record<string, string> = {
-    FREE: "bg-gray-100 text-gray-600",
-    STARTER: "bg-blue-100 text-blue-700",
-    PROFESSIONAL: "bg-purple-100 text-purple-700",
-    ENTERPRISE: "bg-[#1E3A5F] text-white",
+    DIAGNOSTIC: "bg-gray-100 text-gray-600",
+    ESSENTIEL: "bg-blue-100 text-blue-700",
+    PILOTAGE: "bg-indigo-100 text-indigo-700",
+    MAITRISE: "bg-purple-100 text-purple-700",
+    ENTERPRISE: "bg-[#145B8C] text-white",
+    PARTNER: "bg-[#6D28D9] text-white",
   };
   return (
     <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${colors[plan] ?? "bg-gray-100 text-gray-600"}`}>
@@ -70,23 +72,23 @@ export default function AdminOrganizationsPage() {
 
   const totalOrgs = orgs.length;
   const activeOrgs = orgs.filter(
-    (o) => o.subscription?.status === "ACTIVE" || o.subscription?.status === "TRIALING"
+    (o) => o.subscription?.status === "ACTIVE"
   ).length;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#1E3A5F]">Organisations</h1>
+        <h1 className="text-2xl font-bold text-[#145B8C]">Organisations</h1>
         <p className="text-sm text-gray-500 mt-0.5">Gestion multi-tenant</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-white border border-gray-200 rounded-xl p-5 flex items-center gap-4">
-          <div className="p-3 bg-[#1E3A5F]/10 rounded-lg">
-            <Building2 className="w-5 h-5 text-[#1E3A5F]" />
+          <div className="p-3 bg-[#145B8C]/10 rounded-lg">
+            <Building2 className="w-5 h-5 text-[#145B8C]" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-[#1E3A5F]">{loading ? "—" : totalOrgs}</div>
+            <div className="text-2xl font-bold text-[#145B8C]">{loading ? "—" : totalOrgs}</div>
             <div className="text-xs text-gray-500">Total organisations</div>
           </div>
         </div>
@@ -133,9 +135,9 @@ export default function AdminOrganizationsPage() {
             ) : (
               orgs.map((org) => (
                 <tr key={org.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-[#1E3A5F]">{org.name}</td>
+                  <td className="px-6 py-4 font-medium text-[#145B8C]">{org.name}</td>
                   <td className="px-6 py-4">
-                    <PlanBadge plan={org.subscription?.plan ?? "FREE"} />
+                    <PlanBadge plan={org.subscription?.plan ?? "DIAGNOSTIC"} />
                   </td>
                   <td className="px-6 py-4 text-center text-gray-700">{org._count.users}</td>
                   <td className="px-6 py-4 text-gray-600">
@@ -147,7 +149,7 @@ export default function AdminOrganizationsPage() {
                   <td className="px-6 py-4 text-right">
                     <Link
                       href={`/admin/organizations/${org.id}`}
-                      className="text-xs text-[#1E3A5F] font-semibold hover:underline"
+                      className="text-xs text-[#145B8C] font-semibold hover:underline"
                     >
                       Voir détail →
                     </Link>

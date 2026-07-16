@@ -1,4 +1,4 @@
-// NORMIA - Core TypeScript Types
+// PREUVIA DUERP - Core TypeScript Types
 
 export type UserRole =
   | "SUPER_ADMIN"
@@ -103,12 +103,17 @@ export const COMPLIANCE_LEVELS: Record<ComplianceLevel, { label: string; color: 
   TO_EVALUATE:     { label: "À évaluer",         color: "text-blue-600",   bg: "bg-blue-100" },
 };
 
+// Métadonnées d'affichage pour l'UI uniquement. Les Payment Links Stripe
+// officiels et les limites appliquées côté serveur vivent exclusivement dans
+// lib/billing/plans.ts (source de vérité unique — voir STRIPE_PAYMENT_LINKS.md).
 export const SUBSCRIPTION_PLANS = {
-  FREE:         { label: "Gratuit",       price: 0,   seats: 3,  modules: ["core", "duerp"] },
-  STARTER:      { label: "Starter",       price: 49,  seats: 10, modules: ["core", "duerp", "incidents", "documents"] },
-  PROFESSIONAL: { label: "Professionnel", price: 149, seats: 50, modules: ["core", "duerp", "incidents", "documents", "lms", "audits", "qualiopi"] },
-  ENTERPRISE:   { label: "Entreprise",    price: 399, seats: -1, modules: ["all"] },
+  DIAGNOSTIC: { label: "Diagnostic",       price: 0,   seats: 3,  modules: ["core", "duerp"] },
+  ESSENTIEL:  { label: "Essentiel",        price: 29,  seats: -1, modules: ["core", "duerp", "actions", "documents"] },
+  PILOTAGE:   { label: "Pilotage",         price: 59,  seats: -1, modules: ["core", "duerp", "actions", "documents", "incidents", "epi", "verifications", "formations"] },
+  MAITRISE:   { label: "Maîtrise",         price: 119, seats: -1, modules: ["core", "duerp", "actions", "documents", "incidents", "epi", "verifications", "formations", "cse", "api"] },
+  ENTERPRISE: { label: "Enterprise",       price: null, seats: -1, modules: ["all"] },
+  PARTNER:    { label: "PREUVIA Partner",  price: 249, seats: -1, modules: ["all", "consultant"] },
 } as const;
 
-export const NORMIA_DISCLAIMER =
+export const PREUVIA_DISCLAIMER =
   "⚠️ À vérifier avec la source officielle applicable et validation expert avant tout usage juridique ou réglementaire.";

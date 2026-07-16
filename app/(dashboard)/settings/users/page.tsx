@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { UserPlus, Trash2, Shield, Mail, ArrowLeft } from "lucide-react";
+import { UserPlus, Shield, Mail, ArrowLeft } from "lucide-react";
 
 const ROLES = [
   { value: "VIEWER",       label: "Lecteur",           description: "Accès lecture seule" },
@@ -33,13 +33,20 @@ interface OrgUser {
   role: string;
 }
 
+interface InviteResult {
+  email: string;
+  role: string;
+  temporaryPassword: string;
+  temporaryPasswordExpiresAt: string;
+}
+
 export default function SettingsUsersPage() {
   const [users, setUsers] = useState<OrgUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [inviting, setInviting] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formError, setFormError] = useState("");
-  const [formSuccess, setFormSuccess] = useState("");
+  const [inviteResult, setInviteResult] = useState<InviteResult | null>(null);
 
   useEffect(() => {
     fetch("/api/users/org")
@@ -52,7 +59,7 @@ export default function SettingsUsersPage() {
     e.preventDefault();
     setInviting(true);
     setFormError("");
-    setFormSuccess("");
+    setInviteResult(null);
 
     const fd = new FormData(e.currentTarget);
     try {
@@ -70,10 +77,9 @@ export default function SettingsUsersPage() {
       if (!res.ok) {
         setFormError(data.error ?? "Erreur lors de l'invitation");
       } else {
-        setFormSuccess(`Utilisateur ${data.email} ajouté avec le rôle ${ROLES.find((r) => r.value === data.role)?.label ?? data.role}.`);
-        setUsers((prev) => [...prev, data]);
+        setInviteResult(data);
+        setUsers((prev) => [...prev, { id: data.id, name: null, email: data.email, role: data.role }]);
         (e.target as HTMLFormElement).reset();
-        setTimeout(() => { setShowForm(false); setFormSuccess(""); }, 2000);
       }
     } catch {
       setFormError("Erreur réseau");
@@ -94,15 +100,48 @@ export default function SettingsUsersPage() {
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+          className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           <UserPlus className="w-4 h-4" /> Inviter
         </button>
       </div>
 
+      {/* One-time temporary password display */}
+      {inviteResult && (
+        <div className="bg-amber-50 border border-amber-300 rounded-xl p-5 space-y-2">
+          <p className="text-sm font-semibold text-amber-900">
+            Compte créé pour {inviteResult.email} — mot de passe temporaire (affiché une seule fois)
+          </p>
+          <div className="flex items-center gap-2">
+            <code className="flex-1 bg-white border border-amber-300 rounded-lg px-3 py-2 text-sm font-mono text-gray-900 select-all">
+              {inviteResult.temporaryPassword}
+            </code>
+            <button
+              type="button"
+              onClick={() => navigator.clipboard.writeText(inviteResult.temporaryPassword)}
+              className="px-3 py-2 border border-amber-300 rounded-lg text-xs font-medium text-amber-900 hover:bg-amber-100 transition-colors"
+            >
+              Copier
+            </button>
+          </div>
+          <p className="text-xs text-amber-800">
+            Transmettez ce mot de passe à l&apos;utilisateur par un canal différent de cette page (pas par e-mail).
+            Il expire le {new Date(inviteResult.temporaryPasswordExpiresAt).toLocaleString("fr-FR")} et devra être changé à la première connexion.
+            Il ne sera plus jamais affiché.
+          </p>
+          <button
+            type="button"
+            onClick={() => { setInviteResult(null); setShowForm(false); }}
+            className="text-xs text-amber-900 underline hover:no-underline"
+          >
+            J&apos;ai noté le mot de passe, fermer
+          </button>
+        </div>
+      )}
+
       {/* Invite form */}
       {showForm && (
-        <form onSubmit={handleInvite} className="bg-white border border-[#1E3A5F] rounded-xl p-5 space-y-4">
+        <form onSubmit={handleInvite} className="bg-white border border-[#145B8C] rounded-xl p-5 space-y-4">
           <p className="text-sm font-semibold text-gray-800">Inviter un utilisateur</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="md:col-span-1">
@@ -110,7 +149,7 @@ export default function SettingsUsersPage() {
               <input
                 name="name"
                 placeholder="Jean Dupont"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div className="md:col-span-1">
@@ -120,7 +159,7 @@ export default function SettingsUsersPage() {
                 type="email"
                 required
                 placeholder="jean.dupont@exemple.fr"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div>
@@ -129,7 +168,7 @@ export default function SettingsUsersPage() {
                 name="role"
                 required
                 defaultValue="EMPLOYEE"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
               >
                 {ROLES.map((r) => (
                   <option key={r.value} value={r.value}>{r.label}</option>
@@ -139,13 +178,12 @@ export default function SettingsUsersPage() {
           </div>
 
           {formError && <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded p-2">{formError}</p>}
-          {formSuccess && <p className="text-xs text-green-700 bg-green-50 border border-green-200 rounded p-2">{formSuccess}</p>}
 
           <div className="flex gap-2">
             <button
               type="submit"
               disabled={inviting}
-              className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+              className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
             >
               {inviting ? "Invitation..." : "Confirmer l'invitation"}
             </button>
@@ -177,7 +215,7 @@ export default function SettingsUsersPage() {
           <div className="divide-y divide-gray-100">
             {users.map((user) => (
               <div key={user.id} className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition-colors">
-                <div className="w-9 h-9 rounded-full bg-[#1E3A5F] flex items-center justify-center text-white text-sm font-semibold shrink-0">
+                <div className="w-9 h-9 rounded-full bg-[#145B8C] flex items-center justify-center text-white text-sm font-semibold shrink-0">
                   {(user.name ?? user.email).charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">

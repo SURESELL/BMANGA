@@ -72,7 +72,7 @@ export default function EnvironmentNewPage() {
               name="activity"
               required
               placeholder="Ex: Nettoyage des machines, Utilisation de solvants..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -84,7 +84,7 @@ export default function EnvironmentNewPage() {
               name="aspect"
               required
               placeholder="Ex: Rejet de déchets chimiques liquides, Consommation d'énergie..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -96,7 +96,7 @@ export default function EnvironmentNewPage() {
               name="impact"
               required
               placeholder="Ex: Pollution des eaux souterraines, Épuisement des ressources..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -107,7 +107,7 @@ export default function EnvironmentNewPage() {
             <select
               name="impactType"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Sélectionner...</option>
               <option value="AIR">Air</option>
@@ -125,7 +125,7 @@ export default function EnvironmentNewPage() {
             <select
               name="significance"
               defaultValue="NOT_SIGNIFICANT"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="NOT_SIGNIFICANT">Non significatif</option>
               <option value="SIGNIFICANT">Significatif</option>
@@ -138,7 +138,7 @@ export default function EnvironmentNewPage() {
               name="controlMeasures"
               rows={3}
               placeholder="Procédures, équipements, certifications en place..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -151,7 +151,7 @@ export default function EnvironmentNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Enregistrement..." : "Enregistrer l'aspect"}
           </button>

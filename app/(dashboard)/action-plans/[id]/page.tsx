@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { ChevronRight, CheckCircle, Clock, AlertTriangle, Edit2, Save, X } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import Link from "next/link";
 
 const STATUS_CONFIG = {
   TODO:        { label: "À faire",   bg: "bg-blue-100",   color: "text-blue-700",   icon: Clock },
@@ -29,14 +30,13 @@ interface ActionPlan {
   priority: number; status: string; notes?: string; budget?: number;
   dueDate?: string; completedAt?: string; createdAt: string;
   owner?: { name: string | null; email: string } | null;
-  risk?: { title: string; riskLevel: string } | null;
+  risk?: { hazardDescription: string; riskLevel: string } | null;
   incident?: { title: string; severity: string } | null;
   audit?: { title: string; type: string } | null;
 }
 
 export default function ActionPlanDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const router = useRouter();
   const [ap, setAp] = useState<ActionPlan | null>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
@@ -91,7 +91,7 @@ export default function ActionPlanDetailPage() {
       {/* Breadcrumb */}
       <div>
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-          <a href="/action-plans" className="hover:underline">Plans d&apos;action</a>
+          <Link href="/action-plans" className="hover:underline">Plans d&apos;action</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-gray-700 font-medium truncate max-w-xs">{ap.title}</span>
         </div>
@@ -142,7 +142,7 @@ export default function ActionPlanDetailPage() {
       {(ap.risk || ap.incident || ap.audit) && (
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
           <p className="text-xs font-medium text-blue-700 mb-1">Source</p>
-          {ap.risk && <p className="text-sm text-blue-800">Risque : {ap.risk.title} ({ap.risk.riskLevel})</p>}
+          {ap.risk && <p className="text-sm text-blue-800">Risque : {ap.risk.hazardDescription} ({ap.risk.riskLevel})</p>}
           {ap.incident && <p className="text-sm text-blue-800">Incident : {ap.incident.title}</p>}
           {ap.audit && <p className="text-sm text-blue-800">Audit : {ap.audit.title}</p>}
         </div>
@@ -153,7 +153,7 @@ export default function ActionPlanDetailPage() {
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold text-gray-700">Notes de suivi</p>
           {!editing ? (
-            <button onClick={() => setEditing(true)} className="flex items-center gap-1 text-xs text-[#1E3A5F] hover:underline">
+            <button onClick={() => setEditing(true)} className="flex items-center gap-1 text-xs text-[#145B8C] hover:underline">
               <Edit2 className="w-3 h-3" /> Modifier
             </button>
           ) : (
@@ -172,7 +172,7 @@ export default function ActionPlanDetailPage() {
             value={editNotes}
             onChange={(e) => setEditNotes(e.target.value)}
             rows={4}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
           />
         ) : (
           <p className="text-sm text-gray-600 whitespace-pre-wrap">{ap.notes || <span className="text-gray-400 italic">Aucune note</span>}</p>

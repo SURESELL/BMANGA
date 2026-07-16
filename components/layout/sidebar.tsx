@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import {
   ShieldCheck, LayoutDashboard, AlertTriangle, ClipboardList,
   BookOpen, CheckSquare, FileText, BarChart3, Settings,
-  Building2, Users, HardHat, Leaf, Truck, Award, CreditCard,
-  ChevronDown, ChevronRight, Menu, X, FlaskConical, TrendingUp
+  Building2, Users, HardHat, Leaf, Award, CreditCard,
+  ChevronDown, ChevronRight, Menu, X, FlaskConical, TrendingUp, Briefcase
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -14,6 +14,8 @@ import { useState } from "react";
 interface NavGroup {
   title: string;
   items: NavItem[];
+  /** Groupe affiché uniquement pour ces rôles ; omis = affiché à tous. */
+  roles?: string[];
 }
 
 interface NavItem {
@@ -22,6 +24,8 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
   badge?: string;
   children?: Omit<NavItem, "children">[];
+  /** Élément affiché uniquement pour ces rôles ; omis = affiché à tous. */
+  roles?: string[];
 }
 
 const NAV_GROUPS: NavGroup[] = [
@@ -42,6 +46,8 @@ const NAV_GROUPS: NavGroup[] = [
       { label: "Plans d'action", href: "/action-plans", icon: ClipboardList },
       { label: "Incidents", href: "/incidents", icon: AlertTriangle },
       { label: "EPI / Vérifications", href: "/epi", icon: HardHat },
+      { label: "Entreprises extérieures", href: "/external-companies", icon: Briefcase },
+      { label: "Prévention opérationnelle", href: "/prevention", icon: HardHat },
     ],
   },
   {
@@ -77,6 +83,13 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    title: "Consultant",
+    roles: ["CONSULTANT", "SUPER_ADMIN"],
+    items: [
+      { label: "Portefeuille clients", href: "/consultant", icon: Briefcase },
+    ],
+  },
+  {
     title: "Administration",
     items: [
       { label: "Abonnement", href: "/billing", icon: CreditCard },
@@ -92,12 +105,24 @@ const NAV_GROUPS: NavGroup[] = [
       },
     ],
   },
+  {
+    title: "Super Admin PREUVIA",
+    roles: ["SUPER_ADMIN"],
+    items: [
+      { label: "Organisations", href: "/admin/organizations", icon: Building2 },
+      { label: "Cabinets consultants", href: "/admin/consultancy-workspaces", icon: Briefcase },
+      { label: "Webhooks", href: "/admin/webhooks", icon: FileText },
+      { label: "Journal d'audit", href: "/admin/audit-logs", icon: ClipboardList },
+    ],
+  },
 ];
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ role }: { role?: string }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const visibleGroups = NAV_GROUPS.filter((g) => !g.roles || (role && g.roles.includes(role)));
 
   return (
     <>
@@ -109,23 +134,23 @@ export function DashboardSidebar() {
       {/* Mobile toggle button */}
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="fixed top-3 left-3 z-50 lg:hidden p-2 bg-[#1E3A5F] text-white rounded-lg shadow-md"
+        className="fixed top-3 left-3 z-50 lg:hidden p-2 bg-[#145B8C] text-white rounded-lg shadow-md"
       >
         {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
       </button>
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed lg:relative z-40 lg:z-auto h-full bg-[#0D1B2A] text-white flex flex-col transition-all duration-300",
+        "fixed lg:relative z-40 lg:z-auto h-full bg-[#0B1F33] text-white flex flex-col transition-all duration-300",
         collapsed ? "w-16" : "w-64",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-[#1E3A5F] flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-[#145B8C] flex items-center justify-center shrink-0">
             <ShieldCheck className="w-5 h-5 text-white" />
           </div>
-          {!collapsed && <span className="font-bold text-lg tracking-tight">NORMIA</span>}
+          {!collapsed && <span className="font-bold text-lg tracking-tight">PREUVIA DUERP</span>}
           <button
             onClick={() => setCollapsed(!collapsed)}
             className="ml-auto hidden lg:flex text-white/40 hover:text-white transition-colors"
@@ -136,14 +161,16 @@ export function DashboardSidebar() {
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-1">
-          {NAV_GROUPS.map((group) => (
+          {visibleGroups.map((group) => (
             <div key={group.title}>
               {!collapsed && (
                 <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-white/30">
                   {group.title}
                 </p>
               )}
-              {group.items.map((item) => {
+              {group.items
+                .filter((item) => !item.roles || (role && item.roles.includes(role)))
+                .map((item) => {
                 const active = pathname === item.href || pathname.startsWith(item.href + "/");
                 const childrenActive = item.children?.some((c) => pathname === c.href || pathname.startsWith(c.href + "/"));
                 const expanded = active || childrenActive;
@@ -155,7 +182,7 @@ export function DashboardSidebar() {
                       className={cn(
                         "flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition-colors group",
                         expanded
-                          ? "bg-[#1E3A5F] text-white"
+                          ? "bg-[#145B8C] text-white"
                           : "text-white/60 hover:bg-white/10 hover:text-white"
                       )}
                       title={collapsed ? item.label : undefined}
@@ -203,7 +230,7 @@ export function DashboardSidebar() {
         {/* Footer */}
         {!collapsed && (
           <div className="px-4 py-3 border-t border-white/10 text-xs text-white/30">
-            NORMIA v0.1 — MVP
+            PREUVIA DUERP v0.1 — MVP
           </div>
         )}
       </aside>

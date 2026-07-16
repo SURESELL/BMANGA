@@ -95,7 +95,7 @@ export default function NewTrainingPage() {
         {/* Basic info */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
           <h2 className="font-semibold text-gray-900 flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-[#1E3A5F]" /> Informations générales
+            <BookOpen className="w-4 h-4 text-[#145B8C]" /> Informations générales
           </h2>
 
           <div>
@@ -104,7 +104,7 @@ export default function NewTrainingPage() {
             </label>
             <input
               type="text" value={form.title} onChange={(e) => update("title", e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               placeholder="ex: Formation Sauveteur Secouriste du Travail (SST)"
               required
             />
@@ -115,7 +115,7 @@ export default function NewTrainingPage() {
             <textarea
               value={form.description} onChange={(e) => update("description", e.target.value)}
               rows={3}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
               placeholder="Décrivez le contenu et les bénéfices de cette formation..."
             />
           </div>
@@ -125,7 +125,7 @@ export default function NewTrainingPage() {
             <textarea
               value={form.objectives} onChange={(e) => update("objectives", e.target.value)}
               rows={3}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
               placeholder="À l'issue de cette formation, le participant sera capable de..."
             />
           </div>
@@ -134,7 +134,7 @@ export default function NewTrainingPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1.5">Prérequis</label>
             <input
               type="text" value={form.prerequisites} onChange={(e) => update("prerequisites", e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               placeholder="ex: Aucun prérequis / Formation X recommandée"
             />
           </div>
@@ -148,7 +148,7 @@ export default function NewTrainingPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Type de formation <span className="text-red-500">*</span></label>
               <select value={form.type} onChange={(e) => update("type", e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#145B8C]">
                 {TRAINING_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
               </select>
             </div>
@@ -156,7 +156,7 @@ export default function NewTrainingPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Niveau</label>
               <select value={form.level} onChange={(e) => update("level", e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#145B8C]">
                 {LEVELS.map((l) => <option key={l.value} value={l.value}>{l.label}</option>)}
               </select>
             </div>
@@ -164,7 +164,7 @@ export default function NewTrainingPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">Catégorie</label>
               <select value={form.category} onChange={(e) => update("category", e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]">
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#145B8C]">
                 <option value="">Sélectionner...</option>
                 {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
@@ -175,7 +175,7 @@ export default function NewTrainingPage() {
               <input
                 type="number" value={form.duration} onChange={(e) => update("duration", e.target.value)}
                 min={1} max={99999}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
                 placeholder="ex: 420 (7h)"
               />
             </div>
@@ -186,7 +186,7 @@ export default function NewTrainingPage() {
             <input
               type="number" value={form.price} onChange={(e) => update("price", e.target.value)}
               min={0} step={0.01}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               placeholder="ex: 350.00"
             />
           </div>
@@ -194,7 +194,7 @@ export default function NewTrainingPage() {
           <div className="flex flex-col gap-3 pt-2">
             <label className="flex items-center gap-3 cursor-pointer">
               <input type="checkbox" checked={form.isCertifying} onChange={(e) => update("isCertifying", e.target.checked)}
-                className="w-4 h-4 rounded border-gray-300 text-[#1E3A5F]" />
+                className="w-4 h-4 rounded border-gray-300 text-[#145B8C]" />
               <div>
                 <span className="text-sm font-medium text-gray-900">Formation certifiante</span>
                 <p className="text-xs text-gray-500">Délivrance d&apos;un certificat de réalisation ou de compétences</p>
@@ -202,7 +202,7 @@ export default function NewTrainingPage() {
             </label>
             <label className="flex items-center gap-3 cursor-pointer">
               <input type="checkbox" checked={form.isPublic} onChange={(e) => update("isPublic", e.target.checked)}
-                className="w-4 h-4 rounded border-gray-300 text-[#1E3A5F]" />
+                className="w-4 h-4 rounded border-gray-300 text-[#145B8C]" />
               <div>
                 <span className="text-sm font-medium text-gray-900">Formation publique</span>
                 <p className="text-xs text-gray-500">Visible dans le catalogue public (inter-entreprises)</p>
@@ -216,7 +216,7 @@ export default function NewTrainingPage() {
             Annuler
           </Link>
           <button type="submit" disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
             {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Création...</> : "Créer la formation"}
           </button>
         </div>

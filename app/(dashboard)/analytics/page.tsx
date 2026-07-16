@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { formatDateTime } from "@/lib/utils";
 
-export const metadata = { title: "Tableaux de bord analytiques — NORMIA" };
+export const metadata = { title: "Tableaux de bord analytiques — PREUVIA DUERP" };
 
 export default async function AnalyticsPage() {
   const session = await auth();
@@ -23,7 +23,7 @@ export default async function AnalyticsPage() {
   const [
     risksByLevel,
     actionsByStatus,
-    incidentsByStatus,
+    ,
     incidentsBySeverity,
     totalEnrollments,
     certifiedEnrollments,
@@ -84,7 +84,7 @@ export default async function AnalyticsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-[#1E3A5F]">Tableaux de bord analytiques</h1>
+        <h1 className="text-2xl font-bold text-[#145B8C]">Tableaux de bord analytiques</h1>
         <p className="text-sm text-gray-500 mt-1">
           Vue consolidée de la conformité et performance HSE de votre organisation
         </p>
@@ -242,7 +242,7 @@ export default async function AnalyticsPage() {
             <div className="space-y-2">
               {recentActivity.map((log) => (
                 <div key={log.id} className="flex items-start gap-3 py-2 border-b border-gray-50 last:border-0">
-                  <div className="w-2 h-2 rounded-full bg-[#1E3A5F] mt-2 flex-shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-[#145B8C] mt-2 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-800 truncate">
                       <span className="font-medium">{log.action}</span>
@@ -281,7 +281,7 @@ function KPICard({
     green:  { bg: "bg-green-50",  val: "text-green-700",  border: "border-green-200" },
     orange: { bg: "bg-orange-50", val: "text-orange-700", border: "border-orange-200" },
     red:    { bg: "bg-red-50",    val: "text-red-700",    border: "border-red-200" },
-    blue:   { bg: "bg-blue-50",   val: "text-[#1E3A5F]",  border: "border-blue-200" },
+    blue:   { bg: "bg-blue-50",   val: "text-[#145B8C]",  border: "border-blue-200" },
   };
   const s = styles[accent];
   return (

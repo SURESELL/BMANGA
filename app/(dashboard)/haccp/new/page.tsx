@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, FlaskConical } from "lucide-react";
+import Link from "next/link";
 
 const PRODUCT_TYPES = [
   "Produits laitiers", "Viandes et charcuteries", "Produits de la mer",
@@ -52,9 +53,9 @@ export default function HACCPNewPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-3">
-        <a href="/haccp" className="text-gray-500 hover:text-gray-700 transition-colors">
+        <Link href="/haccp" className="text-gray-500 hover:text-gray-700 transition-colors">
           <ArrowLeft className="w-5 h-5" />
-        </a>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Nouveau plan HACCP / PMS</h1>
           <p className="text-sm text-gray-500 mt-0.5">Plan de Maîtrise Sanitaire</p>
@@ -76,7 +77,7 @@ export default function HACCPNewPage() {
               name="name"
               required
               placeholder="Ex: PMS Laboratoire de fabrication — Site Paris"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -84,7 +85,7 @@ export default function HACCPNewPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Type de produit</label>
             <select
               name="productType"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Sélectionner...</option>
               {PRODUCT_TYPES.map((p) => (
@@ -100,7 +101,7 @@ export default function HACCPNewPage() {
               type="number"
               min="1"
               defaultValue="1"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -110,7 +111,7 @@ export default function HACCPNewPage() {
               name="scope"
               rows={3}
               placeholder="Décrivez les activités et étapes couvertes par ce plan PMS..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -127,16 +128,16 @@ export default function HACCPNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Création..." : "Créer le plan PMS"}
           </button>
-          <a
+          <Link
             href="/haccp"
             className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
           >
             Annuler
-          </a>
+          </Link>
         </div>
       </form>
     </div>

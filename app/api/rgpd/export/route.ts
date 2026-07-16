@@ -22,7 +22,7 @@ export async function GET() {
       select: { id: true, title: true, occurredAt: true, status: true },
     }),
     db.actionPlan.findMany({
-      where: { assignedToId: userId },
+      where: { ownerId: userId },
       select: { id: true, title: true, status: true, dueDate: true },
     }),
     db.trainingEnrollment.findMany({
@@ -51,7 +51,7 @@ export async function GET() {
   return new NextResponse(JSON.stringify(exportData, null, 2), {
     headers: {
       "Content-Type": "application/json",
-      "Content-Disposition": `attachment; filename="normia-export-${userId}-${Date.now()}.json"`,
+      "Content-Disposition": `attachment; filename="preuvia-duerp-export-${userId}-${Date.now()}.json"`,
     },
   });
 }

@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import type { UserRole } from "@/types";
 
 // Role hierarchy: higher index = more permissions
@@ -17,14 +18,17 @@ export function hasRole(userRole: UserRole, requiredRole: UserRole): boolean {
   return ROLE_HIERARCHY.indexOf(userRole) >= ROLE_HIERARCHY.indexOf(requiredRole);
 }
 
-type Module =
+export type Module =
   | "duerp" | "risks" | "incidents" | "action_plans"
   | "documents" | "training" | "quiz" | "certificates"
   | "audits" | "qualiopi" | "regulation" | "haccp"
   | "environment" | "tmd" | "esg" | "settings"
-  | "billing" | "users" | "organizations";
+  | "billing" | "users" | "organizations" | "sites"
+  | "epi" | "non_conformities"
+  | "external_companies" | "work_permits"
+  | "job_risk_sheets" | "safety_communications";
 
-type Action = "view" | "create" | "update" | "delete" | "export" | "validate";
+export type Action = "view" | "create" | "update" | "delete" | "export" | "validate";
 
 const PERMISSIONS: Record<Module, Record<Action, UserRole[]>> = {
   duerp:         { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["EMPLOYEE"], validate: ["ORG_ADMIN"] },
@@ -46,12 +50,34 @@ const PERMISSIONS: Record<Module, Record<Action, UserRole[]>> = {
   billing:       { view: ["ORG_ADMIN"], create: ["ORG_ADMIN"], update: ["ORG_ADMIN"], delete: ["SUPER_ADMIN"], export: ["ORG_ADMIN"], validate: ["SUPER_ADMIN"] },
   users:         { view: ["SITE_MANAGER"], create: ["ORG_ADMIN"], update: ["ORG_ADMIN"], delete: ["ORG_ADMIN"], export: ["ORG_ADMIN"], validate: ["ORG_ADMIN"] },
   organizations: { view: ["ORG_ADMIN"], create: ["SUPER_ADMIN"], update: ["ORG_ADMIN"], delete: ["SUPER_ADMIN"], export: ["ORG_ADMIN"], validate: ["SUPER_ADMIN"] },
+  sites:         { view: ["VIEWER"], create: ["ORG_ADMIN"], update: ["ORG_ADMIN"], delete: ["ORG_ADMIN"], export: ["ORG_ADMIN"], validate: ["ORG_ADMIN"] },
+  epi:               { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
+  non_conformities:  { view: ["VIEWER"], create: ["AUDITOR"], update: ["AUDITOR"], delete: ["ORG_ADMIN"], export: ["AUDITOR"], validate: ["ORG_ADMIN"] },
+  external_companies: { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
+  // "validate" = émission d'un permis (DRAFT -> ISSUED) ou suspension/reprise :
+  // décisions de sécurité, réservées au responsable de site au minimum.
+  work_permits:       { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["SITE_MANAGER"] },
+  job_risk_sheets:        { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
+  safety_communications:  { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
 };
 
 export function canAccess(userRole: UserRole, module: Module, action: Action): boolean {
   const requiredRole = PERMISSIONS[module]?.[action];
   if (!requiredRole) return false;
   return hasRole(userRole, requiredRole[0]);
+}
+
+/**
+ * Garde d'autorisation pour les routes API : retourne une réponse 403 si le
+ * rôle n'a pas la permission requise, ou `null` si l'appel peut continuer.
+ * Le rôle doit toujours venir de la session serveur, jamais d'un paramètre
+ * client. Usage : `const forbidden = requirePermission(role, "risks", "delete"); if (forbidden) return forbidden;`
+ */
+export function requirePermission(role: UserRole | undefined, module: Module, action: Action): NextResponse | null {
+  if (!role || !canAccess(role, module, action)) {
+    return NextResponse.json({ error: "Permissions insuffisantes pour cette action." }, { status: 403 });
+  }
+  return null;
 }
 
 export function getRoleLabel(role: UserRole): string {

@@ -72,12 +72,12 @@ export default function SiteDetailPage() {
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">
       <div className="mb-6 flex items-center justify-between">
-        <Link href="/sites" className="text-sm text-[#1E3A5F] hover:underline">← Retour aux sites</Link>
+        <Link href="/sites" className="text-sm text-[#145B8C] hover:underline">← Retour aux sites</Link>
         <div className="flex gap-2">
           {!editing && (
             <button
               onClick={() => setEditing(true)}
-              className="rounded-lg bg-[#1E3A5F] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
+              className="rounded-lg bg-[#145B8C] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
             >
               Modifier
             </button>
@@ -92,7 +92,7 @@ export default function SiteDetailPage() {
       </div>
 
       <div className="bg-white rounded-xl shadow border border-gray-200 p-6 mb-6">
-        <h1 className="text-2xl font-bold text-[#1E3A5F] mb-4">{site.name}</h1>
+        <h1 className="text-2xl font-bold text-[#145B8C] mb-4">{site.name}</h1>
 
         {editing ? (
           <div className="space-y-4">
@@ -101,7 +101,7 @@ export default function SiteDetailPage() {
               <input
                 value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function SiteDetailPage() {
               <input
                 value={form.address}
                 onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -118,7 +118,7 @@ export default function SiteDetailPage() {
                 <input
                   value={form.city}
                   onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
                 />
               </div>
               <div>
@@ -126,7 +126,7 @@ export default function SiteDetailPage() {
                 <input
                   value={form.postalCode}
                   onChange={(e) => setForm((f) => ({ ...f, postalCode: e.target.value }))}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
                 />
               </div>
             </div>
@@ -134,7 +134,7 @@ export default function SiteDetailPage() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="rounded-lg bg-[#1E3A5F] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition disabled:opacity-50"
+                className="rounded-lg bg-[#145B8C] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition disabled:opacity-50"
               >
                 {saving ? "Enregistrement…" : "Enregistrer"}
               </button>
@@ -174,11 +174,11 @@ export default function SiteDetailPage() {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white rounded-xl shadow border border-gray-200 p-5 text-center">
-          <div className="text-3xl font-bold text-[#1E3A5F]">{site._count.risks}</div>
+          <div className="text-3xl font-bold text-[#145B8C]">{site._count.risks}</div>
           <div className="text-sm text-gray-500 mt-1">Risque{site._count.risks !== 1 ? "s" : ""} liés</div>
         </div>
         <div className="bg-white rounded-xl shadow border border-gray-200 p-5 text-center">
-          <div className="text-3xl font-bold text-[#1E3A5F]">{site._count.epiItems}</div>
+          <div className="text-3xl font-bold text-[#145B8C]">{site._count.epiItems}</div>
           <div className="text-sm text-gray-500 mt-1">EPI liés</div>
         </div>
       </div>

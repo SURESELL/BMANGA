@@ -111,20 +111,20 @@ export default function AdminOrganizationDetailPage() {
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-[#1E3A5F]">{org.name}</h1>
+          <h1 className="text-2xl font-bold text-[#145B8C]">{org.name}</h1>
           <p className="text-sm text-gray-500 mt-0.5">
-            Créée le {new Date(org.createdAt).toLocaleDateString("fr-FR")} · Plan {org.subscription?.plan ?? "FREE"} · {org.subscription?.seats ?? 5} sièges
+            Créée le {new Date(org.createdAt).toLocaleDateString("fr-FR")} · Plan {org.subscription?.plan ?? "DIAGNOSTIC"} · {org.subscription?.seats ?? 5} sièges
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white border border-gray-200 rounded-xl p-5 flex items-center gap-4">
-          <div className="p-3 bg-[#1E3A5F]/10 rounded-lg">
-            <Users className="w-5 h-5 text-[#1E3A5F]" />
+          <div className="p-3 bg-[#145B8C]/10 rounded-lg">
+            <Users className="w-5 h-5 text-[#145B8C]" />
           </div>
           <div>
-            <div className="text-2xl font-bold text-[#1E3A5F]">{org._count.users}</div>
+            <div className="text-2xl font-bold text-[#145B8C]">{org._count.users}</div>
             <div className="text-xs text-gray-500">Total utilisateurs</div>
           </div>
         </div>
@@ -143,7 +143,7 @@ export default function AdminOrganizationDetailPage() {
             {Object.entries(byRole).map(([role, count]) => (
               <div key={role} className="flex items-center justify-between text-xs">
                 <span className="text-gray-600">{role.replace("_", " ")}</span>
-                <span className="font-semibold text-[#1E3A5F]">{count}</span>
+                <span className="font-semibold text-[#145B8C]">{count}</span>
               </div>
             ))}
           </div>
@@ -152,7 +152,7 @@ export default function AdminOrganizationDetailPage() {
 
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="font-semibold text-[#1E3A5F]">Utilisateurs</h2>
+          <h2 className="font-semibold text-[#145B8C]">Utilisateurs</h2>
         </div>
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b border-gray-200">
@@ -204,14 +204,14 @@ export default function AdminOrganizationDetailPage() {
           <div className="flex-1">
             <h3 className="font-semibold text-red-800 text-sm">Zone dangereuse</h3>
             <p className="text-xs text-red-600 mt-1">
-              Désactiver l'organisation bloquera l'accès à tous ses utilisateurs.
+              Désactiver l&apos;organisation bloquera l&apos;accès à tous ses utilisateurs.
             </p>
             {!showConfirm ? (
               <button
                 onClick={() => setShowConfirm(true)}
                 className="mt-3 px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
               >
-                Désactiver l'organisation
+                Désactiver l&apos;organisation
               </button>
             ) : (
               <div className="mt-3 flex items-center gap-3">

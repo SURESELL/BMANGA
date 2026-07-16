@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: ["class"],
@@ -49,13 +50,18 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))"
         },
-        normia: {
-          navy: "#0D1B2A",
-          blue: "#1E3A5F",
+        preuvia: {
+          navy: "#0B1F33",
+          blue: "#145B8C",
+          interaction: "#2563EB",
+          turquoise: "#0F766E",
           light: "#E8F0FE",
-          green: "#16A34A",
-          orange: "#EA580C",
-          red: "#DC2626"
+          green: "#15803D",
+          orange: "#D97706",
+          red: "#B91C1C",
+          ai: "#6D28D9",
+          bg: "#F6F8FB",
+          text: "#1F2937"
         }
       },
       borderRadius: {
@@ -79,7 +85,7 @@ const config: Config = {
       }
     }
   },
-  plugins: [require("tailwindcss-animate")]
+  plugins: [tailwindcssAnimate]
 };
 
 export default config;

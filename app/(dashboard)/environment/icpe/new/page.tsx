@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, AlertTriangle } from "lucide-react";
-import { NORMIA_DISCLAIMER } from "@/types";
+import { PREUVIA_DISCLAIMER } from "@/types";
 
 export default function ICPENewPage() {
   const router = useRouter();
@@ -65,7 +65,7 @@ export default function ICPENewPage() {
       <div className="bg-amber-50 border border-amber-300 rounded-xl p-4">
         <div className="flex items-start gap-2">
           <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
-          <p className="text-sm text-amber-800">{NORMIA_DISCLAIMER}</p>
+          <p className="text-sm text-amber-800">{PREUVIA_DISCLAIMER}</p>
         </div>
       </div>
 
@@ -79,7 +79,7 @@ export default function ICPENewPage() {
               name="rubrique"
               required
               placeholder="Ex: 1510, 2662, 3000..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -90,7 +90,7 @@ export default function ICPENewPage() {
             <select
               name="regime"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Sélectionner...</option>
               <option value="DECLARATION">Déclaration (D)</option>
@@ -107,7 +107,7 @@ export default function ICPENewPage() {
               name="designation"
               required
               placeholder="Ex: Entrepôts couverts — Stockage de matières combustibles"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -116,7 +116,7 @@ export default function ICPENewPage() {
             <input
               name="threshold"
               placeholder="Ex: > 5 000 m², > 100 t..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -125,7 +125,7 @@ export default function ICPENewPage() {
             <input
               name="actualQuantity"
               placeholder="Ex: 6 200 m², 150 t..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -134,7 +134,7 @@ export default function ICPENewPage() {
             <input
               name="nextInspectionAt"
               type="date"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -144,7 +144,7 @@ export default function ICPENewPage() {
               name="prescriptions"
               rows={3}
               placeholder="Prescriptions de l'arrêté préfectoral, conditions d'exploitation..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function ICPENewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Enregistrement..." : "Enregistrer la rubrique ICPE"}
           </button>

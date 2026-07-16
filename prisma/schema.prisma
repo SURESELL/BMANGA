@@ -1,4 +1,4 @@
-// NORMIA - Prisma Schema
+// PREUVIA DUERP - Prisma Schema
 // Multi-tenant SaaS platform for HSE, DUERP, LMS, Qualiopi, RegTech
 
 generator client {
@@ -26,19 +26,32 @@ enum UserRole {
   VIEWER
 }
 
+// Offres commerciales PREUVIA DUERP — voir lib/billing/plans.ts pour les prix,
+// limites et Payment Links officiels associés à chaque valeur.
 enum SubscriptionPlan {
-  FREE
-  STARTER
-  PROFESSIONAL
+  DIAGNOSTIC
+  ESSENTIEL
+  PILOTAGE
+  MAITRISE
   ENTERPRISE
+  PARTNER
 }
 
+// Statuts PREUVIA (PRODUCT_SPEC.md §9.4) — distincts des statuts Stripe internes.
 enum SubscriptionStatus {
+  FREE
+  PENDING_PAYMENT
   ACTIVE
-  TRIALING
   PAST_DUE
+  GRACE_PERIOD
+  SUSPENDED
   CANCELED
-  UNPAID
+  EXPIRED
+}
+
+enum PaymentMethodType {
+  CARD
+  BANK_TRANSFER
 }
 
 enum RiskLevel {
@@ -74,6 +87,35 @@ enum IncidentStatus {
   ARCHIVED
 }
 
+// PLANS.md Phase 5 : les 8 familles de permis de travail requises
+// (feu, hauteur, levage, espace confiné, électrique, consignation, ATEX, chimique).
+enum PermitType {
+  FIRE
+  HEIGHT
+  LIFTING
+  CONFINED_SPACE
+  ELECTRICAL
+  LOCKOUT
+  ATEX
+  CHEMICAL
+}
+
+// Cycle de vie explicite requis par PLANS.md Phase 5 : émission, suspension,
+// reprise (retour à ISSUED), clôture. Pas de statut "reprise" séparé — une
+// reprise est une transition SUSPENDED -> ISSUED journalisée dans AuditLog.
+enum PermitStatus {
+  DRAFT
+  ISSUED
+  SUSPENDED
+  CLOSED
+}
+
+enum PreventionPlanStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
 enum TrainingType {
   E_LEARNING
   FACE_TO_FACE
@@ -101,6 +143,7 @@ enum AuditStatus {
   IN_PROGRESS
   COMPLETED
   CLOSED
+  CANCELED
 }
 
 enum DocumentStatus {
@@ -128,28 +171,55 @@ enum EvidenceType {
   FORM
 }
 
+enum ConsultantAccessStatus {
+  ACTIVE
+  REVOKED
+}
+
+enum TrainingEnrollmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+// Mode de délivrance d'une session de formation (distinct de TrainingType,
+// qui décrit le format du cours lui-même).
+enum TrainingSessionType {
+  FACE_TO_FACE
+  REMOTE
+  ELEARNING
+  BLENDED
+}
+
 // ─────────────────────────────────────────────
 // CORE - MULTI-TENANT
 // ─────────────────────────────────────────────
 
 model Organization {
-  id               String             @id @default(cuid())
+  id               String    @id @default(cuid())
   name             String
-  slug             String             @unique
+  slug             String    @unique
   siret            String?
   naf              String?
   address          String?
   city             String?
   postalCode       String?
-  country          String             @default("FR")
+  country          String    @default("FR")
   phone            String?
   email            String?
   website          String?
   logoUrl          String?
   sector           String?
   employeeCount    Int?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  // Traçabilité de l'import Sirene (PRODUCT_SPEC.md 6.3) : source, date de
+  // récupération, et confirmation humaine explicite avant enregistrement.
+  siretSource      String?
+  siretFetchedAt   DateTime?
+  siretConfirmedBy String?
+  siretConfirmedAt DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
   deletedAt        DateTime?
 
   // Relations
@@ -177,12 +247,18 @@ model Organization {
   supportTickets   SupportTicket[]
   epiItems         EPIItem[]
   verifications    PeriodicVerification[]
+  consultantAccess ConsultantClientAccess[]
+  externalCompanies ExternalCompany[]
+  preventionPlans   PreventionPlan[]
+  workPermits       WorkPermit[]
+  jobRiskSheets       JobRiskSheet[]
+  safetyCommunications SafetyCommunication[]
 
   @@map("organizations")
 }
 
 model Site {
-  id             String      @id @default(cuid())
+  id             String    @id @default(cuid())
   organizationId String
   name           String
   address        String?
@@ -191,39 +267,84 @@ model Site {
   siret          String?
   phone          String?
   managerId      String?
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
   deletedAt      DateTime?
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  workUnits      WorkUnit[]
-  risks          Risk[]
-  incidents      Incident[]
-  audits         Audit[]
-  users          User[]       @relation("UserSites")
-  epiItems       EPIItem[]
-  verifications  PeriodicVerification[]
+  organization  Organization           @relation(fields: [organizationId], references: [id])
+  workUnits     WorkUnit[]
+  risks         Risk[]
+  incidents     Incident[]
+  audits        Audit[]
+  users         User[]                 @relation("UserSites")
+  epiItems      EPIItem[]
+  verifications PeriodicVerification[]
+  preventionPlans PreventionPlan[]
+  workPermits     WorkPermit[]
+  jobRiskSheets       JobRiskSheet[]
+  safetyCommunications SafetyCommunication[]
 
   @@map("sites")
 }
 
 model WorkUnit {
-  id             String      @id @default(cuid())
+  id             String    @id @default(cuid())
   organizationId String
   siteId         String?
   name           String
   description    String?
   employeeCount  Int?
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
   deletedAt      DateTime?
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  site           Site?        @relation(fields: [siteId], references: [id])
-  risks          Risk[]
-  duerps         DUERP[]      @relation("DUERPWorkUnits")
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+  risks        Risk[]
+  duerps       DUERP[]      @relation("DUERPWorkUnits")
 
   @@map("work_units")
+}
+
+// ─────────────────────────────────────────────
+// ESPACE CONSULTANT MULTI-CLIENTS
+//
+// Chaque entreprise cliente reste une Organization strictement indépendante.
+// ConsultantClientAccess est la SEULE table qui relie un cabinet consultant à
+// ses clients ; toute route qui liste/consulte des données d'un client au nom
+// d'un consultant DOIT filtrer par cette table (jamais par une liste
+// d'organizationId fournie par le client HTTP). Voir lib/consultant/access.ts.
+// ─────────────────────────────────────────────
+
+model ConsultancyWorkspace {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members      User[]
+  clientAccess ConsultantClientAccess[]
+
+  @@map("consultancy_workspaces")
+}
+
+model ConsultantClientAccess {
+  id                     String                 @id @default(cuid())
+  consultancyWorkspaceId String
+  organizationId         String
+  status                 ConsultantAccessStatus @default(ACTIVE)
+  grantedByUserId        String?
+  grantedAt              DateTime               @default(now())
+  revokedByUserId        String?
+  revokedAt              DateTime?
+
+  consultancyWorkspace ConsultancyWorkspace @relation(fields: [consultancyWorkspaceId], references: [id])
+  organization         Organization         @relation(fields: [organizationId], references: [id])
+
+  @@unique([consultancyWorkspaceId, organizationId])
+  @@index([organizationId])
+  @@map("consultant_client_access")
 }
 
 // ─────────────────────────────────────────────
@@ -231,36 +352,62 @@ model WorkUnit {
 // ─────────────────────────────────────────────
 
 model User {
-  id               String    @id @default(cuid())
-  organizationId   String?
-  email            String    @unique
-  emailVerified    DateTime?
-  name             String?
-  firstName        String?
-  lastName         String?
-  phone            String?
-  avatarUrl        String?
-  role             UserRole  @default(EMPLOYEE)
-  isActive         Boolean   @default(true)
-  lastLoginAt      DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  deletedAt        DateTime?
-  gdprDeletedAt    DateTime?
+  id                     String    @id @default(cuid())
+  organizationId         String?
+  consultancyWorkspaceId String?
+  email                  String    @unique
+  emailVerified          DateTime?
+  name                   String?
+  firstName              String?
+  lastName               String?
+  phone                  String?
+  avatarUrl              String?
+  role                   UserRole  @default(EMPLOYEE)
+  isActive               Boolean   @default(true)
+  lastLoginAt            DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  deletedAt              DateTime?
+  gdprDeletedAt          DateTime?
 
-  organization     Organization? @relation(fields: [organizationId], references: [id])
-  sites            Site[]        @relation("UserSites")
-  accounts         Account[]
-  sessions         Session[]
-  permissions      UserPermission[]
-  auditLogs        AuditLog[]    @relation("UserAuditLogs")
-  trainingSessions TrainingEnrollment[]
-  certificates     Certificate[]
-  incidentsReported Incident[]   @relation("IncidentReporter")
-  actionPlansOwned ActionPlan[]  @relation("ActionPlanOwner")
-  notifications    Notification[]
+  // Authentification par mot de passe (Argon2id — voir lib/password.ts)
+  passwordHash          String?
+  mustChangePassword    Boolean   @default(false)
+  passwordExpiresAt     DateTime?
+  failedLoginAttempts   Int       @default(0)
+  lockedUntil           DateTime?
+  createdByConsultantId String?
+
+  organization         Organization?         @relation(fields: [organizationId], references: [id])
+  consultancyWorkspace ConsultancyWorkspace? @relation(fields: [consultancyWorkspaceId], references: [id])
+  sites                Site[]                @relation("UserSites")
+  accounts             Account[]
+  sessions             Session[]
+  permissions          UserPermission[]
+  auditLogs            AuditLog[]            @relation("UserAuditLogs")
+  trainingSessions     TrainingEnrollment[]
+  trainingSessionsLed  TrainingSession[]     @relation("SessionTrainer")
+  certificates         Certificate[]
+  incidentsReported    Incident[]            @relation("IncidentReporter")
+  actionPlansOwned     ActionPlan[]          @relation("ActionPlanOwner")
+  notifications        Notification[]
+  passwordResetTokens  PasswordResetToken[]
 
   @@map("users")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
 }
 
 model Account {
@@ -304,7 +451,7 @@ model VerificationToken {
 }
 
 model Permission {
-  id          String           @id @default(cuid())
+  id          String  @id @default(cuid())
   module      String
   action      String
   description String?
@@ -347,65 +494,72 @@ model Hazard {
 }
 
 model Risk {
-  id               String    @id @default(cuid())
-  organizationId   String
-  siteId           String?
-  workUnitId       String?
-  hazardId         String?
+  id             String  @id @default(cuid())
+  organizationId String
+  siteId         String?
+  workUnitId     String?
+  hazardId       String?
 
   // Identification
-  hazardDescription    String
-  situationDangereux   String?
-  exposedPersons       String?
-  existingMeasures     String?
+  hazardDescription  String
+  situationDangereux String?
+  exposedPersons     String?
+  existingMeasures   String?
 
   // Cotation brute
-  grossFrequency   Int       @default(1) // 1-5
-  grossGravity     Int       @default(1) // 1-5
-  grossMastery     Int       @default(1) // 1-3
-  grossRisk        Int       @default(1) // calculé
+  grossFrequency Int @default(1) // 1-5
+  grossGravity   Int @default(1) // 1-5
+  grossMastery   Int @default(1) // 1-3
+  grossRisk      Int @default(1) // calculé
 
   // Cotation résiduelle
-  residualFrequency Int      @default(1)
-  residualGravity   Int      @default(1)
-  residualMastery   Int      @default(1)
-  residualRisk      Int      @default(1)
+  residualFrequency Int @default(1)
+  residualGravity   Int @default(1)
+  residualMastery   Int @default(1)
+  residualRisk      Int @default(1)
 
-  riskLevel        RiskLevel @default(LOW)
-  priority         Int       @default(3)
-  notes            String?
+  riskLevel RiskLevel @default(LOW)
+  priority  Int       @default(3)
+  notes     String?
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  organization  Organization @relation(fields: [organizationId], references: [id])
-  site          Site?        @relation(fields: [siteId], references: [id])
-  workUnit      WorkUnit?    @relation(fields: [workUnitId], references: [id])
-  hazard        Hazard?      @relation(fields: [hazardId], references: [id])
-  actionPlans   ActionPlan[]
-  duerps        DUERP[]      @relation("DUERPRisks")
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+  workUnit     WorkUnit?    @relation(fields: [workUnitId], references: [id])
+  hazard       Hazard?      @relation(fields: [hazardId], references: [id])
+  actionPlans  ActionPlan[]
+  duerps       DUERP[]      @relation("DUERPRisks")
 
   @@map("risks")
 }
 
 model DUERP {
-  id             String    @id @default(cuid())
-  organizationId String
-  version        Int       @default(1)
-  year           Int
-  status         String    @default("DRAFT")
-  validatedAt    DateTime?
-  validatedBy    String?
-  nextReviewDate DateTime?
-  notes          String?
-  pdfUrl         String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                String    @id @default(cuid())
+  organizationId    String
+  version           Int       @default(1)
+  year              Int
+  status            String    @default("DRAFT")
+  validatedAt       DateTime?
+  validatedBy       String?
+  nextReviewDate    DateTime?
+  notes             String?
+  pdfUrl            String?
+  // Chaîne de révisions : une fois validatedAt renseigné, ce DUERP devient
+  // immuable (voir app/api/duerp/[id]/route.ts PATCH et
+  // app/api/duerp/[id]/revise/route.ts). Toute modification ultérieure crée
+  // un nouveau DUERP pointant vers celui-ci via previousVersionId.
+  previousVersionId String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id])
-  workUnits    WorkUnit[]   @relation("DUERPWorkUnits")
-  risks        Risk[]       @relation("DUERPRisks")
-  evidences    Evidence[]
+  organization    Organization @relation(fields: [organizationId], references: [id])
+  workUnits       WorkUnit[]   @relation("DUERPWorkUnits")
+  risks           Risk[]       @relation("DUERPRisks")
+  evidences       Evidence[]
+  previousVersion DUERP?       @relation("DUERPRevisions", fields: [previousVersionId], references: [id])
+  revisions       DUERP[]      @relation("DUERPRevisions")
 
   @@map("duerps")
 }
@@ -429,11 +583,11 @@ model ActionPlan {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
-  organization Organization  @relation(fields: [organizationId], references: [id])
-  risk         Risk?         @relation(fields: [riskId], references: [id])
-  incident     Incident?     @relation(fields: [incidentId], references: [id])
-  audit        Audit?        @relation(fields: [auditId], references: [id])
-  owner        User?         @relation("ActionPlanOwner", fields: [ownerId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  risk         Risk?        @relation(fields: [riskId], references: [id])
+  incident     Incident?    @relation(fields: [incidentId], references: [id])
+  audit        Audit?       @relation(fields: [auditId], references: [id])
+  owner        User?        @relation("ActionPlanOwner", fields: [ownerId], references: [id])
   evidences    Evidence[]
 
   @@map("action_plans")
@@ -448,7 +602,7 @@ model Incident {
   organizationId   String
   siteId           String?
   reporterId       String?
-  type             String           // INCIDENT, ACCIDENT, NEAR_MISS
+  type             String // INCIDENT, ACCIDENT, NEAR_MISS
   severity         IncidentSeverity @default(MINOR)
   status           IncidentStatus   @default(DECLARED)
   title            String
@@ -465,9 +619,9 @@ model Incident {
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
 
-  organization Organization  @relation(fields: [organizationId], references: [id])
-  site         Site?         @relation(fields: [siteId], references: [id])
-  reporter     User?         @relation("IncidentReporter", fields: [reporterId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+  reporter     User?        @relation("IncidentReporter", fields: [reporterId], references: [id])
   actionPlans  ActionPlan[]
   evidences    Evidence[]
 
@@ -479,21 +633,21 @@ model Incident {
 // ─────────────────────────────────────────────
 
 model EPIItem {
-  id             String    @id @default(cuid())
-  organizationId String
-  siteId         String?
-  name           String
-  reference      String?
-  category       String
-  standard       String?
-  quantity       Int       @default(0)
-  assignedTo     String?
-  assignedDate   DateTime?
-  expiryDate     DateTime?
+  id              String    @id @default(cuid())
+  organizationId  String
+  siteId          String?
+  name            String
+  reference       String?
+  category        String
+  standard        String?
+  quantity        Int       @default(0)
+  assignedTo      String?
+  assignedDate    DateTime?
+  expiryDate      DateTime?
   nextControlDate DateTime?
-  notes          String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id])
   site         Site?        @relation(fields: [siteId], references: [id])
@@ -503,20 +657,20 @@ model EPIItem {
 }
 
 model PeriodicVerification {
-  id              String       @id @default(cuid())
-  organizationId  String
-  siteId          String?
-  name            String
-  equipment       String
-  frequency       String
-  lastVerifiedAt  DateTime?
+  id                 String       @id @default(cuid())
+  organizationId     String
+  siteId             String?
+  name               String
+  equipment          String
+  frequency          String
+  lastVerifiedAt     DateTime?
   nextVerificationAt DateTime?
-  verifiedBy      String?
-  result          String?
-  status          ActionStatus @default(TODO)
-  notes           String?
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  verifiedBy         String?
+  result             String?
+  status             ActionStatus @default(TODO)
+  notes              String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id])
   site         Site?        @relation(fields: [siteId], references: [id])
@@ -526,35 +680,160 @@ model PeriodicVerification {
 }
 
 // ─────────────────────────────────────────────
+// ENTREPRISES EXTÉRIEURES ET PERMIS DE TRAVAIL (PLANS.md Phase 5)
+// ─────────────────────────────────────────────
+
+model ExternalCompany {
+  id                   String    @id @default(cuid())
+  organizationId       String
+  name                 String
+  siret                String?
+  activity             String?
+  contactName          String?
+  contactEmail         String?
+  contactPhone         String?
+  insuranceValidUntil  DateTime?
+  notes                String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  organization    Organization     @relation(fields: [organizationId], references: [id])
+  preventionPlans PreventionPlan[]
+  workPermits     WorkPermit[]
+
+  @@map("external_companies")
+}
+
+model PreventionPlan {
+  id                String                @id @default(cuid())
+  organizationId    String
+  externalCompanyId String
+  siteId            String?
+  title             String
+  status            PreventionPlanStatus  @default(DRAFT)
+  startDate         DateTime
+  endDate           DateTime?
+  risksDescription  String?
+  signedByClient    Boolean               @default(false)
+  signedByClientAt  DateTime?
+  signedByCompany   Boolean               @default(false)
+  signedByCompanyAt DateTime?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+
+  organization    Organization    @relation(fields: [organizationId], references: [id])
+  externalCompany ExternalCompany @relation(fields: [externalCompanyId], references: [id])
+  site            Site?           @relation(fields: [siteId], references: [id])
+
+  @@map("prevention_plans")
+}
+
+model WorkPermit {
+  id                String       @id @default(cuid())
+  organizationId    String
+  externalCompanyId String?
+  siteId            String?
+  type              PermitType
+  status            PermitStatus @default(DRAFT)
+  title             String
+  location          String?
+  description       String?
+  issuedBy          String?
+  issuedAt          DateTime?
+  validFrom         DateTime?
+  validUntil        DateTime?
+  suspendedAt       DateTime?
+  suspendedReason   String?
+  resumedAt         DateTime?
+  closedAt          DateTime?
+  closedBy          String?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  organization    Organization     @relation(fields: [organizationId], references: [id])
+  externalCompany ExternalCompany? @relation(fields: [externalCompanyId], references: [id])
+  site            Site?            @relation(fields: [siteId], references: [id])
+
+  @@map("work_permits")
+}
+
+// ─────────────────────────────────────────────
+// PRÉVENTION OPÉRATIONNELLE — FICHES DE POSTE ET COMMUNICATION (PLANS.md Phase 4)
+// ─────────────────────────────────────────────
+
+model JobRiskSheet {
+  id                String    @id @default(cuid())
+  organizationId    String
+  siteId            String?
+  jobTitle          String
+  description       String?
+  requiredPPE       String?
+  requiredTraining  String?
+  risksDescription  String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+
+  @@map("job_risk_sheets")
+}
+
+enum SafetyCommunicationType {
+  POSTER
+  FLASH
+}
+
+model SafetyCommunication {
+  id             String                   @id @default(cuid())
+  organizationId String
+  siteId         String?
+  type           SafetyCommunicationType
+  title          String
+  content        String
+  fileUrl        String?
+  publishedAt    DateTime?
+  expiresAt      DateTime?
+  createdById    String?
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  site         Site?        @relation(fields: [siteId], references: [id])
+
+  @@map("safety_communications")
+}
+
+// ─────────────────────────────────────────────
 // LMS - FORMATIONS
 // ─────────────────────────────────────────────
 
 model TrainingCourse {
-  id             String         @id @default(cuid())
-  organizationId String?        // null = catalogue public
-  title          String
-  description    String?
-  objectives     String?
-  prerequisites  String?
-  duration       Int?           // minutes
-  type           TrainingType   @default(E_LEARNING)
-  level          String?        // BEGINNER, INTERMEDIATE, ADVANCED
-  category       String?
-  tags           String[]
-  price          Float?
-  currency       String         @default("EUR")
-  thumbnailUrl   String?
-  status         TrainingStatus @default(DRAFT)
-  isPublic       Boolean        @default(false)
-  isCertifying   Boolean        @default(false)
+  id                    String         @id @default(cuid())
+  organizationId        String? // null = catalogue public
+  title                 String
+  description           String?
+  objectives            String?
+  prerequisites         String?
+  duration              Int? // minutes
+  type                  TrainingType   @default(E_LEARNING)
+  level                 String? // BEGINNER, INTERMEDIATE, ADVANCED
+  category              String?
+  tags                  String[]
+  price                 Float?
+  currency              String         @default("EUR")
+  thumbnailUrl          String?
+  status                TrainingStatus @default(DRAFT)
+  isPublic              Boolean        @default(false)
+  isCertifying          Boolean        @default(false)
   certificateTemplateId String?
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
 
-  organization   Organization?   @relation(fields: [organizationId], references: [id])
-  modules        TrainingModule[]
-  sessions       TrainingSession[]
-  enrollments    TrainingEnrollment[]
+  organization Organization?        @relation(fields: [organizationId], references: [id])
+  modules      TrainingModule[]
+  sessions     TrainingSession[]
+  enrollments  TrainingEnrollment[]
 
   @@map("training_courses")
 }
@@ -572,20 +851,20 @@ model TrainingModule {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  course    TrainingCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  quizzes   Quiz[]
-  progress  LearnerProgress[]
+  course   TrainingCourse    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  quizzes  Quiz[]
+  progress LearnerProgress[]
 
   @@map("training_modules")
 }
 
 model TrainingSession {
-  id             String        @id @default(cuid())
+  id             String              @id @default(cuid())
   organizationId String?
   courseId       String
   title          String?
-  type           TrainingType  @default(FACE_TO_FACE)
-  status         SessionStatus @default(PLANNED)
+  type           TrainingSessionType @default(FACE_TO_FACE)
+  status         SessionStatus       @default(PLANNED)
   startDate      DateTime
   endDate        DateTime
   location       String?
@@ -593,31 +872,33 @@ model TrainingSession {
   maxLearners    Int?
   trainerId      String?
   notes          String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
 
-  organization   Organization?    @relation(fields: [organizationId], references: [id])
-  course         TrainingCourse   @relation(fields: [courseId], references: [id])
-  enrollments    TrainingEnrollment[]
+  organization     Organization?        @relation(fields: [organizationId], references: [id])
+  course           TrainingCourse       @relation(fields: [courseId], references: [id])
+  trainer          User?                @relation("SessionTrainer", fields: [trainerId], references: [id])
+  enrollments      TrainingEnrollment[]
   attendanceSheets AttendanceSheet[]
 
   @@map("training_sessions")
 }
 
 model TrainingEnrollment {
-  id         String    @id @default(cuid())
-  userId     String
-  courseId   String
-  sessionId  String?
-  enrolledAt DateTime  @default(now())
+  id          String                   @id @default(cuid())
+  userId      String
+  courseId    String
+  sessionId   String?
+  status      TrainingEnrollmentStatus @default(PENDING)
+  enrolledAt  DateTime                 @default(now())
   completedAt DateTime?
-  score      Float?
-  passed     Boolean?
-  progress   Float     @default(0) // 0-100
+  score       Float?
+  passed      Boolean?
+  progress    Float                    @default(0) // 0-100
 
-  user     User            @relation(fields: [userId], references: [id])
-  course   TrainingCourse  @relation(fields: [courseId], references: [id])
-  session  TrainingSession? @relation(fields: [sessionId], references: [id])
+  user           User              @relation(fields: [userId], references: [id])
+  course         TrainingCourse    @relation(fields: [courseId], references: [id])
+  session        TrainingSession?  @relation(fields: [sessionId], references: [id])
   moduleProgress LearnerProgress[]
 
   @@unique([userId, courseId])
@@ -630,7 +911,7 @@ model LearnerProgress {
   moduleId     String
   completed    Boolean   @default(false)
   completedAt  DateTime?
-  timeSpent    Int?      // seconds
+  timeSpent    Int? // seconds
 
   enrollment TrainingEnrollment @relation(fields: [enrollmentId], references: [id])
   module     TrainingModule     @relation(fields: [moduleId], references: [id])
@@ -640,14 +921,14 @@ model LearnerProgress {
 }
 
 model Quiz {
-  id          String   @id @default(cuid())
-  moduleId    String
-  title       String
-  description String?
-  passingScore Float   @default(70)
-  timeLimit   Int?    // minutes
-  maxAttempts Int?
-  createdAt   DateTime @default(now())
+  id           String   @id @default(cuid())
+  moduleId     String
+  title        String
+  description  String?
+  passingScore Float    @default(70)
+  timeLimit    Int? // minutes
+  maxAttempts  Int?
+  createdAt    DateTime @default(now())
 
   module    TrainingModule @relation(fields: [moduleId], references: [id])
   questions Question[]
@@ -657,13 +938,13 @@ model Quiz {
 }
 
 model Question {
-  id           String   @id @default(cuid())
-  quizId       String
-  text         String
-  type         String   @default("MULTIPLE_CHOICE") // MCQ, TRUE_FALSE, OPEN
-  order        Int      @default(0)
-  points       Float    @default(1)
-  explanation  String?
+  id          String  @id @default(cuid())
+  quizId      String
+  text        String
+  type        String  @default("MULTIPLE_CHOICE") // MCQ, TRUE_FALSE, OPEN
+  order       Int     @default(0)
+  points      Float   @default(1)
+  explanation String?
 
   quiz    Quiz     @relation(fields: [quizId], references: [id])
   answers Answer[]
@@ -699,15 +980,15 @@ model QuizAttempt {
 }
 
 model Certificate {
-  id           String    @id @default(cuid())
-  userId       String
-  courseId     String?
-  title        String
-  issuedAt     DateTime  @default(now())
-  expiresAt    DateTime?
-  score        Float?
-  pdfUrl       String?
-  verifyCode   String    @unique @default(cuid())
+  id         String    @id @default(cuid())
+  userId     String
+  courseId   String?
+  title      String
+  issuedAt   DateTime  @default(now())
+  expiresAt  DateTime?
+  score      Float?
+  pdfUrl     String?
+  verifyCode String    @unique @default(cuid())
 
   user User @relation(fields: [userId], references: [id])
 
@@ -721,19 +1002,19 @@ model AttendanceSheet {
   pdfUrl    String?
   createdAt DateTime @default(now())
 
-  session   TrainingSession @relation(fields: [sessionId], references: [id])
-  entries   AttendanceEntry[]
+  session TrainingSession   @relation(fields: [sessionId], references: [id])
+  entries AttendanceEntry[]
 
   @@map("attendance_sheets")
 }
 
 model AttendanceEntry {
-  id         String   @id @default(cuid())
-  sheetId    String
-  userId     String
-  present    Boolean  @default(false)
-  signature  String?
-  notes      String?
+  id        String  @id @default(cuid())
+  sheetId   String
+  userId    String
+  present   Boolean @default(false)
+  signature String?
+  notes     String?
 
   sheet AttendanceSheet @relation(fields: [sheetId], references: [id])
 
@@ -757,32 +1038,32 @@ model QualiopiCriterion {
 }
 
 model QualiopiIndicator {
-  id          String          @id @default(cuid())
+  id          String  @id @default(cuid())
   criterionId String
-  code        String          @unique
+  code        String  @unique
   title       String
   description String?
-  isRequired  Boolean         @default(true)
+  isRequired  Boolean @default(true)
 
-  criterion QualiopiCriterion   @relation(fields: [criterionId], references: [id])
+  criterion QualiopiCriterion  @relation(fields: [criterionId], references: [id])
   evidences QualiopiEvidence[]
 
   @@map("qualiopi_indicators")
 }
 
 model QualiopiEvidence {
-  id             String          @id @default(cuid())
-  organizationId String
-  indicatorId    String
-  title          String
-  description    String?
-  fileUrl        String?
+  id              String          @id @default(cuid())
+  organizationId  String
+  indicatorId     String
+  title           String
+  description     String?
+  fileUrl         String?
   complianceLevel ComplianceLevel @default(TO_EVALUATE)
-  verifiedAt     DateTime?
-  verifiedBy     String?
-  notes          String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  verifiedAt      DateTime?
+  verifiedBy      String?
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 
   indicator QualiopiIndicator @relation(fields: [indicatorId], references: [id])
 
@@ -797,7 +1078,7 @@ model Audit {
   id             String      @id @default(cuid())
   organizationId String
   siteId         String?
-  type           String      // INTERNAL, SUPPLIER, SAFETY, ENVIRONMENT, HACCP, QUALIOPI, ISO
+  type           String // INTERNAL, SUPPLIER, SAFETY, ENVIRONMENT, HACCP, QUALIOPI, ISO
   title          String
   status         AuditStatus @default(PLANNED)
   scheduledAt    DateTime?
@@ -810,13 +1091,13 @@ model Audit {
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
-  organization Organization  @relation(fields: [organizationId], references: [id])
-  site         Site?         @relation(fields: [siteId], references: [id])
-  checklists   AuditChecklist[]
-  findings     AuditFinding[]
+  organization    Organization     @relation(fields: [organizationId], references: [id])
+  site            Site?            @relation(fields: [siteId], references: [id])
+  checklists      AuditChecklist[]
+  findings        AuditFinding[]
   nonConformities NonConformity[]
-  actionPlans  ActionPlan[]
-  evidences    Evidence[]
+  actionPlans     ActionPlan[]
+  evidences       Evidence[]
 
   @@map("audits")
 }
@@ -828,21 +1109,21 @@ model AuditChecklist {
   question String
   order    Int    @default(0)
 
-  audit    Audit        @relation(fields: [auditId], references: [id])
+  audit    Audit          @relation(fields: [auditId], references: [id])
   findings AuditFinding[]
 
   @@map("audit_checklists")
 }
 
 model AuditFinding {
-  id           String          @id @default(cuid())
-  auditId      String
-  checklistId  String?
-  type         String          @default("OBSERVATION") // OBSERVATION, MINOR_NC, MAJOR_NC, OPPORTUNITY
-  description  String
-  reference    String?
+  id              String          @id @default(cuid())
+  auditId         String
+  checklistId     String?
+  type            String          @default("OBSERVATION") // OBSERVATION, MINOR_NC, MAJOR_NC, OPPORTUNITY
+  description     String
+  reference       String?
   complianceLevel ComplianceLevel @default(TO_EVALUATE)
-  createdAt    DateTime        @default(now())
+  createdAt       DateTime        @default(now())
 
   audit     Audit           @relation(fields: [auditId], references: [id])
   checklist AuditChecklist? @relation(fields: [checklistId], references: [id])
@@ -852,21 +1133,21 @@ model AuditFinding {
 }
 
 model NonConformity {
-  id             String       @id @default(cuid())
-  organizationId String?
-  auditId        String?
-  title          String
-  description    String
-  type           String       @default("MINOR") // MINOR, MAJOR, CRITICAL
-  status         ActionStatus @default(TODO)
-  dueDate        DateTime?
-  closedAt       DateTime?
-  rootCause      String?
+  id               String       @id @default(cuid())
+  organizationId   String?
+  auditId          String?
+  title            String
+  description      String
+  type             String       @default("MINOR") // MINOR, MAJOR, CRITICAL
+  status           ActionStatus @default(TODO)
+  dueDate          DateTime?
+  closedAt         DateTime?
+  rootCause        String?
   correctiveAction String?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 
-  audit     Audit?   @relation(fields: [auditId], references: [id])
+  audit     Audit?     @relation(fields: [auditId], references: [id])
   evidences Evidence[]
 
   @@map("non_conformities")
@@ -877,15 +1158,15 @@ model NonConformity {
 // ─────────────────────────────────────────────
 
 model HACCPPlan {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
   organizationId String
   name           String
-  version        Int      @default(1)
+  version        Int       @default(1)
   productType    String?
   scope          String?
   validatedAt    DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id])
   ccps         CCP[]
@@ -895,17 +1176,17 @@ model HACCPPlan {
 }
 
 model CCP {
-  id             String  @id @default(cuid())
-  planId         String
-  step           String
-  hazard         String
-  hazardType     String  // BIOLOGICAL, CHEMICAL, PHYSICAL, ALLERGEN
-  criticalLimit  String
-  monitoring     String
+  id               String   @id @default(cuid())
+  planId           String
+  step             String
+  hazard           String
+  hazardType       String // BIOLOGICAL, CHEMICAL, PHYSICAL, ALLERGEN
+  criticalLimit    String
+  monitoring       String
   correctiveAction String?
-  verification   String?
-  records        String?
-  createdAt      DateTime @default(now())
+  verification     String?
+  records          String?
+  createdAt        DateTime @default(now())
 
   plan HACCPPlan @relation(fields: [planId], references: [id])
 
@@ -913,7 +1194,7 @@ model CCP {
 }
 
 model PRPo {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   planId      String
   name        String
   description String?
@@ -932,17 +1213,17 @@ model PRPo {
 // ─────────────────────────────────────────────
 
 model EnvironmentalAspect {
-  id             String          @id @default(cuid())
-  organizationId String
-  activity       String
-  aspect         String
-  impact         String
-  impactType     String          // AIR, WATER, SOIL, WASTE, ENERGY, BIODIVERSITY, NOISE
-  significance   String          // SIGNIFICANT, NOT_SIGNIFICANT
+  id              String          @id @default(cuid())
+  organizationId  String
+  activity        String
+  aspect          String
+  impact          String
+  impactType      String // AIR, WATER, SOIL, WASTE, ENERGY, BIODIVERSITY, NOISE
+  significance    String // SIGNIFICANT, NOT_SIGNIFICANT
   complianceLevel ComplianceLevel @default(TO_EVALUATE)
   controlMeasures String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id])
 
@@ -950,18 +1231,18 @@ model EnvironmentalAspect {
 }
 
 model ICPEItem {
-  id              String   @id @default(cuid())
-  organizationId  String
-  rubrique        String
-  designation     String
-  regime          String   // DECLARATION, ENREGISTREMENT, AUTORISATION
-  threshold       String?
-  actualQuantity  String?
-  status          String   @default("TO_EVALUATE")
-  prescriptions   String?
+  id               String    @id @default(cuid())
+  organizationId   String
+  rubrique         String
+  designation      String
+  regime           String // DECLARATION, ENREGISTREMENT, AUTORISATION
+  threshold        String?
+  actualQuantity   String?
+  status           String    @default("TO_EVALUATE")
+  prescriptions    String?
   nextInspectionAt DateTime?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id])
 
@@ -975,7 +1256,7 @@ model TMDItem {
   designation    String
   hazardClass    String
   packagingGroup String?
-  transportMode  String   // ROAD_ADR, RAIL_RID, WATERWAY_ADN
+  transportMode  String // ROAD_ADR, RAIL_RID, WATERWAY_ADN
   quantity       Float?
   unit           String?
   notes          String?
@@ -994,7 +1275,7 @@ model TMDItem {
 model ESGIndicator {
   id             String   @id @default(cuid())
   organizationId String
-  category       String   // ENVIRONMENTAL, SOCIAL, GOVERNANCE
+  category       String // ENVIRONMENTAL, SOCIAL, GOVERNANCE
   name           String
   unit           String?
   target         Float?
@@ -1014,20 +1295,20 @@ model ESGIndicator {
 // ─────────────────────────────────────────────
 
 model Regulation {
-  id               String   @id @default(cuid())
-  organizationId   String?  // null = référentiel global
-  title            String
-  description      String?
-  domain           String   // HSE, FOOD, ENV, TRANSPORT, QUALITY, SOCIAL, FISCAL
-  source           String   // Code du travail, JORF, Directive UE...
-  officialLink     String?
-  publicationDate  DateTime?
-  effectiveDate    DateTime?
-  applicableScope  String?
-  conditions       String?
-  obligations      Obligation[]
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id              String       @id @default(cuid())
+  organizationId  String? // null = référentiel global
+  title           String
+  description     String?
+  domain          String // HSE, FOOD, ENV, TRANSPORT, QUALITY, SOCIAL, FISCAL
+  source          String // Code du travail, JORF, Directive UE...
+  officialLink    String?
+  publicationDate DateTime?
+  effectiveDate   DateTime?
+  applicableScope String?
+  conditions      String?
+  obligations     Obligation[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 
   organization Organization? @relation(fields: [organizationId], references: [id])
 
@@ -1035,25 +1316,25 @@ model Regulation {
 }
 
 model Obligation {
-  id              String          @id @default(cuid())
-  regulationId    String
-  organizationId  String?
-  title           String
-  description     String
-  expectedEvidence String?
-  dueDate         DateTime?
-  frequency       String?
-  responsibleRole String?
-  complianceLevel ComplianceLevel @default(TO_EVALUATE)
-  criticality     RiskLevel       @default(MEDIUM)
-  isValidatedByExpert Boolean     @default(false)
+  id                   String          @id @default(cuid())
+  regulationId         String
+  organizationId       String?
+  title                String
+  description          String
+  expectedEvidence     String?
+  dueDate              DateTime?
+  frequency            String?
+  responsibleRole      String?
+  complianceLevel      ComplianceLevel @default(TO_EVALUATE)
+  criticality          RiskLevel       @default(MEDIUM)
+  isValidatedByExpert  Boolean         @default(false)
   expertValidationNote String?
-  disclaimer      String          @default("À vérifier avec la source officielle applicable et validation expert avant usage juridique.")
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  disclaimer           String          @default("À vérifier avec la source officielle applicable et validation expert avant usage juridique.")
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
 
-  regulation  Regulation @relation(fields: [regulationId], references: [id])
-  evidences   Evidence[]
+  regulation Regulation @relation(fields: [regulationId], references: [id])
+  evidences  Evidence[]
 
   @@map("obligations")
 }
@@ -1097,24 +1378,24 @@ model Evidence {
   mimeType       String?
 
   // Polymorphic relations
-  duerp          DUERP?     @relation(fields: [duerpId], references: [id])
-  duerpId        String?
-  actionPlan     ActionPlan? @relation(fields: [actionPlanId], references: [id])
-  actionPlanId   String?
-  incident       Incident?   @relation(fields: [incidentId], references: [id])
-  incidentId     String?
-  audit          Audit?      @relation(fields: [auditId], references: [id])
-  auditId        String?
-  auditFinding   AuditFinding? @relation(fields: [auditFindingId], references: [id])
-  auditFindingId String?
-  nonConformity  NonConformity? @relation(fields: [nonConformityId], references: [id])
+  duerp           DUERP?                @relation(fields: [duerpId], references: [id])
+  duerpId         String?
+  actionPlan      ActionPlan?           @relation(fields: [actionPlanId], references: [id])
+  actionPlanId    String?
+  incident        Incident?             @relation(fields: [incidentId], references: [id])
+  incidentId      String?
+  audit           Audit?                @relation(fields: [auditId], references: [id])
+  auditId         String?
+  auditFinding    AuditFinding?         @relation(fields: [auditFindingId], references: [id])
+  auditFindingId  String?
+  nonConformity   NonConformity?        @relation(fields: [nonConformityId], references: [id])
   nonConformityId String?
-  epiItem        EPIItem?    @relation(fields: [epiItemId], references: [id])
-  epiItemId      String?
-  verification   PeriodicVerification? @relation(fields: [verificationId], references: [id])
-  verificationId String?
-  obligation     Obligation? @relation(fields: [obligationId], references: [id])
-  obligationId   String?
+  epiItem         EPIItem?              @relation(fields: [epiItemId], references: [id])
+  epiItemId       String?
+  verification    PeriodicVerification? @relation(fields: [verificationId], references: [id])
+  verificationId  String?
+  obligation      Obligation?           @relation(fields: [obligationId], references: [id])
+  obligationId    String?
 
   createdAt DateTime @default(now())
 
@@ -1126,36 +1407,64 @@ model Evidence {
 // ─────────────────────────────────────────────
 
 model Subscription {
-  id                  String             @id @default(cuid())
-  organizationId      String             @unique
-  plan                SubscriptionPlan   @default(FREE)
-  status              SubscriptionStatus @default(TRIALING)
-  stripeCustomerId    String?
+  id                   String             @id @default(cuid())
+  organizationId       String             @unique
+  plan                 SubscriptionPlan   @default(DIAGNOSTIC)
+  // Plan demandé mais pas encore actif : posé lors de la création d'une
+  // facture à régler par virement bancaire (statut PENDING_PAYMENT), promu en
+  // `plan` uniquement à réception du paiement (webhook invoice.paid) — jamais
+  // avant, pour ne pas accorder les entitlements d'un plan non payé.
+  pendingPlan          SubscriptionPlan?
+  status               SubscriptionStatus @default(FREE)
+  paymentMethodType    PaymentMethodType?
+  stripeCustomerId     String?
   stripeSubscriptionId String?
-  currentPeriodStart  DateTime?
-  currentPeriodEnd    DateTime?
-  cancelAtPeriodEnd   Boolean            @default(false)
-  seats               Int                @default(5)
-  modules             String[]
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
+  stripePriceId        String?
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  seats                Int                @default(5)
+  modules              String[]
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id])
 
   @@map("subscriptions")
 }
 
+// Idempotence des webhooks Stripe : chaque event.id Stripe n'est traité qu'une
+// seule fois, quel que soit le nombre de fois où Stripe le renvoie.
+model WebhookEvent {
+  id             String    @id @default(cuid())
+  provider       String    @default("stripe")
+  eventId        String    @unique
+  type           String
+  organizationId String?
+  payload        Json
+  processedAt    DateTime?
+  error          String?
+  createdAt      DateTime  @default(now())
+
+  @@index([type])
+  @@map("webhook_events")
+}
+
 model Invoice {
-  id             String   @id @default(cuid())
-  organizationId String
-  stripeInvoiceId String?
-  amount         Float
-  currency       String   @default("EUR")
-  status         String   @default("PENDING")
-  paidAt         DateTime?
-  pdfUrl         String?
-  description    String?
-  createdAt      DateTime @default(now())
+  id              String    @id @default(cuid())
+  organizationId  String
+  // Unique (et non plus simplement String?) : permet un upsert par facture
+  // Stripe côté webhook, indispensable au parcours virement bancaire où la
+  // ligne Invoice est créée en PENDING dès l'émission de la facture, puis
+  // mise à jour (pas recréée) à réception du paiement (invoice.paid).
+  stripeInvoiceId String?   @unique
+  amount          Float
+  currency        String    @default("EUR")
+  status          String    @default("PENDING")
+  paidAt          DateTime?
+  pdfUrl          String?
+  description     String?
+  createdAt       DateTime  @default(now())
 
   organization Organization @relation(fields: [organizationId], references: [id])
 
@@ -1167,7 +1476,7 @@ model Invoice {
 // ─────────────────────────────────────────────
 
 model Notification {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
   organizationId String?
   userId         String?
   type           String
@@ -1175,7 +1484,7 @@ model Notification {
   message        String
   readAt         DateTime?
   link           String?
-  createdAt      DateTime @default(now())
+  createdAt      DateTime  @default(now())
 
   organization Organization? @relation(fields: [organizationId], references: [id])
   user         User?         @relation(fields: [userId], references: [id])
@@ -1202,15 +1511,15 @@ model AuditLog {
 }
 
 model SupportTicket {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
   organizationId String?
   subject        String
-  message        String   @db.Text
-  status         String   @default("OPEN")
-  priority       String   @default("MEDIUM")
+  message        String    @db.Text
+  status         String    @default("OPEN")
+  priority       String    @default("MEDIUM")
   resolvedAt     DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   organization Organization? @relation(fields: [organizationId], references: [id])
 

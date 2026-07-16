@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const UpdateActionPlanSchema = z.object({
   title: z.string().min(2).max(200).optional(),
@@ -26,7 +28,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     where: { id, organizationId: orgId ?? undefined },
     include: {
       owner: { select: { id: true, name: true, email: true } },
-      risk: { select: { title: true, riskLevel: true } },
+      risk: { select: { hazardDescription: true, riskLevel: true } },
       incident: { select: { title: true, severity: true } },
       audit: { select: { title: true, type: true } },
     },
@@ -42,6 +44,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   const { id } = await params;
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "action_plans", "update");
+  if (forbidden) return forbidden;
 
   const ap = await db.actionPlan.findFirst({ where: { id, organizationId: orgId ?? undefined } });
   if (!ap) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
@@ -75,6 +80,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   const { id } = await params;
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "action_plans", "delete");
+  if (forbidden) return forbidden;
 
   const ap = await db.actionPlan.findFirst({ where: { id, organizationId: orgId ?? undefined } });
   if (!ap) return NextResponse.json({ error: "Introuvable" }, { status: 404 });

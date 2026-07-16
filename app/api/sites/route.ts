@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { checkSiteLimit } from "@/lib/billing/entitlements";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
@@ -39,6 +42,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
   }
 
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "sites", "create");
+  if (forbidden) return forbidden;
+
   let body: {
     name?: unknown;
     address?: unknown;
@@ -54,6 +60,14 @@ export async function POST(req: NextRequest) {
 
   if (!body.name || typeof body.name !== "string" || !body.name.trim()) {
     return NextResponse.json({ error: "Le nom du site est requis" }, { status: 400 });
+  }
+
+  const limitCheck = await checkSiteLimit(orgId);
+  if (!limitCheck.allowed) {
+    return NextResponse.json(
+      { error: `Limite de sites atteinte pour votre offre (${limitCheck.limit} maximum). Passez à une offre supérieure pour en ajouter.` },
+      { status: 403 }
+    );
   }
 
   const site = await db.site.create({

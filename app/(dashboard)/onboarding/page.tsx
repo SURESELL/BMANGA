@@ -86,7 +86,7 @@ export default async function OnboardingPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Bienvenue sur NORMIA</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Bienvenue sur PREUVIA DUERP</h1>
         <p className="text-sm text-gray-500 mt-1">
           Suivez ces étapes pour configurer votre espace de travail.
         </p>
@@ -96,11 +96,11 @@ export default async function OnboardingPage() {
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-medium text-gray-700">Progression</p>
-          <p className="text-sm font-bold text-[#1E3A5F]">{completedCount}/{steps.length} étapes</p>
+          <p className="text-sm font-bold text-[#145B8C]">{completedCount}/{steps.length} étapes</p>
         </div>
         <div className="w-full bg-gray-100 rounded-full h-2.5">
           <div
-            className="h-2.5 rounded-full bg-[#1E3A5F] transition-all"
+            className="h-2.5 rounded-full bg-[#145B8C] transition-all"
             style={{ width: `${progressPct}%` }}
           />
         </div>
@@ -122,7 +122,7 @@ export default async function OnboardingPage() {
               className={`block bg-white border rounded-xl p-5 transition-all ${
                 step.completed
                   ? "border-green-200 bg-green-50/30 cursor-default"
-                  : "border-gray-200 hover:border-[#1E3A5F] hover:shadow-sm"
+                  : "border-gray-200 hover:border-[#145B8C] hover:shadow-sm"
               }`}
             >
               <div className="flex items-start gap-4">
@@ -146,7 +146,7 @@ export default async function OnboardingPage() {
                   <p className="text-sm text-gray-500 mt-0.5">{step.description}</p>
                 </div>
                 {!step.completed && (
-                  <div className="flex items-center gap-1 text-[#1E3A5F] shrink-0">
+                  <div className="flex items-center gap-1 text-[#145B8C] shrink-0">
                     <Icon className="w-4 h-4" />
                     <ArrowRight className="w-4 h-4" />
                   </div>

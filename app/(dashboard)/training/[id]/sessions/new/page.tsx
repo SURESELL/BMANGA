@@ -86,7 +86,7 @@ export default function TrainingSessionNewPage() {
 
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <Calendar className="w-5 h-5 text-[#1E3A5F]" />
+          <Calendar className="w-5 h-5 text-[#145B8C]" />
           <p className="text-sm font-medium text-gray-700">Informations de la session</p>
         </div>
 
@@ -96,7 +96,7 @@ export default function TrainingSessionNewPage() {
             <input
               name="title"
               placeholder="Ex: Session Paris — Janvier 2026"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -109,7 +109,7 @@ export default function TrainingSessionNewPage() {
               required
               value={sessionType}
               onChange={(e) => setSessionType(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               {SESSION_TYPES.map((t) => (
                 <option key={t.value} value={t.value}>{t.label}</option>
@@ -121,7 +121,7 @@ export default function TrainingSessionNewPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Formateur</label>
             <select
               name="trainerId"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="">Non assigné</option>
               {trainers.map((u) => (
@@ -138,7 +138,7 @@ export default function TrainingSessionNewPage() {
               name="startDate"
               type="datetime-local"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function TrainingSessionNewPage() {
               name="endDate"
               type="datetime-local"
               required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -160,7 +160,7 @@ export default function TrainingSessionNewPage() {
               <input
                 name="location"
                 placeholder="Ex: Salle de formation — Bâtiment A, Paris 75001"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
           )}
@@ -172,7 +172,7 @@ export default function TrainingSessionNewPage() {
                 name="virtualLink"
                 type="url"
                 placeholder="https://meet.google.com/... ou https://teams.microsoft.com/..."
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
           )}
@@ -184,7 +184,7 @@ export default function TrainingSessionNewPage() {
               type="number"
               min="1"
               placeholder="Ex: 12"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -194,7 +194,7 @@ export default function TrainingSessionNewPage() {
               name="notes"
               rows={2}
               placeholder="Informations complémentaires pour les apprenants..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -207,7 +207,7 @@ export default function TrainingSessionNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Création..." : "Planifier la session"}
           </button>

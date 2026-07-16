@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { z } from "zod";
 
 const PatchSchema = z.object({
-  plan: z.enum(["FREE", "STARTER", "PROFESSIONAL", "ENTERPRISE"]).optional(),
+  plan: z.enum(["DIAGNOSTIC", "ESSENTIEL", "PILOTAGE", "MAITRISE", "ENTERPRISE", "PARTNER"]).optional(),
   seatLimit: z.number().int().positive().optional(),
 });
 
@@ -60,7 +60,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     },
     create: {
       organizationId: id,
-      plan: plan ?? "FREE",
+      plan: plan ?? "DIAGNOSTIC",
       seats: seatLimit ?? 5,
     },
     include: {

@@ -64,20 +64,20 @@ export default function NewSitePage() {
 
   const inputClass = cn(
     "w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm",
-    "focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent",
+    "focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent",
     "transition"
   );
 
   return (
     <div className="max-w-xl mx-auto py-10 px-4">
       <div className="mb-6">
-        <Link href="/sites" className="text-sm text-[#1E3A5F] hover:underline flex items-center gap-1">
+        <Link href="/sites" className="text-sm text-[#145B8C] hover:underline flex items-center gap-1">
           ← Retour aux sites
         </Link>
       </div>
 
       <div className="bg-white rounded-xl shadow border border-gray-200 p-8">
-        <h1 className="text-2xl font-bold text-[#1E3A5F] mb-2">Nouveau site</h1>
+        <h1 className="text-2xl font-bold text-[#145B8C] mb-2">Nouveau site</h1>
         <p className="text-gray-500 text-sm mb-8">
           Ajoutez un site à votre organisation.
         </p>
@@ -171,7 +171,7 @@ export default function NewSitePage() {
               type="submit"
               disabled={loading}
               className={cn(
-                "flex-1 bg-[#1E3A5F] text-white rounded-lg px-6 py-2.5 text-sm font-semibold",
+                "flex-1 bg-[#145B8C] text-white rounded-lg px-6 py-2.5 text-sm font-semibold",
                 "hover:bg-[#162d4a] transition",
                 "disabled:opacity-60 disabled:cursor-not-allowed"
               )}

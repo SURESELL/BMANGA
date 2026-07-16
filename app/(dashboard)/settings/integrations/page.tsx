@@ -26,15 +26,15 @@ export default function IntegrationsPage() {
       <div>
         <h1 className="text-xl font-bold text-gray-900">Intégrations</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Connectez NORMIA à vos outils et systèmes externes.
+          Connectez PREUVIA DUERP à vos outils et systèmes externes.
         </p>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-4">
         <div>
-          <h2 className="font-semibold text-gray-900">API REST NORMIA</h2>
+          <h2 className="font-semibold text-gray-900">API REST PREUVIA DUERP</h2>
           <p className="text-sm text-gray-500 mt-1">
-            Accédez aux données de votre organisation via l&apos;API REST NORMIA sécurisée.
+            Accédez aux données de votre organisation via l&apos;API REST PREUVIA DUERP sécurisée.
           </p>
         </div>
         <div>
@@ -59,7 +59,7 @@ export default function IntegrationsPage() {
           <ComingSoonBadge />
         </div>
         <p className="text-sm text-gray-500">
-          Recevez des notifications HTTP en temps réel lors d&apos;événements dans NORMIA.
+          Recevez des notifications HTTP en temps réel lors d&apos;événements dans PREUVIA DUERP.
         </p>
         <div>
           <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">URL de destination</p>
@@ -91,7 +91,7 @@ export default function IntegrationsPage() {
             </div>
             <div>
               <h2 className="font-semibold text-gray-900">Slack</h2>
-              <p className="text-sm text-gray-500">Recevez des alertes NORMIA directement dans Slack.</p>
+              <p className="text-sm text-gray-500">Recevez des alertes PREUVIA DUERP directement dans Slack.</p>
             </div>
           </div>
           <button
@@ -111,7 +111,7 @@ export default function IntegrationsPage() {
             </div>
             <div>
               <h2 className="font-semibold text-gray-900">Microsoft Teams</h2>
-              <p className="text-sm text-gray-500">Envoyez des notifications NORMIA vers vos canaux Teams.</p>
+              <p className="text-sm text-gray-500">Envoyez des notifications PREUVIA DUERP vers vos canaux Teams.</p>
             </div>
           </div>
           <button

@@ -28,7 +28,6 @@ export default async function DocumentsPage() {
     : [];
 
   // Group by category
-  const categories = [...new Set(documents.map((d) => d.category ?? "Général"))];
 
   return (
     <div className="space-y-6">
@@ -37,7 +36,7 @@ export default async function DocumentsPage() {
           <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
           <p className="text-sm text-gray-500 mt-1">{documents.length} document{documents.length > 1 ? "s" : ""}</p>
         </div>
-        <button className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+        <button className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
           <Upload className="w-4 h-4" /> Ajouter un document
         </button>
       </div>

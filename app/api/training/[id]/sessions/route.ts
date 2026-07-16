@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const CreateSessionSchema = z.object({
   title: z.string().optional(),
@@ -40,6 +42,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation requise" }, { status: 400 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "training", "update");
+  if (forbidden) return forbidden;
 
   const { id } = await params;
 

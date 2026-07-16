@@ -80,7 +80,7 @@ export default function HACCPDetailPage() {
     return (
       <div className="max-w-3xl mx-auto py-10 px-4">
         <div className="mb-6">
-          <Link href={`/haccp/${resource.planId}`} className="text-sm text-[#1E3A5F] hover:underline">
+          <Link href={`/haccp/${resource.planId}`} className="text-sm text-[#145B8C] hover:underline">
             ← Retour au plan HACCP
           </Link>
         </div>
@@ -89,7 +89,7 @@ export default function HACCPDetailPage() {
           <div className="flex items-start justify-between mb-6">
             <div>
               <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">Point Critique de Contrôle</p>
-              <h1 className="text-2xl font-bold text-[#1E3A5F]">{resource.step}</h1>
+              <h1 className="text-2xl font-bold text-[#145B8C]">{resource.step}</h1>
             </div>
             <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${hazardTypeBadge(resource.hazardType)}`}>
               {resource.hazardType}
@@ -138,18 +138,18 @@ export default function HACCPDetailPage() {
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
       <div className="mb-6">
-        <Link href="/haccp" className="text-sm text-[#1E3A5F] hover:underline">← Retour aux plans HACCP</Link>
+        <Link href="/haccp" className="text-sm text-[#145B8C] hover:underline">← Retour aux plans HACCP</Link>
       </div>
 
       <div className="bg-white rounded-xl shadow border border-gray-200 p-6 mb-6">
         <div className="flex items-start justify-between mb-4">
           <div>
             <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">Plan HACCP · v{plan.version}</p>
-            <h1 className="text-2xl font-bold text-[#1E3A5F]">{plan.name}</h1>
+            <h1 className="text-2xl font-bold text-[#145B8C]">{plan.name}</h1>
           </div>
           <Link
             href={`/haccp/${id}/ccp/new`}
-            className="rounded-lg bg-[#1E3A5F] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
+            className="rounded-lg bg-[#145B8C] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
           >
             + Ajouter un CCP
           </Link>
@@ -189,7 +189,7 @@ export default function HACCPDetailPage() {
                   <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${hazardTypeBadge(ccp.hazardType)}`}>
                     {ccp.hazardType}
                   </span>
-                  <Link href={`/haccp/${ccp.id}`} className="text-xs text-[#1E3A5F] hover:underline">
+                  <Link href={`/haccp/${ccp.id}`} className="text-xs text-[#145B8C] hover:underline">
                     Détail →
                   </Link>
                 </div>

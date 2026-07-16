@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import type { AuditStatus } from "@prisma/client";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
+
+const VALID_AUDIT_STATUSES: AuditStatus[] = ["PLANNED", "IN_PROGRESS", "COMPLETED", "CLOSED", "CANCELED"];
 
 const CreateAuditSchema = z.object({
   type: z.enum(["INTERNAL", "SUPPLIER", "SAFETY", "ENVIRONMENT", "HACCP", "QUALIOPI", "ISO"]),
@@ -21,13 +26,14 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   const type = searchParams.get("type");
-  const status = searchParams.get("status");
+  const statusParam = searchParams.get("status");
+  const status = statusParam && VALID_AUDIT_STATUSES.includes(statusParam as AuditStatus) ? (statusParam as AuditStatus) : null;
 
   const audits = await db.audit.findMany({
     where: {
       organizationId: orgId,
       ...(type ? { type } : {}),
-      ...(status ? { status: status as "PLANNED" | "IN_PROGRESS" | "CLOSED" | "CANCELED" } : {}),
+      ...(status ? { status } : {}),
     },
     include: {
       site: { select: { name: true } },
@@ -45,6 +51,9 @@ export async function POST(req: NextRequest) {
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation requise" }, { status: 400 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "audits", "create");
+  if (forbidden) return forbidden;
 
   const body = await req.json();
   const parsed = CreateAuditSchema.safeParse(body);

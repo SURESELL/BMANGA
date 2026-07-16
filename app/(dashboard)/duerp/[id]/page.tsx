@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { formatDate } from "@/lib/utils";
 import { RISK_LEVELS, type RiskLevel } from "@/types";
+import { ValidateDuerpButton } from "./ValidateDuerpButton";
+import { ReviseDuerpButton } from "./ReviseDuerpButton";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -80,10 +82,10 @@ export default async function DUERPDetailPage({ params }: PageProps) {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <Link href="/duerp" className="text-sm text-[#1E3A5F] hover:underline">
+          <Link href="/duerp" className="text-sm text-[#145B8C] hover:underline">
             ← Retour à la liste
           </Link>
-          <h1 className="mt-2 text-3xl font-bold text-[#1E3A5F]">
+          <h1 className="mt-2 text-3xl font-bold text-[#145B8C]">
             DUERP {duerp.year} — Version {duerp.version}
           </h1>
           <div className="mt-2 flex items-center gap-3">
@@ -98,31 +100,21 @@ export default async function DUERPDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex items-start gap-3">
           <a
-            href={`/api/duerp/${id}/pdf`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-[#1E3A5F] text-[#1E3A5F] px-4 py-2 text-sm font-semibold hover:bg-[#1E3A5F]/5 transition"
+            href={`/api/duerp/${id}/export/pdf`}
+            className="inline-flex items-center gap-2 rounded-lg border border-[#145B8C] text-[#145B8C] px-4 py-2 text-sm font-semibold hover:bg-[#145B8C]/5 transition"
           >
             ↓ Exporter PDF
           </a>
-          <form action={`/api/duerp/${id}`} method="POST">
-            <input type="hidden" name="_method" value="PATCH" />
-            <input type="hidden" name="action" value="validate" />
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#1E3A5F] text-white px-4 py-2 text-sm font-semibold hover:bg-[#162d4a] transition"
-            >
-              Valider / Clôturer
-            </button>
-          </form>
+          {!duerp.validatedAt && <ValidateDuerpButton duerpId={id} />}
+          {duerp.validatedAt && <ReviseDuerpButton duerpId={id} />}
         </div>
       </div>
 
       {/* Risk Matrix Summary */}
       <section className="bg-white rounded-xl shadow border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-[#1E3A5F] mb-4">Matrice des risques</h2>
+        <h2 className="text-lg font-semibold text-[#145B8C] mb-4">Matrice des risques</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -139,7 +131,7 @@ export default async function DUERPDetailPage({ params }: PageProps) {
             <tbody>
               <tr>
                 {RISK_LEVEL_ORDER.map((lvl) => (
-                  <td key={lvl} className="px-4 py-3 text-center text-2xl font-bold text-[#1E3A5F]">
+                  <td key={lvl} className="px-4 py-3 text-center text-2xl font-bold text-[#145B8C]">
                     {riskCountByLevel[lvl]}
                   </td>
                 ))}
@@ -154,7 +146,7 @@ export default async function DUERPDetailPage({ params }: PageProps) {
 
       {/* Risks by Work Unit */}
       <section className="bg-white rounded-xl shadow border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-[#1E3A5F] mb-4">Risques par unité de travail</h2>
+        <h2 className="text-lg font-semibold text-[#145B8C] mb-4">Risques par unité de travail</h2>
 
         {risksByWorkUnit.size === 0 ? (
           <p className="text-gray-500 text-sm">Aucun risque enregistré pour ce DUERP.</p>
@@ -177,7 +169,7 @@ export default async function DUERPDetailPage({ params }: PageProps) {
                         <div>
                           <Link
                             href={`/risks/${risk.id}`}
-                            className="text-sm font-medium text-[#1E3A5F] hover:underline"
+                            className="text-sm font-medium text-[#145B8C] hover:underline"
                           >
                             {risk.hazardDescription ?? risk.hazard?.name ?? "Risque sans description"}
                           </Link>
@@ -205,7 +197,7 @@ export default async function DUERPDetailPage({ params }: PageProps) {
       {/* Notes */}
       {duerp.notes && (
         <section className="bg-white rounded-xl shadow border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-[#1E3A5F] mb-2">Notes</h2>
+          <h2 className="text-lg font-semibold text-[#145B8C] mb-2">Notes</h2>
           <p className="text-sm text-gray-700 whitespace-pre-wrap">{duerp.notes}</p>
         </section>
       )}

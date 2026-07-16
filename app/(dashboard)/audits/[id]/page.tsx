@@ -5,6 +5,7 @@ import { ClipboardList, AlertCircle, CheckCircle, Eye, ChevronRight } from "luci
 import { formatDate } from "@/lib/utils";
 import { StatusBadge, ComplianceBadge } from "@/components/ui/badge";
 import type { ActionStatus, ComplianceLevel } from "@/types";
+import Link from "next/link";
 
 const AUDIT_TYPE_LABELS: Record<string, string> = {
   INTERNAL: "Audit interne", SUPPLIER: "Audit fournisseur", SAFETY: "Sécurité",
@@ -54,7 +55,7 @@ export default async function AuditDetailPage({ params }: { params: Promise<{ id
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-            <a href="/audits" className="hover:underline">Audits</a>
+            <Link href="/audits" className="hover:underline">Audits</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-gray-700 font-medium truncate max-w-xs">{audit.title}</span>
           </div>
@@ -82,7 +83,7 @@ export default async function AuditDetailPage({ params }: { params: Promise<{ id
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-xl font-bold text-[#1E3A5F]">{audit.checklists.length}</p>
+          <p className="text-xl font-bold text-[#145B8C]">{audit.checklists.length}</p>
           <p className="text-xs text-gray-500 mt-0.5">Points de contrôle</p>
         </div>
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">

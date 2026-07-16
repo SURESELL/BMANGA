@@ -5,6 +5,7 @@ import { PlusCircle, Clock, CheckCircle, AlertCircle, ClipboardList } from "luci
 import { formatDate, isOverdue } from "@/lib/utils";
 import { StatusBadge } from "@/components/ui/badge";
 import type { ActionStatus } from "@/types";
+import Link from "next/link";
 
 export const metadata = { title: "Plans d'action" };
 
@@ -49,9 +50,9 @@ export default async function ActionPlansPage() {
           <h1 className="text-2xl font-bold text-gray-900">Plans d&apos;action</h1>
           <p className="text-sm text-gray-500 mt-1">{stats.total} action{stats.total > 1 ? "s" : ""}</p>
         </div>
-        <a href="/action-plans/new" className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+        <Link href="/action-plans/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
           <PlusCircle className="w-4 h-4" /> Nouvelle action
-        </a>
+        </Link>
       </div>
 
       {/* Quick stats */}
@@ -110,7 +111,7 @@ export default async function ActionPlansPage() {
                       ) : <span className="text-gray-400 text-xs">—</span>}
                     </td>
                     <td className="px-4 py-3">
-                      <a href={`/action-plans/${action.id}`} className="text-xs text-[#1E3A5F] hover:underline">Voir</a>
+                      <Link href={`/action-plans/${action.id}`} className="text-xs text-[#145B8C] hover:underline">Voir</Link>
                     </td>
                   </tr>
                 );

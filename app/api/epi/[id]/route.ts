@@ -1,19 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac";
+import { omitProtectedFields } from "@/lib/api-utils";
+import type { UserRole } from "@/types";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
 
-  const epi = await db.ePIItem.findFirst({ where: { id: params.id, organizationId: orgId } });
+  const epi = await db.ePIItem.findFirst({ where: { id: id, organizationId: orgId } });
   if (epi) return NextResponse.json({ ...epi, resourceType: "epi" });
 
   const verification = await db.periodicVerification.findFirst({
-    where: { id: params.id, organizationId: orgId },
+    where: { id: id, organizationId: orgId },
   });
   if (verification) return NextResponse.json({ ...verification, resourceType: "verification" });
 
@@ -21,11 +25,15 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "epi", "update");
+  if (forbidden) return forbidden;
 
   let body: Record<string, unknown>;
   try {
@@ -34,19 +42,24 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Corps invalide" }, { status: 400 });
   }
 
-  const { resourceType, ...fields } = body;
+  const { resourceType, ...rawFields } = body;
+  // organizationId (et id/createdAt/updatedAt) ne doivent jamais être
+  // assignables depuis le corps de la requête — sans ce filtre, un appelant
+  // pourrait réassigner sa propre ressource à une AUTRE organisation en
+  // incluant simplement `organizationId` dans le PATCH.
+  const fields = omitProtectedFields(rawFields);
 
   if (resourceType === "epi") {
-    const existing = await db.ePIItem.findFirst({ where: { id: params.id, organizationId: orgId } });
+    const existing = await db.ePIItem.findFirst({ where: { id: id, organizationId: orgId } });
     if (!existing) return NextResponse.json({ error: "EPI introuvable" }, { status: 404 });
-    const updated = await db.ePIItem.update({ where: { id: params.id }, data: fields });
+    const updated = await db.ePIItem.update({ where: { id: id }, data: fields });
     return NextResponse.json({ ...updated, resourceType: "epi" });
   }
 
   if (resourceType === "verification") {
-    const existing = await db.periodicVerification.findFirst({ where: { id: params.id, organizationId: orgId } });
+    const existing = await db.periodicVerification.findFirst({ where: { id: id, organizationId: orgId } });
     if (!existing) return NextResponse.json({ error: "Vérification introuvable" }, { status: 404 });
-    const updated = await db.periodicVerification.update({ where: { id: params.id }, data: fields });
+    const updated = await db.periodicVerification.update({ where: { id: id }, data: fields });
     return NextResponse.json({ ...updated, resourceType: "verification" });
   }
 
@@ -54,23 +67,27 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
 
-  const epi = await db.ePIItem.findFirst({ where: { id: params.id, organizationId: orgId } });
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "epi", "delete");
+  if (forbidden) return forbidden;
+
+  const epi = await db.ePIItem.findFirst({ where: { id: id, organizationId: orgId } });
   if (epi) {
-    await db.ePIItem.delete({ where: { id: params.id } });
+    await db.ePIItem.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   }
 
   const verification = await db.periodicVerification.findFirst({
-    where: { id: params.id, organizationId: orgId },
+    where: { id: id, organizationId: orgId },
   });
   if (verification) {
-    await db.periodicVerification.delete({ where: { id: params.id } });
+    await db.periodicVerification.delete({ where: { id: id } });
     return NextResponse.json({ success: true });
   }
 

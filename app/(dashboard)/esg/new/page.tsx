@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
 const ESG_INDICATORS_LIBRARY = {
   ENVIRONMENTAL: [
@@ -76,9 +77,9 @@ export default function ESGNewPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-3">
-        <a href="/esg" className="text-gray-500 hover:text-gray-700 transition-colors">
+        <Link href="/esg" className="text-gray-500 hover:text-gray-700 transition-colors">
           <ArrowLeft className="w-5 h-5" />
-        </a>
+        </Link>
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Nouvel indicateur ESG</h1>
           <p className="text-sm text-gray-500 mt-0.5">Ajoutez un indicateur à votre reporting RSE</p>
@@ -87,7 +88,7 @@ export default function ESGNewPage() {
 
       <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
         <div className="flex items-center gap-2 mb-1">
-          <TrendingUp className="w-5 h-5 text-[#1E3A5F]" />
+          <TrendingUp className="w-5 h-5 text-[#145B8C]" />
           <p className="text-sm font-medium text-gray-700">Informations de l&apos;indicateur</p>
         </div>
 
@@ -101,7 +102,7 @@ export default function ESGNewPage() {
               required
               value={category}
               onChange={(e) => setCategory(e.target.value as typeof category)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
             >
               <option value="ENVIRONMENTAL">Environnemental (E)</option>
               <option value="SOCIAL">Social (S)</option>
@@ -120,7 +121,7 @@ export default function ESGNewPage() {
               defaultValue={new Date().getFullYear()}
               min="2020"
               max="2100"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -133,7 +134,7 @@ export default function ESGNewPage() {
               required
               list="indicator-suggestions"
               placeholder="Ex: Émissions CO₂, Taux de fréquence..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
             <datalist id="indicator-suggestions">
               {suggestions.map((s) => <option key={s} value={s} />)}
@@ -146,7 +147,7 @@ export default function ESGNewPage() {
             <input
               name="unit"
               placeholder="Ex: tCO₂e, MWh, %, jours..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -155,7 +156,7 @@ export default function ESGNewPage() {
             <input
               name="source"
               placeholder="Ex: Compteur EDF, RH, DSI..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -166,7 +167,7 @@ export default function ESGNewPage() {
               type="number"
               step="any"
               placeholder="Ex: 42.5"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -177,7 +178,7 @@ export default function ESGNewPage() {
               type="number"
               step="any"
               placeholder="Ex: 50"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
             />
           </div>
 
@@ -187,7 +188,7 @@ export default function ESGNewPage() {
               name="notes"
               rows={2}
               placeholder="Précisez la méthode de calcul, le périmètre..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] resize-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] resize-none"
             />
           </div>
         </div>
@@ -200,16 +201,16 @@ export default function ESGNewPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 bg-[#1E3A5F] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+            className="flex-1 bg-[#145B8C] text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
           >
             {loading ? "Enregistrement..." : "Enregistrer l'indicateur"}
           </button>
-          <a
+          <Link
             href="/esg"
             className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
           >
             Annuler
-          </a>
+          </Link>
         </div>
       </form>
     </div>

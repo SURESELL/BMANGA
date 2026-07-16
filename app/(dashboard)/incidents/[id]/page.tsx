@@ -5,6 +5,7 @@ import { ChevronRight, MapPin, Users, AlertTriangle, CheckCircle } from "lucide-
 import { formatDate } from "@/lib/utils";
 import { StatusBadge, SeverityBadge } from "@/components/ui/badge";
 import type { ActionStatus } from "@/types";
+import Link from "next/link";
 
 const TYPE_LABELS: Record<string, string> = {
   INCIDENT: "Incident", ACCIDENT: "Accident", NEAR_MISS: "Presque-accident",
@@ -39,7 +40,7 @@ export default async function IncidentDetailPage({ params }: { params: Promise<{
       {/* Breadcrumb + Header */}
       <div>
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-          <a href="/incidents" className="hover:underline">Incidents</a>
+          <Link href="/incidents" className="hover:underline">Incidents</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-gray-700 font-medium truncate max-w-xs">{incident.title}</span>
         </div>

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const updateSchema = z.object({
   title:         z.string().min(3).max(200).optional(),
@@ -48,6 +50,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const { id } = await params;
   const orgId = (session.user as { organizationId?: string }).organizationId;
 
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "training", "update");
+  if (forbidden) return forbidden;
+
   const course = await db.trainingCourse.findFirst({ where: { id, organizationId: orgId } });
   if (!course) return NextResponse.json({ error: "Non trouvé ou non autorisé" }, { status: 404 });
 
@@ -65,6 +70,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   const { id } = await params;
   const orgId = (session.user as { organizationId?: string }).organizationId;
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "training", "delete");
+  if (forbidden) return forbidden;
 
   const course = await db.trainingCourse.findFirst({ where: { id, organizationId: orgId } });
   if (!course) return NextResponse.json({ error: "Non trouvé ou non autorisé" }, { status: 404 });

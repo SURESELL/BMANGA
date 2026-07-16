@@ -37,12 +37,12 @@ export default async function IncidentsPage({
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#0D1B2A]">Incidents & Accidents</h1>
+          <h1 className="text-2xl font-bold text-[#0B1F33]">Incidents & Accidents</h1>
           <p className="text-gray-500 text-sm mt-1">{incidents.length} événement(s) enregistré(s)</p>
         </div>
         <Link
           href="/incidents/new"
-          className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+          className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           + Déclarer un incident
         </Link>
@@ -54,7 +54,7 @@ export default async function IncidentsPage({
           <span className="text-xs text-gray-500">Type :</span>
           <Link
             href="/incidents"
-            className={`px-2.5 py-1 rounded-full text-xs font-medium ${!typeFilter ? "bg-[#1E3A5F] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            className={`px-2.5 py-1 rounded-full text-xs font-medium ${!typeFilter ? "bg-[#145B8C] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
           >
             Tous
           </Link>
@@ -62,7 +62,7 @@ export default async function IncidentsPage({
             <Link
               key={t}
               href={`/incidents?type=${t}${severityFilter ? `&severity=${severityFilter}` : ""}`}
-              className={`px-2.5 py-1 rounded-full text-xs font-medium ${typeFilter === t ? "bg-[#1E3A5F] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+              className={`px-2.5 py-1 rounded-full text-xs font-medium ${typeFilter === t ? "bg-[#145B8C] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
             >
               {TYPE_LABELS[t]}
             </Link>
@@ -72,7 +72,7 @@ export default async function IncidentsPage({
           <span className="text-xs text-gray-500">Gravité :</span>
           <Link
             href={`/incidents${typeFilter ? `?type=${typeFilter}` : ""}`}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium ${!severityFilter ? "bg-[#1E3A5F] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            className={`px-2.5 py-1 rounded-full text-xs font-medium ${!severityFilter ? "bg-[#145B8C] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
           >
             Toutes
           </Link>
@@ -80,7 +80,7 @@ export default async function IncidentsPage({
             <Link
               key={s}
               href={`/incidents?severity=${s}${typeFilter ? `&type=${typeFilter}` : ""}`}
-              className={`px-2.5 py-1 rounded-full text-xs font-medium ${severityFilter === s ? "bg-[#1E3A5F] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+              className={`px-2.5 py-1 rounded-full text-xs font-medium ${severityFilter === s ? "bg-[#145B8C] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
             >
               {SEVERITY_LABELS[s]}
             </Link>
@@ -108,7 +108,7 @@ export default async function IncidentsPage({
               </tr>
             ) : incidents.map((incident) => (
               <tr key={incident.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm font-medium text-[#0D1B2A]">{incident.title}</td>
+                <td className="px-6 py-4 text-sm font-medium text-[#0B1F33]">{incident.title}</td>
                 <td className="px-6 py-4"><TypeBadge type={incident.type} /></td>
                 <td className="px-6 py-4"><SeverityBadge severity={incident.severity} /></td>
                 <td className="px-6 py-4"><IncidentStatusBadge status={incident.status} /></td>
@@ -119,7 +119,7 @@ export default async function IncidentsPage({
                     : "—"}
                 </td>
                 <td className="px-6 py-4">
-                  <Link href={`/incidents/${incident.id}`} className="text-[#1E3A5F] hover:text-[#0D1B2A] text-sm font-medium">Voir</Link>
+                  <Link href={`/incidents/${incident.id}`} className="text-[#145B8C] hover:text-[#0B1F33] text-sm font-medium">Voir</Link>
                 </td>
               </tr>
             ))}

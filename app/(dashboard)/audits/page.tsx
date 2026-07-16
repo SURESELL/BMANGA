@@ -1,8 +1,9 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { PlusCircle, ClipboardList, Calendar, User } from "lucide-react";
+import { PlusCircle, ClipboardList, Calendar } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import Link from "next/link";
 
 export const metadata = { title: "Audits" };
 
@@ -47,9 +48,9 @@ export default async function AuditsPage() {
           <h1 className="text-2xl font-bold text-gray-900">Audits</h1>
           <p className="text-sm text-gray-500 mt-1">{audits.length} audit{audits.length > 1 ? "s" : ""}</p>
         </div>
-        <a href="/audits/new" className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+        <Link href="/audits/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
           <PlusCircle className="w-4 h-4" /> Planifier un audit
-        </a>
+        </Link>
       </div>
 
       {audits.length === 0 ? (
@@ -57,16 +58,16 @@ export default async function AuditsPage() {
           <ClipboardList className="w-10 h-10 text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500 font-medium">Aucun audit planifié</p>
           <p className="text-sm text-gray-400 mt-1">Créez votre premier audit pour commencer l&apos;évaluation</p>
-          <a href="/audits/new" className="inline-flex items-center gap-1.5 mt-4 text-sm text-[#1E3A5F] font-medium hover:underline">
+          <Link href="/audits/new" className="inline-flex items-center gap-1.5 mt-4 text-sm text-[#145B8C] font-medium hover:underline">
             <PlusCircle className="w-3.5 h-3.5" /> Planifier un audit
-          </a>
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {audits.map((audit) => {
             const statusStyle = AUDIT_STATUS_STYLES[audit.status] ?? AUDIT_STATUS_STYLES.PLANNED;
             return (
-              <a key={audit.id} href={`/audits/${audit.id}`} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-[#1E3A5F] hover:shadow-sm transition-all">
+              <Link key={audit.id} href={`/audits/${audit.id}`} className="bg-white border border-gray-200 rounded-xl p-5 hover:border-[#145B8C] hover:shadow-sm transition-all">
                 <div className="flex items-start justify-between mb-3">
                   <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
                     {AUDIT_TYPE_LABELS[audit.type] ?? audit.type}
@@ -103,7 +104,7 @@ export default async function AuditsPage() {
                     </div>
                   </div>
                 )}
-              </a>
+              </Link>
             );
           })}
         </div>

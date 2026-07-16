@@ -27,7 +27,7 @@ export function DashboardHeader({ user }: { user: HeaderUser }) {
           <input
             type="text"
             placeholder="Rechercher..."
-            className="w-full pl-9 pr-4 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] focus:border-transparent"
+            className="w-full pl-9 pr-4 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#145B8C] focus:border-transparent"
           />
         </div>
       </div>
@@ -45,7 +45,7 @@ export function DashboardHeader({ user }: { user: HeaderUser }) {
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
           >
-            <div className="w-8 h-8 rounded-full bg-[#1E3A5F] flex items-center justify-center text-white text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-[#145B8C] flex items-center justify-center text-white text-xs font-bold">
               {user.name ? getInitials(user.name) : "U"}
             </div>
             <div className="hidden lg:block text-left">

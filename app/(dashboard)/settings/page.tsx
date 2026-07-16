@@ -24,7 +24,7 @@ export default async function SettingsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {SETTING_SECTIONS.map((section) => (
-          <a key={section.href} href={section.href} className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl p-4 hover:border-[#1E3A5F] hover:shadow-sm transition-all group">
+          <a key={section.href} href={section.href} className="flex items-start gap-3 bg-white border border-gray-200 rounded-xl p-4 hover:border-[#145B8C] hover:shadow-sm transition-all group">
             <div className={`w-9 h-9 rounded-lg ${section.bg} flex items-center justify-center shrink-0`}>
               <section.icon className={`w-4 h-4 ${section.color}`} />
             </div>
@@ -41,7 +41,7 @@ export default async function SettingsPage() {
         <div className="bg-white border border-gray-200 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-900">Informations de l&apos;organisation</h2>
-            <a href="/settings/organization" className="text-sm text-[#1E3A5F] hover:underline">Modifier</a>
+            <a href="/settings/organization" className="text-sm text-[#145B8C] hover:underline">Modifier</a>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InfoRow label="Nom" value={org.name} />

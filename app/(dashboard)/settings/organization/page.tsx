@@ -93,7 +93,7 @@ export default function OrganizationSettingsPage() {
         {/* Identity */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
           <div className="flex items-center gap-2 mb-1">
-            <Building2 className="w-5 h-5 text-[#1E3A5F]" />
+            <Building2 className="w-5 h-5 text-[#145B8C]" />
             <p className="text-sm font-semibold text-gray-700">Identité</p>
           </div>
 
@@ -103,7 +103,7 @@ export default function OrganizationSettingsPage() {
               <input
                 name="name"
                 defaultValue={org.name ?? ""}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
 
@@ -113,7 +113,7 @@ export default function OrganizationSettingsPage() {
                 name="siret"
                 defaultValue={org.siret ?? ""}
                 placeholder="12345678901234"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
 
@@ -122,7 +122,7 @@ export default function OrganizationSettingsPage() {
               <select
                 name="sector"
                 defaultValue={org.sector ?? ""}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
               >
                 <option value="">Sélectionner...</option>
                 {SECTORS.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -134,7 +134,7 @@ export default function OrganizationSettingsPage() {
               <select
                 name="size"
                 defaultValue={org.size ?? ""}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F] bg-white"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C] bg-white"
               >
                 <option value="">Sélectionner...</option>
                 {SIZES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
@@ -148,7 +148,7 @@ export default function OrganizationSettingsPage() {
                 type="url"
                 defaultValue={org.website ?? ""}
                 placeholder="https://www.example.fr"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
           </div>
@@ -164,7 +164,7 @@ export default function OrganizationSettingsPage() {
                 name="email"
                 type="email"
                 defaultValue={org.email ?? ""}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div>
@@ -173,7 +173,7 @@ export default function OrganizationSettingsPage() {
                 name="phone"
                 defaultValue={org.phone ?? ""}
                 placeholder="+33 1 23 45 67 89"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
           </div>
@@ -189,7 +189,7 @@ export default function OrganizationSettingsPage() {
                 name="address"
                 defaultValue={org.address ?? ""}
                 placeholder="12 rue de la Paix"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div>
@@ -197,7 +197,7 @@ export default function OrganizationSettingsPage() {
               <input
                 name="postalCode"
                 defaultValue={org.postalCode ?? ""}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div>
@@ -205,7 +205,7 @@ export default function OrganizationSettingsPage() {
               <input
                 name="city"
                 defaultValue={org.city ?? ""}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
             <div>
@@ -213,7 +213,7 @@ export default function OrganizationSettingsPage() {
               <input
                 name="country"
                 defaultValue={org.country ?? "France"}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
               />
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function OrganizationSettingsPage() {
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center gap-2 bg-[#1E3A5F] text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors disabled:opacity-60"
+          className="flex items-center gap-2 bg-[#145B8C] text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors disabled:opacity-60"
         >
           <Save className="w-4 h-4" />
           {loading ? "Enregistrement..." : "Enregistrer les modifications"}

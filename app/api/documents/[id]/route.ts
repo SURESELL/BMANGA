@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const UpdateSchema = z.object({
   title: z.string().min(2).max(200).optional(),
@@ -55,9 +57,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const parsed = UpdateSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
-  const { expiresAt, ...rest } = parsed.data;
+  const shouldApprove = parsed.data.status === "APPROVED" && doc.status !== "APPROVED";
+  const forbidden = requirePermission(
+    (session.user as { role?: UserRole }).role,
+    "documents",
+    shouldApprove ? "validate" : "update"
+  );
+  if (forbidden) return forbidden;
 
-  const shouldApprove = rest.status === "APPROVED" && doc.status !== "APPROVED";
+  const { expiresAt, ...rest } = parsed.data;
   const userId = (session.user as { id?: string })?.id;
 
   const updated = await db.document.update({
@@ -78,6 +86,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   const { id } = await params;
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "documents", "delete");
+  if (forbidden) return forbidden;
 
   const doc = await db.document.findFirst({ where: { id, organizationId: orgId ?? undefined } });
   if (!doc) return NextResponse.json({ error: "Introuvable" }, { status: 404 });

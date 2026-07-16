@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const UpdateSchema = z.object({
   hazardDescription: z.string().min(2).optional(),
@@ -17,7 +19,6 @@ const UpdateSchema = z.object({
   riskLevel: z.enum(["NEGLIGIBLE", "LOW", "MEDIUM", "HIGH", "CRITICAL"]).optional(),
   priority: z.number().int().min(1).max(5).optional(),
   notes: z.string().optional(),
-  ownerId: z.string().optional(),
   siteId: z.string().optional(),
 });
 
@@ -32,7 +33,6 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     where: { id, organizationId: orgId ?? undefined },
     include: {
       site: { select: { name: true } },
-      owner: { select: { name: true, email: true } },
       actionPlans: { select: { id: true } },
     },
   });
@@ -51,6 +51,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const orgId = (session.user as { organizationId?: string })?.organizationId;
   const { id } = await params;
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "risks", "update");
+  if (forbidden) return forbidden;
 
   const risk = await db.risk.findFirst({ where: { id, organizationId: orgId ?? undefined } });
   if (!risk) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
@@ -80,7 +83,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     },
     include: {
       site: { select: { name: true } },
-      owner: { select: { name: true, email: true } },
     },
   });
 

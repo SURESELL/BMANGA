@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 const CreatePlanSchema = z.object({
   name: z.string().min(2).max(200),
@@ -44,6 +46,9 @@ export async function POST(req: NextRequest) {
 
   const orgId = (session.user as { organizationId?: string }).organizationId;
   if (!orgId) return NextResponse.json({ error: "Organisation requise" }, { status: 400 });
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "haccp", "create");
+  if (forbidden) return forbidden;
 
   const body = await req.json();
   const { type, ...data } = body;

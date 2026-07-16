@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { TrendingUp, TrendingDown, Minus, PlusCircle, Leaf, Users, Shield } from "lucide-react";
+import Link from "next/link";
 
 export const metadata = { title: "ESG / RSE" };
 
@@ -48,18 +49,18 @@ export default async function ESGPage() {
             Indicateurs Environnementaux, Sociaux et de Gouvernance — {currentYear}
           </p>
         </div>
-        <a
+        <Link
           href="/esg/new"
-          className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+          className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           <PlusCircle className="w-4 h-4" /> Ajouter indicateur
-        </a>
+        </Link>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-[#1E3A5F]">{currentYear_indicators.length}</p>
+          <p className="text-2xl font-bold text-[#145B8C]">{currentYear_indicators.length}</p>
           <p className="text-xs text-gray-500 mt-0.5">Indicateurs {currentYear}</p>
         </div>
         <div className="bg-green-50 border border-gray-200 rounded-xl p-4 text-center">

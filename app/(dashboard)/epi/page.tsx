@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { HardHat, PlusCircle, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { formatDate, isOverdue, getDaysUntil } from "@/lib/utils";
+import { PREUVIA_DISCLAIMER } from "@/types";
+import Link from "next/link";
 
 export const metadata = { title: "EPI / Vérifications" };
 
@@ -30,7 +32,6 @@ export default async function EPIPage() {
   ]);
 
   const epiExpiring = epiItems.filter((e) => e.expiryDate && getDaysUntil(e.expiryDate) <= 30).length;
-  const verificationsDue = verifications.filter((v) => v.nextVerificationAt && getDaysUntil(v.nextVerificationAt) <= 30).length;
   const overdueVerifications = verifications.filter((v) => v.nextVerificationAt && isOverdue(v.nextVerificationAt)).length;
 
   return (
@@ -41,12 +42,22 @@ export default async function EPIPage() {
           <p className="text-sm text-gray-500 mt-1">Gestion des équipements de protection et contrôles réglementaires</p>
         </div>
         <div className="flex gap-2">
-          <a href="/epi/verification/new" className="border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+          <Link href="/epi/verification/new" className="border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
             + Vérification
-          </a>
-          <a href="/epi/new" className="flex items-center gap-2 bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors">
+          </Link>
+          <Link href="/epi/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
             <PlusCircle className="w-4 h-4" /> Ajouter EPI
-          </a>
+          </Link>
+        </div>
+      </div>
+
+      {/* Disclaimer réglementaire — vérifications périodiques (VGP et
+          équivalents) : PREUVIA n'est pas l'organisme de contrôle agréé,
+          ces données doivent être recoupées avec le rapport officiel. */}
+      <div className="bg-amber-50 border border-amber-300 rounded-xl p-4">
+        <div className="flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+          <p className="text-sm text-amber-800">{PREUVIA_DISCLAIMER}</p>
         </div>
       </div>
 
@@ -204,7 +215,7 @@ export default async function EPIPage() {
 }
 
 function Stat({ label, value, color }: { label: string; value: number; color: "blue" | "orange" | "red" }) {
-  const colors = { blue: "text-[#1E3A5F]", orange: "text-orange-600", red: "text-red-600" };
+  const colors = { blue: "text-[#145B8C]", orange: "text-orange-600", red: "text-red-600" };
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
       <p className={`text-2xl font-bold ${colors[color]}`}>{value}</p>

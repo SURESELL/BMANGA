@@ -37,12 +37,12 @@ export default async function RisksPage({
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#0D1B2A]">Évaluation des risques</h1>
+          <h1 className="text-2xl font-bold text-[#0B1F33]">Évaluation des risques</h1>
           <p className="text-gray-500 text-sm mt-1">{risks.length} risque(s) identifié(s)</p>
         </div>
         <Link
           href="/risks/new"
-          className="bg-[#1E3A5F] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0D1B2A] transition-colors"
+          className="bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors"
         >
           + Nouveau risque
         </Link>
@@ -53,7 +53,7 @@ export default async function RisksPage({
         <span className="text-sm text-gray-500 mr-1">Filtrer par niveau :</span>
         <Link
           href="/risks"
-          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${!riskLevelFilter ? "bg-[#1E3A5F] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+          className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${!riskLevelFilter ? "bg-[#145B8C] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
         >
           Tous
         </Link>
@@ -61,7 +61,7 @@ export default async function RisksPage({
           <Link
             key={level}
             href={`/risks?riskLevel=${level}`}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${riskLevelFilter === level ? "bg-[#1E3A5F] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${riskLevelFilter === level ? "bg-[#145B8C] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
           >
             {RISK_LEVEL_LABELS[level]}
           </Link>
@@ -78,7 +78,7 @@ export default async function RisksPage({
               <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Risque brut</th>
               <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Niveau</th>
               <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Risque résiduel</th>
-              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Plan d'action</th>
+              <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Plan d&apos;action</th>
               <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
@@ -96,7 +96,7 @@ export default async function RisksPage({
               )
               return (
                 <tr key={risk.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium text-[#0D1B2A]">{risk.workUnit?.name ?? "—"}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-[#0B1F33]">{risk.workUnit?.name ?? "—"}</td>
                   <td className="px-6 py-4 text-sm text-gray-600">{risk.hazard?.family ?? "—"}</td>
                   <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">{risk.hazardDescription}</td>
                   <td className="px-6 py-4 text-sm font-semibold text-gray-700">{risk.grossRisk}</td>
@@ -110,7 +110,7 @@ export default async function RisksPage({
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <Link href={`/risks/${risk.id}`} className="text-[#1E3A5F] hover:text-[#0D1B2A] text-sm font-medium">
+                    <Link href={`/risks/${risk.id}`} className="text-[#145B8C] hover:text-[#0B1F33] text-sm font-medium">
                       Voir
                     </Link>
                   </td>

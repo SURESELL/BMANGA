@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
@@ -38,6 +40,9 @@ export async function POST(req: NextRequest) {
   if (!orgId || !userId) {
     return NextResponse.json({ error: "Organisation introuvable" }, { status: 403 });
   }
+
+  const forbidden = requirePermission((session.user as { role?: UserRole }).role, "duerp", "create");
+  if (forbidden) return forbidden;
 
   let body: { year?: unknown; notes?: unknown };
   try {

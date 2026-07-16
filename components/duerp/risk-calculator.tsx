@@ -45,7 +45,7 @@ export function RiskCalculator({ onScoreChange, initialValues = {} }: RiskCalcul
               setFrequency(v);
               handleChange(v, gravity, mastery);
             }}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
           >
             {FREQ_LABELS.slice(1).map((label, i) => (
               <option key={i + 1} value={i + 1}>{label}</option>
@@ -65,7 +65,7 @@ export function RiskCalculator({ onScoreChange, initialValues = {} }: RiskCalcul
               setGravity(v);
               handleChange(frequency, v, mastery);
             }}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
           >
             {GRAV_LABELS.slice(1).map((label, i) => (
               <option key={i + 1} value={i + 1}>{label}</option>
@@ -85,7 +85,7 @@ export function RiskCalculator({ onScoreChange, initialValues = {} }: RiskCalcul
               setMastery(v);
               handleChange(frequency, gravity, v);
             }}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#1E3A5F]"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#145B8C]"
           >
             {MASTERY_LABELS.slice(1).map((label, i) => (
               <option key={i + 1} value={i + 1}>{label}</option>

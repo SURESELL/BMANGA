@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac";
+import type { UserRole } from "@/types";
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -67,11 +69,23 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
   // Verify org isolation
   const existing = await db.dUERP.findFirst({
     where: { id, organizationId: orgId },
-    select: { id: true },
+    select: { id: true, validatedAt: true, version: true },
   });
 
   if (!existing) {
     return NextResponse.json({ error: "DUERP introuvable" }, { status: 404 });
+  }
+
+  // Immuabilité : une version validée ne peut plus être modifiée en place.
+  // Toute évolution doit passer par POST /api/duerp/[id]/revise, qui crée une
+  // nouvelle version DRAFT rattachée à celle-ci.
+  if (existing.validatedAt) {
+    return NextResponse.json(
+      {
+        error: `Cette version du DUERP (v${existing.version}) est validée et immuable. Créez une nouvelle révision via POST /api/duerp/${id}/revise pour la faire évoluer.`,
+      },
+      { status: 409 }
+    );
   }
 
   let body: { status?: unknown; validatedAt?: unknown; notes?: unknown };
@@ -80,6 +94,16 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
   } catch {
     return NextResponse.json({ error: "Corps de la requête invalide" }, { status: 400 });
   }
+
+  // La validation (verrouillage de version) exige un rôle plus élevé qu'une
+  // simple modification de brouillon.
+  const isValidating = body.status === "VALIDATED";
+  const forbidden = requirePermission(
+    (session.user as { role?: UserRole }).role,
+    "duerp",
+    isValidating ? "validate" : "update"
+  );
+  if (forbidden) return forbidden;
 
   const updateData: Record<string, unknown> = {};
 

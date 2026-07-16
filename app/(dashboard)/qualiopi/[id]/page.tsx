@@ -1,7 +1,8 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
-import { ArrowLeft, CheckCircle, AlertCircle, Clock, Upload, Plus } from "lucide-react";
+import { ArrowLeft, CheckCircle, Plus } from "lucide-react";
+import Link from "next/link";
 import { ComplianceBadge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 import type { ComplianceLevel } from "@/types";
@@ -33,12 +34,12 @@ export default async function QualiopiCriterionPage({ params }: { params: Promis
   return (
     <div className="max-w-4xl space-y-6">
       <div className="flex items-center gap-3">
-        <a href="/qualiopi" className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+        <Link href="/qualiopi" className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
           <ArrowLeft className="w-4 h-4" />
-        </a>
+        </Link>
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-white bg-[#1E3A5F] px-2 py-0.5 rounded">{criterion.code}</span>
+            <span className="text-xs font-bold text-white bg-[#145B8C] px-2 py-0.5 rounded">{criterion.code}</span>
             <h1 className="text-xl font-bold text-gray-900">{criterion.title}</h1>
           </div>
           {criterion.description && <p className="text-sm text-gray-500 mt-0.5">{criterion.description}</p>}
@@ -78,7 +79,7 @@ export default async function QualiopiCriterionPage({ params }: { params: Promis
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           {evidence.fileUrl && (
-                            <a href={evidence.fileUrl} className="text-xs text-[#1E3A5F] hover:underline">Voir</a>
+                            <a href={evidence.fileUrl} className="text-xs text-[#145B8C] hover:underline">Voir</a>
                           )}
                           <span className="text-xs text-gray-400">{formatDate(evidence.createdAt)}</span>
                         </div>
@@ -94,9 +95,9 @@ export default async function QualiopiCriterionPage({ params }: { params: Promis
                   ) : (
                     <div className="mt-3 border border-dashed border-gray-300 rounded-lg p-3 flex items-center justify-between">
                       <span className="text-xs text-gray-400">Aucune preuve ajoutée</span>
-                      <a href={`/qualiopi/${indicator.id}/evidence/new`} className="flex items-center gap-1 text-xs text-[#1E3A5F] font-medium hover:underline">
+                      <Link href={`/qualiopi/${indicator.id}/evidence/new`} className="flex items-center gap-1 text-xs text-[#145B8C] font-medium hover:underline">
                         <Plus className="w-3 h-3" /> Ajouter une preuve
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>

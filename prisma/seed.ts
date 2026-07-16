@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 async function main() {
-  console.log("Seeding NORMIA database...");
+  console.log("Seeding PREUVIA DUERP database...");
 
   // Seed Qualiopi criteria (7 critères officiels)
   const criteriaDefs = [
