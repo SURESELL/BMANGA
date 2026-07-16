@@ -40,7 +40,7 @@ Non commencées dans cette session. Voir `PLANS.md` pour le détail :
 - Phase 1 (commercial/onboarding UI complet, Super Admin) — non commencée.
 - Phase 2 (UI consultant complète, invitations, mots de passe temporaires) — non commencée, scaffold serveur seul (0.7).
 - Phase 3 (DUERP versions immuables, workflow validation, exports PDF) — 🟡 immuabilité + chaîne de révision réelles (`validatedAt` verrouille `PATCH`, `POST /api/duerp/[id]/revise` crée une nouvelle version `DRAFT` liée via `previousVersionId`, testé) ; exports PDF non commencés.
-- Phase 4 (fiches de poste, communication sécurité) — non commencée.
+- Phase 4 (fiches de poste, communication sécurité) — non commencée ; le module EPI/vérifications périodiques (VGP) existant porte désormais la mention légale obligatoire `PREUVIA_DISCLAIMER` sur `/epi`, en parité avec HACCP/Environnement/ICPE/Réglementation.
 - Phase 5 (entreprises extérieures, permis de travail) — non commencée.
 - Phase 6 (virement bancaire Stripe) — 🟡 `POST /api/billing/bank-transfer` (émission facture `send_invoice`, statut `PENDING_PAYMENT`, `Subscription.pendingPlan`), activation via `invoice.paid` uniquement, testé (`tests/integration/bank-transfer-billing.test.ts`) ; rapprochement manuel des sous/trop-perçus non implémenté, jamais exercé contre une vraie facture Stripe (aucune clé fournie).
 - Phase 7 (PREUVIA COPILOT) — non commencée, correctement désactivé par défaut (absent).
@@ -66,7 +66,7 @@ du 2026-07-15).
 
 ## Risques de sécurité/conformité restants (voir aussi docs/REPOSITORY_AUDIT.md §6)
 
-1. RBAC désormais appliqué à toutes les routes de mutation (coeur DUERP + modules hérités). Une faille IDOR inter-tenant réelle a été trouvée et corrigée au passage : `PATCH /api/training/.../enrollments` ne vérifiait aucune appartenance à l'organisation (voir `tests/integration/training-enrollment-isolation.test.ts`). Reste à auditer : les routes GET/liste ne filtrent que par organisation, pas par site/unité (portée fine par site — hors périmètre Phase 0).
+1. RBAC désormais appliqué à toutes les routes de mutation (coeur DUERP + modules hérités). Une faille IDOR inter-tenant réelle a été trouvée et corrigée au passage : `PATCH /api/training/.../enrollments` ne vérifiait aucune appartenance à l'organisation (voir `tests/integration/training-enrollment-isolation.test.ts`). Une seconde faille réelle a été trouvée et corrigée : `PATCH /api/epi/[id]` et `PATCH /api/haccp/[id]` faisaient `data: { ...body }` sans filtrer le corps de la requête — un appelant pouvait réassigner sa propre ressource à une AUTRE organisation en incluant `organizationId` (ou `planId` pour un CCP) dans le PATCH, contournant le scoping multi-tenant malgré le contrôle d'appartenance fait par le `findFirst` précédent. Corrigé via `lib/api-utils.ts#omitProtectedFields()` (testé, `tests/unit/api-utils.test.ts`). Reste à auditer : les routes GET/liste ne filtrent que par organisation, pas par site/unité (portée fine par site — hors périmètre Phase 0).
 2. Rate limiting en mémoire (single-instance) — à migrer vers un store partagé avant tout déploiement multi-instance.
 3. Aucune UI de gestion des mots de passe temporaires consultant → client (Phase 2 non commencée) : le champ `User.mustChangePassword`/`passwordExpiresAt` existe déjà côté schéma pour l'accueillir.
 4. `PREUVIA_DISCLAIMER`/mentions légales présentes dans le code mais pas d'audit juridique/RGPD/fiscal effectué (hors périmètre technique).

@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { HardHat, PlusCircle, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { formatDate, isOverdue, getDaysUntil } from "@/lib/utils";
+import { PREUVIA_DISCLAIMER } from "@/types";
 import Link from "next/link";
 
 export const metadata = { title: "EPI / Vérifications" };
@@ -47,6 +48,16 @@ export default async function EPIPage() {
           <Link href="/epi/new" className="flex items-center gap-2 bg-[#145B8C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#0B1F33] transition-colors">
             <PlusCircle className="w-4 h-4" /> Ajouter EPI
           </Link>
+        </div>
+      </div>
+
+      {/* Disclaimer réglementaire — vérifications périodiques (VGP et
+          équivalents) : PREUVIA n'est pas l'organisme de contrôle agréé,
+          ces données doivent être recoupées avec le rapport officiel. */}
+      <div className="bg-amber-50 border border-amber-300 rounded-xl p-4">
+        <div className="flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+          <p className="text-sm text-amber-800">{PREUVIA_DISCLAIMER}</p>
         </div>
       </div>
 

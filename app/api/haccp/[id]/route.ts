@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { requirePermission } from "@/lib/rbac";
+import { omitProtectedFields } from "@/lib/api-utils";
 import type { UserRole } from "@/types";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -48,7 +49,12 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Corps invalide" }, { status: 400 });
   }
 
-  const { resourceType, ...fields } = body;
+  const { resourceType, ...rawFields } = body;
+  // organizationId/planId ne doivent jamais être assignables depuis le corps
+  // de la requête — sans ce filtre, un appelant pourrait réassigner sa propre
+  // ressource à une AUTRE organisation (ou un CCP à un plan d'une autre
+  // organisation) en incluant simplement le champ dans le PATCH.
+  const fields = omitProtectedFields(rawFields, ["planId"]);
 
   if (resourceType === "plan") {
     const existing = await db.hACCPPlan.findFirst({ where: { id: id, organizationId: orgId } });

@@ -72,6 +72,23 @@ Cette classe de bug (route de mutation imbriquée qui oublie le filtre
 non auditées ligne à ligne. Toute nouvelle route de mutation doit être
 accompagnée d'un test IDOR suivant le même modèle.
 
+**Seconde faille trouvée et corrigée** (assignation de masse) :
+`PATCH /api/epi/[id]` et `PATCH /api/haccp/[id]` vérifiaient bien
+l'appartenance de la ressource via `findFirst({ where: { id, organizationId } })`
+avant modification, mais passaient ensuite `data: { ...body }` tel quel à
+`update()` — sans filtrer les clés du corps de la requête. Un appelant
+disposant de la permission `update` sur sa propre ressource pouvait donc
+inclure `organizationId` (ou `planId` pour un CCP HACCP, la clé étrangère
+équivalente vers le tenant) dans le PATCH pour réassigner la ressource à une
+**autre** organisation — le contrôle d'appartenance ne portait que sur l'état
+avant modification, pas sur les champs soumis. Corrigé par
+`lib/api-utils.ts#omitProtectedFields()`, qui retire systématiquement
+`id`/`organizationId`/`createdAt`/`updatedAt` (et toute clé étrangère de
+tenant passée explicitement) avant l'`update()`. Testé dans
+`tests/unit/api-utils.test.ts`. Aucune autre route du dépôt ne suit ce
+pattern `data: { ...body }` (vérifié par recherche exhaustive) ; les autres
+routes PATCH construisent leur objet `data` champ par champ.
+
 ## 4. Secrets
 
 - Aucun secret commité. `.env.example` et `.env.test.example` ne contiennent
