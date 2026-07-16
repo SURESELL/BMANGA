@@ -69,11 +69,23 @@ export async function PATCH(req: NextRequest, ctx: RouteContext) {
   // Verify org isolation
   const existing = await db.dUERP.findFirst({
     where: { id, organizationId: orgId },
-    select: { id: true },
+    select: { id: true, validatedAt: true, version: true },
   });
 
   if (!existing) {
     return NextResponse.json({ error: "DUERP introuvable" }, { status: 404 });
+  }
+
+  // Immuabilité : une version validée ne peut plus être modifiée en place.
+  // Toute évolution doit passer par POST /api/duerp/[id]/revise, qui crée une
+  // nouvelle version DRAFT rattachée à celle-ci.
+  if (existing.validatedAt) {
+    return NextResponse.json(
+      {
+        error: `Cette version du DUERP (v${existing.version}) est validée et immuable. Créez une nouvelle révision via POST /api/duerp/${id}/revise pour la faire évoluer.`,
+      },
+      { status: 409 }
+    );
   }
 
   let body: { status?: unknown; validatedAt?: unknown; notes?: unknown };

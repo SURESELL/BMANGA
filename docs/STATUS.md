@@ -37,7 +37,7 @@ version majeure non tentée à l'aveugle).
 Non commencées dans cette session. Voir `PLANS.md` pour le détail :
 - Phase 1 (commercial/onboarding UI complet, Super Admin) — non commencée.
 - Phase 2 (UI consultant complète, invitations, mots de passe temporaires) — non commencée, scaffold serveur seul (0.7).
-- Phase 3 (DUERP versions immuables, workflow validation, exports PDF) — non commencée.
+- Phase 3 (DUERP versions immuables, workflow validation, exports PDF) — 🟡 immuabilité + chaîne de révision réelles (`validatedAt` verrouille `PATCH`, `POST /api/duerp/[id]/revise` crée une nouvelle version `DRAFT` liée via `previousVersionId`, testé) ; exports PDF non commencés.
 - Phase 4 (fiches de poste, communication sécurité) — non commencée.
 - Phase 5 (entreprises extérieures, permis de travail) — non commencée.
 - Phase 6 (virement bancaire Stripe) — non commencée.

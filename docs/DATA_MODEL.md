@@ -44,11 +44,16 @@ qu'en base — voir §4).
 Cotation risque : `grossFrequency/grossGravity/grossMastery` →
 `grossRisk`/`riskLevel`, et la même structure en version résiduelle
 (`residual*`). `DUERP.status` est une chaîne libre (`DRAFT`, `ACTIVE`,
-`VALIDATED`, `ARCHIVED`, `CLOSED`) — **pas encore un verrou d'immuabilité
-réel** : passer au statut `VALIDATED` exige la permission RBAC `validate`
-(plus élevée que `update`), mais rien n'empêche encore techniquement une
-modification ultérieure des champs d'un DUERP validé ni la création
-automatique d'une révision. Immuabilité stricte = Phase 3, non commencée.
+`VALIDATED`, `ARCHIVED`, `CLOSED`). Passer au statut `VALIDATED` exige la
+permission RBAC `validate` (plus élevée que `update`) et fixe `validatedAt`.
+**Immuabilité réelle appliquée côté serveur** : dès que `validatedAt` est
+renseigné, `PATCH /api/duerp/[id]` refuse toute modification en place
+(409). La seule évolution possible est `POST /api/duerp/[id]/revise`, qui
+crée une nouvelle version `DRAFT` rattachée à la version validée via
+`DUERP.previousVersionId` (auto-relation `previousVersion`/`revisions`),
+en reprenant ses unités de travail et risques comme point de départ ; le
+numéro de version est incrémenté par année (`year`). Chaque révision est
+journalisée (`AuditLog`, action `CREATE_REVISION`).
 
 ### EPI / vérifications
 `EPIItem`, `PeriodicVerification` — équipements de protection individuelle et

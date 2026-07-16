@@ -498,23 +498,30 @@ model Risk {
 }
 
 model DUERP {
-  id             String    @id @default(cuid())
-  organizationId String
-  version        Int       @default(1)
-  year           Int
-  status         String    @default("DRAFT")
-  validatedAt    DateTime?
-  validatedBy    String?
-  nextReviewDate DateTime?
-  notes          String?
-  pdfUrl         String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                String    @id @default(cuid())
+  organizationId    String
+  version           Int       @default(1)
+  year              Int
+  status            String    @default("DRAFT")
+  validatedAt       DateTime?
+  validatedBy       String?
+  nextReviewDate    DateTime?
+  notes             String?
+  pdfUrl            String?
+  // Chaîne de révisions : une fois validatedAt renseigné, ce DUERP devient
+  // immuable (voir app/api/duerp/[id]/route.ts PATCH et
+  // app/api/duerp/[id]/revise/route.ts). Toute modification ultérieure crée
+  // un nouveau DUERP pointant vers celui-ci via previousVersionId.
+  previousVersionId String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id])
-  workUnits    WorkUnit[]   @relation("DUERPWorkUnits")
-  risks        Risk[]       @relation("DUERPRisks")
-  evidences    Evidence[]
+  organization    Organization @relation(fields: [organizationId], references: [id])
+  workUnits       WorkUnit[]   @relation("DUERPWorkUnits")
+  risks           Risk[]       @relation("DUERPRisks")
+  evidences       Evidence[]
+  previousVersion DUERP?       @relation("DUERPRevisions", fields: [previousVersionId], references: [id])
+  revisions       DUERP[]      @relation("DUERPRevisions")
 
   @@map("duerps")
 }
