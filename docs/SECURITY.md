@@ -171,11 +171,19 @@ Voir aussi `docs/STATUS.md`.
    génération des en-têtes). `npm audit` : la vulnérabilité critique Next.js
    (DoS via Server Actions + exposition du serveur de dev) a été corrigée
    dans une session précédente en passant `next` de 15.0.4 à 15.5.20 (même
-   version majeure). Reste une vulnérabilité **critique** sur `vitest`
-   (dépendance de test uniquement, jamais expédiée en production) qui
-   nécessiterait une montée de version majeure (vitest 2 → 4) non tentée par
-   prudence — à planifier avec sa propre vérification de compatibilité des
-   tests plutôt que d'être faite à l'aveugle.
+   version majeure). ~~Vulnérabilité critique sur `vitest`~~ **Corrigée** :
+   `vitest` 2.1.8 → 4.1.10 (montée de version majeure, dépendance de test
+   uniquement, jamais expédiée en production). Vérifiée méthodiquement plutôt
+   que faite à l'aveugle : les 80 tests existants repassent tous sans
+   modification après la montée de version, `vitest.config.mts` migré vers
+   `resolve.tsconfigPaths` natif de Vite 6+ (dépréciant le plugin
+   `vite-tsconfig-paths`, désormais retiré des dépendances), build/lint/
+   `tsc --noEmit` re-vérifiés. Reste 3 vulnérabilités **modérées** :
+   `postcss` (XSS via sortie CSS non échappée), vendorisée à l'intérieur de
+   `next@15.5.20` lui-même — hors de notre contrôle direct tant que Next.js
+   ne met pas à jour sa dépendance interne ; le correctif suggéré par
+   `npm audit fix --force` est une **rétrogradation** de Next.js vers la
+   version 9 (cassante), donc délibérément non appliqué.
 6. Sauvegarde/restauration de la base : non testées dans cette session
    (voir `docs/RUNBOOKS.md` pour la procédure documentée mais non exercée
    en conditions réelles).

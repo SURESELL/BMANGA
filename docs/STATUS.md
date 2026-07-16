@@ -25,12 +25,14 @@ Build/lint/typecheck : `npm run build`, `npx eslint .`, `npx tsc --noEmit` tous 
 
 `docs/ARCHITECTURE.md`, `docs/SECURITY.md`, `docs/DATA_MODEL.md`,
 `docs/DEPLOYMENT.md`, `docs/RUNBOOKS.md` créés (mandatés par `CLAUDE.md`,
-aucun n'existait avant cette session sauf `STATUS.md`). Vulnérabilité
-**critique** Next.js corrigée au passage (`next` 15.0.4 → 15.5.20, même
-majeure, aucun changement de code nécessaire, build/lint/60 tests
-re-vérifiés). Vulnérabilité critique restante : `vitest` (dépendance de
-test uniquement, jamais expédiée en production, nécessite une montée de
-version majeure non tentée à l'aveugle).
+aucun n'existait avant cette session sauf `STATUS.md`). Vulnérabilités
+**critiques** corrigées : Next.js (`next` 15.0.4 → 15.5.20, même majeure,
+aucun changement de code nécessaire) et `vitest` (2.1.8 → 4.1.10, montée de
+version majeure, dépendance de test uniquement — les 80 tests existants
+repassent sans modification, `vite-tsconfig-paths` retiré au profit du
+support natif de Vite 6+). Reste 3 vulnérabilités **modérées** sur `postcss`,
+vendorisée dans `next@15.5.20` — hors de notre contrôle, correctif
+`npm audit` = rétrogradation cassante de Next.js, délibérément non appliqué.
 
 ## Phases 1 à 8
 
