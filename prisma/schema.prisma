@@ -87,6 +87,35 @@ enum IncidentStatus {
   ARCHIVED
 }
 
+// PLANS.md Phase 5 : les 8 familles de permis de travail requises
+// (feu, hauteur, levage, espace confiné, électrique, consignation, ATEX, chimique).
+enum PermitType {
+  FIRE
+  HEIGHT
+  LIFTING
+  CONFINED_SPACE
+  ELECTRICAL
+  LOCKOUT
+  ATEX
+  CHEMICAL
+}
+
+// Cycle de vie explicite requis par PLANS.md Phase 5 : émission, suspension,
+// reprise (retour à ISSUED), clôture. Pas de statut "reprise" séparé — une
+// reprise est une transition SUSPENDED -> ISSUED journalisée dans AuditLog.
+enum PermitStatus {
+  DRAFT
+  ISSUED
+  SUSPENDED
+  CLOSED
+}
+
+enum PreventionPlanStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
 enum TrainingType {
   E_LEARNING
   FACE_TO_FACE
@@ -219,6 +248,9 @@ model Organization {
   epiItems         EPIItem[]
   verifications    PeriodicVerification[]
   consultantAccess ConsultantClientAccess[]
+  externalCompanies ExternalCompany[]
+  preventionPlans   PreventionPlan[]
+  workPermits       WorkPermit[]
 
   @@map("organizations")
 }
@@ -245,6 +277,8 @@ model Site {
   users         User[]                 @relation("UserSites")
   epiItems      EPIItem[]
   verifications PeriodicVerification[]
+  preventionPlans PreventionPlan[]
+  workPermits     WorkPermit[]
 
   @@map("sites")
 }
@@ -639,6 +673,84 @@ model PeriodicVerification {
   evidences    Evidence[]
 
   @@map("periodic_verifications")
+}
+
+// ─────────────────────────────────────────────
+// ENTREPRISES EXTÉRIEURES ET PERMIS DE TRAVAIL (PLANS.md Phase 5)
+// ─────────────────────────────────────────────
+
+model ExternalCompany {
+  id                   String    @id @default(cuid())
+  organizationId       String
+  name                 String
+  siret                String?
+  activity             String?
+  contactName          String?
+  contactEmail         String?
+  contactPhone         String?
+  insuranceValidUntil  DateTime?
+  notes                String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  organization    Organization     @relation(fields: [organizationId], references: [id])
+  preventionPlans PreventionPlan[]
+  workPermits     WorkPermit[]
+
+  @@map("external_companies")
+}
+
+model PreventionPlan {
+  id                String                @id @default(cuid())
+  organizationId    String
+  externalCompanyId String
+  siteId            String?
+  title             String
+  status            PreventionPlanStatus  @default(DRAFT)
+  startDate         DateTime
+  endDate           DateTime?
+  risksDescription  String?
+  signedByClient    Boolean               @default(false)
+  signedByClientAt  DateTime?
+  signedByCompany   Boolean               @default(false)
+  signedByCompanyAt DateTime?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+
+  organization    Organization    @relation(fields: [organizationId], references: [id])
+  externalCompany ExternalCompany @relation(fields: [externalCompanyId], references: [id])
+  site            Site?           @relation(fields: [siteId], references: [id])
+
+  @@map("prevention_plans")
+}
+
+model WorkPermit {
+  id                String       @id @default(cuid())
+  organizationId    String
+  externalCompanyId String?
+  siteId            String?
+  type              PermitType
+  status            PermitStatus @default(DRAFT)
+  title             String
+  location          String?
+  description       String?
+  issuedBy          String?
+  issuedAt          DateTime?
+  validFrom         DateTime?
+  validUntil        DateTime?
+  suspendedAt       DateTime?
+  suspendedReason   String?
+  resumedAt         DateTime?
+  closedAt          DateTime?
+  closedBy          String?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  organization    Organization     @relation(fields: [organizationId], references: [id])
+  externalCompany ExternalCompany? @relation(fields: [externalCompanyId], references: [id])
+  site            Site?            @relation(fields: [siteId], references: [id])
+
+  @@map("work_permits")
 }
 
 // ─────────────────────────────────────────────

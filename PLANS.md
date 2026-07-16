@@ -83,11 +83,29 @@ Fiches de poste, fiches sécurité, matrice de compétences, VGP/vérifications 
 « Donnée à valider avec une source officielle à jour » systématique, rondes/inspections/
 causeries, communication sécurité (affiches, flashs).
 
-## Phase 5 — Entreprises extérieures et permis (non commencée)
+## Phase 5 — Entreprises extérieures et permis (fait, hors protocoles chargement/déchargement)
 
 `ExternalCompany`, plans de prévention, protocoles de chargement/déchargement, permis
 (feu, hauteur, levage, espace confiné, électrique, consignation, ATEX, chimique) avec
 signatures, suspension, reprise, clôture, historique.
+
+✅ Fait : `ExternalCompany` (fiche entreprise + assurance), `WorkPermit` avec
+les 8 types requis et cycle de vie complet et testé DRAFT → ISSUED →
+SUSPENDED (motif obligatoire) → ISSUED (reprise) → CLOSED (terminal),
+chaque transition validée serveur (`app/api/work-permits/[id]/route.ts`) et
+journalisée dans `AuditLog` (c'est l'historique). `PreventionPlan` avec
+attestations de signature client/entreprise horodatées
+(`signedByClient`/`signedByCompany` + `*At`). UI complète : hub
+`/external-companies` (liste entreprises + permis), création, fiche permis
+avec actions de cycle de vie. IDOR-testé
+(`tests/integration/work-permits.test.ts`) et vérifié en navigateur réel :
+création entreprise → création permis (DRAFT) → émission → suspension avec
+motif → reprise → clôture → plus aucune action possible, zéro erreur.
+**Non fait** : protocoles de chargement/déchargement spécifiques (aucun
+modèle dédié — hors périmètre de cette session, à spécifier), signature
+électronique réelle (les champs `signedBy*` sont des attestations
+déclaratives horodatées, pas une signature cryptographique), UI dédiée pour
+créer/gérer les plans de prévention (API prête, formulaire non construit).
 
 ## Phase 6 — Paiement virement bancaire (partiellement présent)
 

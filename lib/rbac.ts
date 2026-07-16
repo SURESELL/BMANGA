@@ -24,7 +24,8 @@ export type Module =
   | "audits" | "qualiopi" | "regulation" | "haccp"
   | "environment" | "tmd" | "esg" | "settings"
   | "billing" | "users" | "organizations" | "sites"
-  | "epi" | "non_conformities";
+  | "epi" | "non_conformities"
+  | "external_companies" | "work_permits";
 
 export type Action = "view" | "create" | "update" | "delete" | "export" | "validate";
 
@@ -51,6 +52,10 @@ const PERMISSIONS: Record<Module, Record<Action, UserRole[]>> = {
   sites:         { view: ["VIEWER"], create: ["ORG_ADMIN"], update: ["ORG_ADMIN"], delete: ["ORG_ADMIN"], export: ["ORG_ADMIN"], validate: ["ORG_ADMIN"] },
   epi:               { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
   non_conformities:  { view: ["VIEWER"], create: ["AUDITOR"], update: ["AUDITOR"], delete: ["ORG_ADMIN"], export: ["AUDITOR"], validate: ["ORG_ADMIN"] },
+  external_companies: { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["ORG_ADMIN"] },
+  // "validate" = émission d'un permis (DRAFT -> ISSUED) ou suspension/reprise :
+  // décisions de sécurité, réservées au responsable de site au minimum.
+  work_permits:       { view: ["VIEWER"], create: ["SITE_MANAGER"], update: ["SITE_MANAGER"], delete: ["ORG_ADMIN"], export: ["SITE_MANAGER"], validate: ["SITE_MANAGER"] },
 };
 
 export function canAccess(userRole: UserRole, module: Module, action: Action): boolean {
