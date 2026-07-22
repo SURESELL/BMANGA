@@ -1,0 +1,659 @@
+<style>
+#pv-home{
+  --pv-home-navy:#102B4E;
+  --pv-home-blue:#173F5F;
+  --pv-home-teal:#0B7F83;
+  --pv-home-cyan:#00A5D8;
+  --pv-home-light:#F4F7F9;
+  --pv-home-white:#FFFFFF;
+  --pv-home-text:#243746;
+  --pv-home-muted:#5C6F7B;
+  --pv-home-border:#D9E3E8;
+  --pv-home-danger:#9E3A38;
+  display:block;
+  background:var(--pv-home-white);
+  color:var(--pv-home-text);
+  line-height:1.55;
+}
+#pv-home *{box-sizing:border-box;}
+#pv-home .pv-home-container{max-width:1180px;margin:0 auto;padding:0 24px;}
+#pv-home .pv-home-section{padding:72px 0;}
+#pv-home .pv-home-section--muted{background:var(--pv-home-light);}
+#pv-home .pv-home-section--navy{background:var(--pv-home-navy);color:var(--pv-home-white);}
+#pv-home .pv-home-eyebrow{
+  display:inline-block;
+  font-size:.8rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  color:var(--pv-home-teal);
+  margin:0 0 16px;
+}
+#pv-home .pv-home-h1{
+  font-size:clamp(1.8rem,3.4vw,2.65rem);
+  font-weight:800;
+  color:var(--pv-home-navy);
+  margin:0 0 20px;
+  line-height:1.2;
+}
+#pv-home .pv-home-h2{
+  font-size:clamp(1.4rem,2.4vw,1.9rem);
+  font-weight:800;
+  color:var(--pv-home-navy);
+  margin:0 0 16px;
+  line-height:1.25;
+}
+#pv-home .pv-home-section--navy .pv-home-h2{color:var(--pv-home-white);}
+#pv-home .pv-home-h3{
+  font-size:1.08rem;
+  font-weight:700;
+  color:var(--pv-home-navy);
+  margin:0 0 10px;
+}
+#pv-home .pv-home-lead{
+  font-size:1.08rem;
+  color:var(--pv-home-muted);
+  max-width:640px;
+  margin:0 0 28px;
+}
+#pv-home .pv-home-section--navy .pv-home-lead{color:#C9D8E2;}
+#pv-home .pv-home-p{
+  font-size:.98rem;
+  color:var(--pv-home-muted);
+  margin:0 0 12px;
+}
+#pv-home .pv-home-section-intro{max-width:760px;margin:0 auto 40px;text-align:center;}
+#pv-home .pv-home-section-intro .pv-home-h2{margin-bottom:12px;}
+
+/* Buttons */
+#pv-home .pv-home-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:12px 26px;
+  border-radius:10px;
+  font-size:.98rem;
+  font-weight:700;
+  text-decoration:none;
+  border:2px solid transparent;
+  cursor:pointer;
+  transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease;
+}
+#pv-home .pv-home-btn--primary{background:var(--pv-home-cyan);color:var(--pv-home-navy);}
+#pv-home .pv-home-btn--primary:hover{background:#0B90BC;color:var(--pv-home-white);}
+#pv-home .pv-home-btn--secondary{background:transparent;color:var(--pv-home-navy);border-color:var(--pv-home-navy);}
+#pv-home .pv-home-btn--secondary:hover{background:var(--pv-home-navy);color:var(--pv-home-white);}
+#pv-home .pv-home-section--navy .pv-home-btn--secondary{color:var(--pv-home-white);border-color:var(--pv-home-white);}
+#pv-home .pv-home-section--navy .pv-home-btn--secondary:hover{background:var(--pv-home-white);color:var(--pv-home-navy);}
+#pv-home .pv-home-btn--outline{background:var(--pv-home-white);color:var(--pv-home-navy);border-color:var(--pv-home-border);width:100%;}
+#pv-home .pv-home-btn--outline:hover{border-color:var(--pv-home-cyan);box-shadow:0 4px 14px rgba(16,43,78,.12);}
+#pv-home .pv-home-btn:focus-visible{outline:3px solid var(--pv-home-cyan);outline-offset:3px;}
+#pv-home .pv-home-cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:28px;}
+#pv-home .pv-home-cta-row--center{justify-content:center;}
+
+/* Hero */
+#pv-home .pv-home-hero{padding:64px 0 56px;background:linear-gradient(180deg,var(--pv-home-light) 0%,var(--pv-home-white) 100%);}
+#pv-home .pv-home-hero__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
+#pv-home .pv-home-hero__actions{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;}
+#pv-home .pv-home-microreassurance{font-size:.86rem;color:var(--pv-home-muted);margin:0;}
+#pv-home .pv-home-hero__visual{
+  background:var(--pv-home-white);
+  border:1px solid var(--pv-home-border);
+  border-radius:16px;
+  box-shadow:0 18px 40px rgba(16,43,78,.10);
+  padding:20px;
+}
+#pv-home .pv-home-hero__visual svg{display:block;width:100%;height:auto;}
+
+/* Cards grids */
+#pv-home .pv-home-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+#pv-home .pv-home-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+#pv-home .pv-home-grid-8{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+#pv-home .pv-home-card{
+  background:var(--pv-home-white);
+  border:1px solid var(--pv-home-border);
+  border-radius:14px;
+  padding:24px;
+  box-shadow:0 6px 18px rgba(16,43,78,.05);
+}
+#pv-home .pv-home-card__icon{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--pv-home-light);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;
+}
+#pv-home .pv-home-card__icon svg{width:22px;height:22px;}
+#pv-home .pv-home-situations__note{max-width:760px;margin:32px auto 0;text-align:center;color:var(--pv-home-muted);}
+
+/* Poles */
+#pv-home .pv-home-pole-card{
+  border-radius:16px;
+  padding:32px;
+  color:var(--pv-home-white);
+  display:flex;flex-direction:column;
+}
+#pv-home .pv-home-pole-card--duerp{background:linear-gradient(160deg,var(--pv-home-navy),var(--pv-home-blue));}
+#pv-home .pv-home-pole-card--academy{background:linear-gradient(160deg,var(--pv-home-teal),#0A6367);}
+#pv-home .pv-home-pole-card .pv-home-h3{color:var(--pv-home-white);font-size:1.3rem;}
+#pv-home .pv-home-pole-card__tag{
+  display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.06em;
+  background:rgba(255,255,255,.14);padding:5px 12px;border-radius:999px;margin-bottom:14px;
+}
+#pv-home .pv-home-pole-card__list{list-style:none;margin:0 0 24px;padding:0;flex-grow:1;}
+#pv-home .pv-home-pole-card__list li{
+  position:relative;padding-left:26px;margin-bottom:10px;font-size:.94rem;color:rgba(255,255,255,.92);
+}
+#pv-home .pv-home-pole-card__list li::before{
+  content:"";position:absolute;left:0;top:7px;width:9px;height:9px;border-radius:3px;background:var(--pv-home-cyan);
+}
+
+/* Contrast */
+#pv-home .pv-home-contrast__grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+#pv-home .pv-home-contrast__col{border-radius:14px;padding:28px;border:1px solid var(--pv-home-border);}
+#pv-home .pv-home-contrast__col--before{background:var(--pv-home-white);}
+#pv-home .pv-home-contrast__col--after{background:var(--pv-home-navy);color:var(--pv-home-white);border-color:var(--pv-home-navy);}
+#pv-home .pv-home-contrast__col--after .pv-home-h3{color:var(--pv-home-white);}
+#pv-home .pv-home-contrast__col ul{list-style:none;margin:0;padding:0;}
+#pv-home .pv-home-contrast__col li{position:relative;padding-left:24px;margin-bottom:12px;font-size:.94rem;}
+#pv-home .pv-home-contrast__col--before li{color:var(--pv-home-muted);}
+#pv-home .pv-home-contrast__col--before li::before{content:"–";position:absolute;left:2px;color:var(--pv-home-danger);font-weight:800;}
+#pv-home .pv-home-contrast__col--after li{color:rgba(255,255,255,.92);}
+#pv-home .pv-home-contrast__col--after li::before{content:"✓";position:absolute;left:0;color:var(--pv-home-cyan);font-weight:800;}
+
+/* Method */
+#pv-home .pv-home-method__steps{list-style:none;margin:0 0 8px;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;counter-reset:pvstep;}
+#pv-home .pv-home-method__step{
+  background:var(--pv-home-white);border:1px solid var(--pv-home-border);border-radius:14px;padding:22px 18px;text-align:center;
+}
+#pv-home .pv-home-method__num{
+  display:flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border-radius:50%;
+  background:var(--pv-home-navy);color:var(--pv-home-white);font-weight:800;
+  margin:0 auto 12px;
+}
+#pv-home .pv-home-method__label{font-weight:700;color:var(--pv-home-navy);font-size:.96rem;}
+
+/* Results */
+#pv-home .pv-home-results__note{max-width:760px;margin:0 auto 32px;text-align:center;color:var(--pv-home-muted);}
+#pv-home .pv-home-results__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+#pv-home .pv-home-results__item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--pv-home-white);border:1px solid var(--pv-home-border);border-radius:12px;padding:16px 18px;
+}
+#pv-home .pv-home-results__item svg{flex-shrink:0;width:22px;height:22px;}
+#pv-home .pv-home-results__item span{font-weight:600;font-size:.92rem;color:var(--pv-home-text);}
+#pv-home .pv-home-results__caption{margin-top:24px;text-align:center;font-size:.85rem;color:var(--pv-home-muted);}
+
+/* Sectors */
+#pv-home .pv-home-sector-card{
+  background:var(--pv-home-white);border:1px solid var(--pv-home-border);border-radius:14px;
+  padding:20px 16px;text-align:center;
+}
+#pv-home .pv-home-sector-card__icon{
+  width:40px;height:40px;margin:0 auto 12px;border-radius:10px;background:var(--pv-home-light);
+  display:flex;align-items:center;justify-content:center;
+}
+#pv-home .pv-home-sector-card__icon svg{width:20px;height:20px;}
+#pv-home .pv-home-sector-card .pv-home-h3{font-size:.94rem;margin:0;}
+
+/* Trust */
+#pv-home .pv-home-trust__grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+#pv-home .pv-home-trust__item{
+  border:1.5px dashed var(--pv-home-border);border-radius:14px;padding:20px 16px;text-align:center;background:var(--pv-home-white);
+}
+#pv-home .pv-home-trust__item .pv-home-h3{font-size:.92rem;}
+#pv-home .pv-home-trust__placeholder{
+  display:inline-block;font-size:.78rem;font-weight:700;color:var(--pv-home-muted);
+  background:var(--pv-home-light);border-radius:999px;padding:4px 12px;margin-top:6px;
+}
+
+/* FAQ */
+#pv-home .pv-home-faq{max-width:840px;margin:0 auto;}
+#pv-home .pv-home-faq__item{border-bottom:1px solid var(--pv-home-border);}
+#pv-home .pv-home-faq__item:first-child{border-top:1px solid var(--pv-home-border);}
+#pv-home .pv-home-faq__question{
+  width:100%;text-align:left;background:none;border:none;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px 4px;font-size:1.02rem;font-weight:700;color:var(--pv-home-navy);cursor:pointer;min-height:48px;
+}
+#pv-home .pv-home-faq__icon{
+  flex-shrink:0;width:22px;height:22px;position:relative;
+}
+#pv-home .pv-home-faq__icon::before,#pv-home .pv-home-faq__icon::after{
+  content:"";position:absolute;background:var(--pv-home-navy);top:50%;left:50%;transform:translate(-50%,-50%);
+}
+#pv-home .pv-home-faq__icon::before{width:14px;height:2px;}
+#pv-home .pv-home-faq__icon::after{width:2px;height:14px;transition:transform .15s ease;}
+#pv-home .pv-home-faq__question[aria-expanded="true"] .pv-home-faq__icon::after{transform:translate(-50%,-50%) scaleY(0);}
+#pv-home .pv-home-faq__answer{padding:0 4px 22px;}
+#pv-home .pv-home-faq__answer[hidden]{display:none;}
+
+/* Final CTA */
+#pv-home .pv-home-final{text-align:center;}
+#pv-home .pv-home-final .pv-home-h2{max-width:760px;margin-left:auto;margin-right:auto;}
+#pv-home .pv-home-final .pv-home-lead{max-width:640px;margin-left:auto;margin-right:auto;}
+
+/* Focus visibility */
+#pv-home .pv-home-btn:focus,
+#pv-home .pv-home-faq__question:focus{outline:3px solid var(--pv-home-cyan);outline-offset:3px;}
+#pv-home .pv-home-btn:focus:not(:focus-visible),
+#pv-home .pv-home-faq__question:focus:not(:focus-visible){outline:none;}
+#pv-home .pv-home-btn:focus-visible,
+#pv-home .pv-home-faq__question:focus-visible{outline:3px solid var(--pv-home-cyan);outline-offset:3px;}
+
+@media (prefers-reduced-motion:reduce){
+  #pv-home *{transition:none !important;animation:none !important;}
+}
+
+@media (max-width:980px){
+  #pv-home .pv-home-hero__grid{grid-template-columns:1fr;gap:36px;}
+  #pv-home .pv-home-hero__visual{order:-1;max-width:460px;margin:0 auto;}
+  #pv-home .pv-home-grid-4{grid-template-columns:repeat(2,1fr);}
+  #pv-home .pv-home-grid-8{grid-template-columns:repeat(2,1fr);}
+  #pv-home .pv-home-results__grid{grid-template-columns:repeat(2,1fr);}
+  #pv-home .pv-home-trust__grid{grid-template-columns:repeat(2,1fr);}
+  #pv-home .pv-home-method__steps{grid-template-columns:repeat(3,1fr);}
+  #pv-home .pv-home-contrast__grid{grid-template-columns:1fr;}
+}
+
+@media (max-width:720px){
+  #pv-home .pv-home-section{padding:52px 0;}
+  #pv-home .pv-home-grid-2{grid-template-columns:1fr;}
+  #pv-home .pv-home-grid-4{grid-template-columns:1fr;}
+  #pv-home .pv-home-grid-8{grid-template-columns:1fr;}
+  #pv-home .pv-home-results__grid{grid-template-columns:1fr;}
+  #pv-home .pv-home-trust__grid{grid-template-columns:1fr;}
+  #pv-home .pv-home-method__steps{grid-template-columns:1fr;}
+  #pv-home .pv-home-hero__actions{flex-direction:column;}
+  #pv-home .pv-home-btn{width:100%;}
+  #pv-home .pv-home-cta-row{flex-direction:column;}
+}
+</style>
+
+<main id="pv-home">
+
+  <section class="pv-home-hero" aria-labelledby="pv-home-hero-title">
+    <div class="pv-home-container pv-home-hero__grid">
+      <div class="pv-home-hero__content">
+        <p class="pv-home-eyebrow">ÉVALUATION DES RISQUES • DUERP • FORMATIONS QHSE</p>
+        <h1 id="pv-home-hero-title" class="pv-home-h1">Évaluez les risques. Structurez votre DUERP. Formez vos équipes à agir.</h1>
+        <p class="pv-home-lead">PREUVIA QHSE transforme votre démarche de prévention en un système clair, traçable et exploitable&nbsp;: risques identifiés, priorités définies, actions attribuées et acteurs formés.</p>
+        <div class="pv-home-hero__actions">
+          <a class="pv-home-btn pv-home-btn--primary" href="/contact?besoin=duerp">Évaluer mon besoin DUERP</a>
+          <a class="pv-home-btn pv-home-btn--secondary" href="/formations-duerp-qhse">Découvrir les formations</a>
+        </div>
+        <p class="pv-home-microreassurance">Première prise de contact sans engagement • Accompagnement à distance, hybride ou sur site selon la situation</p>
+      </div>
+      <div class="pv-home-hero__visual" aria-hidden="true">
+        <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="presentation" focusable="false">
+          <rect x="0" y="0" width="420" height="340" rx="16" fill="#F4F7F9"></rect>
+          <text x="24" y="30" font-size="12" font-weight="700" fill="#102B4E">Matrice des risques</text>
+          <g>
+            <rect x="24" y="42" width="34" height="34" rx="4" fill="#00A5D8"></rect>
+            <rect x="60" y="42" width="34" height="34" rx="4" fill="#0B7F83"></rect>
+            <rect x="96" y="42" width="34" height="34" rx="4" fill="#173F5F"></rect>
+            <rect x="132" y="42" width="34" height="34" rx="4" fill="#9E3A38"></rect>
+            <rect x="24" y="78" width="34" height="34" rx="4" fill="#0B7F83"></rect>
+            <rect x="60" y="78" width="34" height="34" rx="4" fill="#0B7F83"></rect>
+            <rect x="96" y="78" width="34" height="34" rx="4" fill="#173F5F"></rect>
+            <rect x="132" y="78" width="34" height="34" rx="4" fill="#9E3A38"></rect>
+            <rect x="24" y="114" width="34" height="34" rx="4" fill="#00A5D8"></rect>
+            <rect x="60" y="114" width="34" height="34" rx="4" fill="#173F5F"></rect>
+            <rect x="96" y="114" width="34" height="34" rx="4" fill="#173F5F"></rect>
+            <rect x="132" y="114" width="34" height="34" rx="4" fill="#9E3A38"></rect>
+          </g>
+          <text x="24" y="178" font-size="12" font-weight="700" fill="#102B4E">Tableau de bord des actions</text>
+          <g>
+            <rect x="24" y="190" width="16" height="60" rx="3" fill="#00A5D8"></rect>
+            <rect x="48" y="210" width="16" height="40" rx="3" fill="#0B7F83"></rect>
+            <rect x="72" y="170" width="16" height="80" rx="3" fill="#173F5F"></rect>
+            <rect x="96" y="200" width="16" height="50" rx="3" fill="#00A5D8"></rect>
+            <rect x="120" y="150" width="16" height="100" rx="3" fill="#102B4E"></rect>
+            <line x1="18" y1="250" x2="150" y2="250" stroke="#D9E3E8" stroke-width="2"></line>
+          </g>
+          <text x="196" y="30" font-size="12" font-weight="700" fill="#102B4E">Actions attribuées</text>
+          <g>
+            <rect x="196" y="42" width="200" height="30" rx="8" fill="#FFFFFF" stroke="#D9E3E8"></rect>
+            <circle cx="212" cy="57" r="7" fill="#0B7F83"></circle>
+            <path d="M208 57 l3 3 l6 -7" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+            <rect x="230" y="52" width="140" height="10" rx="5" fill="#D9E3E8"></rect>
+            <rect x="196" y="80" width="200" height="30" rx="8" fill="#FFFFFF" stroke="#D9E3E8"></rect>
+            <circle cx="212" cy="95" r="7" fill="#00A5D8"></circle>
+            <rect x="230" y="90" width="120" height="10" rx="5" fill="#D9E3E8"></rect>
+            <rect x="196" y="118" width="200" height="30" rx="8" fill="#FFFFFF" stroke="#D9E3E8"></rect>
+            <circle cx="212" cy="133" r="7" fill="#173F5F"></circle>
+            <rect x="230" y="128" width="150" height="10" rx="5" fill="#D9E3E8"></rect>
+          </g>
+          <text x="196" y="178" font-size="12" font-weight="700" fill="#102B4E">Organisation structurée</text>
+          <g stroke="#D9E3E8" stroke-width="2" fill="none">
+            <line x1="296" y1="200" x2="296" y2="222"></line>
+            <line x1="230" y1="244" x2="296" y2="222"></line>
+            <line x1="296" y1="222" x2="362" y2="244"></line>
+          </g>
+          <g>
+            <circle cx="296" cy="196" r="14" fill="#102B4E"></circle>
+            <circle cx="230" cy="252" r="12" fill="#0B7F83"></circle>
+            <circle cx="296" cy="252" r="12" fill="#00A5D8"></circle>
+            <circle cx="362" cy="252" r="12" fill="#173F5F"></circle>
+          </g>
+          <g>
+            <rect x="24" y="270" width="372" height="1" fill="#D9E3E8"></rect>
+            <text x="24" y="296" font-size="11" fill="#5C6F7B">Indicateurs de pilotage</text>
+            <rect x="24" y="306" width="60" height="18" rx="4" fill="#FFFFFF" stroke="#D9E3E8"></rect>
+            <text x="34" y="319" font-size="11" font-weight="700" fill="#102B4E">92%</text>
+            <rect x="94" y="306" width="60" height="18" rx="4" fill="#FFFFFF" stroke="#D9E3E8"></rect>
+            <text x="104" y="319" font-size="11" font-weight="700" fill="#102B4E">14</text>
+            <rect x="164" y="306" width="80" height="18" rx="4" fill="#FFFFFF" stroke="#D9E3E8"></rect>
+            <text x="174" y="319" font-size="11" font-weight="700" fill="#102B4E">J+30</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-home-section" aria-labelledby="pv-home-situations-title">
+    <div class="pv-home-container">
+      <div class="pv-home-section-intro">
+        <h2 id="pv-home-situations-title" class="pv-home-h2">Votre organisation se reconnaît-elle dans l’une de ces situations&nbsp;?</h2>
+      </div>
+      <div class="pv-home-grid-4">
+        <article class="pv-home-card">
+          <div class="pv-home-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h16M6 20V10l6-6 6 6v10" stroke="#173F5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+          <h3 class="pv-home-h3">Aucun DUERP réellement exploitable</h3>
+          <p class="pv-home-p">Un document existe, mais il ne permet pas de piloter une action concrète.</p>
+        </article>
+        <article class="pv-home-card">
+          <div class="pv-home-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#173F5F" stroke-width="1.8"></circle><path d="M12 7v5l3.5 2" stroke="#173F5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+          <h3 class="pv-home-h3">DUERP existant mais ancien ou difficile à vérifier</h3>
+          <p class="pv-home-p">La dernière mise à jour est incertaine et ne reflète plus la réalité du terrain.</p>
+        </article>
+        <article class="pv-home-card">
+          <div class="pv-home-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h10M4 18h7" stroke="#173F5F" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          </div>
+          <h3 class="pv-home-h3">Actions de prévention sans responsable, échéance ou preuve</h3>
+          <p class="pv-home-p">Des intentions existent, mais rien ne permet d’en suivre l’avancement.</p>
+        </article>
+        <article class="pv-home-card">
+          <div class="pv-home-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8" r="3" stroke="#173F5F" stroke-width="1.8"></circle><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14c2.8 0 5 2.2 5 5" stroke="#173F5F" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          </div>
+          <h3 class="pv-home-h3">Équipes insuffisamment formées à la démarche</h3>
+          <p class="pv-home-p">Managers et opérateurs connaissent mal leur rôle dans la prévention des risques.</p>
+        </article>
+      </div>
+      <p class="pv-home-situations__note">Ne laissez pas un document générique créer une fausse impression de maîtrise. Identifiez d’abord ce qui existe, ce qui manque et ce qui doit être traité en priorité.</p>
+      <div class="pv-home-cta-row pv-home-cta-row--center">
+        <a class="pv-home-btn pv-home-btn--primary" href="/contact?besoin=diagnostic">Faire le point sur ma situation</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-home-section pv-home-section--muted" aria-labelledby="pv-home-poles-title">
+    <div class="pv-home-container">
+      <div class="pv-home-section-intro">
+        <h2 id="pv-home-poles-title" class="pv-home-h2">Deux leviers. Un seul objectif&nbsp;: rendre votre prévention réellement opérationnelle.</h2>
+      </div>
+      <div class="pv-home-grid-2">
+        <article class="pv-home-pole-card pv-home-pole-card--duerp">
+          <span class="pv-home-pole-card__tag">PRESTATIONS</span>
+          <h3 class="pv-home-h3">PREUVIA DUERP</h3>
+          <ul class="pv-home-pole-card__list">
+            <li>Diagnostic</li>
+            <li>Création</li>
+            <li>Mise à jour</li>
+            <li>Évaluation terrain</li>
+            <li>Multi-sites</li>
+            <li>Plan d’action et PAPRIPACT</li>
+            <li>Risques spécialisés</li>
+          </ul>
+          <a class="pv-home-btn pv-home-btn--outline" href="/prestations-duerp">Découvrir les prestations</a>
+        </article>
+        <article class="pv-home-pole-card pv-home-pole-card--academy">
+          <span class="pv-home-pole-card__tag">FORMATIONS</span>
+          <h3 class="pv-home-h3">PREUVIA Academy</h3>
+          <ul class="pv-home-pole-card__list">
+            <li>Fondamentaux du DUERP</li>
+            <li>Unités de travail</li>
+            <li>Évaluation des risques</li>
+            <li>Plans d’action</li>
+            <li>Rôle des managers</li>
+            <li>Formations QHSE</li>
+            <li>Formation intra-entreprise</li>
+          </ul>
+          <a class="pv-home-btn pv-home-btn--outline" href="/formations-duerp-qhse">Voir les formations</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-home-section" aria-labelledby="pv-home-contrast-title">
+    <div class="pv-home-container">
+      <div class="pv-home-section-intro">
+        <h2 id="pv-home-contrast-title" class="pv-home-h2">Passez d’un document subi à une démarche pilotée</h2>
+      </div>
+      <div class="pv-home-contrast__grid">
+        <div class="pv-home-contrast__col pv-home-contrast__col--before">
+          <h3 class="pv-home-h3">Avant</h3>
+          <ul>
+            <li>Informations dispersées</li>
+            <li>Risques peu hiérarchisés</li>
+            <li>Actions générales</li>
+            <li>Responsabilités floues</li>
+            <li>Suivi irrégulier</li>
+          </ul>
+        </div>
+        <div class="pv-home-contrast__col pv-home-contrast__col--after">
+          <h3 class="pv-home-h3">Après PREUVIA</h3>
+          <ul>
+            <li>Unités de travail structurées</li>
+            <li>Risques documentés</li>
+            <li>Priorités justifiées</li>
+            <li>Actions attribuées</li>
+            <li>Échéances et preuves organisées</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-home-section pv-home-section--muted" aria-labelledby="pv-home-method-title">
+    <div class="pv-home-container">
+      <div class="pv-home-section-intro">
+        <h2 id="pv-home-method-title" class="pv-home-h2">Une méthode en cinq étapes, du cadrage au suivi des actions</h2>
+      </div>
+      <ol class="pv-home-method__steps">
+        <li class="pv-home-method__step"><span class="pv-home-method__num" aria-hidden="true">1</span><span class="pv-home-method__label">Cadrer</span></li>
+        <li class="pv-home-method__step"><span class="pv-home-method__num" aria-hidden="true">2</span><span class="pv-home-method__label">Comprendre le travail réel</span></li>
+        <li class="pv-home-method__step"><span class="pv-home-method__num" aria-hidden="true">3</span><span class="pv-home-method__label">Identifier et évaluer</span></li>
+        <li class="pv-home-method__step"><span class="pv-home-method__num" aria-hidden="true">4</span><span class="pv-home-method__label">Hiérarchiser</span></li>
+        <li class="pv-home-method__step"><span class="pv-home-method__num" aria-hidden="true">5</span><span class="pv-home-method__label">Agir et suivre</span></li>
+      </ol>
+      <div class="pv-home-cta-row pv-home-cta-row--center">
+        <a class="pv-home-btn pv-home-btn--secondary" href="/methode-evaluation-risques">Découvrir la méthode PREUVIA</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-home-section" aria-labelledby="pv-home-results-title">
+    <div class="pv-home-container">
+      <div class="pv-home-section-intro">
+        <h2 id="pv-home-results-title" class="pv-home-h2">Vous n’achetez pas un simple PDF. Vous construisez une base de décision.</h2>
+      </div>
+      <div class="pv-home-results__grid">
+        <div class="pv-home-results__item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4 10-10" stroke="#0B7F83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Unités de travail</span></div>
+        <div class="pv-home-results__item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4 10-10" stroke="#0B7F83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Risques identifiés</span></div>
+        <div class="pv-home-results__item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4 10-10" stroke="#0B7F83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Mesures existantes</span></div>
+        <div class="pv-home-results__item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4 10-10" stroke="#0B7F83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Priorités</span></div>
+        <div class="pv-home-results__item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4 10-10" stroke="#0B7F83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Plan d’action</span></div>
+        <div class="pv-home-results__item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4 10-10" stroke="#0B7F83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Responsables</span></div>
+        <div class="pv-home-results__item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4 10-10" stroke="#0B7F83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Échéances</span></div>
+        <div class="pv-home-results__item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4 10-10" stroke="#0B7F83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Restitution dirigeant</span></div>
+      </div>
+      <p class="pv-home-results__caption">Les livrables exacts dépendent du périmètre contractuel validé.</p>
+    </div>
+  </section>
+
+  <section class="pv-home-section pv-home-section--muted" aria-labelledby="pv-home-sectors-title">
+    <div class="pv-home-container">
+      <div class="pv-home-section-intro">
+        <h2 id="pv-home-sectors-title" class="pv-home-h2">Un accompagnement adapté à la réalité de votre secteur</h2>
+      </div>
+      <div class="pv-home-grid-8">
+        <div class="pv-home-sector-card"><div class="pv-home-sector-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M5 21V9l7-5 7 5v12" stroke="#0B7F83" stroke-width="1.6"></path></svg></div><h3 class="pv-home-h3">BTP</h3></div>
+        <div class="pv-home-sector-card"><div class="pv-home-sector-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="16" height="12" stroke="#0B7F83" stroke-width="1.6"></rect><path d="M8 8V5h8v3" stroke="#0B7F83" stroke-width="1.6"></path></svg></div><h3 class="pv-home-h3">Industrie</h3></div>
+        <div class="pv-home-sector-card"><div class="pv-home-sector-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="14" height="7" stroke="#0B7F83" stroke-width="1.6"></rect><path d="M17 12h3l1 3v2h-4" stroke="#0B7F83" stroke-width="1.6"></path><circle cx="7" cy="19" r="1.5" stroke="#0B7F83" stroke-width="1.4"></circle><circle cx="17" cy="19" r="1.5" stroke="#0B7F83" stroke-width="1.4"></circle></svg></div><h3 class="pv-home-h3">Transport &amp; logistique</h3></div>
+        <div class="pv-home-sector-card"><div class="pv-home-sector-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-7-10a4 4 0 018-1 4 4 0 018 1c0 5.5-9 10-9 10z" stroke="#0B7F83" stroke-width="1.6"></path></svg></div><h3 class="pv-home-h3">Santé</h3></div>
+        <div class="pv-home-sector-card"><div class="pv-home-sector-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#0B7F83" stroke-width="1.6"></rect><path d="M8 9h8M8 13h8M8 17h5" stroke="#0B7F83" stroke-width="1.6"></path></svg></div><h3 class="pv-home-h3">Tertiaire</h3></div>
+        <div class="pv-home-sector-card"><div class="pv-home-sector-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 8l9-4 9 4-9 4-9-4z" stroke="#0B7F83" stroke-width="1.6"></path><path d="M7 11v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5" stroke="#0B7F83" stroke-width="1.6"></path></svg></div><h3 class="pv-home-h3">Formation</h3></div>
+        <div class="pv-home-sector-card"><div class="pv-home-sector-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#0B7F83" stroke-width="1.6"></circle><path d="M12 8v4l3 2" stroke="#0B7F83" stroke-width="1.6"></path></svg></div><h3 class="pv-home-h3">Agroalimentaire</h3></div>
+        <div class="pv-home-sector-card"><div class="pv-home-sector-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z" stroke="#0B7F83" stroke-width="1.6" stroke-linejoin="round"></path></svg></div><h3 class="pv-home-h3">Énergie &amp; infrastructures</h3></div>
+      </div>
+      <div class="pv-home-cta-row pv-home-cta-row--center">
+        <a class="pv-home-btn pv-home-btn--secondary" href="/duerp-secteurs-activite">Voir les secteurs accompagnés</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-home-section" aria-labelledby="pv-home-trust-title">
+    <div class="pv-home-container">
+      <div class="pv-home-section-intro">
+        <h2 id="pv-home-trust-title" class="pv-home-h2">La confiance se démontre. Elle ne se proclame pas.</h2>
+        <p class="pv-home-p">Ces éléments sont complétés au fur et à mesure qu’ils sont formellement disponibles.</p>
+      </div>
+      <div class="pv-home-trust__grid">
+        <div class="pv-home-trust__item">
+          <h3 class="pv-home-h3">Méthode</h3>
+          <span class="pv-home-trust__placeholder">Élément à renseigner</span>
+        </div>
+        <div class="pv-home-trust__item">
+          <h3 class="pv-home-h3">Exemple anonymisé</h3>
+          <span class="pv-home-trust__placeholder">Élément à renseigner</span>
+        </div>
+        <div class="pv-home-trust__item">
+          <h3 class="pv-home-h3">Assurance professionnelle</h3>
+          <span class="pv-home-trust__placeholder">Élément à renseigner</span>
+        </div>
+        <div class="pv-home-trust__item">
+          <h3 class="pv-home-h3">Qualifications vérifiables</h3>
+          <span class="pv-home-trust__placeholder">Élément à renseigner</span>
+        </div>
+        <div class="pv-home-trust__item">
+          <h3 class="pv-home-h3">Avis authentiques</h3>
+          <span class="pv-home-trust__placeholder">Élément à renseigner</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-home-section pv-home-section--muted" aria-labelledby="pv-home-faq-title">
+    <div class="pv-home-container">
+      <div class="pv-home-section-intro">
+        <h2 id="pv-home-faq-title" class="pv-home-h2">Questions fréquentes</h2>
+      </div>
+      <div class="pv-home-faq">
+        <div class="pv-home-faq__item">
+          <h3 class="pv-home-h3">
+            <button type="button" class="pv-home-faq__question" id="pv-home-faq-q1" aria-expanded="false" aria-controls="pv-home-faq-a1">
+              <span>Une mission peut-elle être réalisée à distance&nbsp;?</span>
+              <span class="pv-home-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-home-faq__answer" id="pv-home-faq-a1" role="region" aria-labelledby="pv-home-faq-q1">
+            <p class="pv-home-p">Une partie du diagnostic et de l’analyse documentaire peut être conduite à distance. La pertinence d’une intervention à distance, hybride ou sur site dépend de la nature de votre activité et sera précisée avant toute proposition.</p>
+          </div>
+        </div>
+        <div class="pv-home-faq__item">
+          <h3 class="pv-home-h3">
+            <button type="button" class="pv-home-faq__question" id="pv-home-faq-q2" aria-expanded="false" aria-controls="pv-home-faq-a2">
+              <span>Une visite sur site est-elle toujours nécessaire&nbsp;?</span>
+              <span class="pv-home-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-home-faq__answer" id="pv-home-faq-a2" role="region" aria-labelledby="pv-home-faq-q2">
+            <p class="pv-home-p">Non systématiquement. Pour certaines activités, une évaluation terrain reste nécessaire afin d’observer les situations réelles de travail. Le format retenu dépend de votre secteur et de votre organisation.</p>
+          </div>
+        </div>
+        <div class="pv-home-faq__item">
+          <h3 class="pv-home-h3">
+            <button type="button" class="pv-home-faq__question" id="pv-home-faq-q3" aria-expanded="false" aria-controls="pv-home-faq-a3">
+              <span>Pouvez-vous mettre à jour un DUERP existant&nbsp;?</span>
+              <span class="pv-home-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-home-faq__answer" id="pv-home-faq-a3" role="region" aria-labelledby="pv-home-faq-q3">
+            <p class="pv-home-p">Oui. Une mise à jour s’appuie sur le document existant et les évolutions de votre organisation, plutôt que de repartir de zéro.</p>
+          </div>
+        </div>
+        <div class="pv-home-faq__item">
+          <h3 class="pv-home-h3">
+            <button type="button" class="pv-home-faq__question" id="pv-home-faq-q4" aria-expanded="false" aria-controls="pv-home-faq-a4">
+              <span>Comment le prix est-il calculé&nbsp;?</span>
+              <span class="pv-home-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-home-faq__answer" id="pv-home-faq-a4" role="region" aria-labelledby="pv-home-faq-q4">
+            <p class="pv-home-p">Le prix dépend du nombre de sites, du nombre d’unités de travail, du périmètre des risques à couvrir et du format d’intervention retenu. Il est communiqué après un premier échange sur votre situation.</p>
+          </div>
+        </div>
+        <div class="pv-home-faq__item">
+          <h3 class="pv-home-h3">
+            <button type="button" class="pv-home-faq__question" id="pv-home-faq-q5" aria-expanded="false" aria-controls="pv-home-faq-a5">
+              <span>Les formations peuvent-elles compléter une mission&nbsp;?</span>
+              <span class="pv-home-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-home-faq__answer" id="pv-home-faq-a5" role="region" aria-labelledby="pv-home-faq-q5">
+            <p class="pv-home-p">Oui. PREUVIA Academy propose des formations DUERP, évaluation des risques et QHSE qui peuvent accompagner une prestation ou être suivies indépendamment.</p>
+          </div>
+        </div>
+        <div class="pv-home-faq__item">
+          <h3 class="pv-home-h3">
+            <button type="button" class="pv-home-faq__question" id="pv-home-faq-q6" aria-expanded="false" aria-controls="pv-home-faq-a6">
+              <span>Qui reste responsable du DUERP et des mesures&nbsp;?</span>
+              <span class="pv-home-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-home-faq__answer" id="pv-home-faq-a6" role="region" aria-labelledby="pv-home-faq-q6">
+            <p class="pv-home-p">L’employeur reste seul responsable de l’élaboration du DUERP et de la mise en œuvre des mesures de prévention. PREUVIA QHSE intervient en accompagnement méthodologique.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-home-section pv-home-section--navy pv-home-final" aria-labelledby="pv-home-final-title">
+    <div class="pv-home-container">
+      <h2 id="pv-home-final-title" class="pv-home-h2">Votre démarche est-elle réellement à jour, pilotée et comprise par vos équipes&nbsp;?</h2>
+      <p class="pv-home-lead">Présentez votre organisation et votre besoin. PREUVIA vous orientera vers la prestation ou la formation la plus cohérente.</p>
+      <div class="pv-home-cta-row pv-home-cta-row--center">
+        <a class="pv-home-btn pv-home-btn--primary" href="/contact?besoin=duerp">Évaluer mon besoin</a>
+        <a class="pv-home-btn pv-home-btn--secondary" href="/contact">Contacter PREUVIA</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var root = document.getElementById('pv-home');
+  if(!root){return;}
+
+  var questions = root.querySelectorAll('.pv-home-faq__question');
+  questions.forEach(function(btn){
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if(panel){panel.hidden = true;}
+    btn.setAttribute('aria-expanded','false');
+    btn.addEventListener('click', function(){
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      if(panel){panel.hidden = expanded;}
+    });
+  });
+})();
+</script>
