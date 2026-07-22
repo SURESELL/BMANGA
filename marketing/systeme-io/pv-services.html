@@ -1,0 +1,733 @@
+<style>
+#pv-services{
+  --pv-services-navy:#102B4E;
+  --pv-services-blue:#173F5F;
+  --pv-services-teal:#0B7F83;
+  --pv-services-cyan:#00A5D8;
+  --pv-services-light:#F4F7F9;
+  --pv-services-white:#FFFFFF;
+  --pv-services-text:#243746;
+  --pv-services-muted:#5C6F7B;
+  --pv-services-border:#D9E3E8;
+  --pv-services-danger:#9E3A38;
+  display:block;
+  background:var(--pv-services-white);
+  color:var(--pv-services-text);
+  line-height:1.55;
+}
+#pv-services *{box-sizing:border-box;}
+#pv-services .pv-services-container{max-width:1180px;margin:0 auto;padding:0 24px;}
+#pv-services .pv-services-section{padding:72px 0;scroll-margin-top:24px;}
+#pv-services .pv-services-section--muted{background:var(--pv-services-light);}
+#pv-services .pv-services-section--navy{background:var(--pv-services-navy);color:var(--pv-services-white);}
+#pv-services .pv-services-eyebrow{
+  display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.08em;
+  color:var(--pv-services-teal);margin:0 0 16px;
+}
+#pv-services .pv-services-h1{
+  font-size:clamp(1.8rem,3.4vw,2.55rem);font-weight:800;color:var(--pv-services-navy);
+  margin:0 0 20px;line-height:1.2;max-width:820px;
+}
+#pv-services .pv-services-h2{
+  font-size:clamp(1.35rem,2.3vw,1.8rem);font-weight:800;color:var(--pv-services-navy);
+  margin:0 0 14px;line-height:1.25;
+}
+#pv-services .pv-services-section--navy .pv-services-h2{color:var(--pv-services-white);}
+#pv-services .pv-services-h3{font-size:1.05rem;font-weight:700;color:var(--pv-services-navy);margin:0 0 10px;}
+#pv-services .pv-services-lead{font-size:1.05rem;color:var(--pv-services-muted);max-width:660px;margin:0 0 24px;}
+#pv-services .pv-services-section--navy .pv-services-lead{color:#C9D8E2;}
+#pv-services .pv-services-p{font-size:.96rem;color:var(--pv-services-muted);margin:0 0 12px;}
+#pv-services .pv-services-section-intro{max-width:760px;margin:0 auto 36px;}
+#pv-services .pv-services-section-intro--center{text-align:center;}
+
+/* Buttons */
+#pv-services .pv-services-btn{
+  display:inline-flex;align-items:center;justify-content:center;min-height:48px;
+  padding:12px 26px;border-radius:10px;font-size:.96rem;font-weight:700;text-decoration:none;
+  border:2px solid transparent;cursor:pointer;
+  transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease;
+}
+#pv-services .pv-services-btn--primary{background:var(--pv-services-cyan);color:var(--pv-services-navy);}
+#pv-services .pv-services-btn--primary:hover{background:#0B90BC;color:var(--pv-services-white);}
+#pv-services .pv-services-btn--secondary{background:transparent;color:var(--pv-services-navy);border-color:var(--pv-services-navy);}
+#pv-services .pv-services-btn--secondary:hover{background:var(--pv-services-navy);color:var(--pv-services-white);}
+#pv-services .pv-services-section--navy .pv-services-btn--secondary{color:var(--pv-services-white);border-color:var(--pv-services-white);}
+#pv-services .pv-services-btn--link{background:none;border:none;padding:0;min-height:auto;color:var(--pv-services-teal);text-decoration:underline;font-weight:700;}
+#pv-services .pv-services-btn:focus,
+#pv-services .pv-services-orienteur__trigger:focus{outline:3px solid var(--pv-services-cyan);outline-offset:3px;}
+#pv-services .pv-services-btn:focus:not(:focus-visible),
+#pv-services .pv-services-orienteur__trigger:focus:not(:focus-visible){outline:none;}
+#pv-services .pv-services-btn:focus-visible,
+#pv-services .pv-services-orienteur__trigger:focus-visible{outline:3px solid var(--pv-services-cyan);outline-offset:3px;}
+#pv-services .pv-services-cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;}
+#pv-services .pv-services-cta-row--center{justify-content:center;}
+
+/* Hero */
+#pv-services .pv-services-hero{padding:60px 0 52px;background:linear-gradient(180deg,var(--pv-services-light) 0%,var(--pv-services-white) 100%);}
+#pv-services .pv-services-hero__grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;}
+#pv-services .pv-services-hero__reassurance{list-style:none;margin:24px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px 22px;font-size:.86rem;color:var(--pv-services-muted);}
+#pv-services .pv-services-hero__reassurance li{position:relative;padding-left:16px;}
+#pv-services .pv-services-hero__reassurance li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--pv-services-cyan);}
+#pv-services .pv-services-hero__visual{
+  background:var(--pv-services-white);border:1px solid var(--pv-services-border);border-radius:16px;
+  box-shadow:0 18px 40px rgba(16,43,78,.10);padding:20px;
+}
+#pv-services .pv-services-hero__visual svg{display:block;width:100%;height:auto;}
+
+/* Generic grids */
+#pv-services .pv-services-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+#pv-services .pv-services-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+#pv-services .pv-services-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+#pv-services .pv-services-grid-6{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+#pv-services .pv-services-card{
+  background:var(--pv-services-white);border:1px solid var(--pv-services-border);border-radius:14px;
+  padding:22px;box-shadow:0 6px 18px rgba(16,43,78,.05);
+}
+#pv-services .pv-services-card--tight{padding:16px;}
+#pv-services .pv-services-tag-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px;}
+#pv-services .pv-services-tag{
+  display:inline-block;background:var(--pv-services-light);border:1px solid var(--pv-services-border);
+  border-radius:999px;padding:8px 16px;font-size:.86rem;font-weight:600;color:var(--pv-services-navy);
+}
+
+/* Bullet list */
+#pv-services .pv-services-list{list-style:none;margin:0 0 8px;padding:0;}
+#pv-services .pv-services-list li{position:relative;padding-left:24px;margin-bottom:10px;font-size:.94rem;color:var(--pv-services-text);}
+#pv-services .pv-services-list li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:9px;border-radius:3px;background:var(--pv-services-cyan);}
+#pv-services .pv-services-steps{list-style:none;margin:0 0 8px;padding:0;counter-reset:pvsvc;}
+#pv-services .pv-services-steps li{
+  position:relative;padding-left:40px;margin-bottom:14px;font-size:.94rem;counter-increment:pvsvc;
+}
+#pv-services .pv-services-steps li::before{
+  content:counter(pvsvc);position:absolute;left:0;top:-2px;width:26px;height:26px;border-radius:50%;
+  background:var(--pv-services-navy);color:var(--pv-services-white);font-size:.78rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+#pv-services .pv-services-result{
+  border-left:4px solid var(--pv-services-teal);background:var(--pv-services-light);border-radius:0 10px 10px 0;
+  padding:14px 18px;font-size:.94rem;font-weight:600;color:var(--pv-services-navy);margin:18px 0 22px;
+}
+#pv-services .pv-services-note{font-size:.86rem;color:var(--pv-services-muted);margin-top:18px;}
+
+/* Two-column service blocks */
+#pv-services .pv-services-block{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+#pv-services .pv-services-block__col h3{margin-top:0;}
+
+/* Orienteur */
+#pv-services .pv-services-orienteur__list{display:flex;flex-direction:column;gap:14px;max-width:880px;margin:0 auto;}
+#pv-services .pv-services-orienteur__item{border:1px solid var(--pv-services-border);border-radius:14px;background:var(--pv-services-white);overflow:hidden;}
+#pv-services .pv-services-orienteur__trigger{
+  width:100%;min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  background:var(--pv-services-white);border:none;text-align:left;cursor:pointer;
+  padding:18px 20px;font-size:1rem;font-weight:700;color:var(--pv-services-navy);
+}
+#pv-services .pv-services-orienteur__trigger:hover{background:var(--pv-services-light);}
+#pv-services .pv-services-orienteur__icon{flex-shrink:0;width:22px;height:22px;position:relative;}
+#pv-services .pv-services-orienteur__icon::before,#pv-services .pv-services-orienteur__icon::after{
+  content:"";position:absolute;background:var(--pv-services-navy);top:50%;left:50%;transform:translate(-50%,-50%);
+}
+#pv-services .pv-services-orienteur__icon::before{width:14px;height:2px;}
+#pv-services .pv-services-orienteur__icon::after{width:2px;height:14px;}
+#pv-services .pv-services-orienteur__trigger[aria-expanded="true"] .pv-services-orienteur__icon::after{transform:translate(-50%,-50%) scaleY(0);}
+#pv-services .pv-services-orienteur__panel{padding:4px 20px 24px;border-top:1px solid var(--pv-services-border);}
+#pv-services .pv-services-orienteur__panel[hidden]{display:none;}
+#pv-services .pv-services-orienteur__reco{
+  display:inline-block;font-size:.76rem;font-weight:700;letter-spacing:.04em;color:var(--pv-services-teal);
+  margin:16px 0 6px;text-transform:uppercase;
+}
+#pv-services .pv-services-orienteur__name{font-size:1.08rem;font-weight:800;color:var(--pv-services-navy);margin:0 0 10px;}
+#pv-services .pv-services-orienteur__actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;align-items:center;}
+
+/* FAQ (reused pattern) */
+#pv-services .pv-services-faq{max-width:840px;margin:0 auto;}
+#pv-services .pv-services-faq__item{border-bottom:1px solid var(--pv-services-border);}
+#pv-services .pv-services-faq__item:first-child{border-top:1px solid var(--pv-services-border);}
+#pv-services .pv-services-faq__question{
+  width:100%;text-align:left;background:none;border:none;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px 4px;font-size:1rem;font-weight:700;color:var(--pv-services-navy);cursor:pointer;min-height:48px;
+}
+#pv-services .pv-services-faq__question:focus,
+#pv-services .pv-services-faq__question:focus-visible{outline:3px solid var(--pv-services-cyan);outline-offset:3px;}
+#pv-services .pv-services-faq__icon{flex-shrink:0;width:22px;height:22px;position:relative;}
+#pv-services .pv-services-faq__icon::before,#pv-services .pv-services-faq__icon::after{
+  content:"";position:absolute;background:var(--pv-services-navy);top:50%;left:50%;transform:translate(-50%,-50%);
+}
+#pv-services .pv-services-faq__icon::before{width:14px;height:2px;}
+#pv-services .pv-services-faq__icon::after{width:2px;height:14px;}
+#pv-services .pv-services-faq__question[aria-expanded="true"] .pv-services-faq__icon::after{transform:translate(-50%,-50%) scaleY(0);}
+#pv-services .pv-services-faq__answer{padding:0 4px 22px;}
+#pv-services .pv-services-faq__answer[hidden]{display:none;}
+
+/* Final CTA */
+#pv-services .pv-services-final{text-align:center;}
+#pv-services .pv-services-final .pv-services-h2{max-width:760px;margin-left:auto;margin-right:auto;}
+#pv-services .pv-services-final .pv-services-lead{max-width:620px;margin-left:auto;margin-right:auto;}
+
+@media (prefers-reduced-motion:reduce){
+  #pv-services *{transition:none !important;animation:none !important;}
+}
+
+@media (max-width:980px){
+  #pv-services .pv-services-hero__grid{grid-template-columns:1fr;gap:32px;}
+  #pv-services .pv-services-hero__visual{order:-1;max-width:460px;margin:0 auto;}
+  #pv-services .pv-services-grid-2{grid-template-columns:1fr;}
+  #pv-services .pv-services-grid-3{grid-template-columns:repeat(2,1fr);}
+  #pv-services .pv-services-grid-4{grid-template-columns:repeat(2,1fr);}
+  #pv-services .pv-services-grid-6{grid-template-columns:repeat(3,1fr);}
+  #pv-services .pv-services-block{grid-template-columns:1fr;gap:28px;}
+}
+
+@media (max-width:720px){
+  #pv-services .pv-services-section{padding:52px 0;}
+  #pv-services .pv-services-grid-3{grid-template-columns:1fr;}
+  #pv-services .pv-services-grid-4{grid-template-columns:1fr;}
+  #pv-services .pv-services-grid-6{grid-template-columns:repeat(2,1fr);}
+  #pv-services .pv-services-cta-row{flex-direction:column;}
+  #pv-services .pv-services-btn{width:100%;}
+  #pv-services .pv-services-orienteur__actions{flex-direction:column;align-items:stretch;}
+}
+</style>
+
+<main id="pv-services">
+
+  <section class="pv-services-hero" aria-labelledby="pv-services-hero-title">
+    <div class="pv-services-container pv-services-hero__grid">
+      <div class="pv-services-hero__content">
+        <p class="pv-services-eyebrow">PRESTATIONS D’ÉVALUATION DES RISQUES PROFESSIONNELS</p>
+        <h1 id="pv-services-hero-title" class="pv-services-h1">Un DUERP adapté à votre travail réel. Pas un document générique de plus.</h1>
+        <p class="pv-services-lead">PREUVIA analyse votre organisation, vos activités et vos expositions pour structurer une démarche compréhensible, traçable et directement exploitable.</p>
+        <div class="pv-services-cta-row">
+          <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=prestation-duerp">Demander une étude de mon besoin</a>
+        </div>
+        <ul class="pv-services-hero__reassurance">
+          <li>Périmètre défini</li>
+          <li>Méthode expliquée</li>
+          <li>Livrables identifiés</li>
+          <li>Limites transparentes</li>
+        </ul>
+      </div>
+      <div class="pv-services-hero__visual" aria-hidden="true">
+        <svg viewBox="0 0 380 320" xmlns="http://www.w3.org/2000/svg" role="presentation" focusable="false">
+          <rect x="0" y="0" width="380" height="320" rx="16" fill="#F4F7F9"></rect>
+          <rect x="30" y="26" width="180" height="230" rx="10" fill="#FFFFFF" stroke="#D9E3E8"></rect>
+          <rect x="48" y="48" width="120" height="10" rx="5" fill="#173F5F"></rect>
+          <rect x="48" y="70" width="144" height="7" rx="3.5" fill="#D9E3E8"></rect>
+          <rect x="48" y="86" width="130" height="7" rx="3.5" fill="#D9E3E8"></rect>
+          <rect x="48" y="102" width="144" height="7" rx="3.5" fill="#D9E3E8"></rect>
+          <circle cx="58" cy="130" r="7" fill="#0B7F83"></circle>
+          <path d="M54 130l3 3 6-7" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+          <rect x="74" y="126" width="118" height="8" rx="4" fill="#D9E3E8"></rect>
+          <circle cx="58" cy="154" r="7" fill="#00A5D8"></circle>
+          <path d="M54 154l3 3 6-7" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+          <rect x="74" y="150" width="100" height="8" rx="4" fill="#D9E3E8"></rect>
+          <circle cx="58" cy="178" r="7" fill="#D9E3E8"></circle>
+          <rect x="74" y="174" width="112" height="8" rx="4" fill="#D9E3E8"></rect>
+          <rect x="48" y="204" width="144" height="34" rx="8" fill="#F4F7F9" stroke="#D9E3E8"></rect>
+          <text x="60" y="225" font-size="11" font-weight="700" fill="#102B4E">Unités de travail : 12</text>
+          <g>
+            <circle cx="255" cy="150" r="86" fill="none" stroke="#D9E3E8" stroke-width="2"></circle>
+            <circle cx="255" cy="150" r="58" fill="none" stroke="#00A5D8" stroke-width="10" stroke-dasharray="230 364" stroke-linecap="round" transform="rotate(-90 255 150)"></circle>
+            <circle cx="255" cy="150" r="34" fill="#FFFFFF" stroke="#D9E3E8"></circle>
+            <text x="255" y="155" font-size="13" font-weight="800" fill="#102B4E" text-anchor="middle">Analyse</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-orienteur" class="pv-services-section pv-services-section--muted" aria-labelledby="pv-services-orienteur-title">
+    <div class="pv-services-container">
+      <div class="pv-services-section-intro pv-services-section-intro--center">
+        <h2 id="pv-services-orienteur-title" class="pv-services-h2">Quelle est votre priorité aujourd’hui&nbsp;?</h2>
+        <p class="pv-services-p">Sélectionnez la situation la plus proche de la vôtre pour voir la prestation recommandée. Aucune donnée n’est collectée par cet outil.</p>
+      </div>
+
+      <div class="pv-services-orienteur__list">
+
+        <div class="pv-services-orienteur__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-orienteur__trigger" id="pv-services-orienteur-q1" aria-expanded="false" aria-controls="pv-services-orienteur-p1">
+              <span>Je n’ai pas de DUERP exploitable.</span>
+              <span class="pv-services-orienteur__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-orienteur__panel" id="pv-services-orienteur-p1" role="region" aria-labelledby="pv-services-orienteur-q1">
+            <span class="pv-services-orienteur__reco">Prestation recommandée</span>
+            <p class="pv-services-orienteur__name">Création du DUERP</p>
+            <p class="pv-services-p">Construction complète de votre évaluation à partir de vos unités de travail, de vos activités réelles et de vos moyens de prévention existants.</p>
+            <p class="pv-services-result">Résultat : un DUERP structuré, un plan d’action et une restitution compréhensible par vos équipes.</p>
+            <div class="pv-services-orienteur__actions">
+              <a class="pv-services-btn pv-services-btn--link" href="#pv-services-creation">Voir le détail de la création du DUERP</a>
+              <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=creation-duerp">Demander la création de mon DUERP</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-services-orienteur__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-orienteur__trigger" id="pv-services-orienteur-q2" aria-expanded="false" aria-controls="pv-services-orienteur-p2">
+              <span>Mon DUERP doit être mis à jour.</span>
+              <span class="pv-services-orienteur__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-orienteur__panel" id="pv-services-orienteur-p2" role="region" aria-labelledby="pv-services-orienteur-q2">
+            <span class="pv-services-orienteur__reco">Prestation recommandée</span>
+            <p class="pv-services-orienteur__name">Mise à jour du DUERP</p>
+            <p class="pv-services-p">Actualisation du document existant en fonction des évolutions de votre organisation, de vos activités et des événements survenus depuis la dernière version.</p>
+            <p class="pv-services-result">Résultat : un DUERP remis à jour, cohérent avec votre situation actuelle.</p>
+            <div class="pv-services-orienteur__actions">
+              <a class="pv-services-btn pv-services-btn--link" href="#pv-services-mise-a-jour">Voir le détail de la mise à jour</a>
+              <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=mise-a-jour-duerp">Mettre à jour mon DUERP</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-services-orienteur__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-orienteur__trigger" id="pv-services-orienteur-q3" aria-expanded="false" aria-controls="pv-services-orienteur-p3">
+              <span>Je souhaite contrôler mon document actuel.</span>
+              <span class="pv-services-orienteur__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-orienteur__panel" id="pv-services-orienteur-p3" role="region" aria-labelledby="pv-services-orienteur-q3">
+            <span class="pv-services-orienteur__reco">Prestation recommandée</span>
+            <p class="pv-services-orienteur__name">Diagnostic DUERP</p>
+            <p class="pv-services-p">Analyse de votre document actuel pour identifier ce qui est fiable, incomplet ou devenu obsolète, avant toute décision de mise à jour ou de refonte.</p>
+            <p class="pv-services-result">Résultat : une vision claire des écarts et du niveau de mission nécessaire.</p>
+            <div class="pv-services-orienteur__actions">
+              <a class="pv-services-btn pv-services-btn--link" href="#pv-services-diagnostic">Voir le détail du diagnostic</a>
+              <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=diagnostic-duerp">Faire analyser mon DUERP</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-services-orienteur__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-orienteur__trigger" id="pv-services-orienteur-q4" aria-expanded="false" aria-controls="pv-services-orienteur-p4">
+              <span>J’ai besoin d’une intervention sur site.</span>
+              <span class="pv-services-orienteur__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-orienteur__panel" id="pv-services-orienteur-p4" role="region" aria-labelledby="pv-services-orienteur-q4">
+            <span class="pv-services-orienteur__reco">Prestation recommandée</span>
+            <p class="pv-services-orienteur__name">Évaluation terrain</p>
+            <p class="pv-services-p">Observation directe des tâches, des flux et des situations réelles de travail, lorsque l’échange documentaire ne suffit pas à qualifier un risque.</p>
+            <p class="pv-services-result">Résultat : des constats fondés sur l’observation, intégrés à votre DUERP.</p>
+            <div class="pv-services-orienteur__actions">
+              <a class="pv-services-btn pv-services-btn--link" href="#pv-services-terrain">Voir le détail de l’évaluation terrain</a>
+              <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=evaluation-terrain">Demander une intervention terrain</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-services-orienteur__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-orienteur__trigger" id="pv-services-orienteur-q5" aria-expanded="false" aria-controls="pv-services-orienteur-p5">
+              <span>Mon organisation possède plusieurs sites.</span>
+              <span class="pv-services-orienteur__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-orienteur__panel" id="pv-services-orienteur-p5" role="region" aria-labelledby="pv-services-orienteur-q5">
+            <span class="pv-services-orienteur__reco">Prestation recommandée</span>
+            <p class="pv-services-orienteur__name">DUERP multi-sites</p>
+            <p class="pv-services-p">Mise en place d’un référentiel commun, adapté localement, avec une consolidation et une gouvernance au niveau du groupe.</p>
+            <p class="pv-services-result">Résultat : une cohérence d’ensemble et une synthèse groupe exploitable par la direction.</p>
+            <div class="pv-services-orienteur__actions">
+              <a class="pv-services-btn pv-services-btn--link" href="#pv-services-multisites">Voir le détail du multi-sites</a>
+              <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=multisites">Étudier mon organisation multi-sites</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-services-orienteur__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-orienteur__trigger" id="pv-services-orienteur-q6" aria-expanded="false" aria-controls="pv-services-orienteur-p6">
+              <span>Mes actions ne sont pas réellement suivies.</span>
+              <span class="pv-services-orienteur__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-orienteur__panel" id="pv-services-orienteur-p6" role="region" aria-labelledby="pv-services-orienteur-q6">
+            <span class="pv-services-orienteur__reco">Prestation recommandée</span>
+            <p class="pv-services-orienteur__name">Plan d’action et PAPRIPACT</p>
+            <p class="pv-services-p">Structuration de vos actions de prévention avec responsable, ressources, échéance, indicateur et preuve de réalisation.</p>
+            <p class="pv-services-result">Résultat : un plan d’action pilotable, avec un statut d’avancement identifiable à tout moment.</p>
+            <div class="pv-services-orienteur__actions">
+              <a class="pv-services-btn pv-services-btn--link" href="#pv-services-plan-action">Voir le détail du plan d’action</a>
+              <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=plan-action">Structurer mon plan d’action</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-diagnostic" class="pv-services-section" aria-labelledby="pv-services-diagnostic-title">
+    <div class="pv-services-container">
+      <div class="pv-services-block">
+        <div class="pv-services-block__col">
+          <h2 id="pv-services-diagnostic-title" class="pv-services-h2">Diagnostic DUERP</h2>
+          <p class="pv-services-lead">Avant de tout recommencer, identifiez ce qui est fiable, incomplet ou devenu obsolète.</p>
+          <ul class="pv-services-list">
+            <li>Analyse du document</li>
+            <li>Entretien de cadrage</li>
+            <li>Contrôle des unités de travail</li>
+            <li>Analyse des changements</li>
+            <li>Données manquantes</li>
+            <li>Recommandations</li>
+          </ul>
+        </div>
+        <div class="pv-services-block__col">
+          <div class="pv-services-card">
+            <p class="pv-services-result">Résultat : une vision claire des écarts et du niveau de mission nécessaire.</p>
+            <div class="pv-services-cta-row">
+              <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=diagnostic-duerp">Faire analyser mon DUERP</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-creation" class="pv-services-section pv-services-section--muted" aria-labelledby="pv-services-creation-title">
+    <div class="pv-services-container">
+      <div class="pv-services-block">
+        <div class="pv-services-block__col">
+          <h2 id="pv-services-creation-title" class="pv-services-h2">Création du DUERP</h2>
+          <p class="pv-services-lead">Construisez votre évaluation à partir de vos activités, expositions et moyens de prévention réels.</p>
+          <ol class="pv-services-steps">
+            <li>Cadrage</li>
+            <li>Unités de travail</li>
+            <li>Collecte documentaire</li>
+            <li>Entretiens</li>
+            <li>Observation lorsque nécessaire</li>
+            <li>Identification des dangers</li>
+            <li>Évaluation</li>
+            <li>Hiérarchisation</li>
+            <li>Plan d’action</li>
+            <li>Restitution</li>
+          </ol>
+        </div>
+        <div class="pv-services-block__col">
+          <div class="pv-services-card">
+            <h3 class="pv-services-h3">Livrables possibles</h3>
+            <ul class="pv-services-list">
+              <li>DUERP</li>
+              <li>Matrice détaillée</li>
+              <li>Synthèse dirigeant</li>
+              <li>Plan d’action ou PAPRIPACT</li>
+              <li>Tableau de suivi</li>
+              <li>Registre de versions</li>
+            </ul>
+            <div class="pv-services-cta-row">
+              <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=creation-duerp">Demander la création de mon DUERP</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-mise-a-jour" class="pv-services-section" aria-labelledby="pv-services-mise-a-jour-title">
+    <div class="pv-services-container">
+      <div class="pv-services-section-intro">
+        <h2 id="pv-services-mise-a-jour-title" class="pv-services-h2">Quand mettre à jour votre DUERP&nbsp;?</h2>
+        <p class="pv-services-p">Certains événements justifient une actualisation avant l’échéance habituelle.</p>
+      </div>
+      <ul class="pv-services-tag-list">
+        <li class="pv-services-tag">Nouvel équipement</li>
+        <li class="pv-services-tag">Nouvelle activité</li>
+        <li class="pv-services-tag">Nouveau site</li>
+        <li class="pv-services-tag">Nouveau produit</li>
+        <li class="pv-services-tag">Réorganisation</li>
+        <li class="pv-services-tag">Incident</li>
+        <li class="pv-services-tag">Évolution des conditions de travail</li>
+        <li class="pv-services-tag">Information nouvelle concernant un risque</li>
+      </ul>
+      <div class="pv-services-cta-row">
+        <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=mise-a-jour-duerp">Mettre à jour mon DUERP</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-terrain" class="pv-services-section pv-services-section--muted" aria-labelledby="pv-services-terrain-title">
+    <div class="pv-services-container">
+      <div class="pv-services-block">
+        <div class="pv-services-block__col">
+          <h2 id="pv-services-terrain-title" class="pv-services-h2">Lorsque le questionnaire ne suffit pas</h2>
+          <ul class="pv-services-list">
+            <li>Observation des tâches</li>
+            <li>Flux</li>
+            <li>Coactivité</li>
+            <li>Modes dégradés</li>
+            <li>Interfaces</li>
+            <li>Contournements</li>
+            <li>Situations non routinières</li>
+          </ul>
+          <div class="pv-services-cta-row">
+            <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=evaluation-terrain">Demander une intervention terrain</a>
+          </div>
+        </div>
+        <div class="pv-services-block__col">
+          <div class="pv-services-card">
+            <h3 class="pv-services-h3">Secteurs fréquemment concernés</h3>
+            <ul class="pv-services-tag-list">
+              <li class="pv-services-tag">BTP</li>
+              <li class="pv-services-tag">Industrie</li>
+              <li class="pv-services-tag">Logistique</li>
+              <li class="pv-services-tag">Maintenance</li>
+              <li class="pv-services-tag">Santé</li>
+              <li class="pv-services-tag">Énergie</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-multisites" class="pv-services-section" aria-labelledby="pv-services-multisites-title">
+    <div class="pv-services-container">
+      <div class="pv-services-section-intro">
+        <h2 id="pv-services-multisites-title" class="pv-services-h2">Structurer un DUERP cohérent sur plusieurs sites</h2>
+      </div>
+      <ul class="pv-services-list pv-services-grid-3">
+        <li>Référentiel commun</li>
+        <li>Adaptation locale</li>
+        <li>Consolidation</li>
+        <li>Gouvernance centrale</li>
+        <li>Plans d’action par site</li>
+        <li>Synthèse groupe</li>
+      </ul>
+      <div class="pv-services-cta-row">
+        <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=multisites">Étudier mon organisation multi-sites</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-plan-action" class="pv-services-section pv-services-section--muted" aria-labelledby="pv-services-plan-action-title">
+    <div class="pv-services-container">
+      <div class="pv-services-section-intro">
+        <h2 id="pv-services-plan-action-title" class="pv-services-h2">Un plan d’action structuré, pas une liste d’intentions</h2>
+        <p class="pv-services-p">Chaque action est documentée selon les champs suivants.</p>
+      </div>
+      <ul class="pv-services-tag-list">
+        <li class="pv-services-tag">Action</li>
+        <li class="pv-services-tag">Responsable</li>
+        <li class="pv-services-tag">Ressources</li>
+        <li class="pv-services-tag">Coût</li>
+        <li class="pv-services-tag">Échéance</li>
+        <li class="pv-services-tag">Indicateur</li>
+        <li class="pv-services-tag">Preuve</li>
+        <li class="pv-services-tag">Statut</li>
+        <li class="pv-services-tag">Risque résiduel</li>
+      </ul>
+      <div class="pv-services-cta-row">
+        <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=plan-action">Structurer mon plan d’action</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-risques" class="pv-services-section" aria-labelledby="pv-services-risques-title">
+    <div class="pv-services-container">
+      <div class="pv-services-section-intro pv-services-section-intro--center">
+        <h2 id="pv-services-risques-title" class="pv-services-h2">Des risques spécifiques, une réponse adaptée</h2>
+      </div>
+      <ul class="pv-services-tag-list">
+        <li class="pv-services-tag">Chimique</li>
+        <li class="pv-services-tag">Manutention et TMS</li>
+        <li class="pv-services-tag">Machines</li>
+        <li class="pv-services-tag">Chutes</li>
+        <li class="pv-services-tag">Incendie et explosion</li>
+        <li class="pv-services-tag">Risque routier</li>
+        <li class="pv-services-tag">RPS</li>
+        <li class="pv-services-tag">Coactivité</li>
+        <li class="pv-services-tag">TMD</li>
+        <li class="pv-services-tag">Bruit et vibrations</li>
+        <li class="pv-services-tag">Électricité</li>
+        <li class="pv-services-tag">Travail isolé</li>
+      </ul>
+      <p class="pv-services-note">Les besoins spécialisés sont traités directement ou avec une compétence complémentaire adaptée au niveau de complexité.</p>
+    </div>
+  </section>
+
+  <section id="pv-services-prix" class="pv-services-section pv-services-section--muted" aria-labelledby="pv-services-prix-title">
+    <div class="pv-services-container">
+      <div class="pv-services-section-intro pv-services-section-intro--center">
+        <h2 id="pv-services-prix-title" class="pv-services-h2">Un prix proportionné à la réalité de votre organisation</h2>
+        <p class="pv-services-p">Ces critères déterminent le périmètre et l’ampleur de la mission. Aucun tarif n’est indiqué à ce stade.</p>
+      </div>
+      <ul class="pv-services-tag-list">
+        <li class="pv-services-tag">Effectif</li>
+        <li class="pv-services-tag">Sites</li>
+        <li class="pv-services-tag">Unités de travail</li>
+        <li class="pv-services-tag">Diversité des métiers</li>
+        <li class="pv-services-tag">Risques particuliers</li>
+        <li class="pv-services-tag">Qualité des données</li>
+        <li class="pv-services-tag">Observation</li>
+        <li class="pv-services-tag">Déplacements</li>
+        <li class="pv-services-tag">Délais</li>
+        <li class="pv-services-tag">Validations</li>
+      </ul>
+      <div class="pv-services-cta-row pv-services-cta-row--center">
+        <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=proposition">Recevoir une proposition adaptée</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-faq" class="pv-services-section" aria-labelledby="pv-services-faq-title">
+    <div class="pv-services-container">
+      <div class="pv-services-section-intro pv-services-section-intro--center">
+        <h2 id="pv-services-faq-title" class="pv-services-h2">Questions fréquentes</h2>
+      </div>
+      <div class="pv-services-faq">
+
+        <div class="pv-services-faq__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-faq__question" id="pv-services-faq-q1" aria-expanded="false" aria-controls="pv-services-faq-a1">
+              <span>Quelle est la différence entre un diagnostic et une création complète de DUERP&nbsp;?</span>
+              <span class="pv-services-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-faq__answer" id="pv-services-faq-a1" role="region" aria-labelledby="pv-services-faq-q1">
+            <p class="pv-services-p">Le diagnostic évalue l’état de votre document existant et identifie les écarts. La création complète construit une évaluation nouvelle à partir de vos unités de travail, expositions et moyens de prévention réels.</p>
+          </div>
+        </div>
+
+        <div class="pv-services-faq__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-faq__question" id="pv-services-faq-q2" aria-expanded="false" aria-controls="pv-services-faq-a2">
+              <span>Combien de temps dure une mission de création du DUERP&nbsp;?</span>
+              <span class="pv-services-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-faq__answer" id="pv-services-faq-a2" role="region" aria-labelledby="pv-services-faq-q2">
+            <p class="pv-services-p">La durée dépend du nombre de sites, d’unités de travail et de la disponibilité des informations. Elle est estimée avec vous après l’entretien de cadrage.</p>
+          </div>
+        </div>
+
+        <div class="pv-services-faq__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-faq__question" id="pv-services-faq-q3" aria-expanded="false" aria-controls="pv-services-faq-a3">
+              <span>Faut-il visiter chaque site pour une organisation multi-sites&nbsp;?</span>
+              <span class="pv-services-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-faq__answer" id="pv-services-faq-a3" role="region" aria-labelledby="pv-services-faq-q3">
+            <p class="pv-services-p">Non systématiquement. Une adaptation locale est prévue lorsque nécessaire, avec un référentiel commun et une consolidation au niveau du groupe.</p>
+          </div>
+        </div>
+
+        <div class="pv-services-faq__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-faq__question" id="pv-services-faq-q4" aria-expanded="false" aria-controls="pv-services-faq-a4">
+              <span>Le PAPRIPACT est-il inclus dans toutes les missions&nbsp;?</span>
+              <span class="pv-services-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-faq__answer" id="pv-services-faq-a4" role="region" aria-labelledby="pv-services-faq-q4">
+            <p class="pv-services-p">Le plan d’action ou le PAPRIPACT est proposé selon le périmètre défini avec vous lors du cadrage de la mission.</p>
+          </div>
+        </div>
+
+        <div class="pv-services-faq__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-faq__question" id="pv-services-faq-q5" aria-expanded="false" aria-controls="pv-services-faq-a5">
+              <span>Que se passe-t-il si un risque spécialisé dépasse votre champ de compétence direct&nbsp;?</span>
+              <span class="pv-services-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-faq__answer" id="pv-services-faq-a5" role="region" aria-labelledby="pv-services-faq-q5">
+            <p class="pv-services-p">Le sujet est traité directement ou orienté vers une compétence complémentaire adaptée au niveau de complexité du risque identifié.</p>
+          </div>
+        </div>
+
+        <div class="pv-services-faq__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-faq__question" id="pv-services-faq-q6" aria-expanded="false" aria-controls="pv-services-faq-a6">
+              <span>Le DUERP produit reste-t-il notre propriété&nbsp;?</span>
+              <span class="pv-services-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-faq__answer" id="pv-services-faq-a6" role="region" aria-labelledby="pv-services-faq-q6">
+            <p class="pv-services-p">Oui. Le DUERP produit et les documents associés vous appartiennent à l’issue de la mission.</p>
+          </div>
+        </div>
+
+        <div class="pv-services-faq__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-faq__question" id="pv-services-faq-q7" aria-expanded="false" aria-controls="pv-services-faq-a7">
+              <span>Pouvez-vous intervenir après un incident&nbsp;?</span>
+              <span class="pv-services-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-faq__answer" id="pv-services-faq-a7" role="region" aria-labelledby="pv-services-faq-q7">
+            <p class="pv-services-p">Une intervention peut être organisée selon les disponibilités et la nature de la situation. Contactez PREUVIA pour évaluer la faisabilité et les délais.</p>
+          </div>
+        </div>
+
+        <div class="pv-services-faq__item">
+          <h3 class="pv-services-h3">
+            <button type="button" class="pv-services-faq__question" id="pv-services-faq-q8" aria-expanded="false" aria-controls="pv-services-faq-a8">
+              <span>Comment sont traitées les données recueillies pendant la mission&nbsp;?</span>
+              <span class="pv-services-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-services-faq__answer" id="pv-services-faq-a8" role="region" aria-labelledby="pv-services-faq-q8">
+            <p class="pv-services-p">Les données recueillies sont utilisées uniquement dans le cadre de la mission convenue avec votre organisation.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-services-final" class="pv-services-section pv-services-section--navy pv-services-final" aria-labelledby="pv-services-final-title">
+    <div class="pv-services-container">
+      <h2 id="pv-services-final-title" class="pv-services-h2">Quel niveau d’intervention votre organisation nécessite-t-elle réellement&nbsp;?</h2>
+      <p class="pv-services-lead">Décrivez votre organisation et votre besoin. PREUVIA vous orientera vers la prestation adaptée.</p>
+      <div class="pv-services-cta-row pv-services-cta-row--center">
+        <a class="pv-services-btn pv-services-btn--primary" href="/contact?besoin=prestation-duerp">Présenter mon besoin DUERP</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var root = document.getElementById('pv-services');
+  if(!root){return;}
+
+  var orienteurTriggers = Array.prototype.slice.call(root.querySelectorAll('.pv-services-orienteur__trigger'));
+  orienteurTriggers.forEach(function(btn){
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if(panel){panel.hidden = true;}
+    btn.setAttribute('aria-expanded','false');
+    btn.addEventListener('click', function(){
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      orienteurTriggers.forEach(function(other){
+        var otherPanel = document.getElementById(other.getAttribute('aria-controls'));
+        other.setAttribute('aria-expanded','false');
+        if(otherPanel){otherPanel.hidden = true;}
+      });
+      if(!expanded){
+        btn.setAttribute('aria-expanded','true');
+        if(panel){panel.hidden = false;}
+      }
+    });
+  });
+
+  var faqQuestions = root.querySelectorAll('.pv-services-faq__question');
+  faqQuestions.forEach(function(btn){
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if(panel){panel.hidden = true;}
+    btn.setAttribute('aria-expanded','false');
+    btn.addEventListener('click', function(){
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      if(panel){panel.hidden = expanded;}
+    });
+  });
+})();
+</script>
