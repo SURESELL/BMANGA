@@ -1,0 +1,378 @@
+<style>
+#pv-sectors{
+  --pv-sectors-navy:#102B4E;
+  --pv-sectors-blue:#173F5F;
+  --pv-sectors-teal:#0B7F83;
+  --pv-sectors-cyan:#00A5D8;
+  --pv-sectors-light:#F4F7F9;
+  --pv-sectors-white:#FFFFFF;
+  --pv-sectors-text:#243746;
+  --pv-sectors-muted:#5C6F7B;
+  --pv-sectors-border:#D9E3E8;
+  --pv-sectors-danger:#9E3A38;
+  display:block;
+  background:var(--pv-sectors-white);
+  color:var(--pv-sectors-text);
+  line-height:1.55;
+}
+#pv-sectors *{box-sizing:border-box;}
+#pv-sectors .pv-sectors-container{max-width:1180px;margin:0 auto;padding:0 24px;}
+#pv-sectors .pv-sectors-section{padding:72px 0;scroll-margin-top:24px;}
+#pv-sectors .pv-sectors-section--muted{background:var(--pv-sectors-light);}
+#pv-sectors .pv-sectors-section--navy{background:var(--pv-sectors-navy);color:var(--pv-sectors-white);}
+#pv-sectors .pv-sectors-h1{
+  font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:800;color:var(--pv-sectors-navy);
+  margin:0 0 20px;line-height:1.2;max-width:820px;
+}
+#pv-sectors .pv-sectors-h2{
+  font-size:clamp(1.35rem,2.3vw,1.8rem);font-weight:800;color:var(--pv-sectors-navy);
+  margin:0 0 14px;line-height:1.25;
+}
+#pv-sectors .pv-sectors-section--navy .pv-sectors-h2{color:var(--pv-sectors-white);}
+#pv-sectors .pv-sectors-h3{font-size:1.05rem;font-weight:700;color:var(--pv-sectors-navy);margin:0 0 10px;}
+#pv-sectors .pv-sectors-lead{font-size:1.05rem;color:var(--pv-sectors-muted);max-width:660px;margin:0 0 24px;}
+#pv-sectors .pv-sectors-section--navy .pv-sectors-lead{color:#C9D8E2;}
+#pv-sectors .pv-sectors-p{font-size:.95rem;color:var(--pv-sectors-muted);margin:0 0 12px;}
+#pv-sectors .pv-sectors-section-intro{max-width:780px;margin:0 auto 36px;}
+#pv-sectors .pv-sectors-section-intro--center{text-align:center;}
+
+/* Buttons */
+#pv-sectors .pv-sectors-btn{
+  display:inline-flex;align-items:center;justify-content:center;min-height:48px;
+  padding:12px 26px;border-radius:10px;font-size:.95rem;font-weight:700;text-decoration:none;
+  border:2px solid transparent;cursor:pointer;
+  transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease;
+}
+#pv-sectors .pv-sectors-btn--primary{background:var(--pv-sectors-cyan);color:var(--pv-sectors-navy);}
+#pv-sectors .pv-sectors-btn--primary:hover{background:#0B90BC;color:var(--pv-sectors-white);}
+#pv-sectors .pv-sectors-btn--outline{background:var(--pv-sectors-white);color:var(--pv-sectors-navy);border-color:var(--pv-sectors-border);width:100%;min-height:44px;font-size:.88rem;padding:10px 18px;}
+#pv-sectors .pv-sectors-btn--outline:hover{border-color:var(--pv-sectors-cyan);box-shadow:0 4px 14px rgba(16,43,78,.12);}
+#pv-sectors .pv-sectors-btn:focus,#pv-sectors .pv-sectors-filter:focus{outline:3px solid var(--pv-sectors-cyan);outline-offset:3px;}
+#pv-sectors .pv-sectors-btn:focus:not(:focus-visible),#pv-sectors .pv-sectors-filter:focus:not(:focus-visible){outline:none;}
+#pv-sectors .pv-sectors-btn:focus-visible,#pv-sectors .pv-sectors-filter:focus-visible{outline:3px solid var(--pv-sectors-cyan);outline-offset:3px;}
+#pv-sectors .pv-sectors-cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;}
+#pv-sectors .pv-sectors-cta-row--center{justify-content:center;}
+
+/* Hero */
+#pv-sectors .pv-sectors-hero{padding:60px 0 52px;background:linear-gradient(180deg,var(--pv-sectors-light) 0%,var(--pv-sectors-white) 100%);text-align:center;}
+#pv-sectors .pv-sectors-hero__content{max-width:760px;margin:0 auto;}
+#pv-sectors .pv-sectors-hero__content .pv-sectors-h1{margin-left:auto;margin-right:auto;}
+#pv-sectors .pv-sectors-hero__content .pv-sectors-lead{margin-left:auto;margin-right:auto;}
+
+/* Filters */
+#pv-sectors .pv-sectors-filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:32px;}
+#pv-sectors .pv-sectors-filter{
+  min-height:44px;padding:9px 20px;border-radius:999px;border:1.5px solid var(--pv-sectors-border);
+  background:var(--pv-sectors-white);color:var(--pv-sectors-navy);font-size:.88rem;font-weight:700;cursor:pointer;
+}
+#pv-sectors .pv-sectors-filter[aria-pressed="true"]{background:var(--pv-sectors-navy);border-color:var(--pv-sectors-navy);color:var(--pv-sectors-white);}
+
+/* Cards grid */
+#pv-sectors .pv-sectors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+#pv-sectors .pv-sectors-card{
+  background:var(--pv-sectors-white);border:1px solid var(--pv-sectors-border);border-radius:14px;
+  padding:22px;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(16,43,78,.05);
+}
+#pv-sectors .pv-sectors-card[hidden]{display:none;}
+#pv-sectors .pv-sectors-card__risks{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-wrap:wrap;gap:6px;}
+#pv-sectors .pv-sectors-card__risk{
+  display:inline-block;font-size:.78rem;font-weight:600;color:var(--pv-sectors-navy);
+  background:var(--pv-sectors-light);border:1px solid var(--pv-sectors-border);border-radius:999px;padding:4px 10px;
+}
+#pv-sectors .pv-sectors-card__note{font-size:.78rem;color:var(--pv-sectors-muted);font-style:italic;margin:8px 0 18px;}
+#pv-sectors .pv-sectors-card__cta{margin-top:auto;}
+
+/* Method criteria */
+#pv-sectors .pv-sectors-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+#pv-sectors .pv-sectors-criterion{
+  background:var(--pv-sectors-white);border:1px solid var(--pv-sectors-border);border-radius:12px;
+  padding:18px;text-align:center;
+}
+#pv-sectors .pv-sectors-criterion__num{
+  display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;
+  background:var(--pv-sectors-navy);color:var(--pv-sectors-white);font-weight:800;font-size:.82rem;margin:0 auto 10px;
+}
+
+/* Multi-sites highlight */
+#pv-sectors .pv-sectors-highlight{
+  max-width:780px;margin:0 auto;text-align:center;background:var(--pv-sectors-white);
+  border:2px solid var(--pv-sectors-navy);border-radius:16px;padding:30px 26px;
+}
+#pv-sectors .pv-sectors-highlight p{font-size:1.05rem;font-weight:700;color:var(--pv-sectors-navy);margin:0;}
+
+/* Final */
+#pv-sectors .pv-sectors-final{text-align:center;}
+#pv-sectors .pv-sectors-final .pv-sectors-h2{max-width:760px;margin-left:auto;margin-right:auto;}
+#pv-sectors .pv-sectors-final .pv-sectors-lead{max-width:620px;margin-left:auto;margin-right:auto;}
+
+@media (prefers-reduced-motion:reduce){
+  #pv-sectors *{transition:none !important;animation:none !important;}
+}
+
+@media (max-width:980px){
+  #pv-sectors .pv-sectors-grid{grid-template-columns:repeat(2,1fr);}
+  #pv-sectors .pv-sectors-grid-5{grid-template-columns:repeat(3,1fr);}
+}
+
+@media (max-width:720px){
+  #pv-sectors .pv-sectors-section{padding:52px 0;}
+  #pv-sectors .pv-sectors-grid{grid-template-columns:1fr;}
+  #pv-sectors .pv-sectors-grid-5{grid-template-columns:repeat(2,1fr);}
+  #pv-sectors .pv-sectors-cta-row{flex-direction:column;}
+  #pv-sectors .pv-sectors-btn{width:100%;}
+}
+</style>
+
+<main id="pv-sectors">
+
+  <section class="pv-sectors-hero">
+    <div class="pv-sectors-container pv-sectors-hero__content">
+      <h1 class="pv-sectors-h1">Votre secteur change la nature des risques. Notre méthode s’y adapte.</h1>
+      <p class="pv-sectors-lead">Les métiers, flux, équipements, publics, horaires et coactivités déterminent la profondeur de l’évaluation.</p>
+      <div class="pv-sectors-cta-row pv-sectors-cta-row--center">
+        <a class="pv-sectors-btn pv-sectors-btn--primary" href="#pv-sectors-catalogue">Étudier mon secteur</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="pv-sectors-catalogue" class="pv-sectors-section" aria-labelledby="pv-sectors-catalogue-title">
+    <div class="pv-sectors-container">
+      <div class="pv-sectors-section-intro pv-sectors-section-intro--center">
+        <h2 id="pv-sectors-catalogue-title" class="pv-sectors-h2">Secteurs accompagnés</h2>
+        <p class="pv-sectors-p">Filtrez par famille d’activité pour identifier la situation la plus proche de la vôtre.</p>
+      </div>
+
+      <div class="pv-sectors-filters" role="group" aria-label="Filtrer les secteurs">
+        <button type="button" class="pv-sectors-filter" data-filter="all" aria-pressed="true">Tous</button>
+        <button type="button" class="pv-sectors-filter" data-filter="production" aria-pressed="false">Production</button>
+        <button type="button" class="pv-sectors-filter" data-filter="services" aria-pressed="false">Services</button>
+        <button type="button" class="pv-sectors-filter" data-filter="mobilite" aria-pressed="false">Mobilité</button>
+        <button type="button" class="pv-sectors-filter" data-filter="publics-sensibles" aria-pressed="false">Publics sensibles</button>
+        <button type="button" class="pv-sectors-filter" data-filter="multi-sites" aria-pressed="false">Multi-sites</button>
+        <button type="button" class="pv-sectors-filter" data-filter="risques-eleves" aria-pressed="false">Risques élevés</button>
+      </div>
+
+      <div class="pv-sectors-grid">
+
+        <article class="pv-sectors-card" data-category="production risques-eleves">
+          <h3 class="pv-sectors-h3">BTP et travaux publics</h3>
+          <p class="pv-sectors-p">Chantiers, engins et coactivité nécessitent une évaluation adaptée aux phases de travaux et aux intervenants multiples.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Chutes</li>
+            <li class="pv-sectors-card__risk">Engins</li>
+            <li class="pv-sectors-card__risk">Circulation</li>
+            <li class="pv-sectors-card__risk">Manutention</li>
+            <li class="pv-sectors-card__risk">Bruit</li>
+            <li class="pv-sectors-card__risk">Poussières</li>
+            <li class="pv-sectors-card__risk">Coactivité</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=btp">Étudier ce secteur</a>
+          </div>
+        </article>
+
+        <article class="pv-sectors-card" data-category="production risques-eleves">
+          <h3 class="pv-sectors-h3">Industrie et maintenance</h3>
+          <p class="pv-sectors-p">Machines, énergies et opérations de maintenance exigent une analyse précise des modes opératoires et des consignations.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Machines</li>
+            <li class="pv-sectors-card__risk">Consignation</li>
+            <li class="pv-sectors-card__risk">Produits chimiques</li>
+            <li class="pv-sectors-card__risk">Énergie</li>
+            <li class="pv-sectors-card__risk">Bruit</li>
+            <li class="pv-sectors-card__risk">Incendie</li>
+            <li class="pv-sectors-card__risk">Maintenance</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=industrie">Étudier ce secteur</a>
+          </div>
+        </article>
+
+        <article class="pv-sectors-card" data-category="mobilite risques-eleves">
+          <h3 class="pv-sectors-h3">Transport et logistique</h3>
+          <p class="pv-sectors-p">Flux, quais et déplacements multiplient les interfaces à risque entre engins, piétons et véhicules.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Circulation interne</li>
+            <li class="pv-sectors-card__risk">Quais</li>
+            <li class="pv-sectors-card__risk">Chargement</li>
+            <li class="pv-sectors-card__risk">Manutention</li>
+            <li class="pv-sectors-card__risk">Risque routier</li>
+            <li class="pv-sectors-card__risk">Fatigue</li>
+            <li class="pv-sectors-card__risk">TMD lorsqu’applicable</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=transport-logistique">Étudier ce secteur</a>
+          </div>
+        </article>
+
+        <article class="pv-sectors-card" data-category="services publics-sensibles">
+          <h3 class="pv-sectors-h3">Santé et médico-social</h3>
+          <p class="pv-sectors-p">La prise en charge de publics fragiles combine risques physiques, biologiques et psychosociaux.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Biologique</li>
+            <li class="pv-sectors-card__risk">Manutention de personnes</li>
+            <li class="pv-sectors-card__risk">Agressions</li>
+            <li class="pv-sectors-card__risk">Horaires</li>
+            <li class="pv-sectors-card__risk">Charge émotionnelle</li>
+            <li class="pv-sectors-card__risk">RPS</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=sante">Étudier ce secteur</a>
+          </div>
+        </article>
+
+        <article class="pv-sectors-card" data-category="services">
+          <h3 class="pv-sectors-h3">Tertiaire et services</h3>
+          <p class="pv-sectors-p">Travail sur écran, télétravail et organisation du temps structurent l’essentiel des risques rencontrés.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Écrans</li>
+            <li class="pv-sectors-card__risk">Télétravail</li>
+            <li class="pv-sectors-card__risk">Charge</li>
+            <li class="pv-sectors-card__risk">Organisation</li>
+            <li class="pv-sectors-card__risk">Déplacements</li>
+            <li class="pv-sectors-card__risk">Accueil du public</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=tertiaire">Étudier ce secteur</a>
+          </div>
+        </article>
+
+        <article class="pv-sectors-card" data-category="services publics-sensibles">
+          <h3 class="pv-sectors-h3">Organismes de formation</h3>
+          <p class="pv-sectors-p">L’accueil de publics variés et les interventions en dehors des locaux habituels demandent une vigilance spécifique.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Accueil des publics</li>
+            <li class="pv-sectors-card__risk">Déplacements</li>
+            <li class="pv-sectors-card__risk">Écrans</li>
+            <li class="pv-sectors-card__risk">Incendie</li>
+            <li class="pv-sectors-card__risk">Travail isolé</li>
+            <li class="pv-sectors-card__risk">Interventions externes</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=formation">Étudier ce secteur</a>
+          </div>
+        </article>
+
+        <article class="pv-sectors-card" data-category="production risques-eleves">
+          <h3 class="pv-sectors-h3">Agroalimentaire</h3>
+          <p class="pv-sectors-p">Cadences, températures et hygiène imposent une évaluation attentive aux postes de production.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Machines</li>
+            <li class="pv-sectors-card__risk">Coupures</li>
+            <li class="pv-sectors-card__risk">Glissades</li>
+            <li class="pv-sectors-card__risk">Froid</li>
+            <li class="pv-sectors-card__risk">Chaleur</li>
+            <li class="pv-sectors-card__risk">Nettoyage</li>
+            <li class="pv-sectors-card__risk">Cadence</li>
+            <li class="pv-sectors-card__risk">Manutention</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=agroalimentaire">Étudier ce secteur</a>
+          </div>
+        </article>
+
+        <article class="pv-sectors-card" data-category="production risques-eleves">
+          <h3 class="pv-sectors-h3">Énergie, mines et infrastructures</h3>
+          <p class="pv-sectors-p">Opérations à énergie élevée et sous-traitance multiplient les points de vigilance sur les interventions.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Énergie</li>
+            <li class="pv-sectors-card__risk">Levage</li>
+            <li class="pv-sectors-card__risk">Consignation</li>
+            <li class="pv-sectors-card__risk">Sous-traitance</li>
+            <li class="pv-sectors-card__risk">Travail isolé</li>
+            <li class="pv-sectors-card__risk">Incendie</li>
+            <li class="pv-sectors-card__risk">Explosion</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=energie-infrastructures">Étudier ce secteur</a>
+          </div>
+        </article>
+
+        <article class="pv-sectors-card" data-category="multi-sites">
+          <h3 class="pv-sectors-h3">Groupes et multi-sites</h3>
+          <p class="pv-sectors-p">Une organisation présente sur plusieurs sites doit concilier cohérence globale et réalités locales.</p>
+          <ul class="pv-sectors-card__risks">
+            <li class="pv-sectors-card__risk">Harmonisation</li>
+            <li class="pv-sectors-card__risk">Gouvernance</li>
+            <li class="pv-sectors-card__risk">Consolidation</li>
+            <li class="pv-sectors-card__risk">Priorités locales</li>
+            <li class="pv-sectors-card__risk">Indicateurs groupe</li>
+          </ul>
+          <p class="pv-sectors-card__note">Liste non exhaustive.</p>
+          <div class="pv-sectors-card__cta">
+            <a class="pv-sectors-btn pv-sectors-btn--outline" href="/contact?secteur=multisites">Étudier ce secteur</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-sectors-section pv-sectors-section--muted" aria-labelledby="pv-sectors-adaptation-title">
+    <div class="pv-sectors-container">
+      <div class="pv-sectors-section-intro pv-sectors-section-intro--center">
+        <h2 id="pv-sectors-adaptation-title" class="pv-sectors-h2">Une méthode qui s’adapte à cinq critères</h2>
+      </div>
+      <div class="pv-sectors-grid-5">
+        <div class="pv-sectors-criterion"><span class="pv-sectors-criterion__num" aria-hidden="true">1</span><h3 class="pv-sectors-h3">Activité réelle</h3></div>
+        <div class="pv-sectors-criterion"><span class="pv-sectors-criterion__num" aria-hidden="true">2</span><h3 class="pv-sectors-h3">Métiers</h3></div>
+        <div class="pv-sectors-criterion"><span class="pv-sectors-criterion__num" aria-hidden="true">3</span><h3 class="pv-sectors-h3">Équipements</h3></div>
+        <div class="pv-sectors-criterion"><span class="pv-sectors-criterion__num" aria-hidden="true">4</span><h3 class="pv-sectors-h3">Personnes exposées</h3></div>
+        <div class="pv-sectors-criterion"><span class="pv-sectors-criterion__num" aria-hidden="true">5</span><h3 class="pv-sectors-h3">Organisation et interfaces</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-sectors-section" aria-labelledby="pv-sectors-multisites-title">
+    <div class="pv-sectors-container">
+      <div class="pv-sectors-section-intro pv-sectors-section-intro--center">
+        <h2 id="pv-sectors-multisites-title" class="pv-sectors-h2">Groupes et multi-sites</h2>
+      </div>
+      <div class="pv-sectors-highlight">
+        <p>Une méthode commune ne doit pas effacer les différences locales.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-sectors-section pv-sectors-section--navy pv-sectors-final" aria-labelledby="pv-sectors-final-title">
+    <div class="pv-sectors-container">
+      <h2 id="pv-sectors-final-title" class="pv-sectors-h2">Votre activité ne rentre pas dans une case standard&nbsp;?</h2>
+      <p class="pv-sectors-lead">Présentez vos métiers, vos sites et vos principales contraintes.</p>
+      <div class="pv-sectors-cta-row pv-sectors-cta-row--center">
+        <a class="pv-sectors-btn pv-sectors-btn--primary" href="/contact?besoin=secteur">Décrire mon activité</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var root = document.getElementById('pv-sectors');
+  if(!root){return;}
+
+  var filters = Array.prototype.slice.call(root.querySelectorAll('.pv-sectors-filter'));
+  var cards = Array.prototype.slice.call(root.querySelectorAll('.pv-sectors-card'));
+
+  filters.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filters.forEach(function(other){other.setAttribute('aria-pressed','false');});
+      btn.setAttribute('aria-pressed','true');
+      var filter = btn.getAttribute('data-filter');
+      cards.forEach(function(card){
+        var cats = (card.getAttribute('data-category') || '').split(' ');
+        var show = filter === 'all' || cats.indexOf(filter) !== -1;
+        card.hidden = !show;
+      });
+    });
+  });
+})();
+</script>
