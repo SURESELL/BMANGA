@@ -1,0 +1,483 @@
+<!-- =====================================================================
+     BLOC 1 / 5 — CSS COMMUN
+     A coller en haut du bloc "HTML brut" placé AVANT le formulaire natif.
+     Ce <style> s'applique à toute la page (avant ET après le formulaire),
+     puisqu'une balise <style> agit sur tout le document quel que soit
+     l'endroit où elle est déclarée.
+     ===================================================================== -->
+<style>
+.pv-contact{
+  --pv-contact-navy:#102B4E;
+  --pv-contact-blue:#173F5F;
+  --pv-contact-teal:#0B7F83;
+  --pv-contact-cyan:#00A5D8;
+  --pv-contact-light:#F4F7F9;
+  --pv-contact-white:#FFFFFF;
+  --pv-contact-text:#243746;
+  --pv-contact-muted:#5C6F7B;
+  --pv-contact-border:#D9E3E8;
+  --pv-contact-danger:#9E3A38;
+  display:block;
+  background:var(--pv-contact-white);
+  color:var(--pv-contact-text);
+  line-height:1.55;
+}
+.pv-contact *{box-sizing:border-box;}
+.pv-contact .pv-contact-container{max-width:1180px;margin:0 auto;padding:0 24px;}
+.pv-contact .pv-contact-container--narrow{max-width:760px;}
+.pv-contact .pv-contact-section{padding:56px 0;scroll-margin-top:24px;}
+.pv-contact .pv-contact-section--muted{background:var(--pv-contact-light);}
+.pv-contact .pv-contact-section--navy{background:var(--pv-contact-navy);color:var(--pv-contact-white);}
+.pv-contact .pv-contact-h1{
+  font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:800;color:var(--pv-contact-navy);
+  margin:0 0 20px;line-height:1.2;max-width:760px;
+}
+.pv-contact .pv-contact-h2{
+  font-size:clamp(1.3rem,2.2vw,1.7rem);font-weight:800;color:var(--pv-contact-navy);
+  margin:0 0 14px;line-height:1.25;
+}
+.pv-contact .pv-contact-section--navy .pv-contact-h2{color:var(--pv-contact-white);}
+.pv-contact .pv-contact-h3{font-size:1.02rem;font-weight:700;color:var(--pv-contact-navy);margin:0 0 8px;}
+.pv-contact .pv-contact-lead{font-size:1.04rem;color:var(--pv-contact-muted);max-width:640px;margin:0 0 20px;}
+.pv-contact .pv-contact-section--navy .pv-contact-lead{color:#C9D8E2;}
+.pv-contact .pv-contact-p{font-size:.95rem;color:var(--pv-contact-muted);margin:0 0 12px;}
+.pv-contact .pv-contact-link{color:var(--pv-contact-teal);font-weight:700;text-decoration:underline;}
+
+/* Hero */
+.pv-contact .pv-contact-hero{padding:56px 0 40px;background:linear-gradient(180deg,var(--pv-contact-light) 0%,var(--pv-contact-white) 100%);}
+.pv-contact .pv-contact-reassurance{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.86rem;color:var(--pv-contact-muted);}
+.pv-contact .pv-contact-reassurance li{position:relative;padding-left:16px;}
+.pv-contact .pv-contact-reassurance li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--pv-contact-cyan);}
+
+/* Orientation (deux cartes en radio accessible, sans JavaScript) */
+.pv-contact .pv-contact-orientation{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.pv-contact .pv-contact-orientation__option{position:relative;}
+.pv-contact .pv-contact-orientation__input{
+  position:absolute;top:22px;left:22px;width:20px;height:20px;margin:0;
+  accent-color:var(--pv-contact-cyan);cursor:pointer;
+}
+.pv-contact .pv-contact-orientation__card{
+  display:block;border:1.5px solid var(--pv-contact-border);border-radius:14px;
+  padding:24px 24px 24px 56px;cursor:pointer;background:var(--pv-contact-white);
+  box-shadow:0 6px 18px rgba(16,43,78,.05);
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+.pv-contact .pv-contact-orientation__input:checked + .pv-contact-orientation__card{
+  border-color:var(--pv-contact-navy);box-shadow:0 0 0 2px var(--pv-contact-navy) inset;
+}
+.pv-contact .pv-contact-orientation__input:focus-visible + .pv-contact-orientation__card{
+  outline:3px solid var(--pv-contact-cyan);outline-offset:2px;
+}
+.pv-contact .pv-contact-orientation__title{display:block;font-size:1.1rem;font-weight:800;color:var(--pv-contact-navy);margin-bottom:12px;}
+.pv-contact .pv-contact-orientation__list{list-style:none;margin:0;padding:0;}
+.pv-contact .pv-contact-orientation__list li{position:relative;padding-left:20px;margin-bottom:8px;font-size:.9rem;color:var(--pv-contact-muted);}
+.pv-contact .pv-contact-orientation__list li::before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:2px;background:var(--pv-contact-cyan);}
+.pv-contact .pv-contact-orientation__note{margin-top:18px;font-size:.86rem;color:var(--pv-contact-muted);}
+
+/* Boutons et liens d'action */
+.pv-contact .pv-contact-btn{
+  display:inline-flex;align-items:center;justify-content:center;min-height:48px;
+  padding:12px 26px;border-radius:10px;font-size:.95rem;font-weight:700;text-decoration:none;
+  border:2px solid transparent;cursor:pointer;
+  transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease;
+}
+.pv-contact .pv-contact-btn--primary{background:var(--pv-contact-cyan);color:var(--pv-contact-navy);}
+.pv-contact .pv-contact-btn--primary:hover{background:#0B90BC;color:var(--pv-contact-white);}
+.pv-contact .pv-contact-btn:focus,
+.pv-contact .pv-contact-faq__question:focus,
+.pv-contact .pv-contact-link:focus{outline:3px solid var(--pv-contact-cyan);outline-offset:3px;}
+.pv-contact .pv-contact-btn:focus:not(:focus-visible),
+.pv-contact .pv-contact-faq__question:focus:not(:focus-visible),
+.pv-contact .pv-contact-link:focus:not(:focus-visible){outline:none;}
+.pv-contact .pv-contact-btn:focus-visible,
+.pv-contact .pv-contact-faq__question:focus-visible,
+.pv-contact .pv-contact-link:focus-visible{outline:3px solid var(--pv-contact-cyan);outline-offset:3px;}
+.pv-contact .pv-contact-cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;}
+.pv-contact .pv-contact-cta-row--center{justify-content:center;}
+
+/* Etapes "que se passe-t-il ensuite" */
+.pv-contact .pv-contact-steps{list-style:none;margin:0;padding:0;counter-reset:pvcontact;}
+.pv-contact .pv-contact-steps li{
+  position:relative;padding-left:38px;margin-bottom:14px;font-size:.94rem;color:var(--pv-contact-text);
+  counter-increment:pvcontact;
+}
+.pv-contact .pv-contact-steps li::before{
+  content:counter(pvcontact);position:absolute;left:0;top:-2px;width:26px;height:26px;border-radius:50%;
+  background:var(--pv-contact-navy);color:var(--pv-contact-white);font-size:.78rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* Coordonnées */
+.pv-contact .pv-contact-address{font-style:normal;}
+
+/* FAQ */
+.pv-contact .pv-contact-faq{margin-top:8px;}
+.pv-contact .pv-contact-faq__item{border-bottom:1px solid var(--pv-contact-border);}
+.pv-contact .pv-contact-faq__item:first-child{border-top:1px solid var(--pv-contact-border);}
+.pv-contact .pv-contact-faq__question{
+  width:100%;text-align:left;background:none;border:none;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px 4px;font-size:.98rem;font-weight:700;color:var(--pv-contact-navy);cursor:pointer;min-height:48px;
+}
+.pv-contact .pv-contact-faq__icon{flex-shrink:0;width:22px;height:22px;position:relative;}
+.pv-contact .pv-contact-faq__icon::before,.pv-contact .pv-contact-faq__icon::after{
+  content:"";position:absolute;background:var(--pv-contact-navy);top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.pv-contact .pv-contact-faq__icon::before{width:14px;height:2px;}
+.pv-contact .pv-contact-faq__icon::after{width:2px;height:14px;}
+.pv-contact .pv-contact-faq__question[aria-expanded="true"] .pv-contact-faq__icon::after{transform:translate(-50%,-50%) scaleY(0);}
+.pv-contact .pv-contact-faq__answer{padding:0 4px 20px;}
+.pv-contact .pv-contact-faq__answer[hidden]{display:none;}
+
+/* CTA final */
+.pv-contact .pv-contact-final{text-align:center;}
+.pv-contact .pv-contact-final .pv-contact-h2{max-width:700px;margin-left:auto;margin-right:auto;}
+.pv-contact .pv-contact-final .pv-contact-lead{max-width:580px;margin-left:auto;margin-right:auto;}
+
+@media (prefers-reduced-motion:reduce){
+  .pv-contact *{transition:none !important;animation:none !important;}
+}
+
+@media (max-width:980px){
+  .pv-contact .pv-contact-orientation{grid-template-columns:1fr;}
+}
+
+@media (max-width:720px){
+  .pv-contact .pv-contact-section{padding:44px 0;}
+  .pv-contact .pv-contact-cta-row{flex-direction:column;}
+  .pv-contact .pv-contact-btn{width:100%;}
+}
+</style>
+
+<!-- =====================================================================
+     BLOC 2 / 5 — HTML A PLACER AVANT LE FORMULAIRE NATIF SYSTEME.IO
+     ===================================================================== -->
+<div class="pv-contact" id="pv-contact-before">
+
+  <section class="pv-contact-hero">
+    <div class="pv-contact-container">
+      <h1 class="pv-contact-h1">Parlons de votre besoin, pas d’une offre générique</h1>
+      <p class="pv-contact-lead">Décrivez votre activité, votre situation actuelle et votre objectif. PREUVIA vous orientera vers la prestation ou la formation la plus cohérente.</p>
+      <ul class="pv-contact-reassurance">
+        <li>Prise de contact sans engagement</li>
+        <li>Informations traitées de manière confidentielle</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="pv-contact-section" aria-labelledby="pv-contact-orientation-title">
+    <div class="pv-contact-container">
+      <h2 id="pv-contact-orientation-title" class="pv-contact-h2">Quel est votre besoin principal&nbsp;?</h2>
+      <div class="pv-contact-orientation" role="radiogroup" aria-labelledby="pv-contact-orientation-title">
+        <div class="pv-contact-orientation__option">
+          <input type="radio" name="pv-contact-orientation" id="pv-contact-orientation-duerp" class="pv-contact-orientation__input">
+          <label for="pv-contact-orientation-duerp" class="pv-contact-orientation__card">
+            <span class="pv-contact-orientation__title">DUERP</span>
+            <ul class="pv-contact-orientation__list">
+              <li>Création</li>
+              <li>Mise à jour</li>
+              <li>Diagnostic</li>
+              <li>Terrain</li>
+              <li>Multi-sites</li>
+              <li>Plan d’action</li>
+              <li>Risque spécialisé</li>
+            </ul>
+          </label>
+        </div>
+        <div class="pv-contact-orientation__option">
+          <input type="radio" name="pv-contact-orientation" id="pv-contact-orientation-formation" class="pv-contact-orientation__input">
+          <label for="pv-contact-orientation-formation" class="pv-contact-orientation__card">
+            <span class="pv-contact-orientation__title">Formation</span>
+            <ul class="pv-contact-orientation__list">
+              <li>Programme existant</li>
+              <li>Intra-entreprise</li>
+              <li>Classe virtuelle</li>
+              <li>Sensibilisation</li>
+              <li>Sur mesure</li>
+            </ul>
+          </label>
+        </div>
+      </div>
+      <p class="pv-contact-orientation__note">Cette sélection vous aide à préciser votre besoin. Merci de le rappeler dans votre message ci-dessous : elle ne remplit pas automatiquement le formulaire.</p>
+    </div>
+  </section>
+
+  <section class="pv-contact-section pv-contact-section--muted" id="pv-contact-form-title" aria-labelledby="pv-contact-form-heading">
+    <div class="pv-contact-container pv-contact-container--narrow">
+      <h2 id="pv-contact-form-heading" class="pv-contact-h2">Présentez votre demande</h2>
+      <p class="pv-contact-p">Les champs marqués comme obligatoires permettent uniquement de comprendre votre besoin et de vous répondre.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- =====================================================================
+     >>> INSÉRER ICI LE FORMULAIRE NATIF SYSTEME.IO <<<
+     (élément "Formulaire" natif de l'éditeur Systeme.io, à placer
+     immédiatement après ce bloc et avant le bloc 4 ci-dessous)
+     ===================================================================== -->
+
+<!-- =====================================================================
+     BLOC 3 / 5 — STYLES DU FORMULAIRE NATIF SYSTEME.IO
+     A coller dans les styles personnalisés de l'élément formulaire, ou
+     juste avant celui-ci dans un bloc "HTML brut".
+     Remplacez #REMPLACER-ID-FORMULAIRE-SYSTEMEIO par l'identifiant CSS
+     réel généré par Systeme.io pour ce formulaire (visible dans l'éditeur
+     ou l'inspecteur du navigateur une fois le formulaire posé sur la page).
+     ===================================================================== -->
+<style>
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO{
+  max-width:760px;
+  margin:0 auto 56px;
+  padding:0 24px;
+  font-family:inherit;
+  color:#243746;
+}
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO label{
+  display:block;
+  font-size:.88rem;
+  font-weight:700;
+  color:#102B4E;
+  margin:0 0 8px;
+}
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="text"],
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="email"],
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="tel"],
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO textarea,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO select{
+  width:100%;
+  min-height:48px;
+  border:1.5px solid #D9E3E8;
+  border-radius:10px;
+  padding:10px 16px;
+  font-size:.95rem;
+  color:#243746;
+  background:#FFFFFF;
+  margin-bottom:18px;
+}
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO textarea{
+  min-height:140px;
+  resize:vertical;
+}
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="checkbox"]{
+  width:20px;
+  height:20px;
+  margin:0 10px 0 0;
+  accent-color:#00A5D8;
+  vertical-align:middle;
+}
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="text"]:focus,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="email"]:focus,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="tel"]:focus,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO textarea:focus,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO select:focus,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="checkbox"]:focus{
+  outline:3px solid #00A5D8;
+  outline-offset:2px;
+  border-color:#102B4E;
+}
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO button,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="submit"]{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  width:100%;
+  padding:12px 26px;
+  border-radius:10px;
+  border:2px solid transparent;
+  background:#00A5D8;
+  color:#102B4E;
+  font-size:.98rem;
+  font-weight:700;
+  cursor:pointer;
+}
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO button:hover,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="submit"]:hover{
+  background:#0B90BC;
+  color:#FFFFFF;
+}
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO button:focus,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="submit"]:focus{
+  outline:3px solid #00A5D8;
+  outline-offset:3px;
+}
+/* Messages d'erreur : les classes exactes dépendent du rendu de Systeme.io.
+   Adaptez le sélecteur ci-dessous au nom de classe réellement généré
+   (visible via l'inspecteur du navigateur) si besoin. */
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO .error,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO .form-error,
+#REMPLACER-ID-FORMULAIRE-SYSTEMEIO [class*="error-message"]{
+  display:block;
+  color:#9E3A38;
+  font-size:.82rem;
+  font-weight:600;
+  margin:-12px 0 16px;
+}
+@media (max-width:720px){
+  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO{
+    padding:0 16px;
+    margin-bottom:40px;
+  }
+  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="text"],
+  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="email"],
+  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="tel"],
+  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO textarea,
+  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO select{
+    margin-bottom:14px;
+  }
+  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO button,
+  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="submit"]{
+    width:100%;
+  }
+}
+</style>
+
+<!-- =====================================================================
+     BLOC 4 / 5 — HTML A PLACER APRES LE FORMULAIRE NATIF SYSTEME.IO
+     ===================================================================== -->
+<div class="pv-contact" id="pv-contact-after">
+
+  <section class="pv-contact-section" aria-labelledby="pv-contact-privacy-title">
+    <div class="pv-contact-container pv-contact-container--narrow">
+      <h2 id="pv-contact-privacy-title" class="pv-contact-h2">Confidentialité</h2>
+      <p class="pv-contact-p">Vos informations sont utilisées pour analyser votre demande et vous répondre. Ne transmettez pas dans ce formulaire public de données médicales, de dossiers d’accidents ou de documents techniques confidentiels.</p>
+      <p class="pv-contact-p"><a class="pv-contact-link" href="/politique-de-confidentialite">Politique de confidentialité</a></p>
+    </div>
+  </section>
+
+  <section class="pv-contact-section pv-contact-section--muted" aria-labelledby="pv-contact-next-title">
+    <div class="pv-contact-container pv-contact-container--narrow">
+      <h2 id="pv-contact-next-title" class="pv-contact-h2">Que se passe-t-il ensuite&nbsp;?</h2>
+      <ol class="pv-contact-steps">
+        <li>Analyse de votre demande.</li>
+        <li>Identification des informations complémentaires.</li>
+        <li>Échange de cadrage si nécessaire.</li>
+        <li>Orientation vers une prestation ou une formation.</li>
+        <li>Préparation d’une proposition lorsque le besoin est défini.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="pv-contact-section" aria-labelledby="pv-contact-coords-title">
+    <div class="pv-contact-container pv-contact-container--narrow">
+      <h2 id="pv-contact-coords-title" class="pv-contact-h2">Coordonnées</h2>
+      <address class="pv-contact-address">
+        <p class="pv-contact-p">PREUVIA QHSE<br>22 rue Paul Verlaine<br>86180 Buxerolles, France</p>
+        <p class="pv-contact-p"><a class="pv-contact-link" href="mailto:contact@preuvia-qhse.com">contact@preuvia-qhse.com</a></p>
+        <p class="pv-contact-p"><a class="pv-contact-link" href="tel:+33663209785">+33 6 63 20 97 85</a></p>
+      </address>
+    </div>
+  </section>
+
+  <section class="pv-contact-section pv-contact-section--muted" aria-labelledby="pv-contact-faq-title">
+    <div class="pv-contact-container pv-contact-container--narrow">
+      <h2 id="pv-contact-faq-title" class="pv-contact-h2">Questions fréquentes</h2>
+      <div class="pv-contact-faq">
+
+        <div class="pv-contact-faq__item">
+          <h3 class="pv-contact-h3">
+            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q1" aria-expanded="false" aria-controls="pv-contact-faq-a1">
+              <span>Quelles informations faut-il préparer&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-contact-faq__answer" id="pv-contact-faq-a1" role="region" aria-labelledby="pv-contact-faq-q1">
+            <p class="pv-contact-p">Une description de votre activité, le nombre de sites concernés, votre situation actuelle (DUERP existant ou non) et votre objectif principal facilitent l’échange.</p>
+          </div>
+        </div>
+
+        <div class="pv-contact-faq__item">
+          <h3 class="pv-contact-h3">
+            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q2" aria-expanded="false" aria-controls="pv-contact-faq-a2">
+              <span>Puis-je demander une prestation et une formation&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-contact-faq__answer" id="pv-contact-faq-a2" role="region" aria-labelledby="pv-contact-faq-q2">
+            <p class="pv-contact-p">Oui. Indiquez les deux besoins dans votre message ; PREUVIA reviendra vers vous sur chaque volet.</p>
+          </div>
+        </div>
+
+        <div class="pv-contact-faq__item">
+          <h3 class="pv-contact-h3">
+            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q3" aria-expanded="false" aria-controls="pv-contact-faq-a3">
+              <span>Une visite sur site est-elle obligatoire&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-contact-faq__answer" id="pv-contact-faq-a3" role="region" aria-labelledby="pv-contact-faq-q3">
+            <p class="pv-contact-p">Non systématiquement. Le format de l’échange dépend de votre activité et sera précisé avec vous.</p>
+          </div>
+        </div>
+
+        <div class="pv-contact-faq__item">
+          <h3 class="pv-contact-h3">
+            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q4" aria-expanded="false" aria-controls="pv-contact-faq-a4">
+              <span>Puis-je transmettre mon DUERP par le formulaire&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-contact-faq__answer" id="pv-contact-faq-a4" role="region" aria-labelledby="pv-contact-faq-q4">
+            <p class="pv-contact-p">Évitez de joindre des documents confidentiels ou sensibles à ce formulaire public. Les modalités de transmission sécurisée seront précisées lors de l’échange.</p>
+          </div>
+        </div>
+
+        <div class="pv-contact-faq__item">
+          <h3 class="pv-contact-h3">
+            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q5" aria-expanded="false" aria-controls="pv-contact-faq-a5">
+              <span>Comment mes informations sont-elles utilisées&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pv-contact-faq__answer" id="pv-contact-faq-a5" role="region" aria-labelledby="pv-contact-faq-q5">
+            <p class="pv-contact-p">Elles servent uniquement à analyser votre demande et à vous répondre. Consultez la politique de confidentialité pour plus de détails.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="pv-contact-section pv-contact-section--navy pv-contact-final" aria-labelledby="pv-contact-final-title">
+    <div class="pv-contact-container">
+      <h2 id="pv-contact-final-title" class="pv-contact-h2">Votre situation nécessite-t-elle un simple échange ou une analyse approfondie&nbsp;?</h2>
+      <p class="pv-contact-lead">Commencez par décrire votre besoin. Le niveau d’intervention sera défini ensuite.</p>
+      <div class="pv-contact-cta-row pv-contact-cta-row--center">
+        <a class="pv-contact-btn pv-contact-btn--primary" href="#pv-contact-form-title">Remplir le formulaire</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- =====================================================================
+     BLOC 5 / 5 — JAVASCRIPT (UNIQUEMENT POUR LA FAQ)
+     A coller à la toute fin, après le bloc 4 (ou dans un élément
+     "HTML brut" dédié placé en bas de page).
+     ===================================================================== -->
+<script>
+(function(){
+  "use strict";
+
+  // Ce script n'agit que sur la FAQ du bloc "après formulaire".
+  // Les deux cartes d'orientation (DUERP / Formation) sont gérées en CSS pur
+  // (input radio + label), sans aucun JavaScript.
+  var faqRoot = document.getElementById('pv-contact-after');
+  if(!faqRoot){ return; }
+
+  var questions = Array.prototype.slice.call(faqRoot.querySelectorAll('.pv-contact-faq__question'));
+
+  questions.forEach(function(button){
+    var panel = document.getElementById(button.getAttribute('aria-controls'));
+    if(panel){ panel.hidden = true; }
+    button.setAttribute('aria-expanded', 'false');
+
+    button.addEventListener('click', function(){
+      var isExpanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!isExpanded));
+      if(panel){ panel.hidden = isExpanded; }
+    });
+  });
+})();
+</script>
