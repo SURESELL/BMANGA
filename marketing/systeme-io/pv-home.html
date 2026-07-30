@@ -21,6 +21,7 @@
   width:100vw;
   max-width:100vw;
   margin-left:calc(50% - 50vw);
+  overflow-x:hidden; /* repli si overflow-x:clip n'est pas pris en charge */
   overflow-x:clip;
   background:var(--pv-home-white);
   color:var(--pv-home-text);
@@ -75,7 +76,7 @@
   list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;
 }
 #pv-home .pv-home-nav__list a{
-  display:inline-flex;align-items:center;min-height:40px;padding:8px 14px;border-radius:8px;
+  display:inline-flex;align-items:center;min-height:48px;padding:8px 14px;border-radius:8px;
   color:var(--pv-home-text);font-size:.92rem;font-weight:600;text-decoration:none;position:relative;
 }
 #pv-home .pv-home-nav__list a::after{
@@ -288,7 +289,14 @@
   background:var(--pv-home-white);border:1px solid var(--pv-home-border);border-radius:14px;padding:24px 20px;
 }
 #pv-home .pv-home-sector-card .pv-home-h3{font-size:1rem;margin-bottom:8px;}
-#pv-home .pv-home-sector-card p{font-size:.88rem;color:var(--pv-home-muted);margin:0;}
+#pv-home .pv-home-sector-card p{font-size:.88rem;color:var(--pv-home-muted);margin:0 0 12px;}
+#pv-home .pv-home-sector-card__link,
+#pv-home .pv-home-resource-card__link{
+  display:inline-flex;align-items:center;min-height:32px;font-size:.86rem;font-weight:700;
+  color:var(--pv-home-teal);text-decoration:underline;
+}
+#pv-home .pv-home-sector-card__link:focus-visible,
+#pv-home .pv-home-resource-card__link:focus-visible{outline:3px solid var(--pv-home-cyan);outline-offset:2px;border-radius:3px;}
 
 /* Ressources */
 #pv-home .pv-home-resource-card{
@@ -296,6 +304,7 @@
   padding:26px;text-align:center;
 }
 #pv-home .pv-home-resource-card .pv-home-card__icon{margin-left:auto;margin-right:auto;}
+#pv-home .pv-home-resource-card p{margin-bottom:12px;}
 
 /* Confiance et transparence */
 #pv-home .pv-home-trust__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:44px;}
@@ -798,14 +807,14 @@
           <h2 id="pv-home-sectors-title" class="pv-home-h2">Une méthode adaptée à votre activité, pas un modèle plaqué sur votre entreprise</h2>
         </div>
         <div class="pv-home-grid-4">
-          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">BTP et travaux publics</h3><p>Chantiers, engins et coactivité nécessitent une évaluation adaptée aux phases de travaux.</p></article>
-          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Industrie et maintenance</h3><p>Machines, énergies et opérations de maintenance exigent une analyse précise des modes opératoires.</p></article>
-          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Transport et logistique</h3><p>Flux, quais et déplacements multiplient les interfaces à risque.</p></article>
-          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Santé et médico-social</h3><p>La prise en charge de publics fragiles combine risques physiques et psychosociaux.</p></article>
-          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Tertiaire et services</h3><p>Écrans, télétravail et organisation du temps structurent l’essentiel des risques.</p></article>
-          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Organismes de formation</h3><p>Accueil de publics variés et interventions hors des locaux habituels.</p></article>
-          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Agroalimentaire</h3><p>Cadences, températures et hygiène imposent une vigilance constante.</p></article>
-          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Énergie et infrastructures</h3><p>Opérations à énergie élevée et sous-traitance multiplient les points de vigilance.</p></article>
+          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">BTP et travaux publics</h3><p>Chantiers, engins et coactivité nécessitent une évaluation adaptée aux phases de travaux.</p><a class="pv-home-sector-card__link" href="/duerp-secteurs-activite?secteur=btp" data-pv-cta="sector-btp" data-pv-source="home">En savoir plus</a></article>
+          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Industrie et maintenance</h3><p>Machines, énergies et opérations de maintenance exigent une analyse précise des modes opératoires.</p><a class="pv-home-sector-card__link" href="/duerp-secteurs-activite?secteur=industrie" data-pv-cta="sector-industrie" data-pv-source="home">En savoir plus</a></article>
+          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Transport et logistique</h3><p>Flux, quais et déplacements multiplient les interfaces à risque.</p><a class="pv-home-sector-card__link" href="/duerp-secteurs-activite?secteur=transport-logistique" data-pv-cta="sector-transport" data-pv-source="home">En savoir plus</a></article>
+          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Santé et médico-social</h3><p>La prise en charge de publics fragiles combine risques physiques et psychosociaux.</p><a class="pv-home-sector-card__link" href="/duerp-secteurs-activite?secteur=sante" data-pv-cta="sector-sante" data-pv-source="home">En savoir plus</a></article>
+          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Tertiaire et services</h3><p>Écrans, télétravail et organisation du temps structurent l’essentiel des risques.</p><a class="pv-home-sector-card__link" href="/duerp-secteurs-activite?secteur=tertiaire" data-pv-cta="sector-tertiaire" data-pv-source="home">En savoir plus</a></article>
+          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Organismes de formation</h3><p>Accueil de publics variés et interventions hors des locaux habituels.</p><a class="pv-home-sector-card__link" href="/duerp-secteurs-activite?secteur=formation" data-pv-cta="sector-formation" data-pv-source="home">En savoir plus</a></article>
+          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Agroalimentaire</h3><p>Cadences, températures et hygiène imposent une vigilance constante.</p><a class="pv-home-sector-card__link" href="/duerp-secteurs-activite?secteur=agroalimentaire" data-pv-cta="sector-agroalimentaire" data-pv-source="home">En savoir plus</a></article>
+          <article class="pv-home-sector-card pv-home-reveal"><h3 class="pv-home-h3">Énergie et infrastructures</h3><p>Opérations à énergie élevée et sous-traitance multiplient les points de vigilance.</p><a class="pv-home-sector-card__link" href="/duerp-secteurs-activite?secteur=energie-infrastructures" data-pv-cta="sector-energie" data-pv-source="home">En savoir plus</a></article>
         </div>
         <div class="pv-home-cta-row pv-home-cta-row--center pv-home-cta-row--gap-xl">
           <a class="pv-home-btn pv-home-btn--secondary" href="/duerp-secteurs-activite" data-pv-cta="secteurs-voir" data-pv-source="home">Voir les secteurs accompagnés</a>
@@ -825,21 +834,25 @@
             <div class="pv-home-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 10v4h4l6 4V6L7 10H3z" stroke="#0B7F83" stroke-width="1.6" stroke-linejoin="round"></path></svg></div>
             <h3 class="pv-home-h3">Sensibiliser</h3>
             <p class="pv-home-p">Rappeler les bonnes pratiques et animer la prévention.</p>
+            <a class="pv-home-resource-card__link" href="/ressources-duerp?categorie=sensibiliser" data-pv-cta="resource-sensibiliser" data-pv-source="home">En savoir plus</a>
           </article>
           <article class="pv-home-resource-card pv-home-reveal">
             <div class="pv-home-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z" stroke="#0B7F83" stroke-width="1.6"></path><circle cx="12" cy="12" r="3" stroke="#0B7F83" stroke-width="1.6"></circle></svg></div>
             <h3 class="pv-home-h3">Observer</h3>
             <p class="pv-home-p">Analyser les situations de travail réelles.</p>
+            <a class="pv-home-resource-card__link" href="/ressources-duerp?categorie=observer" data-pv-cta="resource-observer" data-pv-source="home">En savoir plus</a>
           </article>
           <article class="pv-home-resource-card pv-home-reveal">
             <div class="pv-home-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10" stroke="#0B7F83" stroke-width="1.8" stroke-linecap="round"></path><circle cx="12" cy="18" r="1.4" fill="#0B7F83"></circle></svg></div>
             <h3 class="pv-home-h3">Signaler</h3>
             <p class="pv-home-p">Faciliter la remontée des situations dangereuses.</p>
+            <a class="pv-home-resource-card__link" href="/ressources-duerp?categorie=signaler" data-pv-cta="resource-signaler" data-pv-source="home">En savoir plus</a>
           </article>
           <article class="pv-home-resource-card pv-home-reveal">
             <div class="pv-home-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M11 20V4M18 20v-7" stroke="#0B7F83" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
             <h3 class="pv-home-h3">Suivre</h3>
             <p class="pv-home-p">Centraliser les actions et leur avancement.</p>
+            <a class="pv-home-resource-card__link" href="/ressources-duerp?categorie=suivre" data-pv-cta="resource-suivre" data-pv-source="home">En savoir plus</a>
           </article>
         </div>
         <div class="pv-home-cta-row pv-home-cta-row--center pv-home-cta-row--gap-lg">
@@ -1001,7 +1014,7 @@
 
   </main>
 
-  <footer class="pv-home-footer">
+  <div class="pv-home-footer" role="contentinfo">
     <div class="pv-home-container">
       <div class="pv-home-footer__grid">
         <div>
@@ -1049,7 +1062,7 @@
         </div>
       </div>
     </div>
-  </footer>
+  </div>
 
   <div class="pv-home-floating">
     <a class="pv-home-floating__btn pv-home-floating__btn--whatsapp" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20%C3%A9changer%20au%20sujet%20de%20mon%20DUERP%2C%20de%20l%27%C3%A9valuation%20de%20mes%20risques%20ou%20d%27une%20formation." target="_blank" rel="noopener noreferrer" aria-label="Écrire sur WhatsApp" data-pv-cta="floating-whatsapp" data-pv-source="home">
@@ -1075,6 +1088,11 @@
 
   var root = document.getElementById('pv-home');
   if(!root){ return; }
+
+  // Passer à true uniquement en environnement de test pour exécuter
+  // l'audit local d'intégrité (voir runPreuviaHomeIntegrityAudit plus bas).
+  // Ne produit aucun log lorsque la valeur est false.
+  var PV_HOME_DEBUG = false;
 
   // Marque la page comme "JavaScript actif" : active les comportements
   // progressifs (menu mobile collapsible, animations d'apparition).
@@ -1217,6 +1235,101 @@
       }
     }));
   });
+
+  /* ------------------------------------------------------------------ */
+  /* Audit local d'integrite (DOM uniquement, aucune requete reseau).   */
+  /* Ne s'execute que si PV_HOME_DEBUG vaut true. Ne bloque jamais la   */
+  /* page et ne produit aucun log en fonctionnement normal.             */
+  /* ------------------------------------------------------------------ */
+  function runPreuviaHomeIntegrityAudit(){
+    try {
+      var issues = [];
+      var links = Array.prototype.slice.call(root.querySelectorAll('a'));
+
+      links.forEach(function(link){
+        var href = link.getAttribute('href');
+        if(href === null){
+          issues.push('Lien sans attribut href : ' + (link.textContent || '').trim());
+          return;
+        }
+        if(href.trim() === ''){
+          issues.push('Attribut href vide : ' + (link.textContent || '').trim());
+          return;
+        }
+        if(href.trim().toLowerCase().indexOf('javascript:') === 0){
+          issues.push('Utilisation de javascript: dans un href : ' + href);
+        }
+        if(href === '#'){
+          issues.push('href="#" sans ancre reelle : ' + (link.textContent || '').trim());
+        }
+        if(href.charAt(0) === '#' && href.length > 1){
+          var targetId = href.slice(1);
+          if(!document.getElementById(targetId)){
+            issues.push('Ancre interne sans cible existante : ' + href);
+          }
+        }
+        if(link.getAttribute('target') === '_blank'){
+          var rel = (link.getAttribute('rel') || '');
+          if(rel.indexOf('noopener') === -1 || rel.indexOf('noreferrer') === -1){
+            issues.push('target="_blank" sans rel="noopener noreferrer" : ' + href);
+          }
+        }
+        if(!link.textContent.trim() && !link.getAttribute('aria-label') && !link.querySelector('svg[aria-label]')){
+          var hasAccessibleIcon = link.querySelector('[aria-hidden="true"]') && link.getAttribute('aria-label');
+          if(!hasAccessibleIcon){
+            issues.push('Lien sans libellé accessible : ' + href);
+          }
+        }
+      });
+
+      var seenIds = {};
+      Array.prototype.slice.call(root.querySelectorAll('[id]')).forEach(function(el){
+        var id = el.id;
+        if(seenIds[id]){ issues.push('Identifiant HTML dupliqué : ' + id); }
+        seenIds[id] = true;
+      });
+
+      var h1s = root.querySelectorAll('h1');
+      if(h1s.length === 0){ issues.push('Aucune balise H1 trouvée.'); }
+      if(h1s.length > 1){ issues.push('Plusieurs balises H1 trouvées : ' + h1s.length); }
+
+      var navEl = root.querySelector('nav');
+      if(navEl && !navEl.getAttribute('aria-label')){
+        issues.push('Élément nav sans aria-label.');
+      }
+      if(navEl && !navEl.querySelector('[aria-current="page"]')){
+        issues.push('Aucun lien de navigation ne porte aria-current="page".');
+      }
+
+      var accordionButtons = Array.prototype.slice.call(root.querySelectorAll('.pv-home-faq__question'));
+      accordionButtons.forEach(function(btn){
+        if(!btn.getAttribute('aria-controls')){
+          issues.push('Bouton accordéon sans aria-controls.');
+        }
+      });
+
+      var customForms = root.querySelectorAll('form');
+      if(customForms.length > 0){
+        issues.push('Élément form détecté dans la page (non attendu sur cette page).');
+      }
+
+      if(root.scrollWidth > root.clientWidth + 1){
+        issues.push('Débordement horizontal potentiel du conteneur principal.');
+      }
+
+      if(issues.length){
+        console.warn('[PREUVIA audit] ' + issues.length + ' point(s) à vérifier :', issues);
+      } else {
+        console.info('[PREUVIA audit] Aucun problème détecté.');
+      }
+    } catch (auditError) {
+      // L'audit ne doit jamais interrompre la page, y compris en cas d'erreur interne.
+    }
+  }
+
+  if(PV_HOME_DEBUG === true){
+    runPreuviaHomeIntegrityAudit();
+  }
 
 })();
 </script>
