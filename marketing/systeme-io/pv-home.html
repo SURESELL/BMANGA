@@ -42,7 +42,36 @@
 #pv-home .pv-home-skip-link:focus{top:16px;}
 
 /* ------------------------------------------------------------------ */
-/* Barre d'information supérieure                                     */
+/* En-tete reellement fixe (jamais sticky, jamais transforme)          */
+/* ------------------------------------------------------------------ */
+#pv-home{--pv-home-header-height:128px;}
+#pv-home .pv-home-fixed-header{
+  position:fixed !important;
+  inset:0 0 auto 0 !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  transform:none !important;
+  translate:none !important;
+  filter:none !important;
+  z-index:2147483000 !important;
+  isolation:isolate;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--pv-home-border);
+  transition:box-shadow .2s ease;
+}
+#pv-home .pv-home-fixed-header--scrolled{box-shadow:0 8px 24px rgba(16,43,78,.10);}
+#pv-home .pv-home-header-spacer{
+  display:block;width:100%;height:var(--pv-home-header-height);pointer-events:none;
+}
+#pv-home [id]{scroll-margin-top:calc(var(--pv-home-header-height) + 24px);}
+
+/* ------------------------------------------------------------------ */
+/* Barre d'information superieure (premiere rangee du header fixe)    */
 /* ------------------------------------------------------------------ */
 #pv-home .pv-home-topbar{background:var(--pv-home-deep);color:var(--pv-home-white);}
 #pv-home .pv-home-topbar__inner{
@@ -54,15 +83,9 @@
 #pv-home .pv-home-topbar__link:focus-visible{outline:2px solid var(--pv-home-cyan);outline-offset:3px;border-radius:3px;}
 
 /* ------------------------------------------------------------------ */
-/* Header                                                             */
+/* Rangee principale du header (logo, navigation desktop, actions)    */
 /* ------------------------------------------------------------------ */
-#pv-home .pv-home-header{
-  position:sticky;top:0;z-index:900;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);
-  border-bottom:1px solid var(--pv-home-border);transition:box-shadow .2s ease;
-}
-#pv-home .pv-home-header--scrolled{box-shadow:0 8px 24px rgba(16,43,78,.10);}
 #pv-home .pv-home-header__inner{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px;}
-#pv-home .pv-home-header-sentinel{height:1px;}
 
 #pv-home .pv-home-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
 #pv-home .pv-home-logo__mark{width:38px;height:38px;flex-shrink:0;}
@@ -101,6 +124,55 @@
 #pv-home.pv-home-js .pv-home-menu-toggle{display:inline-flex;}
 
 /* ------------------------------------------------------------------ */
+/* Voile et panneau du menu mobile, positionnes sous le header fixe   */
+/* Fermes par defaut. Masques de force a partir de 981 px.            */
+/* ------------------------------------------------------------------ */
+#pv-home .pv-home-menu-backdrop{
+  display:none;
+  position:fixed;
+  top:var(--pv-home-header-height);left:0;right:0;bottom:0;
+  background:rgba(8,26,49,.5);
+  z-index:2147483000;
+}
+#pv-home.pv-home-menu-open .pv-home-menu-backdrop{display:block;}
+#pv-home .pv-home-mobile-menu{
+  display:none;
+  position:fixed;
+  top:var(--pv-home-header-height);left:0;right:0;
+  max-height:calc(100vh - var(--pv-home-header-height));
+  max-height:calc(100dvh - var(--pv-home-header-height));
+  overflow-y:auto;
+  background:var(--pv-home-white);
+  border-top:1px solid var(--pv-home-border);
+  box-shadow:0 24px 48px rgba(16,43,78,.18);
+  z-index:2147483000;
+  padding:8px 24px 24px;
+}
+#pv-home.pv-home-menu-open .pv-home-mobile-menu{display:block;}
+#pv-home .pv-home-mobile-menu__list{list-style:none;margin:0;padding:12px 0;display:flex;flex-direction:column;gap:2px;}
+#pv-home .pv-home-mobile-menu__list a{
+  display:flex;align-items:center;min-height:48px;padding:12px 14px;border-radius:8px;
+  color:var(--pv-home-navy);font-size:.98rem;font-weight:700;text-decoration:none;
+}
+#pv-home .pv-home-mobile-menu__list a:hover{background:var(--pv-home-soft-blue);}
+#pv-home .pv-home-mobile-menu__list a[aria-current="page"]{color:var(--pv-home-teal);}
+#pv-home .pv-home-mobile-menu__list a:focus-visible{outline:3px solid var(--pv-home-cyan);outline-offset:2px;}
+#pv-home .pv-home-mobile-menu__actions{display:flex;flex-direction:column;gap:10px;padding-top:8px;border-top:1px solid var(--pv-home-border);}
+
+/* Garantie CSS pure, independante du JavaScript : au-dela de 981 px le */
+/* menu mobile et son voile restent toujours masques, quel que soit    */
+/* l'etat de la classe pv-home-menu-open.                              */
+@media (min-width:981px){
+  #pv-home .pv-home-mobile-menu,
+  #pv-home .pv-home-menu-backdrop{
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+  #pv-home .pv-home-menu-toggle{display:none !important;}
+}
+
+/* ------------------------------------------------------------------ */
 /* Boutons communs                                                    */
 /* ------------------------------------------------------------------ */
 #pv-home .pv-home-btn{
@@ -117,6 +189,7 @@
 #pv-home .pv-home-btn--ghost-light{background:transparent;color:var(--pv-home-white);border-color:rgba(255,255,255,.5);}
 #pv-home .pv-home-btn--ghost-light:hover{background:rgba(255,255,255,.12);border-color:var(--pv-home-white);}
 #pv-home .pv-home-btn:focus-visible{outline:3px solid var(--pv-home-cyan);outline-offset:3px;}
+#pv-home .pv-home-btn--block{width:100%;}
 #pv-home .pv-home-inline-link{color:var(--pv-home-teal);font-weight:700;text-decoration:underline;}
 #pv-home .pv-home-inline-link:focus-visible{outline:3px solid var(--pv-home-cyan);outline-offset:2px;border-radius:3px;}
 #pv-home .pv-home-cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;}
@@ -433,14 +506,7 @@
   #pv-home .pv-home-proof__grid{grid-template-columns:repeat(3,1fr);}
   #pv-home .pv-home-footer__grid{grid-template-columns:1fr 1fr;}
 
-  #pv-home .pv-home-nav{
-    order:3;flex-basis:100%;
-  }
-  #pv-home.pv-home-js .pv-home-nav{display:none;}
-  #pv-home.pv-home-js .pv-home-nav--open{display:block;}
-  #pv-home .pv-home-nav__list{flex-direction:column;align-items:stretch;gap:2px;padding:14px 0;}
-  #pv-home .pv-home-nav__list a{width:100%;padding:12px 14px;}
-  #pv-home .pv-home-header__inner{flex-wrap:wrap;}
+  #pv-home .pv-home-nav{display:none;}
   #pv-home .pv-home-header__actions .pv-home-header__cta{display:none;}
 }
 
@@ -476,7 +542,7 @@
 
   <a class="pv-home-skip-link" href="#pv-home-main">Aller au contenu principal</a>
 
-  <header class="pv-home-header" id="pv-home-header">
+  <header class="pv-home-fixed-header" id="pv-home-header">
     <div class="pv-home-topbar">
       <div class="pv-home-container pv-home-topbar__inner">
         <p class="pv-home-topbar__text">Besoin d’une orientation rapide&nbsp;?</p>
@@ -510,15 +576,33 @@
 
       <div class="pv-home-header__actions">
         <a class="pv-home-btn pv-home-btn--primary pv-home-header__cta" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="header-calendly" data-pv-source="home">Prendre rendez-vous</a>
-        <button type="button" class="pv-home-menu-toggle" id="pv-home-menu-toggle" aria-expanded="false" aria-controls="pv-home-nav" aria-label="Ouvrir le menu de navigation">
+        <button type="button" class="pv-home-menu-toggle" id="pv-home-menu-toggle" aria-expanded="false" aria-controls="pv-home-mobile-menu" aria-label="Ouvrir le menu de navigation">
           <span class="pv-home-menu-toggle__bar" aria-hidden="true"></span>
           <span class="pv-home-menu-toggle__bar" aria-hidden="true"></span>
           <span class="pv-home-menu-toggle__bar" aria-hidden="true"></span>
         </button>
       </div>
     </div>
+
+    <div class="pv-home-menu-backdrop" id="pv-home-menu-backdrop" hidden></div>
+    <div class="pv-home-mobile-menu" id="pv-home-mobile-menu" hidden>
+      <nav aria-label="Navigation mobile">
+        <ul class="pv-home-mobile-menu__list">
+          <li><a href="https://preuvia.systeme.io/" aria-current="page" data-pv-cta="mnav-accueil" data-pv-source="home">Accueil</a></li>
+          <li><a href="https://preuvia.systeme.io/prestations-duerp" data-pv-cta="mnav-prestations" data-pv-source="home">Prestations DUERP</a></li>
+          <li><a href="https://preuvia.systeme.io/formations-duerp-qhse" data-pv-cta="mnav-formations" data-pv-source="home">Formations</a></li>
+          <li><a href="https://preuvia.systeme.io/methode-evaluation-risques" data-pv-cta="mnav-methode" data-pv-source="home">Méthode</a></li>
+          <li><a href="https://preuvia.systeme.io/duerp-secteurs-activite" data-pv-cta="mnav-secteurs" data-pv-source="home">Secteurs</a></li>
+          <li><a href="https://preuvia.systeme.io/ressources-duerp" data-pv-cta="mnav-ressources" data-pv-source="home">Ressources</a></li>
+          <li><a href="https://preuvia.systeme.io/contact" data-pv-cta="mnav-contact" data-pv-source="home">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="pv-home-mobile-menu__actions">
+        <a class="pv-home-btn pv-home-btn--primary pv-home-btn--block" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="mnav-calendly" data-pv-source="home">Prendre rendez-vous</a>
+      </div>
+    </div>
   </header>
-  <div class="pv-home-header-sentinel" id="pv-home-header-sentinel"></div>
+  <div class="pv-home-header-spacer" id="pv-home-header-spacer" aria-hidden="true"></div>
 
   <main id="pv-home-main">
 
@@ -1101,59 +1185,111 @@
   var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------------------------------ */
-  /* Menu mobile                                                        */
+  /* Registre central des destinations. Source unique pour l'audit.    */
+  /* Les hrefs reels restent ecrits en dur dans le HTML (navigation     */
+  /* fonctionnelle sans JavaScript) ; ce registre sert de reference     */
+  /* pour la verification de coherence et toute reutilisation future.   */
+  /* ------------------------------------------------------------------ */
+  var PV_HOME_ROUTES = Object.freeze({
+    home: "https://preuvia.systeme.io/",
+    services: "https://preuvia.systeme.io/prestations-duerp",
+    training: "https://preuvia.systeme.io/formations-duerp-qhse",
+    method: "https://preuvia.systeme.io/methode-evaluation-risques",
+    sectors: "https://preuvia.systeme.io/duerp-secteurs-activite",
+    resources: "https://preuvia.systeme.io/ressources-duerp",
+    contact: "https://preuvia.systeme.io/contact",
+    legalNotice: "https://preuvia.systeme.io/mentions-legales",
+    privacy: "https://preuvia.systeme.io/politique-confidentialite",
+    terms: "https://preuvia.systeme.io/conditions-generales-vente",
+    cookies: "https://preuvia.systeme.io/politique-cookies"
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* Header fixe : mesure reelle de la hauteur (ResizeObserver) pour     */
+  /* que le spacer, le menu mobile et le scroll-margin-top des ancres   */
+  /* restent toujours exacts, quelle que soit la largeur d'ecran.       */
+  /* ------------------------------------------------------------------ */
+  var fixedHeader = root.querySelector('.pv-home-fixed-header');
+
+  function syncHeaderHeight(){
+    if(!fixedHeader){ return; }
+    var height = Math.ceil(fixedHeader.getBoundingClientRect().height);
+    if(height > 0){
+      root.style.setProperty('--pv-home-header-height', height + 'px');
+    }
+  }
+  syncHeaderHeight();
+
+  if('ResizeObserver' in window && fixedHeader){
+    var headerResizeObserver = new ResizeObserver(syncHeaderHeight);
+    headerResizeObserver.observe(fixedHeader);
+  } else {
+    window.addEventListener('resize', syncHeaderHeight, { passive: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', syncHeaderHeight);
+  window.addEventListener('load', syncHeaderHeight);
+
+  /* ------------------------------------------------------------------ */
+  /* Menu mobile : panneau et voile fixes, positionnes sous le header.  */
+  /* Fermes par defaut ; masques de force par CSS a partir de 981 px.   */
   /* ------------------------------------------------------------------ */
   var menuToggle = document.getElementById('pv-home-menu-toggle');
-  var nav = document.getElementById('pv-home-nav');
+  var mobileMenu = document.getElementById('pv-home-mobile-menu');
+  var menuBackdrop = document.getElementById('pv-home-menu-backdrop');
   var desktopQuery = window.matchMedia ? window.matchMedia('(min-width: 981px)') : null;
 
+  function isMenuOpen(){
+    return !!(root && root.classList.contains('pv-home-menu-open'));
+  }
+
   function openMenu(){
-    if(!nav || !menuToggle){ return; }
-    nav.classList.add('pv-home-nav--open');
+    if(!mobileMenu || !menuToggle){ return; }
+    root.classList.add('pv-home-menu-open');
+    mobileMenu.hidden = false;
+    if(menuBackdrop){ menuBackdrop.hidden = false; }
     menuToggle.setAttribute('aria-expanded', 'true');
   }
 
   function closeMenu(){
-    if(!nav || !menuToggle){ return; }
-    nav.classList.remove('pv-home-nav--open');
+    if(!mobileMenu || !menuToggle){ return; }
+    root.classList.remove('pv-home-menu-open');
+    mobileMenu.hidden = true;
+    if(menuBackdrop){ menuBackdrop.hidden = true; }
     menuToggle.setAttribute('aria-expanded', 'false');
   }
 
-  function isMenuOpen(){
-    return !!(nav && nav.classList.contains('pv-home-nav--open'));
-  }
-
-  // Etat force au chargement : menu ferme, aria-expanded a false, aucune
-  // classe d'ouverture presente. Necessaire meme si le HTML de depart est
-  // deja correct, pour garantir qu'aucun etat residuel (cache navigateur,
-  // manipulation externe) ne laisse un voile ou un menu ouvert au chargement.
+  // Etat force au chargement : menu ferme, voile masque (hidden + display
+  // none), aria-expanded a false, aucune classe d'ouverture presente.
+  // Necessaire meme si le HTML de depart est deja correct, pour garantir
+  // qu'aucun etat residuel ne laisse un voile ou un menu ouvert au chargement.
   closeMenu();
 
   // Fermeture systematique du menu mobile des que la largeur desktop est
   // atteinte (981 px et plus), y compris si ce changement de largeur n'est
-  // pas capte par l'ecouteur matchMedia ci-dessous.
+  // pas capte par l'ecouteur matchMedia ci-dessous. La media query CSS
+  // ci-dessus masque deja le panneau et le voile de force a 981 px : cette
+  // fermeture JS synchronise en plus l'etat aria-expanded et les classes.
   window.addEventListener('resize', function(){
     if(window.innerWidth >= 981){ closeMenu(); }
+    syncHeaderHeight();
   });
 
-  if(menuToggle && nav){
+  if(menuToggle && mobileMenu){
     menuToggle.addEventListener('click', function(){
-      if(isMenuOpen()){ closeMenu(); } else { openMenu(); }
+      if(isMenuOpen()){ closeMenu(); } else { openMenu(); syncHeaderHeight(); }
     });
 
-    // Fermeture au clic sur un lien du menu.
-    nav.addEventListener('click', function(event){
+    // Fermeture au clic sur un lien du menu mobile.
+    mobileMenu.addEventListener('click', function(event){
       var link = event.target.closest ? event.target.closest('a') : null;
       if(link){ closeMenu(); }
     });
 
-    // Fermeture au clic en dehors du menu.
-    document.addEventListener('click', function(event){
-      if(!isMenuOpen()){ return; }
-      var withinNav = nav.contains(event.target);
-      var withinToggle = menuToggle.contains(event.target);
-      if(!withinNav && !withinToggle){ closeMenu(); }
-    });
+    // Fermeture au clic sur le voile.
+    if(menuBackdrop){
+      menuBackdrop.addEventListener('click', closeMenu);
+    }
 
     // Fermeture au passage en largeur desktop.
     if(desktopQuery){
@@ -1179,17 +1315,16 @@
   });
 
   /* ------------------------------------------------------------------ */
-  /* Ombre du header apres defilement (IntersectionObserver, une fois) */
+  /* Ombre du header fixe apres defilement (ecouteur de scroll simple,  */
+  /* le header n'est jamais observe par IntersectionObserver).          */
   /* ------------------------------------------------------------------ */
   var header = document.getElementById('pv-home-header');
-  var sentinel = document.getElementById('pv-home-header-sentinel');
-  if(header && sentinel && 'IntersectionObserver' in window){
-    var headerObserver = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        header.classList.toggle('pv-home-header--scrolled', !entry.isIntersecting);
-      });
-    }, { threshold: 0 });
-    headerObserver.observe(sentinel);
+  if(header){
+    var updateHeaderShadow = function(){
+      header.classList.toggle('pv-home-fixed-header--scrolled', window.scrollY > 4 || window.pageYOffset > 4);
+    };
+    updateHeaderShadow();
+    window.addEventListener('scroll', updateHeaderShadow, { passive: true });
   }
 
   /* ------------------------------------------------------------------ */
@@ -1258,19 +1393,7 @@
       var issues = [];
       var links = Array.prototype.slice.call(root.querySelectorAll('a'));
       var officialDomain = 'https://preuvia.systeme.io';
-      var officialRoutes = [
-        officialDomain + '/',
-        officialDomain + '/prestations-duerp',
-        officialDomain + '/formations-duerp-qhse',
-        officialDomain + '/methode-evaluation-risques',
-        officialDomain + '/duerp-secteurs-activite',
-        officialDomain + '/ressources-duerp',
-        officialDomain + '/contact',
-        officialDomain + '/mentions-legales',
-        officialDomain + '/politique-confidentialite',
-        officialDomain + '/conditions-generales-vente',
-        officialDomain + '/politique-cookies'
-      ];
+      var officialRoutes = Object.keys(PV_HOME_ROUTES).map(function(key){ return PV_HOME_ROUTES[key]; });
 
       links.forEach(function(link){
         var href = link.getAttribute('href');
@@ -1352,6 +1475,33 @@
 
       if(root.scrollWidth > root.clientWidth + 1){
         issues.push('Débordement horizontal potentiel du conteneur principal.');
+      }
+
+      // Verifications specifiques au header fixe et au menu mobile.
+      var fixedHeaderEl = root.querySelector('.pv-home-fixed-header');
+      if(fixedHeaderEl){
+        var headerStyle = window.getComputedStyle(fixedHeaderEl);
+        if(headerStyle.position !== 'fixed'){
+          issues.push('Le header n\'est pas en position fixed (valeur actuelle : ' + headerStyle.position + ').');
+        }
+        if(headerStyle.transform && headerStyle.transform !== 'none'){
+          issues.push('Le header porte un transform, ce qui casserait son positionnement fixe.');
+        }
+      } else {
+        issues.push('Aucun element .pv-home-fixed-header trouve.');
+      }
+
+      var mobileMenuEl = document.getElementById('pv-home-mobile-menu');
+      var menuBackdropEl = document.getElementById('pv-home-menu-backdrop');
+      if(mobileMenuEl && !mobileMenuEl.hidden && !root.classList.contains('pv-home-menu-open')){
+        issues.push('Le panneau du menu mobile est visible sans que la classe pv-home-menu-open soit active.');
+      }
+      if(menuBackdropEl && !menuBackdropEl.hidden && !root.classList.contains('pv-home-menu-open')){
+        issues.push('Le voile du menu mobile est visible alors que le menu est cense etre ferme.');
+      }
+      var menuToggleEl = document.getElementById('pv-home-menu-toggle');
+      if(menuToggleEl && menuToggleEl.getAttribute('aria-expanded') === 'true' && !root.classList.contains('pv-home-menu-open')){
+        issues.push('aria-expanded vaut true sur le bouton de menu alors que le menu est ferme.');
       }
 
       if(issues.length){
