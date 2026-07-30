@@ -16,12 +16,18 @@
   --pv-training-warning:#B87503;
   --pv-training-danger:#9E3A38;
   --pv-training-academy:#087C78;
-  --pv-training-shadow:0 20px 50px rgba(16,43,78,.12);
+  --pv-training-shadow-sm:0 8px 24px rgba(16,43,78,.08);
+  --pv-training-shadow-lg:0 24px 60px rgba(16,43,78,.14);
+  --pv-training-radius-sm:10px;
+  --pv-training-radius-md:16px;
+  --pv-training-radius-lg:24px;
+  --pv-training-container:1180px;
   position:relative;
   display:block;
   width:100vw;
   max-width:100vw;
   margin-left:calc(50% - 50vw);
+  overflow-x:hidden; /* repli si overflow-x:clip n'est pas pris en charge */
   overflow-x:clip;
   background:var(--pv-training-white);
   color:var(--pv-training-text);
@@ -30,8 +36,7 @@
   -webkit-text-size-adjust:100%;
 }
 #pv-training *{box-sizing:border-box;}
-#pv-training .pv-training-container{max-width:1180px;margin:0 auto;padding:0 24px;}
-#pv-training .pv-training-container--narrow{max-width:820px;}
+#pv-training .pv-training-container{max-width:var(--pv-training-container);margin:0 auto;padding:0 24px;}
 #pv-training .pv-training-skip-link{
   position:absolute;top:-60px;left:16px;z-index:2000;background:var(--pv-training-navy);color:var(--pv-training-white);
   padding:12px 20px;border-radius:8px;font-weight:700;text-decoration:none;transition:top .15s ease;
@@ -47,7 +52,7 @@
 
 /* Header */
 #pv-training .pv-training-header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--pv-training-border);transition:box-shadow .2s ease;}
-#pv-training .pv-training-header--scrolled{box-shadow:0 8px 24px rgba(16,43,78,.10);}
+#pv-training .pv-training-header--scrolled{box-shadow:var(--pv-training-shadow-sm);}
 #pv-training .pv-training-header__inner{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px;}
 #pv-training .pv-training-header-sentinel{height:1px;}
 #pv-training .pv-training-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
@@ -58,7 +63,7 @@
 #pv-training .pv-training-logo:focus-visible{outline:3px solid var(--pv-training-cyan);outline-offset:4px;border-radius:6px;}
 #pv-training .pv-training-nav{flex-grow:1;}
 #pv-training .pv-training-nav__list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;}
-#pv-training .pv-training-nav__list a{display:inline-flex;align-items:center;min-height:40px;padding:8px 14px;border-radius:8px;color:var(--pv-training-text);font-size:.92rem;font-weight:600;text-decoration:none;position:relative;}
+#pv-training .pv-training-nav__list a{display:inline-flex;align-items:center;min-height:48px;padding:8px 14px;border-radius:8px;color:var(--pv-training-text);font-size:.92rem;font-weight:600;text-decoration:none;position:relative;}
 #pv-training .pv-training-nav__list a::after{content:"";position:absolute;left:14px;right:14px;bottom:5px;height:2px;background:var(--pv-training-cyan);transform:scaleX(0);transform-origin:left;transition:transform .18s ease;}
 #pv-training .pv-training-nav__list a:hover::after,
 #pv-training .pv-training-nav__list a:focus-visible::after{transform:scaleX(1);}
@@ -66,13 +71,13 @@
 #pv-training .pv-training-nav__list a[aria-current="page"]::after{transform:scaleX(1);}
 #pv-training .pv-training-nav__list a:focus-visible{outline:3px solid var(--pv-training-cyan);outline-offset:2px;}
 #pv-training .pv-training-header__actions{display:flex;align-items:center;gap:12px;flex-shrink:0;}
-#pv-training .pv-training-menu-toggle{display:none;width:44px;height:44px;border-radius:10px;border:1.5px solid var(--pv-training-border);background:var(--pv-training-white);align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer;}
+#pv-training .pv-training-menu-toggle{display:none;width:48px;height:48px;border-radius:10px;border:1.5px solid var(--pv-training-border);background:var(--pv-training-white);align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer;}
 #pv-training .pv-training-menu-toggle__bar{display:block;width:20px;height:2px;background:var(--pv-training-navy);border-radius:2px;}
 #pv-training .pv-training-menu-toggle:focus-visible{outline:3px solid var(--pv-training-cyan);outline-offset:2px;}
 #pv-training.pv-training-js .pv-training-menu-toggle{display:inline-flex;}
 
 /* Boutons */
-#pv-training .pv-training-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 24px;border-radius:10px;font-size:.94rem;font-weight:700;text-decoration:none;border:2px solid transparent;cursor:pointer;white-space:nowrap;transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease;}
+#pv-training .pv-training-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 24px;border-radius:var(--pv-training-radius-sm);font-size:.94rem;font-weight:700;text-decoration:none;border:2px solid transparent;cursor:pointer;white-space:nowrap;transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease;}
 #pv-training .pv-training-btn--primary{background:var(--pv-training-cyan);color:var(--pv-training-navy);}
 #pv-training .pv-training-btn--primary:hover{background:#0B90BC;color:var(--pv-training-white);}
 #pv-training .pv-training-btn--primary:active{transform:translateY(1px);}
@@ -82,7 +87,7 @@
 #pv-training .pv-training-btn--secondary:hover{background:var(--pv-training-navy);color:var(--pv-training-white);}
 #pv-training .pv-training-btn--ghost-light{background:transparent;color:var(--pv-training-white);border-color:rgba(255,255,255,.5);}
 #pv-training .pv-training-btn--ghost-light:hover{background:rgba(255,255,255,.12);border-color:var(--pv-training-white);}
-#pv-training .pv-training-btn--small{min-height:42px;padding:9px 18px;font-size:.86rem;}
+#pv-training .pv-training-btn--small{min-height:44px;padding:9px 18px;font-size:.86rem;}
 #pv-training .pv-training-btn:focus-visible{outline:3px solid var(--pv-training-cyan);outline-offset:3px;}
 #pv-training .pv-training-inline-link{color:var(--pv-training-teal);font-weight:700;text-decoration:underline;}
 #pv-training .pv-training-inline-link--on-navy{color:var(--pv-training-soft-blue);}
@@ -97,10 +102,10 @@
 /* Typographie */
 #pv-training .pv-training-eyebrow{display:inline-block;font-size:.82rem;font-weight:800;letter-spacing:.1em;color:var(--pv-training-academy);margin:0 0 16px;}
 #pv-training .pv-training-section--navy .pv-training-eyebrow{color:var(--pv-training-cyan);}
-#pv-training .pv-training-h1{font-size:52px;font-weight:800;color:var(--pv-training-white);margin:0 0 22px;line-height:1.14;max-width:760px;letter-spacing:-.01em;}
-#pv-training .pv-training-h2{font-size:36px;font-weight:800;color:var(--pv-training-navy);margin:0 0 16px;line-height:1.22;letter-spacing:-.01em;}
+#pv-training .pv-training-h1{font-size:clamp(36px,6vw,68px);font-weight:800;color:var(--pv-training-white);margin:0 0 22px;line-height:1.14;max-width:760px;letter-spacing:-.01em;}
+#pv-training .pv-training-h2{font-size:clamp(29px,3.4vw,44px);font-weight:800;color:var(--pv-training-navy);margin:0 0 16px;line-height:1.22;letter-spacing:-.01em;}
 #pv-training .pv-training-section--navy .pv-training-h2{color:var(--pv-training-white);}
-#pv-training .pv-training-h3{font-size:22px;font-weight:700;color:var(--pv-training-navy);margin:0 0 10px;}
+#pv-training .pv-training-h3{font-size:clamp(20px,2vw,26px);font-weight:700;color:var(--pv-training-navy);margin:0 0 10px;}
 #pv-training .pv-training-section--navy .pv-training-h3{color:var(--pv-training-white);}
 #pv-training .pv-training-lead{font-size:19px;color:rgba(255,255,255,.86);max-width:720px;margin:0 0 26px;}
 #pv-training .pv-training-section:not(.pv-training-section--navy) .pv-training-lead{color:var(--pv-training-muted);}
@@ -116,7 +121,7 @@
 #pv-training .pv-training-section{padding:84px 0;scroll-margin-top:100px;}
 #pv-training .pv-training-section--muted{background:var(--pv-training-light);}
 #pv-training .pv-training-section--soft{background:var(--pv-training-soft-teal);}
-#pv-training .pv-training-section--navy{background:linear-gradient(160deg,var(--pv-training-navy),var(--pv-training-deep));}
+#pv-training .pv-training-section--navy{background:linear-gradient(160deg,var(--pv-training-navy) 0%,var(--pv-training-academy) 140%);}
 #pv-training .pv-training-mention{border-left:4px solid var(--pv-training-academy);background:var(--pv-training-light);border-radius:0 10px 10px 0;padding:14px 18px;font-size:.92rem;color:var(--pv-training-navy);font-weight:600;margin:22px 0;max-width:760px;}
 #pv-training .pv-training-section--navy .pv-training-mention{background:rgba(255,255,255,.08);color:var(--pv-training-white);border-color:var(--pv-training-cyan);}
 
@@ -132,7 +137,7 @@
 #pv-training .pv-training-hero__actions{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:18px;}
 #pv-training .pv-training-hero__tertiary{margin:0 0 22px;}
 #pv-training .pv-training-microreassurance{font-size:.86rem;color:rgba(255,255,255,.68);margin:0;max-width:640px;}
-#pv-training .pv-training-hero__visual{background:var(--pv-training-white);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.35);padding:22px;position:relative;}
+#pv-training .pv-training-hero__visual{background:var(--pv-training-white);border-radius:var(--pv-training-radius-lg);box-shadow:0 24px 60px rgba(0,0,0,.35);padding:22px;position:relative;}
 #pv-training .pv-training-hero__visual svg{display:block;width:100%;height:auto;}
 #pv-training .pv-training-hero__pulse{transform-origin:center;}
 #pv-training.pv-training-js .pv-training-hero__pulse{animation:pv-training-pulse 3.6s ease-in-out infinite;}
@@ -142,28 +147,27 @@
 @keyframes pv-training-dash{to{stroke-dashoffset:-120;}}
 
 /* Selecteur / orienteur */
-#pv-training .pv-training-selector{max-width:900px;margin:0 auto;}
-#pv-training .pv-training-selector__buttons{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:8px;}
-#pv-training .pv-training-selector__btn{min-height:48px;padding:12px 20px;border-radius:12px;border:1.5px solid var(--pv-training-border);background:var(--pv-training-white);color:var(--pv-training-navy);font-size:.92rem;font-weight:700;cursor:pointer;text-align:left;max-width:340px;}
-#pv-training .pv-training-selector__btn[aria-pressed="true"]{border-color:var(--pv-training-navy);background:var(--pv-training-navy);color:var(--pv-training-white);box-shadow:var(--pv-training-shadow);}
-#pv-training .pv-training-selector__btn:focus-visible{outline:3px solid var(--pv-training-cyan);outline-offset:3px;}
-#pv-training .pv-training-selector__panel{border:1px solid var(--pv-training-border);border-radius:16px;background:var(--pv-training-white);padding:26px 28px;margin-top:22px;box-shadow:0 6px 18px rgba(16,43,78,.05);}
-#pv-training .pv-training-selector__panel[hidden]{display:none;}
-#pv-training .pv-training-selector__tag{display:inline-block;font-size:.74rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--pv-training-academy);margin-bottom:10px;}
-#pv-training .pv-training-selector__name{font-size:1.2rem;font-weight:800;color:var(--pv-training-navy);margin:0 0 12px;}
-#pv-training .pv-training-selector__meta{list-style:none;margin:0 0 18px;padding:0;font-size:.92rem;color:var(--pv-training-muted);}
-#pv-training .pv-training-selector__meta li{margin-bottom:6px;}
-#pv-training .pv-training-selector__meta strong{color:var(--pv-training-navy);}
-#pv-training .pv-training-selector__actions{display:flex;flex-wrap:wrap;gap:12px;}
+#pv-training .pv-training-orienteur__list{display:flex;flex-direction:column;gap:14px;max-width:900px;margin:0 auto;}
+#pv-training .pv-training-orienteur__item{border:1px solid var(--pv-training-border);border-radius:var(--pv-training-radius-md);background:var(--pv-training-white);overflow:hidden;box-shadow:var(--pv-training-shadow-sm);}
+#pv-training .pv-training-orienteur__trigger{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:48px;padding:18px 20px;font-size:1rem;font-weight:700;color:var(--pv-training-navy);text-decoration:none;}
+#pv-training .pv-training-orienteur__trigger:hover{background:var(--pv-training-light);}
+#pv-training .pv-training-orienteur__trigger:focus-visible{outline:3px solid var(--pv-training-cyan);outline-offset:-3px;}
+#pv-training .pv-training-orienteur__trigger[aria-pressed="true"]{background:var(--pv-training-soft-teal);}
+#pv-training .pv-training-orienteur__arrow{flex-shrink:0;font-size:1.1rem;color:var(--pv-training-academy);}
+#pv-training .pv-training-orienteur__panel{padding:4px 20px 22px;border-top:1px solid var(--pv-training-border);}
+#pv-training .pv-training-orienteur__reco{display:inline-block;font-size:.74rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--pv-training-academy);margin:14px 0 6px;}
+#pv-training .pv-training-orienteur__name{font-size:1.08rem;font-weight:800;color:var(--pv-training-navy);margin:0 0 10px;}
+#pv-training .pv-training-orienteur__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;}
 
 /* Grilles / cartes generiques */
 #pv-training .pv-training-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;}
 #pv-training .pv-training-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 #pv-training .pv-training-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-#pv-training .pv-training-card{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:16px;padding:26px;box-shadow:0 6px 18px rgba(16,43,78,.05);transition:transform .18s ease,box-shadow .18s ease;}
-#pv-training .pv-training-card:hover{transform:translateY(-3px);box-shadow:var(--pv-training-shadow);}
+#pv-training .pv-training-card{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:var(--pv-training-radius-md);padding:26px;box-shadow:var(--pv-training-shadow-sm);transition:transform .18s ease,box-shadow .18s ease;display:flex;flex-direction:column;}
+#pv-training .pv-training-card:hover{transform:translateY(-3px);box-shadow:var(--pv-training-shadow-lg);}
 #pv-training .pv-training-card__icon{width:46px;height:46px;border-radius:12px;background:var(--pv-training-soft-teal);display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
 #pv-training .pv-training-card__icon svg{width:22px;height:22px;}
+#pv-training .pv-training-card__link{margin-top:auto;}
 
 /* Tags */
 #pv-training .pv-training-tag-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px;}
@@ -176,14 +180,14 @@
 #pv-training .pv-training-list li{position:relative;padding-left:24px;margin-bottom:10px;font-size:.94rem;color:var(--pv-training-text);}
 #pv-training .pv-training-list li::before{content:"";position:absolute;left:0;top:8px;width:9px;height:9px;border-radius:3px;background:var(--pv-training-cyan);}
 
-/* Processus generiques (etapes numerotees) */
+/* Processus generiques */
 #pv-training .pv-training-process{list-style:none;margin:0;padding:0;counter-reset:pvtrainproc;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
 #pv-training .pv-training-process li{position:relative;padding:24px 18px 18px;background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:14px;counter-increment:pvtrainproc;font-size:.92rem;font-weight:600;color:var(--pv-training-navy);}
 #pv-training .pv-training-process li::before{content:counter(pvtrainproc);position:absolute;top:-16px;left:18px;width:32px;height:32px;border-radius:50%;background:var(--pv-training-academy);color:var(--pv-training-white);font-size:.86rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
 #pv-training .pv-training-process--tight{grid-template-columns:repeat(6,1fr);}
 
 /* Toolbar catalogue */
-#pv-training .pv-training-toolbar{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:16px;padding:26px;margin-bottom:32px;box-shadow:0 6px 18px rgba(16,43,78,.05);}
+#pv-training .pv-training-toolbar{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:var(--pv-training-radius-md);padding:26px;margin-bottom:32px;box-shadow:var(--pv-training-shadow-sm);}
 #pv-training .pv-training-search{margin-bottom:20px;}
 #pv-training .pv-training-search label{display:block;font-size:.86rem;font-weight:700;color:var(--pv-training-navy);margin-bottom:8px;}
 #pv-training .pv-training-search input{width:100%;min-height:48px;border-radius:10px;border:1.5px solid var(--pv-training-border);padding:10px 16px;font-size:.94rem;color:var(--pv-training-text);background:var(--pv-training-white);}
@@ -192,7 +196,7 @@
 #pv-training .pv-training-filter-group:last-of-type{margin-bottom:0;}
 #pv-training .pv-training-filter-group__label{display:block;font-size:.78rem;font-weight:700;letter-spacing:.03em;color:var(--pv-training-muted);margin-bottom:10px;text-transform:uppercase;}
 #pv-training .pv-training-chips{display:flex;flex-wrap:wrap;gap:9px;}
-#pv-training .pv-training-chip{min-height:40px;padding:8px 16px;border-radius:999px;border:1.5px solid var(--pv-training-border);background:var(--pv-training-white);color:var(--pv-training-navy);font-size:.84rem;font-weight:700;cursor:pointer;}
+#pv-training .pv-training-chip{min-height:44px;padding:8px 16px;border-radius:999px;border:1.5px solid var(--pv-training-border);background:var(--pv-training-white);color:var(--pv-training-navy);font-size:.84rem;font-weight:700;cursor:pointer;}
 #pv-training .pv-training-chip[aria-pressed="true"]{background:var(--pv-training-navy);border-color:var(--pv-training-navy);color:var(--pv-training-white);}
 #pv-training .pv-training-chip:focus-visible{outline:3px solid var(--pv-training-cyan);outline-offset:2px;}
 #pv-training .pv-training-toolbar__footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid var(--pv-training-border);}
@@ -200,7 +204,7 @@
 
 /* Catalogue cards */
 #pv-training .pv-training-catalogue__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-#pv-training .pv-training-course{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:16px;padding:26px;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(16,43,78,.05);}
+#pv-training .pv-training-course{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:var(--pv-training-radius-md);padding:26px;display:flex;flex-direction:column;box-shadow:var(--pv-training-shadow-sm);scroll-margin-top:100px;}
 #pv-training .pv-training-course[hidden]{display:none;}
 #pv-training .pv-training-course__top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px;}
 #pv-training .pv-training-course__category{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--pv-training-academy);background:var(--pv-training-soft-teal);border-radius:999px;padding:5px 12px;}
@@ -215,24 +219,22 @@
 #pv-training .pv-training-course__tags{margin-bottom:14px;}
 #pv-training .pv-training-course__actions{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px;}
 #pv-training .pv-training-catalogue__note{text-align:center;margin-top:26px;color:var(--pv-training-muted);font-size:.88rem;}
+#pv-training .pv-training-text-center{text-align:center;}
 #pv-training .pv-training-empty{max-width:640px;margin:0 auto;text-align:center;background:var(--pv-training-light);border:1px dashed var(--pv-training-border);border-radius:16px;padding:40px 30px;}
 #pv-training .pv-training-empty[hidden]{display:none;}
 
 /* Publics */
-#pv-training .pv-training-audience-card{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:14px;padding:22px;}
+#pv-training .pv-training-audience-card{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:14px;padding:22px;display:flex;flex-direction:column;}
 #pv-training .pv-training-audience-card__role{font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--pv-training-academy);margin-bottom:8px;display:block;}
 
 /* Formats */
 #pv-training .pv-training-format-card{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:14px;padding:22px;}
 
-/* Timeline pedagogie */
-#pv-training .pv-training-pedagogy-methods{margin-top:28px;}
-
 /* Intra-entreprise */
 #pv-training .pv-training-intra__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:8px;}
 #pv-training .pv-training-intra__block{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:14px;padding:20px;}
 
-/* Comparatif / gated proof */
+/* Confiance / preuves */
 #pv-training .pv-training-trust__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:20px;}
 #pv-training .pv-training-trust__item{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:14px;padding:20px;}
 #pv-training .pv-training-proof__intro{max-width:720px;margin:32px auto 20px;text-align:center;}
@@ -243,6 +245,10 @@
 
 /* Bridge */
 #pv-training .pv-training-bridge{max-width:820px;margin:0 auto;text-align:center;}
+
+/* Secteurs */
+#pv-training .pv-training-sector-card{background:var(--pv-training-white);border:1px solid var(--pv-training-border);border-radius:14px;padding:22px 18px;display:flex;flex-direction:column;}
+#pv-training .pv-training-sector-card__link{margin-top:auto;}
 
 /* FAQ */
 #pv-training .pv-training-faq{max-width:860px;margin:0 auto;}
@@ -264,7 +270,7 @@
 #pv-training .pv-training-final .pv-training-lead{max-width:640px;margin-left:auto;margin-right:auto;}
 #pv-training .pv-training-final__extra{margin-top:18px;}
 
-/* Footer */
+/* Footer (div role=contentinfo) */
 #pv-training .pv-training-footer{background:var(--pv-training-deep);color:rgba(255,255,255,.82);padding:64px 0 32px;}
 #pv-training .pv-training-footer__grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px;}
 #pv-training .pv-training-footer .pv-training-h2{font-size:1rem;font-weight:800;letter-spacing:.04em;color:var(--pv-training-white);margin-bottom:18px;text-transform:uppercase;}
@@ -282,7 +288,7 @@
 
 /* Contacts flottants */
 #pv-training .pv-training-floating{position:fixed;right:22px;bottom:22px;z-index:800;display:flex;flex-direction:column;gap:12px;}
-#pv-training .pv-training-floating__btn{position:relative;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--pv-training-shadow);text-decoration:none;transition:transform .15s ease;}
+#pv-training .pv-training-floating__btn{position:relative;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--pv-training-shadow-lg);text-decoration:none;transition:transform .15s ease;}
 #pv-training .pv-training-floating__btn:hover{transform:translateY(-2px);}
 #pv-training .pv-training-floating__btn:focus-visible{outline:3px solid var(--pv-training-cyan);outline-offset:3px;}
 #pv-training .pv-training-floating__btn--whatsapp{background:var(--pv-training-success);}
@@ -303,13 +309,15 @@
   #pv-training.pv-training-js .pv-training-reveal{opacity:1;transform:none;}
 }
 
+@media (min-width:1441px){
+  #pv-training .pv-training-container{max-width:1280px;}
+}
+
 @media (max-width:1180px){
   #pv-training .pv-training-container{padding:0 20px;}
 }
 
 @media (max-width:980px){
-  #pv-training .pv-training-h1{font-size:42px;}
-  #pv-training .pv-training-h2{font-size:29px;}
   #pv-training .pv-training-hero__inner{grid-template-columns:1fr;gap:40px;}
   #pv-training .pv-training-hero__visual{order:-1;max-width:520px;margin:0 auto;}
   #pv-training .pv-training-grid-2{grid-template-columns:1fr;}
@@ -333,11 +341,6 @@
 }
 
 @media (max-width:720px){
-  #pv-training .pv-training-h1{font-size:36px;}
-  #pv-training .pv-training-h2{font-size:26px;}
-  #pv-training .pv-training-h3{font-size:20px;}
-  #pv-training .pv-training-p,
-  #pv-training .pv-training-lead{font-size:16px;}
   #pv-training .pv-training-section{padding:60px 0;}
   #pv-training .pv-training-grid-3{grid-template-columns:1fr;}
   #pv-training .pv-training-grid-4{grid-template-columns:1fr;}
@@ -350,7 +353,7 @@
   #pv-training .pv-training-footer__grid{grid-template-columns:1fr;gap:32px;}
   #pv-training .pv-training-cta-row{flex-direction:column;align-items:stretch;}
   #pv-training .pv-training-btn{width:100%;}
-  #pv-training .pv-training-selector__btn{max-width:none;width:100%;}
+  #pv-training .pv-training-orienteur__actions{flex-direction:column;align-items:stretch;}
   #pv-training .pv-training-toolbar__footer{flex-direction:column;align-items:stretch;}
 
   #pv-training .pv-training-floating{display:none;}
@@ -359,10 +362,14 @@
 }
 
 @media (max-width:480px){
-  #pv-training .pv-training-h1{font-size:34px;}
   #pv-training .pv-training-container{padding:0 16px;}
   #pv-training .pv-training-hero{padding:52px 0 56px;}
   #pv-training .pv-training-topbar__inner{padding:8px 16px;font-size:.76rem;}
+}
+
+@media (max-width:340px){
+  #pv-training .pv-training-container{padding:0 12px;}
+  #pv-training .pv-training-btn{padding:12px 16px;font-size:.88rem;}
 }
 </style>
 
@@ -380,7 +387,7 @@
   <header class="pv-training-header" id="pv-training-header">
     <div class="pv-training-container pv-training-header__inner">
       <a class="pv-training-logo" href="/" aria-label="PREUVIA QHSE — retour à l’accueil" data-pv-cta="header-logo" data-pv-source="training">
-        <!-- REMPLACER LE LOGO SVG PAR L'URL DU LOGO PREUVIA CHARGÉ DANS SYSTEME.IO SI NÉCESSAIRE. -->
+        <!-- REMPLACER CE LOGO SVG PAR L'URL DU LOGO PREUVIA CHARGÉ DANS SYSTEME.IO SI NÉCESSAIRE. -->
         <svg class="pv-training-logo__mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
           <rect x="0" y="0" width="40" height="40" rx="10" fill="#102B4E"></rect>
           <path d="M13 30V11h8.2c4 0 6.8 2.5 6.8 6.4 0 3.9-2.8 6.4-6.8 6.4h-4v6.2h-4zm4-9.8h3.6c2 0 3.2-1.1 3.2-2.8 0-1.7-1.2-2.8-3.2-2.8H17v5.6z" fill="#00A5D8"></path>
@@ -405,6 +412,7 @@
 
       <div class="pv-training-header__actions">
         <a class="pv-training-btn pv-training-btn--academy pv-training-header__cta" href="/contact?origine=formations&amp;besoin=formation" data-pv-cta="header-demande-formation" data-pv-source="training">Demander une formation</a>
+        <a class="pv-training-btn pv-training-btn--secondary pv-training-header__cta" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="header-calendly" data-pv-source="training">Prendre rendez-vous</a>
         <button type="button" class="pv-training-menu-toggle" id="pv-training-menu-toggle" aria-expanded="false" aria-controls="pv-training-nav" aria-label="Ouvrir le menu de navigation">
           <span class="pv-training-menu-toggle__bar" aria-hidden="true"></span>
           <span class="pv-training-menu-toggle__bar" aria-hidden="true"></span>
@@ -439,9 +447,7 @@
           <svg viewBox="0 0 440 360" xmlns="http://www.w3.org/2000/svg" role="presentation" focusable="false">
             <rect x="0" y="0" width="440" height="360" rx="18" fill="#F4F7F9"></rect>
             <text x="26" y="34" font-size="12" font-weight="700" fill="#102B4E">Progression pédagogique</text>
-            <g fill="none" stroke="#D9E3E8" stroke-width="2">
-              <line x1="30" y1="60" x2="410" y2="60"></line>
-            </g>
+            <g fill="none" stroke="#D9E3E8" stroke-width="2"><line x1="30" y1="60" x2="410" y2="60"></line></g>
             <circle cx="60" cy="60" r="9" fill="#087C78"></circle>
             <circle cx="160" cy="60" r="9" fill="#0B7F83"></circle>
             <circle cx="260" cy="60" r="9" fill="#00A5D8" class="pv-training-hero__pulse"></circle>
@@ -467,9 +473,7 @@
             </g>
 
             <text x="226" y="128" font-size="12" font-weight="700" fill="#102B4E">Mise en pratique</text>
-            <g fill="none" stroke="#D9E3E8" stroke-width="2">
-              <rect x="226" y="138" width="188" height="106" rx="10"></rect>
-            </g>
+            <g fill="none" stroke="#D9E3E8" stroke-width="2"><rect x="226" y="138" width="188" height="106" rx="10"></rect></g>
             <g stroke="#0B7F83" stroke-width="2" fill="none">
               <polyline points="240,220 265,195 290,208 315,178 340,190 365,168 400,182" class="pv-training-hero__dash"></polyline>
             </g>
@@ -486,7 +490,7 @@
       </div>
     </section>
 
-    <!-- ================= SECTION 2 — IDENTIFICATION DU PROBLEME ================= -->
+    <!-- ================= SECTION 2 — RECONNAISSANCE DU BESOIN ================= -->
     <section class="pv-training-section" aria-labelledby="pv-training-problem-title">
       <div class="pv-training-container">
         <div class="pv-training-section-intro pv-training-section-intro--center pv-training-reveal">
@@ -498,7 +502,7 @@
           <article class="pv-training-card pv-training-reveal"><h3 class="pv-training-h3">Managers peu impliqués</h3><p class="pv-training-p pv-training-p--small">La prévention reste isolée du management quotidien.</p></article>
           <article class="pv-training-card pv-training-reveal"><h3 class="pv-training-h3">Plans d’action peu suivis</h3><p class="pv-training-p pv-training-p--small">Les mesures sont définies sans véritable pilotage.</p></article>
           <article class="pv-training-card pv-training-reveal"><h3 class="pv-training-h3">Remontées terrain insuffisantes</h3><p class="pv-training-p pv-training-p--small">Les anomalies, presque-accidents et difficultés remontent trop tard.</p></article>
-          <article class="pv-training-card pv-training-reveal"><h3 class="pv-training-h3">Démarche dépendante d’une seule personne</h3><p class="pv-training-p pv-training-p--small">La continuité devient fragile lors d’une absence ou d’un changement d’organisation.</p></article>
+          <article class="pv-training-card pv-training-reveal"><h3 class="pv-training-h3">Démarche dépendante d’une seule personne</h3><p class="pv-training-p pv-training-p--small">La continuité devient fragile en cas d’absence ou de changement d’organisation.</p></article>
         </div>
         <div class="pv-training-cta-row pv-training-cta-row--center pv-training-cta-row--gap-lg">
           <a class="pv-training-btn pv-training-btn--secondary" href="#orientation-formations" data-pv-cta="problem-orientation" data-pv-source="training">Identifier le parcours adapté</a>
@@ -506,132 +510,130 @@
       </div>
     </section>
 
-    <!-- ================= SECTION 3 — ORIENTEUR INTERACTIF ================= -->
+    <!-- ================= SECTION 3 — ORIENTEUR DE FORMATION ================= -->
     <section id="orientation-formations" class="pv-training-section pv-training-section--muted" aria-labelledby="pv-training-orientation-title">
       <div class="pv-training-container">
         <div class="pv-training-section-intro pv-training-section-intro--center pv-training-reveal">
           <h2 id="pv-training-orientation-title" class="pv-training-h2">Quel est votre besoin principal&nbsp;?</h2>
-          <p class="pv-training-p">Cette orientation reste indicative. Aucune donnée n’est collectée par cet outil.</p>
+          <p class="pv-training-p">Sélectionnez la situation qui correspond le mieux à votre besoin pour accéder directement à la formation concernée. Cette orientation reste indicative.</p>
         </div>
 
-        <div class="pv-training-selector pv-training-reveal">
-          <div class="pv-training-selector__buttons" role="group" aria-label="Besoins possibles">
-            <button type="button" class="pv-training-selector__btn" data-training-selector-btn="1" aria-pressed="false">Comprendre les fondamentaux du DUERP</button>
-            <button type="button" class="pv-training-selector__btn" data-training-selector-btn="2" aria-pressed="false">Construire ou mettre à jour un DUERP</button>
-            <button type="button" class="pv-training-selector__btn" data-training-selector-btn="3" aria-pressed="false">Harmoniser la cotation des risques</button>
-            <button type="button" class="pv-training-selector__btn" data-training-selector-btn="4" aria-pressed="false">Structurer un plan d’action</button>
-            <button type="button" class="pv-training-selector__btn" data-training-selector-btn="5" aria-pressed="false">Impliquer les managers</button>
-            <button type="button" class="pv-training-selector__btn" data-training-selector-btn="6" aria-pressed="false">Former les membres du CSE</button>
-            <button type="button" class="pv-training-selector__btn" data-training-selector-btn="7" aria-pressed="false">Traiter un risque spécialisé</button>
-          </div>
+        <div class="pv-training-orienteur__list pv-training-reveal">
 
-          <!-- Panneaux visibles par défaut (lisibles sans JavaScript) ;
-               le script réduit l'affichage au panneau du choix sélectionné. -->
-          <div class="pv-training-selector__panel" data-training-selector-panel="1">
-            <span class="pv-training-selector__tag">Formation recommandée</span>
-            <p class="pv-training-selector__name">Comprendre le DUERP et ses finalités</p>
-            <ul class="pv-training-selector__meta">
-              <li><strong>Public principal :</strong> dirigeants, RH, QHSE, managers, CSE.</li>
-              <li><strong>Résultat recherché :</strong> comprendre les principes et l’utilisation opérationnelle du document unique.</li>
-              <li><strong>Format possible :</strong> présentiel, classe virtuelle, intra-entreprise.</li>
-            </ul>
-            <div class="pv-training-selector__actions">
-              <button type="button" class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" data-training-quick-filter="duerp" data-pv-cta="orienteur-1-catalogue" data-pv-source="training">Voir le programme</button>
-              <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-1-calendly" data-pv-source="training">Calendly</a>
-              <a class="pv-training-btn pv-training-btn--primary pv-training-btn--small" href="/contact?origine=formations&amp;formation=comprendre-duerp" data-pv-cta="orienteur-1-contact" data-pv-source="training">Contact</a>
+          <div class="pv-training-orienteur__item">
+            <a class="pv-training-orienteur__trigger" href="#formation-comprendre-duerp" aria-pressed="false" data-training-orienteur-option="1" data-pv-cta="orienteur-1-anchor" data-pv-source="training">
+              <span>Comprendre les fondamentaux du DUERP.</span>
+              <span class="pv-training-orienteur__arrow" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="pv-training-orienteur__panel">
+              <span class="pv-training-orienteur__reco">Formation recommandée</span>
+              <p class="pv-training-orienteur__name">Comprendre le DUERP et ses finalités</p>
+              <p class="pv-training-p pv-training-p--small">Public principal : dirigeants, RH, QHSE, managers, CSE. Résultat recherché : comprendre les principes et l’utilisation opérationnelle du document unique. Format possible : présentiel, classe virtuelle, intra-entreprise.</p>
+              <div class="pv-training-orienteur__actions">
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="/contact?origine=formations&amp;formation=comprendre-duerp" data-pv-cta="orienteur-1-contact" data-pv-source="training">Contact</a>
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-1-calendly" data-pv-source="training">Calendly</a>
+              </div>
             </div>
           </div>
 
-          <div class="pv-training-selector__panel" data-training-selector-panel="2">
-            <span class="pv-training-selector__tag">Formation recommandée</span>
-            <p class="pv-training-selector__name">Construire et mettre à jour son DUERP</p>
-            <ul class="pv-training-selector__meta">
-              <li><strong>Public principal :</strong> RH, QHSE, référents sécurité, consultants.</li>
-              <li><strong>Résultat recherché :</strong> structurer les unités de travail et organiser la mise à jour.</li>
-              <li><strong>Format possible :</strong> présentiel, classe virtuelle, intra-entreprise.</li>
-            </ul>
-            <div class="pv-training-selector__actions">
-              <button type="button" class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" data-training-quick-filter="duerp" data-pv-cta="orienteur-2-catalogue" data-pv-source="training">Voir le programme</button>
-              <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-2-calendly" data-pv-source="training">Calendly</a>
-              <a class="pv-training-btn pv-training-btn--primary pv-training-btn--small" href="/contact?origine=formations&amp;formation=construire-mettre-a-jour-duerp" data-pv-cta="orienteur-2-contact" data-pv-source="training">Contact</a>
+          <div class="pv-training-orienteur__item">
+            <a class="pv-training-orienteur__trigger" href="#formation-construire-duerp" aria-pressed="false" data-training-orienteur-option="2" data-pv-cta="orienteur-2-anchor" data-pv-source="training">
+              <span>Construire ou mettre à jour un DUERP.</span>
+              <span class="pv-training-orienteur__arrow" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="pv-training-orienteur__panel">
+              <span class="pv-training-orienteur__reco">Formation recommandée</span>
+              <p class="pv-training-orienteur__name">Construire et mettre à jour son DUERP</p>
+              <p class="pv-training-p pv-training-p--small">Public principal : RH, QHSE, référents sécurité, consultants. Résultat recherché : structurer les unités de travail et organiser la mise à jour. Format possible : présentiel, classe virtuelle, intra-entreprise.</p>
+              <div class="pv-training-orienteur__actions">
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="/contact?origine=formations&amp;formation=construire-mettre-a-jour-duerp" data-pv-cta="orienteur-2-contact" data-pv-source="training">Contact</a>
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-2-calendly" data-pv-source="training">Calendly</a>
+              </div>
             </div>
           </div>
 
-          <div class="pv-training-selector__panel" data-training-selector-panel="3">
-            <span class="pv-training-selector__tag">Formation recommandée</span>
-            <p class="pv-training-selector__name">Évaluer et hiérarchiser les risques professionnels</p>
-            <ul class="pv-training-selector__meta">
-              <li><strong>Public principal :</strong> QHSE, managers, référents sécurité, consultants.</li>
-              <li><strong>Résultat recherché :</strong> harmoniser les critères de cotation entre évaluateurs.</li>
-              <li><strong>Format possible :</strong> présentiel, classe virtuelle, atelier pratique.</li>
-            </ul>
-            <div class="pv-training-selector__actions">
-              <button type="button" class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" data-training-quick-filter="evaluation" data-pv-cta="orienteur-3-catalogue" data-pv-source="training">Voir le programme</button>
-              <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-3-calendly" data-pv-source="training">Calendly</a>
-              <a class="pv-training-btn pv-training-btn--primary pv-training-btn--small" href="/contact?origine=formations&amp;formation=evaluer-hierarchiser-risques" data-pv-cta="orienteur-3-contact" data-pv-source="training">Contact</a>
+          <div class="pv-training-orienteur__item">
+            <a class="pv-training-orienteur__trigger" href="#formation-evaluer-risques" aria-pressed="false" data-training-orienteur-option="3" data-pv-cta="orienteur-3-anchor" data-pv-source="training">
+              <span>Harmoniser la cotation des risques.</span>
+              <span class="pv-training-orienteur__arrow" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="pv-training-orienteur__panel">
+              <span class="pv-training-orienteur__reco">Formation recommandée</span>
+              <p class="pv-training-orienteur__name">Évaluer et hiérarchiser les risques professionnels</p>
+              <p class="pv-training-p pv-training-p--small">Public principal : QHSE, managers, référents sécurité, consultants. Résultat recherché : harmoniser les critères de cotation entre évaluateurs. Format possible : présentiel, classe virtuelle, atelier pratique.</p>
+              <div class="pv-training-orienteur__actions">
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="/contact?origine=formations&amp;formation=evaluer-hierarchiser-risques" data-pv-cta="orienteur-3-contact" data-pv-source="training">Contact</a>
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-3-calendly" data-pv-source="training">Calendly</a>
+              </div>
             </div>
           </div>
 
-          <div class="pv-training-selector__panel" data-training-selector-panel="4">
-            <span class="pv-training-selector__tag">Formation recommandée</span>
-            <p class="pv-training-selector__name">Construire un plan d’action de prévention efficace</p>
-            <ul class="pv-training-selector__meta">
-              <li><strong>Public principal :</strong> dirigeants, RH, QHSE, managers.</li>
-              <li><strong>Résultat recherché :</strong> transformer les risques prioritaires en actions vérifiables.</li>
-              <li><strong>Format possible :</strong> présentiel, classe virtuelle, atelier pratique.</li>
-            </ul>
-            <div class="pv-training-selector__actions">
-              <button type="button" class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" data-training-quick-filter="action" data-pv-cta="orienteur-4-catalogue" data-pv-source="training">Voir le programme</button>
-              <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-4-calendly" data-pv-source="training">Calendly</a>
-              <a class="pv-training-btn pv-training-btn--primary pv-training-btn--small" href="/contact?origine=formations&amp;formation=construire-plan-action" data-pv-cta="orienteur-4-contact" data-pv-source="training">Contact</a>
+          <div class="pv-training-orienteur__item">
+            <a class="pv-training-orienteur__trigger" href="#formation-plan-action" aria-pressed="false" data-training-orienteur-option="4" data-pv-cta="orienteur-4-anchor" data-pv-source="training">
+              <span>Structurer un plan d’action.</span>
+              <span class="pv-training-orienteur__arrow" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="pv-training-orienteur__panel">
+              <span class="pv-training-orienteur__reco">Formation recommandée</span>
+              <p class="pv-training-orienteur__name">Construire un plan d’action de prévention efficace</p>
+              <p class="pv-training-p pv-training-p--small">Public principal : dirigeants, RH, QHSE, managers. Résultat recherché : transformer les risques prioritaires en actions vérifiables. Format possible : présentiel, classe virtuelle, atelier pratique.</p>
+              <div class="pv-training-orienteur__actions">
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="/contact?origine=formations&amp;formation=construire-plan-action" data-pv-cta="orienteur-4-contact" data-pv-source="training">Contact</a>
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-4-calendly" data-pv-source="training">Calendly</a>
+              </div>
             </div>
           </div>
 
-          <div class="pv-training-selector__panel" data-training-selector-panel="5">
-            <span class="pv-training-selector__tag">Formation recommandée</span>
-            <p class="pv-training-selector__name">Former les managers à la prévention</p>
-            <ul class="pv-training-selector__meta">
-              <li><strong>Public principal :</strong> managers, chefs d’équipe, responsables opérationnels.</li>
-              <li><strong>Résultat recherché :</strong> intégrer la prévention dans le management quotidien.</li>
-              <li><strong>Format possible :</strong> présentiel, intra-entreprise, atelier pratique.</li>
-            </ul>
-            <div class="pv-training-selector__actions">
-              <button type="button" class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" data-training-quick-filter="management" data-pv-cta="orienteur-5-catalogue" data-pv-source="training">Voir le programme</button>
-              <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-5-calendly" data-pv-source="training">Calendly</a>
-              <a class="pv-training-btn pv-training-btn--primary pv-training-btn--small" href="/contact?origine=formations&amp;formation=managers-prevention" data-pv-cta="orienteur-5-contact" data-pv-source="training">Contact</a>
+          <div class="pv-training-orienteur__item">
+            <a class="pv-training-orienteur__trigger" href="#formation-managers" aria-pressed="false" data-training-orienteur-option="5" data-pv-cta="orienteur-5-anchor" data-pv-source="training">
+              <span>Impliquer les managers.</span>
+              <span class="pv-training-orienteur__arrow" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="pv-training-orienteur__panel">
+              <span class="pv-training-orienteur__reco">Formation recommandée</span>
+              <p class="pv-training-orienteur__name">Former les managers à la prévention</p>
+              <p class="pv-training-p pv-training-p--small">Public principal : managers, chefs d’équipe, responsables opérationnels. Résultat recherché : intégrer la prévention dans le management quotidien. Format possible : présentiel, intra-entreprise, atelier pratique.</p>
+              <div class="pv-training-orienteur__actions">
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="/contact?origine=formations&amp;formation=managers-prevention" data-pv-cta="orienteur-5-contact" data-pv-source="training">Contact</a>
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-5-calendly" data-pv-source="training">Calendly</a>
+              </div>
             </div>
           </div>
 
-          <div class="pv-training-selector__panel" data-training-selector-panel="6">
-            <span class="pv-training-selector__tag">Formation recommandée</span>
-            <p class="pv-training-selector__name">CSE et démarche d’évaluation des risques</p>
-            <ul class="pv-training-selector__meta">
-              <li><strong>Public principal :</strong> membres du CSE, représentants du personnel.</li>
-              <li><strong>Résultat recherché :</strong> comprendre la démarche et participer aux échanges.</li>
-              <li><strong>Format possible :</strong> présentiel, classe virtuelle, intra-entreprise.</li>
-            </ul>
-            <div class="pv-training-selector__actions">
-              <button type="button" class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" data-training-quick-filter="cse" data-pv-cta="orienteur-6-catalogue" data-pv-source="training">Voir le programme</button>
-              <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-6-calendly" data-pv-source="training">Calendly</a>
-              <a class="pv-training-btn pv-training-btn--primary pv-training-btn--small" href="/contact?origine=formations&amp;formation=cse-evaluation-risques" data-pv-cta="orienteur-6-contact" data-pv-source="training">Contact</a>
+          <div class="pv-training-orienteur__item">
+            <a class="pv-training-orienteur__trigger" href="#formation-cse" aria-pressed="false" data-training-orienteur-option="6" data-pv-cta="orienteur-6-anchor" data-pv-source="training">
+              <span>Former les membres du CSE.</span>
+              <span class="pv-training-orienteur__arrow" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="pv-training-orienteur__panel">
+              <span class="pv-training-orienteur__reco">Formation recommandée</span>
+              <p class="pv-training-orienteur__name">CSE et démarche d’évaluation des risques</p>
+              <p class="pv-training-p pv-training-p--small">Public principal : membres du CSE, représentants du personnel. Résultat recherché : comprendre la démarche et participer aux échanges. Format possible : présentiel, classe virtuelle, intra-entreprise.</p>
+              <div class="pv-training-orienteur__actions">
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="/contact?origine=formations&amp;formation=cse-evaluation-risques" data-pv-cta="orienteur-6-contact" data-pv-source="training">Contact</a>
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-6-calendly" data-pv-source="training">Calendly</a>
+              </div>
             </div>
           </div>
 
-          <div class="pv-training-selector__panel" data-training-selector-panel="7">
-            <span class="pv-training-selector__tag">Formation recommandée</span>
-            <p class="pv-training-selector__name">Risques psychosociaux ou risques chimiques, selon le sujet</p>
-            <ul class="pv-training-selector__meta">
-              <li><strong>Public principal :</strong> QHSE, managers, référents sécurité.</li>
-              <li><strong>Résultat recherché :</strong> traiter un risque spécialisé avec la compétence adaptée.</li>
-              <li><strong>Format possible :</strong> présentiel, classe virtuelle, intra-entreprise.</li>
-            </ul>
-            <div class="pv-training-selector__actions">
-              <button type="button" class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" data-training-quick-filter="specialise" data-pv-cta="orienteur-7-catalogue" data-pv-source="training">Voir le programme</button>
-              <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-7-calendly" data-pv-source="training">Calendly</a>
-              <a class="pv-training-btn pv-training-btn--primary pv-training-btn--small" href="/contact?origine=formations&amp;besoin=risque-specialise" data-pv-cta="orienteur-7-contact" data-pv-source="training">Contact</a>
+          <div class="pv-training-orienteur__item">
+            <a class="pv-training-orienteur__trigger" href="#formation-risques-specialises" aria-pressed="false" data-training-orienteur-option="7" data-pv-cta="orienteur-7-anchor" data-pv-source="training">
+              <span>Traiter un risque spécialisé.</span>
+              <span class="pv-training-orienteur__arrow" aria-hidden="true">&#8594;</span>
+            </a>
+            <div class="pv-training-orienteur__panel">
+              <span class="pv-training-orienteur__reco">Formation recommandée</span>
+              <p class="pv-training-orienteur__name">Risques psychosociaux ou risques chimiques, selon le sujet</p>
+              <p class="pv-training-p pv-training-p--small">Public principal : QHSE, managers, référents sécurité. Résultat recherché : traiter un risque spécialisé avec la compétence adaptée. Format possible : présentiel, classe virtuelle, intra-entreprise.</p>
+              <div class="pv-training-orienteur__actions">
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="/contact?origine=formations&amp;besoin=risque-specialise" data-pv-cta="orienteur-7-contact" data-pv-source="training">Contact</a>
+                <a class="pv-training-btn pv-training-btn--secondary pv-training-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="orienteur-7-calendly" data-pv-source="training">Calendly</a>
+              </div>
             </div>
           </div>
         </div>
+
+        <p class="pv-training-p pv-training-p--small pv-training-mt-md pv-training-text-center">Le lien de chaque option vous conduit directement à la formation correspondante dans le catalogue ci-dessous.</p>
       </div>
     </section>
 
@@ -642,7 +644,7 @@
           <h2 id="pv-training-catalogue-title" class="pv-training-h2">Choisissez un parcours adapté à vos responsabilités et à votre organisation</h2>
         </div>
 
-        <div class="pv-training-toolbar">
+        <div id="pv-training-toolbar" class="pv-training-toolbar">
           <div class="pv-training-search">
             <label for="pv-training-search-input">Rechercher une formation</label>
             <input type="search" id="pv-training-search-input" placeholder="Rechercher une formation…" autocomplete="off">
@@ -704,15 +706,51 @@
           <h2 id="pv-training-audiences-title" class="pv-training-h2">Des parcours adaptés à la responsabilité de chacun</h2>
         </div>
         <div class="pv-training-grid-3">
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Dirigeants</span><p class="pv-training-p pv-training-p--small">Comprendre les principes essentiels pour piloter la démarche de prévention.</p></div>
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Employeurs</span><p class="pv-training-p pv-training-p--small">Situer les responsabilités et le rôle de l’évaluation des risques.</p></div>
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Responsables RH</span><p class="pv-training-p pv-training-p--small">Structurer la démarche et coordonner les acteurs internes.</p></div>
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Responsables QHSE</span><p class="pv-training-p pv-training-p--small">Approfondir la méthode d’évaluation et de hiérarchisation.</p></div>
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Managers</span><p class="pv-training-p pv-training-p--small">Intégrer la prévention dans le pilotage quotidien des équipes.</p></div>
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Membres du CSE</span><p class="pv-training-p pv-training-p--small">Comprendre la démarche pour mieux participer aux échanges.</p></div>
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Référents sécurité</span><p class="pv-training-p pv-training-p--small">Renforcer la méthode et la cohérence des évaluations.</p></div>
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Consultants</span><p class="pv-training-p pv-training-p--small">Actualiser ou approfondir une pratique professionnelle.</p></div>
-          <div class="pv-training-audience-card pv-training-reveal"><span class="pv-training-audience-card__role">Équipes opérationnelles</span><p class="pv-training-p pv-training-p--small">Renforcer les réflexes de prévention au poste de travail.</p></div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="dirigeants">
+            <span class="pv-training-audience-card__role">Dirigeants</span>
+            <p class="pv-training-p pv-training-p--small">Comprendre les principes essentiels pour piloter la démarche de prévention.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-training-audience-link="dirigeants" data-pv-cta="audience-dirigeants" data-pv-source="training">Voir les formations concernées</a>
+          </div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="employeurs">
+            <span class="pv-training-audience-card__role">Employeurs</span>
+            <p class="pv-training-p pv-training-p--small">Situer les responsabilités et le rôle de l’évaluation des risques.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-pv-cta="audience-employeurs" data-pv-source="training">Voir les formations concernées</a>
+          </div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="rh">
+            <span class="pv-training-audience-card__role">Responsables RH</span>
+            <p class="pv-training-p pv-training-p--small">Structurer la démarche et coordonner les acteurs internes.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-training-audience-link="rh" data-pv-cta="audience-rh" data-pv-source="training">Voir les formations concernées</a>
+          </div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="qhse">
+            <span class="pv-training-audience-card__role">Responsables QHSE</span>
+            <p class="pv-training-p pv-training-p--small">Approfondir la méthode d’évaluation et de hiérarchisation.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-training-audience-link="qhse" data-pv-cta="audience-qhse" data-pv-source="training">Voir les formations concernées</a>
+          </div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="managers">
+            <span class="pv-training-audience-card__role">Managers</span>
+            <p class="pv-training-p pv-training-p--small">Intégrer la prévention dans le pilotage quotidien des équipes.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-training-audience-link="managers" data-pv-cta="audience-managers" data-pv-source="training">Voir les formations concernées</a>
+          </div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="cse">
+            <span class="pv-training-audience-card__role">Membres du CSE</span>
+            <p class="pv-training-p pv-training-p--small">Comprendre la démarche pour mieux participer aux échanges.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-training-audience-link="cse" data-pv-cta="audience-cse" data-pv-source="training">Voir les formations concernées</a>
+          </div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="referents-securite">
+            <span class="pv-training-audience-card__role">Référents sécurité</span>
+            <p class="pv-training-p pv-training-p--small">Renforcer la méthode et la cohérence des évaluations.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-training-audience-link="referents-securite" data-pv-cta="audience-referents" data-pv-source="training">Voir les formations concernées</a>
+          </div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="consultants">
+            <span class="pv-training-audience-card__role">Consultants</span>
+            <p class="pv-training-p pv-training-p--small">Actualiser ou approfondir une pratique professionnelle.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-training-audience-link="consultants" data-pv-cta="audience-consultants" data-pv-source="training">Voir les formations concernées</a>
+          </div>
+          <div class="pv-training-audience-card pv-training-reveal" data-training-audience-card="equipes-operationnelles">
+            <span class="pv-training-audience-card__role">Équipes opérationnelles</span>
+            <p class="pv-training-p pv-training-p--small">Renforcer les réflexes de prévention au poste de travail.</p>
+            <a class="pv-training-inline-link pv-training-card__link" href="#catalogue-formations" data-training-audience-link="equipes-operationnelles" data-pv-cta="audience-equipes" data-pv-source="training">Voir les formations concernées</a>
+          </div>
         </div>
       </div>
     </section>
@@ -744,20 +782,20 @@
         </div>
         <ol class="pv-training-process">
           <li>Analyse du besoin</li>
-          <li>Objectifs opérationnels</li>
+          <li>Définition des objectifs</li>
           <li>Apports ciblés</li>
           <li>Cas pratiques</li>
           <li>Exercices</li>
           <li>Mise en situation</li>
-          <li>Évaluation des acquis</li>
+          <li>Évaluation des acquis lorsque prévue</li>
           <li>Transfert dans l’activité</li>
         </ol>
-        <div class="pv-training-pedagogy-methods">
+        <div class="pv-training-mt-lg">
           <h3 class="pv-training-h3">Méthodes mobilisées</h3>
           <ul class="pv-training-tag-list">
             <li class="pv-training-tag">Cas sectoriels</li>
             <li class="pv-training-tag">Exercices de cotation</li>
-            <li class="pv-training-tag">Analyse de situations</li>
+            <li class="pv-training-tag">Analyse de situations de travail</li>
             <li class="pv-training-tag">Construction d’unités de travail</li>
             <li class="pv-training-tag">Plans d’action</li>
             <li class="pv-training-tag">Échanges guidés</li>
@@ -768,7 +806,7 @@
     </section>
 
     <!-- ================= SECTION 10 — FORMATION INTRA-ENTREPRISE ================= -->
-    <section class="pv-training-section" aria-labelledby="pv-training-intra-title">
+    <section id="formation-intra-entreprise" class="pv-training-section" aria-labelledby="pv-training-intra-title">
       <div class="pv-training-container">
         <div class="pv-training-section-intro pv-training-section-intro--center pv-training-reveal">
           <h2 id="pv-training-intra-title" class="pv-training-h2">Adaptez la formation à vos métiers, risques et situations réelles</h2>
@@ -829,17 +867,17 @@
           <h2 id="pv-training-sectors-title" class="pv-training-h2">Des exemples et exercices adaptés au contexte professionnel</h2>
         </div>
         <div class="pv-training-grid-4">
-          <div class="pv-training-format-card pv-training-reveal"><h3 class="pv-training-h3">BTP</h3></div>
-          <div class="pv-training-format-card pv-training-reveal"><h3 class="pv-training-h3">Industrie</h3></div>
-          <div class="pv-training-format-card pv-training-reveal"><h3 class="pv-training-h3">Transport et logistique</h3></div>
-          <div class="pv-training-format-card pv-training-reveal"><h3 class="pv-training-h3">Santé et médico-social</h3></div>
-          <div class="pv-training-format-card pv-training-reveal"><h3 class="pv-training-h3">Tertiaire</h3></div>
-          <div class="pv-training-format-card pv-training-reveal"><h3 class="pv-training-h3">Organismes de formation</h3></div>
-          <div class="pv-training-format-card pv-training-reveal"><h3 class="pv-training-h3">Agroalimentaire</h3></div>
-          <div class="pv-training-format-card pv-training-reveal"><h3 class="pv-training-h3">Énergie et infrastructures</h3></div>
+          <article class="pv-training-sector-card pv-training-reveal"><h3 class="pv-training-h3">BTP</h3><a class="pv-training-inline-link pv-training-sector-card__link" href="/duerp-secteurs-activite?secteur=btp" data-pv-cta="sector-btp" data-pv-source="training">En savoir plus</a></article>
+          <article class="pv-training-sector-card pv-training-reveal"><h3 class="pv-training-h3">Industrie</h3><a class="pv-training-inline-link pv-training-sector-card__link" href="/duerp-secteurs-activite?secteur=industrie" data-pv-cta="sector-industrie" data-pv-source="training">En savoir plus</a></article>
+          <article class="pv-training-sector-card pv-training-reveal"><h3 class="pv-training-h3">Transport et logistique</h3><a class="pv-training-inline-link pv-training-sector-card__link" href="/duerp-secteurs-activite?secteur=transport-logistique" data-pv-cta="sector-transport" data-pv-source="training">En savoir plus</a></article>
+          <article class="pv-training-sector-card pv-training-reveal"><h3 class="pv-training-h3">Santé et médico-social</h3><a class="pv-training-inline-link pv-training-sector-card__link" href="/duerp-secteurs-activite?secteur=sante" data-pv-cta="sector-sante" data-pv-source="training">En savoir plus</a></article>
+          <article class="pv-training-sector-card pv-training-reveal"><h3 class="pv-training-h3">Tertiaire</h3><a class="pv-training-inline-link pv-training-sector-card__link" href="/duerp-secteurs-activite?secteur=tertiaire" data-pv-cta="sector-tertiaire" data-pv-source="training">En savoir plus</a></article>
+          <article class="pv-training-sector-card pv-training-reveal"><h3 class="pv-training-h3">Organismes de formation</h3><a class="pv-training-inline-link pv-training-sector-card__link" href="/duerp-secteurs-activite?secteur=formation" data-pv-cta="sector-formation" data-pv-source="training">En savoir plus</a></article>
+          <article class="pv-training-sector-card pv-training-reveal"><h3 class="pv-training-h3">Agroalimentaire</h3><a class="pv-training-inline-link pv-training-sector-card__link" href="/duerp-secteurs-activite?secteur=agroalimentaire" data-pv-cta="sector-agroalimentaire" data-pv-source="training">En savoir plus</a></article>
+          <article class="pv-training-sector-card pv-training-reveal"><h3 class="pv-training-h3">Énergie et infrastructures</h3><a class="pv-training-inline-link pv-training-sector-card__link" href="/duerp-secteurs-activite?secteur=energie-infrastructures" data-pv-cta="sector-energie" data-pv-source="training">En savoir plus</a></article>
         </div>
         <div class="pv-training-cta-row pv-training-cta-row--center pv-training-cta-row--gap-lg">
-          <a class="pv-training-btn pv-training-btn--secondary" href="/duerp-secteurs-activite" data-pv-cta="sectors-see" data-pv-source="training">Voir les secteurs</a>
+          <a class="pv-training-btn pv-training-btn--secondary" href="/duerp-secteurs-activite" data-pv-cta="sectors-see" data-pv-source="training">Voir tous les secteurs</a>
         </div>
       </div>
     </section>
@@ -877,7 +915,7 @@
       </div>
     </section>
 
-    <!-- ================= SECTION 15 — RESSOURCES GRATUITES ================= -->
+    <!-- ================= SECTION 15 — RESSOURCES ================= -->
     <section class="pv-training-section pv-training-section--soft" aria-labelledby="pv-training-resources-title">
       <div class="pv-training-container pv-training-bridge">
         <h2 id="pv-training-resources-title" class="pv-training-h2">Préparez votre montée en compétence avec des outils pratiques</h2>
@@ -960,14 +998,15 @@
           <a class="pv-training-btn pv-training-btn--ghost-light" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20Academy%2C%20je%20souhaite%20obtenir%20des%20informations%20sur%20une%20formation%20DUERP%2C%20pr%C3%A9vention%20ou%20QHSE." target="_blank" rel="noopener noreferrer" data-pv-cta="final-whatsapp" data-pv-source="training">Écrire sur WhatsApp</a>
         </div>
         <p class="pv-training-final__extra">
-          <a class="pv-training-inline-link pv-training-inline-link--on-navy" href="mailto:contact@preuvia-qhse.com?subject=Demande%20de%20formation%20PREUVIA%20Academy&amp;body=Bonjour%20PREUVIA%20Academy%2C%0A%0AJe%20souhaite%20obtenir%20des%20informations%20sur%20une%20formation.%0A%0AEntreprise%20%3A%0AFormation%20recherch%C3%A9e%20%3A%0ANombre%20de%20participants%20%3A%0AFormat%20souhait%C3%A9%20%3A%0AP%C3%A9riode%20envisag%C3%A9e%20%3A" data-pv-cta="final-email" data-pv-source="training">Envoyer un e-mail</a>
+          <a class="pv-training-inline-link pv-training-inline-link--on-navy" href="mailto:contact@preuvia-qhse.com?subject=Demande%20de%20formation%20PREUVIA%20Academy&amp;body=Bonjour%20PREUVIA%20Academy%2C%0A%0AJe%20souhaite%20obtenir%20des%20informations%20sur%20une%20formation.%0A%0AEntreprise%20%3A%0AFormation%20recherch%C3%A9e%20%3A%0APublic%20concern%C3%A9%20%3A%0ANombre%20de%20participants%20%3A%0AFormat%20souhait%C3%A9%20%3A%0AP%C3%A9riode%20envisag%C3%A9e%20%3A" data-pv-cta="final-email" data-pv-source="training">Envoyer un e-mail</a>
         </p>
       </div>
     </section>
 
   </main>
 
-  <footer class="pv-training-footer">
+  <!-- ================= SECTION 18 — PIED DE PAGE VISUEL ================= -->
+  <div class="pv-training-footer" role="contentinfo">
     <div class="pv-training-container">
       <div class="pv-training-footer__grid">
         <div>
@@ -1016,7 +1055,7 @@
         </div>
       </div>
     </div>
-  </footer>
+  </div>
 
   <div class="pv-training-floating">
     <a class="pv-training-floating__btn pv-training-floating__btn--whatsapp" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20Academy%2C%20je%20souhaite%20obtenir%20des%20informations%20sur%20une%20formation%20DUERP%2C%20pr%C3%A9vention%20ou%20QHSE." target="_blank" rel="noopener noreferrer" aria-label="Écrire sur WhatsApp" data-pv-cta="floating-whatsapp" data-pv-source="training">
@@ -1043,6 +1082,10 @@
   var root = document.getElementById('pv-training');
   if(!root){ return; }
 
+  // Passer à true uniquement en environnement de test pour exécuter
+  // l'audit local d'intégrité (voir runPreuviaTrainingIntegrityAudit plus bas).
+  var PV_TRAINING_DEBUG = false;
+
   root.classList.add('pv-training-js');
 
   var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1053,34 +1096,38 @@
      POUR MODIFIER UNE FORMATION :
      - renommer : changez uniquement "title" ;
      - masquer une formation : passez "published" à false (elle disparaît
-       entièrement du catalogue public) ;
+       entièrement du catalogue public, elle n'est jamais générée) ;
      - renseigner une durée : complétez "duration" (ex. "1 jour") ;
      - renseigner un tarif : complétez "price" (ex. "990 € HT") ;
      - ajouter un programme PDF : renseignez "programUrl" avec l'URL du
        fichier chargé dans Systeme.io ;
      - ajouter une date : complétez "nextDate" ;
      - dupliquer une formation : copiez un objet complet ci-dessous,
-       donnez-lui un "id" unique, puis adaptez ses champs.
+       donnez-lui un "id" et un "anchorId" uniques, puis adaptez ses champs.
 
      ---------------------------------------------------------------------
-     POUR ACTIVER L'ACHAT DIRECT :
-     1. renseigner le prix validé dans "price" ;
-     2. renseigner le lien Stripe de la formation dans "stripeUrl" ;
-     3. vérifier le programme, la durée, les dates et les conditions ;
-     4. passer "paymentEnabled" à true.
-     Le bouton "S'inscrire maintenant" n'apparaît que si paymentEnabled
-     est vrai, ET que stripeUrl et price sont tous deux renseignés.
+     POUR ACTIVER L'ACHAT DIRECT D'UNE FORMATION :
+     1. valider le programme ;
+     2. renseigner la durée ;
+     3. renseigner le tarif ;
+     4. renseigner les modalités ;
+     5. coller le lien Stripe officiel dans "stripeUrl" ;
+     6. vérifier le lien ;
+     7. passer "paymentEnabled" à true.
+     Le bouton "S'inscrire maintenant" n'apparaît que si published, ET
+     paymentEnabled, ET stripeUrl non vide, ET price non vide sont réunis.
      ===================================================================== */
   var preuviaTrainings = [
     {
       id: "comprendre-duerp",
+      anchorId: "formation-comprendre-duerp",
       title: "Comprendre le DUERP et ses finalités",
       shortDescription: "Comprendre les principes, les acteurs, les étapes et l’utilisation opérationnelle du document unique.",
       category: "duerp",
       audiences: ["dirigeants", "rh", "qhse", "managers", "cse"],
       objectives: [
         "Situer le DUERP dans la démarche de prévention",
-        "Identifier les principales responsabilités",
+        "Identifier les principaux acteurs",
         "Comprendre les étapes de construction",
         "Utiliser le document comme support de décision"
       ],
@@ -1089,7 +1136,6 @@
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1099,6 +1145,7 @@
     },
     {
       id: "construire-mettre-a-jour-duerp",
+      anchorId: "formation-construire-duerp",
       title: "Construire et mettre à jour son DUERP",
       shortDescription: "Structurer les unités de travail, identifier les situations d’exposition et organiser les résultats.",
       category: "duerp",
@@ -1107,7 +1154,7 @@
         "Définir les unités de travail",
         "Identifier les dangers et expositions",
         "Analyser les mesures existantes",
-        "Organiser la mise à jour",
+        "Organiser les mises à jour",
         "Structurer les actions"
       ],
       formats: ["Présentiel", "Classe virtuelle", "Intra-entreprise"],
@@ -1115,7 +1162,6 @@
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1125,6 +1171,7 @@
     },
     {
       id: "evaluer-hierarchiser-risques",
+      anchorId: "formation-evaluer-risques",
       title: "Évaluer et hiérarchiser les risques professionnels",
       shortDescription: "Utiliser une méthode cohérente pour analyser et prioriser les risques sans réduire l’évaluation à un simple score.",
       category: "evaluation",
@@ -1134,14 +1181,13 @@
         "Analyser les situations de travail",
         "Utiliser des critères de cotation",
         "Justifier les niveaux retenus",
-        "Harmoniser les évaluateurs"
+        "Harmoniser les pratiques"
       ],
       formats: ["Présentiel", "Classe virtuelle", "Atelier pratique"],
       duration: "",
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1151,6 +1197,7 @@
     },
     {
       id: "construire-plan-action",
+      anchorId: "formation-plan-action",
       title: "Construire un plan d’action de prévention efficace",
       shortDescription: "Transformer les risques prioritaires en actions précises, attribuées, planifiées et vérifiables.",
       category: "action",
@@ -1167,7 +1214,6 @@
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1177,6 +1223,7 @@
     },
     {
       id: "managers-prevention",
+      anchorId: "formation-managers",
       title: "Former les managers à la prévention",
       shortDescription: "Intégrer la prévention dans les décisions quotidiennes, les briefings, les changements et les remontées terrain.",
       category: "management",
@@ -1193,7 +1240,6 @@
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1203,6 +1249,7 @@
     },
     {
       id: "cse-evaluation-risques",
+      anchorId: "formation-cse",
       title: "CSE et démarche d’évaluation des risques",
       shortDescription: "Comprendre les unités de travail, la logique d’évaluation, les priorités et le suivi des mesures.",
       category: "cse",
@@ -1219,7 +1266,6 @@
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1229,6 +1275,7 @@
     },
     {
       id: "rps-organisation-travail",
+      anchorId: "formation-risques-specialises",
       title: "Risques psychosociaux et organisation du travail",
       shortDescription: "Identifier les facteurs organisationnels, les situations d’exposition et les pistes de prévention adaptées.",
       category: "specialise",
@@ -1245,7 +1292,6 @@
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1255,6 +1301,7 @@
     },
     {
       id: "risques-chimiques-duerp",
+      anchorId: "formation-risques-chimiques",
       title: "Risques chimiques et DUERP",
       shortDescription: "Structurer l’inventaire, exploiter les informations disponibles, analyser les expositions et organiser les priorités.",
       category: "specialise",
@@ -1263,7 +1310,7 @@
         "Structurer l’inventaire",
         "Exploiter les fiches de données de sécurité",
         "Identifier les expositions",
-        "Analyser les mesures",
+        "Analyser les mesures existantes",
         "Intégrer les résultats dans le DUERP"
       ],
       formats: ["Présentiel", "Classe virtuelle", "Intra-entreprise"],
@@ -1271,7 +1318,6 @@
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1281,6 +1327,7 @@
     },
     {
       id: "formation-sur-mesure",
+      anchorId: "formation-sur-mesure",
       title: "Formation QHSE sur mesure",
       shortDescription: "Construire un programme adapté aux métiers, risques, objectifs et situations réelles de votre organisation.",
       category: "sur-mesure",
@@ -1297,7 +1344,6 @@
       price: "",
       nextDate: "",
       programUrl: "",
-      detailUrl: "",
       stripeUrl: "",
       paymentEnabled: false,
       published: true,
@@ -1329,7 +1375,7 @@
 
   var trainingState = { category: "all", audience: "all", query: "" };
 
-  var toolbarCatalogue = document.getElementById('pv-training-catalogue-grid');
+  var catalogueGrid = document.getElementById('pv-training-catalogue-grid');
   var trainingCounter = document.getElementById('pv-training-counter');
   var trainingNoResults = document.getElementById('pv-training-no-results');
   var trainingSearchInput = document.getElementById('pv-training-search-input');
@@ -1347,10 +1393,10 @@
   }
 
   function canBuy(training){
-    return training.paymentEnabled === true &&
+    return isAvailable(training) &&
+      training.paymentEnabled === true &&
       typeof training.stripeUrl === "string" && training.stripeUrl.trim() !== "" &&
-      typeof training.price === "string" && training.price.trim() !== "" &&
-      isAvailable(training);
+      typeof training.price === "string" && training.price.trim() !== "";
   }
 
   function matchesTrainingSearch(training, query){
@@ -1359,6 +1405,7 @@
     var haystack = [training.title, training.shortDescription, training.category]
       .concat(training.objectives || [])
       .concat(training.audiences || [])
+      .concat(training.formats || [])
       .join(" ").toLowerCase();
     return haystack.indexOf(q) !== -1;
   }
@@ -1373,7 +1420,7 @@
 
   function buildTrainingCardHtml(training){
     var html = "";
-    html += "<article class=\"pv-training-course\" data-training-id=\"" + escapeHtml(training.id) + "\">";
+    html += "<article class=\"pv-training-course\" id=\"" + escapeHtml(training.anchorId) + "\" data-training-id=\"" + escapeHtml(training.id) + "\">";
     html += "<div class=\"pv-training-course__top\">";
     html += "<span class=\"pv-training-course__category\">" + escapeHtml(categoryLabels[training.category] || training.category) + "</span>";
     if(training.featured){
@@ -1418,19 +1465,19 @@
   }
 
   function renderTrainingCatalogue(){
-    if(!toolbarCatalogue){ return; }
+    if(!catalogueGrid){ return; }
     var filtered = getFilteredTrainings();
     if(trainingCounter){
       trainingCounter.textContent = filtered.length + (filtered.length > 1 ? " formations disponibles" : " formation disponible");
     }
     if(filtered.length === 0){
-      toolbarCatalogue.hidden = true;
-      toolbarCatalogue.innerHTML = "";
+      catalogueGrid.hidden = true;
+      catalogueGrid.innerHTML = "";
       if(trainingNoResults){ trainingNoResults.hidden = false; }
     } else {
       if(trainingNoResults){ trainingNoResults.hidden = true; }
-      toolbarCatalogue.hidden = false;
-      toolbarCatalogue.innerHTML = filtered.map(buildTrainingCardHtml).join("");
+      catalogueGrid.hidden = false;
+      catalogueGrid.innerHTML = filtered.map(buildTrainingCardHtml).join("");
     }
   }
 
@@ -1448,17 +1495,13 @@
     renderTrainingCatalogue();
   }
 
-  function applyTrainingQuickFilter(category){
-    trainingState.category = category;
-    var matchingButton = categoryButtons.filter(function(btn){
-      return btn.getAttribute("data-training-category-filter") === category;
+  function applyAudienceFilter(audience){
+    trainingState.audience = audience;
+    var matchingButton = audienceButtons.filter(function(btn){
+      return btn.getAttribute("data-training-audience-filter") === audience;
     })[0];
-    if(matchingButton){ setPressed(categoryButtons, matchingButton); }
+    if(matchingButton){ setPressed(audienceButtons, matchingButton); }
     renderTrainingCatalogue();
-    var catalogueSection = document.getElementById('catalogue-formations');
-    if(catalogueSection){
-      catalogueSection.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
-    }
   }
 
   if(trainingSearchInput){
@@ -1558,32 +1601,28 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Orienteur (7 choix, panneau unique mis en avant)                   */
-  /* Lisible sans JavaScript : tous les panneaux sont visibles par      */
-  /* defaut. Le script masque les autres des qu'un choix est actif.     */
+  /* Orienteur : chaque option est un veritable lien ancre HTML. Le     */
+  /* clic navigue toujours normalement (aucun preventDefault) ; le JS   */
+  /* se contente d'ajouter un etat visuel aria-pressed.                 */
   /* ------------------------------------------------------------------ */
-  var trainingSelectorButtons = Array.prototype.slice.call(root.querySelectorAll('[data-training-selector-btn]'));
-  var trainingSelectorPanels = Array.prototype.slice.call(root.querySelectorAll('[data-training-selector-panel]'));
-
-  if(trainingSelectorButtons.length && trainingSelectorPanels.length){
-    trainingSelectorPanels.forEach(function(panel){ panel.hidden = true; });
-
-    trainingSelectorButtons.forEach(function(button){
-      button.addEventListener('click', function(){
-        var targetId = button.getAttribute('data-training-selector-btn');
-        var alreadyActive = button.getAttribute('aria-pressed') === 'true';
-
-        trainingSelectorButtons.forEach(function(btn){ btn.setAttribute('aria-pressed', 'false'); });
-        trainingSelectorPanels.forEach(function(panel){ panel.hidden = true; });
-
-        if(!alreadyActive){
-          button.setAttribute('aria-pressed', 'true');
-          var targetPanel = root.querySelector('[data-training-selector-panel="' + targetId + '"]');
-          if(targetPanel){ targetPanel.hidden = false; }
-        }
-      });
+  var orienteurTriggers = Array.prototype.slice.call(root.querySelectorAll('[data-training-orienteur-option]'));
+  orienteurTriggers.forEach(function(trigger){
+    trigger.addEventListener('click', function(){
+      orienteurTriggers.forEach(function(other){ other.setAttribute('aria-pressed', 'false'); });
+      trigger.setAttribute('aria-pressed', 'true');
     });
-  }
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* Cartes "Publics" : lien reel vers le catalogue + activation du     */
+  /* filtre de public correspondant lorsque JavaScript est actif.       */
+  /* ------------------------------------------------------------------ */
+  var audienceLinks = Array.prototype.slice.call(root.querySelectorAll('[data-training-audience-link]'));
+  audienceLinks.forEach(function(link){
+    link.addEventListener('click', function(){
+      applyAudienceFilter(link.getAttribute('data-training-audience-link'));
+    });
+  });
 
   /* ------------------------------------------------------------------ */
   /* FAQ accessible                                                     */
@@ -1614,11 +1653,6 @@
   /* ------------------------------------------------------------------ */
   root.addEventListener('click', function(event){
     var target = event.target;
-
-    var quickFilterBtn = target.closest ? target.closest('[data-training-quick-filter]') : null;
-    if(quickFilterBtn){
-      applyTrainingQuickFilter(quickFilterBtn.getAttribute('data-training-quick-filter'));
-    }
 
     var categoryBtn = target.closest ? target.closest('[data-training-category-filter]') : null;
     if(categoryBtn){
@@ -1654,6 +1688,119 @@
   /* Rendu initial du catalogue                                         */
   /* ------------------------------------------------------------------ */
   renderTrainingCatalogue();
+
+  /* ------------------------------------------------------------------ */
+  /* Audit local d'integrite (DOM uniquement, aucune requete reseau).   */
+  /* Ne s'execute que si PV_TRAINING_DEBUG vaut true. Ne bloque jamais  */
+  /* la page et ne produit aucun log en fonctionnement normal.          */
+  /* ------------------------------------------------------------------ */
+  function runPreuviaTrainingIntegrityAudit(){
+    try {
+      var issues = [];
+      var links = Array.prototype.slice.call(root.querySelectorAll('a'));
+
+      links.forEach(function(link){
+        var href = link.getAttribute('href');
+        if(href === null){ issues.push('Lien sans attribut href : ' + (link.textContent || '').trim()); return; }
+        if(href.trim() === ''){ issues.push('Attribut href vide : ' + (link.textContent || '').trim()); return; }
+        if(href.trim().toLowerCase().indexOf('javascript:') === 0){ issues.push('Utilisation de javascript: dans un href : ' + href); }
+        if(href === '#'){ issues.push('href="#" sans ancre reelle : ' + (link.textContent || '').trim()); }
+        if(href.charAt(0) === '#' && href.length > 1){
+          var targetId = href.slice(1);
+          if(!document.getElementById(targetId)){ issues.push('Ancre interne sans cible existante : ' + href); }
+        }
+        if(link.getAttribute('target') === '_blank'){
+          var rel = (link.getAttribute('rel') || '');
+          if(rel.indexOf('noopener') === -1 || rel.indexOf('noreferrer') === -1){
+            issues.push('target="_blank" sans rel="noopener noreferrer" : ' + href);
+          }
+        }
+        if(!link.textContent.trim() && !link.getAttribute('aria-label')){
+          issues.push('Lien sans libellé accessible : ' + href);
+        }
+      });
+
+      var filterButtons = Array.prototype.slice.call(root.querySelectorAll('.pv-training-chip'));
+      filterButtons.forEach(function(btn){
+        if(btn.getAttribute('type') !== 'button'){ issues.push('Filtre sans type="button".'); }
+        if(!btn.hasAttribute('aria-pressed')){ issues.push('Filtre sans aria-pressed.'); }
+      });
+
+      if(trainingSearchInput){
+        var searchLabel = root.querySelector('label[for="' + trainingSearchInput.id + '"]');
+        if(!searchLabel){ issues.push('Champ de recherche sans label associé.'); }
+      }
+
+      preuviaTrainings.forEach(function(training){
+        if(!training.anchorId){ issues.push('Formation sans anchorId : ' + training.id); return; }
+        if(training.published && !document.getElementById(training.anchorId)){
+          issues.push('Ancre de formation inexistante dans le DOM : ' + training.anchorId);
+        }
+      });
+
+      var seenIds = {};
+      Array.prototype.slice.call(root.querySelectorAll('[id]')).forEach(function(el){
+        var id = el.id;
+        if(seenIds[id]){ issues.push('Identifiant HTML dupliqué : ' + id); }
+        seenIds[id] = true;
+      });
+
+      var h1s = root.querySelectorAll('h1');
+      if(h1s.length === 0){ issues.push('Aucune balise H1 trouvée.'); }
+      if(h1s.length > 1){ issues.push('Plusieurs balises H1 trouvées : ' + h1s.length); }
+
+      var navEl = root.querySelector('nav');
+      if(navEl && !navEl.getAttribute('aria-label')){ issues.push('Élément nav sans aria-label.'); }
+      if(navEl && !navEl.querySelector('[aria-current="page"]')){ issues.push('Aucun lien de navigation ne porte aria-current="page".'); }
+
+      var accordionButtons = Array.prototype.slice.call(root.querySelectorAll('.pv-training-faq__question'));
+      accordionButtons.forEach(function(btn){
+        if(!btn.getAttribute('aria-controls')){ issues.push('Bouton accordéon sans aria-controls.'); }
+      });
+
+      var renderedCards = Array.prototype.slice.call(root.querySelectorAll('.pv-training-course'));
+      renderedCards.forEach(function(card){
+        if(!card.querySelector('a[href^="/contact"]')){
+          issues.push('Formation publiée sans bouton Contact : ' + card.id);
+        }
+      });
+
+      var stripeButtons = Array.prototype.slice.call(root.querySelectorAll('[data-pv-cta="training-stripe"]'));
+      stripeButtons.forEach(function(btn){
+        var cardId = btn.closest('.pv-training-course') ? btn.closest('.pv-training-course').getAttribute('data-training-id') : null;
+        var training = preuviaTrainings.filter(function(t){ return t.id === cardId; })[0];
+        if(training && (!training.paymentEnabled || !training.stripeUrl)){
+          issues.push('Bouton Stripe visible alors que les conditions ne sont pas réunies : ' + cardId);
+        }
+      });
+
+      var programButtons = Array.prototype.slice.call(root.querySelectorAll('[data-pv-cta="training-program"]'));
+      programButtons.forEach(function(btn){
+        var cardId = btn.closest('.pv-training-course') ? btn.closest('.pv-training-course').getAttribute('data-training-id') : null;
+        var training = preuviaTrainings.filter(function(t){ return t.id === cardId; })[0];
+        if(training && !training.programUrl){
+          issues.push('Bouton Programme visible alors que programUrl est vide : ' + cardId);
+        }
+      });
+
+      var customForms = root.querySelectorAll('form');
+      if(customForms.length > 0){ issues.push('Élément form détecté dans la page (non attendu sur cette page).'); }
+
+      if(root.scrollWidth > root.clientWidth + 1){ issues.push('Débordement horizontal potentiel du conteneur principal.'); }
+
+      if(issues.length){
+        console.warn('[PREUVIA audit] ' + issues.length + ' point(s) à vérifier :', issues);
+      } else {
+        console.info('[PREUVIA audit] Aucun problème détecté.');
+      }
+    } catch (auditError) {
+      // L'audit ne doit jamais interrompre la page, y compris en cas d'erreur interne.
+    }
+  }
+
+  if(PV_TRAINING_DEBUG === true){
+    runPreuviaTrainingIntegrityAudit();
+  }
 
 })();
 </script>
