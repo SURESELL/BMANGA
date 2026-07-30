@@ -1,13 +1,8 @@
-<!-- =====================================================================
-     BLOC 1 / 5 — CSS COMMUN
-     A coller en haut du bloc "HTML brut" placé AVANT le formulaire natif.
-     Ce <style> s'applique à toute la page (avant ET après le formulaire),
-     puisqu'une balise <style> agit sur tout le document quel que soit
-     l'endroit où elle est déclarée.
-     ===================================================================== -->
 <style>
-.pv-contact{
+#pv-contact,#pv-contact *,#pv-contact *::before,#pv-contact *::after{box-sizing:border-box;}
+#pv-contact{
   --pv-contact-navy:#102B4E;
+  --pv-contact-deep:#081A31;
   --pv-contact-blue:#173F5F;
   --pv-contact-teal:#0B7F83;
   --pv-contact-cyan:#00A5D8;
@@ -16,468 +11,1502 @@
   --pv-contact-text:#243746;
   --pv-contact-muted:#5C6F7B;
   --pv-contact-border:#D9E3E8;
+  --pv-contact-soft-blue:#EAF4F7;
+  --pv-contact-soft-teal:#E5F4F2;
+  --pv-contact-success:#287A54;
+  --pv-contact-warning:#B87503;
   --pv-contact-danger:#9E3A38;
-  display:block;
-  background:var(--pv-contact-white);
+  --pv-contact-shadow-sm:0 8px 24px rgba(16,43,78,.08);
+  --pv-contact-shadow-lg:0 24px 60px rgba(16,43,78,.14);
+  --pv-contact-radius-sm:10px;
+  --pv-contact-radius-md:16px;
+  --pv-contact-radius-lg:24px;
+  --pv-contact-container:1180px;
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
   color:var(--pv-contact-text);
+  background:var(--pv-contact-white);
+  width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);overflow-x:hidden;overflow-x:clip;
+  position:relative;
   line-height:1.55;
+  -webkit-text-size-adjust:100%;
 }
-.pv-contact *{box-sizing:border-box;}
-.pv-contact .pv-contact-container{max-width:1180px;margin:0 auto;padding:0 24px;}
-.pv-contact .pv-contact-container--narrow{max-width:760px;}
-.pv-contact .pv-contact-section{padding:56px 0;scroll-margin-top:24px;}
-.pv-contact .pv-contact-section--muted{background:var(--pv-contact-light);}
-.pv-contact .pv-contact-section--navy{background:var(--pv-contact-navy);color:var(--pv-contact-white);}
-.pv-contact .pv-contact-h1{
-  font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:800;color:var(--pv-contact-navy);
-  margin:0 0 20px;line-height:1.2;max-width:760px;
+#pv-contact svg{max-width:100%;}
+#pv-contact .pv-contact-container{max-width:var(--pv-contact-container);margin:0 auto;padding:0 24px;}
+#pv-contact .pv-contact-visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+#pv-contact .pv-contact-skip-link{position:absolute;top:-60px;left:12px;background:var(--pv-contact-navy);color:#fff;padding:12px 20px;border-radius:var(--pv-contact-radius-sm);z-index:200;transition:top .2s ease;text-decoration:none;font-weight:600;}
+#pv-contact .pv-contact-skip-link:focus{top:12px;}
+#pv-contact .pv-contact-text-center{text-align:center;}
+
+/* Focus visibility */
+#pv-contact .pv-contact-topbar__link:focus-visible,
+#pv-contact .pv-contact-logo:focus-visible,
+#pv-contact .pv-contact-nav__list a:focus-visible,
+#pv-contact .pv-contact-menu-toggle:focus-visible,
+#pv-contact .pv-contact-btn:focus-visible,
+#pv-contact .pv-contact-mobile-menu__list a:focus-visible,
+#pv-contact .pv-contact-floating__btn:focus-visible,
+#pv-contact .pv-contact-mobile-bar__btn:focus-visible,
+#pv-contact .pv-contact-need__trigger:focus-visible,
+#pv-contact .pv-contact-faq__question:focus-visible,
+#pv-contact .pv-contact-inline-link:focus-visible,
+#pv-contact .pv-contact-field__input:focus-visible,
+#pv-contact .pv-contact-footer__list a:focus-visible{
+  outline:3px solid var(--pv-contact-cyan);outline-offset:2px;border-radius:6px;
 }
-.pv-contact .pv-contact-h2{
-  font-size:clamp(1.3rem,2.2vw,1.7rem);font-weight:800;color:var(--pv-contact-navy);
-  margin:0 0 14px;line-height:1.25;
+
+/* Topbar */
+#pv-contact .pv-contact-topbar{background:var(--pv-contact-deep);color:#fff;font-size:.86rem;}
+#pv-contact .pv-contact-topbar__inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;padding:9px 24px;text-align:center;}
+#pv-contact .pv-contact-topbar__link{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:2px;}
+
+/* Header */
+#pv-contact .pv-contact-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--pv-contact-border);transition:box-shadow .25s ease;}
+#pv-contact .pv-contact-header--scrolled{box-shadow:var(--pv-contact-shadow-sm);}
+#pv-contact .pv-contact-header__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;max-width:var(--pv-contact-container);margin:0 auto;}
+#pv-contact .pv-contact-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.05rem;color:var(--pv-contact-navy);min-height:48px;}
+#pv-contact .pv-contact-logo__mark{flex-shrink:0;}
+#pv-contact .pv-contact-nav{display:none;}
+#pv-contact .pv-contact-nav__list{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:6px;}
+#pv-contact .pv-contact-nav__list a{display:flex;align-items:center;min-height:48px;padding:0 14px;text-decoration:none;font-weight:600;font-size:.94rem;color:var(--pv-contact-text);border-radius:var(--pv-contact-radius-sm);transition:background .2s ease,color .2s ease;}
+#pv-contact .pv-contact-nav__list a:hover{background:var(--pv-contact-soft-blue);color:var(--pv-contact-teal);}
+#pv-contact .pv-contact-nav__list a[aria-current="page"]{color:var(--pv-contact-teal);font-weight:800;}
+#pv-contact .pv-contact-header__actions{display:none;align-items:center;gap:10px;}
+#pv-contact .pv-contact-menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:var(--pv-contact-radius-sm);border:1.5px solid var(--pv-contact-border);background:#fff;cursor:pointer;}
+#pv-contact .pv-contact-menu-toggle__bar{display:block;width:20px;height:2px;background:var(--pv-contact-navy);position:relative;}
+#pv-contact .pv-contact-menu-toggle__bar::before,#pv-contact .pv-contact-menu-toggle__bar::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--pv-contact-navy);transition:transform .2s ease;}
+#pv-contact .pv-contact-menu-toggle__bar::before{top:-6px;}
+#pv-contact .pv-contact-menu-toggle__bar::after{top:6px;}
+
+/* Mobile menu */
+#pv-contact .pv-contact-mobile-menu{position:fixed;inset:0;background:rgba(8,26,49,.55);z-index:150;display:none;}
+#pv-contact.pv-contact-menu-open .pv-contact-mobile-menu{display:block;}
+#pv-contact .pv-contact-mobile-menu__panel{position:absolute;top:0;right:0;bottom:0;width:min(340px,88vw);background:#fff;padding:22px;overflow-y:auto;box-shadow:var(--pv-contact-shadow-lg);}
+#pv-contact .pv-contact-mobile-menu__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+#pv-contact .pv-contact-mobile-menu__title{font-weight:800;color:var(--pv-contact-navy);}
+#pv-contact .pv-contact-mobile-menu__close{width:44px;height:44px;border-radius:var(--pv-contact-radius-sm);border:1.5px solid var(--pv-contact-border);background:#fff;font-size:1.1rem;cursor:pointer;}
+#pv-contact .pv-contact-mobile-menu__list{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:2px;}
+#pv-contact .pv-contact-mobile-menu__list a{display:flex;align-items:center;min-height:48px;padding:0 10px;text-decoration:none;font-weight:700;color:var(--pv-contact-navy);border-radius:var(--pv-contact-radius-sm);}
+#pv-contact .pv-contact-mobile-menu__list a:hover{background:var(--pv-contact-soft-blue);}
+#pv-contact .pv-contact-mobile-menu__list a[aria-current="page"]{color:var(--pv-contact-teal);}
+#pv-contact .pv-contact-mobile-menu__actions{display:flex;flex-direction:column;gap:10px;}
+
+/* Buttons */
+#pv-contact .pv-contact-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:700;font-size:.98rem;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .2s ease,color .2s ease;text-align:center;}
+#pv-contact .pv-contact-btn--primary{background:var(--pv-contact-cyan);color:#04212f;}
+#pv-contact .pv-contact-btn--primary:hover{background:var(--pv-contact-teal);color:#fff;}
+#pv-contact .pv-contact-btn--secondary{background:#fff;color:var(--pv-contact-navy);border-color:var(--pv-contact-border);}
+#pv-contact .pv-contact-btn--secondary:hover{border-color:var(--pv-contact-teal);color:var(--pv-contact-teal);}
+#pv-contact .pv-contact-btn--on-dark{color:#fff;border-color:rgba(255,255,255,.55);}
+#pv-contact .pv-contact-btn--on-dark:hover{background:rgba(255,255,255,.12);}
+#pv-contact .pv-contact-btn--small{min-height:44px;padding:0 18px;font-size:.9rem;}
+#pv-contact .pv-contact-btn--block{width:100%;}
+#pv-contact .pv-contact-btn:hover{transform:translateY(-1px);}
+
+/* Floating contacts */
+#pv-contact .pv-contact-floating{position:fixed;right:22px;bottom:26px;z-index:120;display:none;flex-direction:column;gap:12px;}
+#pv-contact .pv-contact-floating__btn{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;box-shadow:var(--pv-contact-shadow-lg);text-decoration:none;color:#fff;}
+#pv-contact .pv-contact-floating__btn--whatsapp{background:#22a559;}
+#pv-contact .pv-contact-floating__btn--calendly{background:var(--pv-contact-navy);}
+#pv-contact .pv-contact-mobile-bar{position:fixed;left:0;right:0;bottom:0;z-index:120;display:flex;background:#fff;border-top:1px solid var(--pv-contact-border);box-shadow:0 -8px 24px rgba(16,43,78,.1);}
+#pv-contact .pv-contact-mobile-bar__btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;text-decoration:none;font-weight:700;font-size:.92rem;color:var(--pv-contact-navy);}
+#pv-contact .pv-contact-mobile-bar__btn--accent{background:var(--pv-contact-cyan);color:#04212f;}
+
+/* Sections generic */
+#pv-contact .pv-contact-section{padding:76px 0;}
+#pv-contact .pv-contact-section--alt{background:var(--pv-contact-light);}
+#pv-contact .pv-contact-section--navy{background:linear-gradient(160deg,var(--pv-contact-navy),var(--pv-contact-deep));color:#fff;}
+#pv-contact .pv-contact-eyebrow{display:inline-block;font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--pv-contact-teal);margin-bottom:14px;}
+#pv-contact .pv-contact-section--navy .pv-contact-eyebrow{color:var(--pv-contact-cyan);}
+#pv-contact .pv-contact-h1{font-size:clamp(38px,6vw,68px);line-height:1.08;font-weight:800;margin:0 0 20px;color:var(--pv-contact-navy);}
+#pv-contact .pv-contact-section--navy .pv-contact-h1{color:#fff;}
+#pv-contact .pv-contact-h2{font-size:clamp(29px,4vw,44px);line-height:1.15;font-weight:800;margin:0 0 18px;color:var(--pv-contact-navy);}
+#pv-contact .pv-contact-section--navy .pv-contact-h2{color:#fff;}
+#pv-contact .pv-contact-h3{font-size:clamp(21px,2.6vw,26px);line-height:1.25;font-weight:700;margin:0 0 12px;color:var(--pv-contact-navy);}
+#pv-contact .pv-contact-h3--compact{font-size:1.05rem;}
+#pv-contact .pv-contact-section--navy .pv-contact-h3{color:#fff;}
+#pv-contact .pv-contact-p{font-size:1.05rem;color:var(--pv-contact-muted);margin:0 0 16px;max-width:740px;}
+#pv-contact .pv-contact-section--navy .pv-contact-p{color:rgba(255,255,255,.85);}
+#pv-contact .pv-contact-p--small{font-size:.92rem;}
+#pv-contact .pv-contact-p--center{max-width:740px;margin-left:auto;margin-right:auto;}
+#pv-contact .pv-contact-section-intro{max-width:820px;margin-bottom:44px;}
+#pv-contact .pv-contact-section-intro--center{text-align:center;margin-left:auto;margin-right:auto;}
+#pv-contact .pv-contact-mt-md{margin-top:16px;}
+#pv-contact .pv-contact-mt-lg{margin-top:28px;}
+#pv-contact .pv-contact-mt-xl{margin-top:40px;}
+#pv-contact .pv-contact-cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+#pv-contact .pv-contact-cta-row--center{justify-content:center;}
+#pv-contact .pv-contact-reassurance{margin-top:22px;font-size:.86rem;color:var(--pv-contact-muted);}
+#pv-contact .pv-contact-section--navy .pv-contact-reassurance{color:rgba(255,255,255,.7);}
+#pv-contact .pv-contact-text-on-dark{color:#fff;}
+
+/* Reveal on scroll */
+#pv-contact.pv-contact-js .pv-contact-reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease;}
+#pv-contact.pv-contact-js .pv-contact-reveal--visible{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){
+  #pv-contact.pv-contact-js .pv-contact-reveal{opacity:1;transform:none;transition:none;}
 }
-.pv-contact .pv-contact-section--navy .pv-contact-h2{color:var(--pv-contact-white);}
-.pv-contact .pv-contact-h3{font-size:1.02rem;font-weight:700;color:var(--pv-contact-navy);margin:0 0 8px;}
-.pv-contact .pv-contact-lead{font-size:1.04rem;color:var(--pv-contact-muted);max-width:640px;margin:0 0 20px;}
-.pv-contact .pv-contact-section--navy .pv-contact-lead{color:#C9D8E2;}
-.pv-contact .pv-contact-p{font-size:.95rem;color:var(--pv-contact-muted);margin:0 0 12px;}
-.pv-contact .pv-contact-link{color:var(--pv-contact-teal);font-weight:700;text-decoration:underline;}
 
 /* Hero */
-.pv-contact .pv-contact-hero{padding:56px 0 40px;background:linear-gradient(180deg,var(--pv-contact-light) 0%,var(--pv-contact-white) 100%);}
-.pv-contact .pv-contact-reassurance{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.86rem;color:var(--pv-contact-muted);}
-.pv-contact .pv-contact-reassurance li{position:relative;padding-left:16px;}
-.pv-contact .pv-contact-reassurance li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--pv-contact-cyan);}
+#pv-contact .pv-contact-hero{background:linear-gradient(160deg,var(--pv-contact-navy),var(--pv-contact-deep));color:#fff;padding:68px 0 64px;position:relative;overflow:hidden;}
+#pv-contact .pv-contact-hero__inner{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;}
+#pv-contact .pv-contact-hero__visual{display:flex;justify-content:center;}
+#pv-contact .pv-contact-hero__visual svg{width:100%;max-width:440px;height:auto;}
 
-/* Orientation (deux cartes en radio accessible, sans JavaScript) */
-.pv-contact .pv-contact-orientation{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
-.pv-contact .pv-contact-orientation__option{position:relative;}
-.pv-contact .pv-contact-orientation__input{
-  position:absolute;top:22px;left:22px;width:20px;height:20px;margin:0;
-  accent-color:var(--pv-contact-cyan);cursor:pointer;
-}
-.pv-contact .pv-contact-orientation__card{
-  display:block;border:1.5px solid var(--pv-contact-border);border-radius:14px;
-  padding:24px 24px 24px 56px;cursor:pointer;background:var(--pv-contact-white);
-  box-shadow:0 6px 18px rgba(16,43,78,.05);
-  transition:border-color .15s ease,box-shadow .15s ease;
-}
-.pv-contact .pv-contact-orientation__input:checked + .pv-contact-orientation__card{
-  border-color:var(--pv-contact-navy);box-shadow:0 0 0 2px var(--pv-contact-navy) inset;
-}
-.pv-contact .pv-contact-orientation__input:focus-visible + .pv-contact-orientation__card{
-  outline:3px solid var(--pv-contact-cyan);outline-offset:2px;
-}
-.pv-contact .pv-contact-orientation__title{display:block;font-size:1.1rem;font-weight:800;color:var(--pv-contact-navy);margin-bottom:12px;}
-.pv-contact .pv-contact-orientation__list{list-style:none;margin:0;padding:0;}
-.pv-contact .pv-contact-orientation__list li{position:relative;padding-left:20px;margin-bottom:8px;font-size:.9rem;color:var(--pv-contact-muted);}
-.pv-contact .pv-contact-orientation__list li::before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:2px;background:var(--pv-contact-cyan);}
-.pv-contact .pv-contact-orientation__note{margin-top:18px;font-size:.86rem;color:var(--pv-contact-muted);}
+/* Cards grid generic */
+#pv-contact .pv-contact-grid{display:grid;gap:22px;}
+#pv-contact .pv-contact-grid-2{grid-template-columns:1fr;}
+#pv-contact .pv-contact-grid-3{grid-template-columns:1fr;}
+#pv-contact .pv-contact-grid-4{grid-template-columns:1fr;}
+#pv-contact .pv-contact-grid-5{grid-template-columns:1fr;}
+#pv-contact .pv-contact-grid-6{grid-template-columns:1fr;}
+#pv-contact .pv-contact-card{background:#fff;border:1px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-md);padding:26px;box-shadow:var(--pv-contact-shadow-sm);height:100%;display:flex;flex-direction:column;}
+#pv-contact .pv-contact-list{margin:0;padding-left:20px;color:var(--pv-contact-muted);font-size:.95rem;}
+#pv-contact .pv-contact-list li{margin-bottom:7px;}
+#pv-contact .pv-contact-list--plain{list-style:none;padding-left:0;}
+#pv-contact .pv-contact-list--plain li{position:relative;padding-left:22px;}
+#pv-contact .pv-contact-list--plain li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:2px;background:var(--pv-contact-teal);}
+#pv-contact .pv-contact-inline-link{color:var(--pv-contact-teal);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;}
+#pv-contact .pv-contact-inline-link:hover{text-decoration:underline;}
+#pv-contact .pv-contact-disclaimer{margin-top:20px;padding:18px 20px;background:var(--pv-contact-soft-blue);border-left:4px solid var(--pv-contact-teal);border-radius:var(--pv-contact-radius-sm);font-size:.92rem;font-weight:700;color:var(--pv-contact-navy);}
+#pv-contact .pv-contact-disclaimer--strong{border-left-color:var(--pv-contact-warning);background:#FBF3E7;}
+#pv-contact .pv-contact-disclaimer--centered{max-width:740px;margin-left:auto;margin-right:auto;}
+#pv-contact .pv-contact-list--left{text-align:left;}
+#pv-contact .pv-contact-p--flush{margin:0;}
 
-/* Boutons et liens d'action */
-.pv-contact .pv-contact-btn{
-  display:inline-flex;align-items:center;justify-content:center;min-height:48px;
-  padding:12px 26px;border-radius:10px;font-size:.95rem;font-weight:700;text-decoration:none;
-  border:2px solid transparent;cursor:pointer;
-  transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease;
-}
-.pv-contact .pv-contact-btn--primary{background:var(--pv-contact-cyan);color:var(--pv-contact-navy);}
-.pv-contact .pv-contact-btn--primary:hover{background:#0B90BC;color:var(--pv-contact-white);}
-.pv-contact .pv-contact-btn:focus,
-.pv-contact .pv-contact-faq__question:focus,
-.pv-contact .pv-contact-link:focus{outline:3px solid var(--pv-contact-cyan);outline-offset:3px;}
-.pv-contact .pv-contact-btn:focus:not(:focus-visible),
-.pv-contact .pv-contact-faq__question:focus:not(:focus-visible),
-.pv-contact .pv-contact-link:focus:not(:focus-visible){outline:none;}
-.pv-contact .pv-contact-btn:focus-visible,
-.pv-contact .pv-contact-faq__question:focus-visible,
-.pv-contact .pv-contact-link:focus-visible{outline:3px solid var(--pv-contact-cyan);outline-offset:3px;}
-.pv-contact .pv-contact-cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;}
-.pv-contact .pv-contact-cta-row--center{justify-content:center;}
+/* Channel cards */
+#pv-contact .pv-contact-channel{background:#fff;border:1.5px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-lg);padding:28px;box-shadow:var(--pv-contact-shadow-sm);height:100%;display:flex;flex-direction:column;}
+#pv-contact .pv-contact-channel__icon{width:52px;height:52px;border-radius:14px;background:var(--pv-contact-soft-teal);display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0;}
+#pv-contact .pv-contact-channel__title{font-size:1.15rem;font-weight:800;color:var(--pv-contact-navy);margin:0 0 10px;}
+#pv-contact .pv-contact-channel__actions{margin-top:auto;}
 
-/* Etapes "que se passe-t-il ensuite" */
-.pv-contact .pv-contact-steps{list-style:none;margin:0;padding:0;counter-reset:pvcontact;}
-.pv-contact .pv-contact-steps li{
-  position:relative;padding-left:38px;margin-bottom:14px;font-size:.94rem;color:var(--pv-contact-text);
-  counter-increment:pvcontact;
-}
-.pv-contact .pv-contact-steps li::before{
-  content:counter(pvcontact);position:absolute;left:0;top:-2px;width:26px;height:26px;border-radius:50%;
-  background:var(--pv-contact-navy);color:var(--pv-contact-white);font-size:.78rem;font-weight:800;
-  display:flex;align-items:center;justify-content:center;
-}
+/* Need selector (orienteur) */
+#pv-contact .pv-contact-needs{display:grid;grid-template-columns:1fr;gap:16px;}
+#pv-contact .pv-contact-need__trigger{width:100%;text-align:left;display:flex;align-items:flex-start;gap:14px;background:#fff;border:1.5px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-md);padding:20px;cursor:pointer;box-shadow:var(--pv-contact-shadow-sm);transition:border-color .2s ease,transform .15s ease;min-height:48px;}
+#pv-contact .pv-contact-need__trigger:hover{border-color:var(--pv-contact-teal);transform:translateY(-2px);}
+#pv-contact .pv-contact-need__trigger[aria-pressed="true"]{border-color:var(--pv-contact-teal);background:var(--pv-contact-soft-teal);}
+#pv-contact .pv-contact-need__num{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--pv-contact-navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;}
+#pv-contact .pv-contact-need__body{flex:1;min-width:0;}
+#pv-contact .pv-contact-need__title{font-weight:800;color:var(--pv-contact-navy);margin:0 0 4px;font-size:1rem;}
+#pv-contact .pv-contact-need__text{margin:0;font-size:.88rem;color:var(--pv-contact-muted);}
 
-/* Coordonnées */
-.pv-contact .pv-contact-address{font-style:normal;}
+/* Assistant */
+#pv-contact .pv-contact-assistant{background:#fff;border:1.5px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-lg);padding:30px;box-shadow:var(--pv-contact-shadow-sm);}
+#pv-contact .pv-contact-assistant__grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:20px;}
+#pv-contact .pv-contact-field label{display:block;font-weight:700;font-size:.92rem;color:var(--pv-contact-navy);margin-bottom:8px;}
+#pv-contact .pv-contact-field__input{width:100%;min-height:48px;border:1.5px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-sm);padding:0 14px;font-size:1rem;background:#fff;color:var(--pv-contact-text);font-family:inherit;}
+#pv-contact .pv-contact-field__input--textarea{min-height:120px;padding:12px 14px;resize:vertical;}
+#pv-contact .pv-contact-field--full{grid-column:1 / -1;}
+#pv-contact .pv-contact-assistant__note{font-size:.86rem;color:var(--pv-contact-muted);margin:0 0 20px;}
+#pv-contact .pv-contact-assistant__actions{display:flex;flex-wrap:wrap;gap:12px;}
 
-/* FAQ */
-.pv-contact .pv-contact-faq{margin-top:8px;}
-.pv-contact .pv-contact-faq__item{border-bottom:1px solid var(--pv-contact-border);}
-.pv-contact .pv-contact-faq__item:first-child{border-top:1px solid var(--pv-contact-border);}
-.pv-contact .pv-contact-faq__question{
-  width:100%;text-align:left;background:none;border:none;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:18px 4px;font-size:.98rem;font-weight:700;color:var(--pv-contact-navy);cursor:pointer;min-height:48px;
+/* Prepare info */
+#pv-contact .pv-contact-prepare{background:var(--pv-contact-soft-blue);border-radius:var(--pv-contact-radius-md);padding:24px;margin-top:24px;}
+#pv-contact .pv-contact-prepare__title{font-weight:800;color:var(--pv-contact-navy);margin:0 0 12px;font-size:.98rem;}
+#pv-contact .pv-contact-prepare__list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;}
+#pv-contact .pv-contact-prepare__list li{background:#fff;border:1px solid var(--pv-contact-border);color:var(--pv-contact-navy);font-size:.84rem;font-weight:600;border-radius:999px;padding:6px 12px;}
+
+/* Announce */
+#pv-contact .pv-contact-announce{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+#pv-contact .pv-contact-context-banner{background:var(--pv-contact-soft-teal);border:1px solid var(--pv-contact-teal);border-radius:var(--pv-contact-radius-sm);padding:14px 18px;font-size:.9rem;font-weight:700;color:var(--pv-contact-navy);margin-bottom:24px;}
+#pv-contact .pv-contact-context-banner[hidden]{display:none;}
+
+/* Steps (apres contact) */
+#pv-contact .pv-contact-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
+#pv-contact .pv-contact-steps li{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-md);padding:18px 20px;box-shadow:var(--pv-contact-shadow-sm);}
+#pv-contact .pv-contact-steps__num{flex-shrink:0;width:38px;height:38px;border-radius:50%;background:var(--pv-contact-navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;}
+#pv-contact .pv-contact-steps__text{margin:0;font-size:1.02rem;color:var(--pv-contact-text);}
+
+/* Direct contact cards */
+#pv-contact .pv-contact-direct{background:#fff;border:1px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-md);padding:24px;box-shadow:var(--pv-contact-shadow-sm);height:100%;display:flex;flex-direction:column;gap:10px;}
+#pv-contact .pv-contact-direct__title{font-weight:800;color:var(--pv-contact-navy);margin:0;font-size:1rem;}
+
+/* Engagements (confidentialite) */
+#pv-contact .pv-contact-engagement{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-sm);padding:16px;}
+#pv-contact .pv-contact-engagement__icon{flex-shrink:0;width:34px;height:34px;border-radius:8px;background:var(--pv-contact-soft-teal);display:flex;align-items:center;justify-content:center;}
+#pv-contact .pv-contact-engagement__text{margin:0;font-size:.92rem;color:var(--pv-contact-text);}
+
+/* Bridge cards */
+#pv-contact .pv-contact-bridge-card{background:#fff;border:1.5px solid var(--pv-contact-border);border-radius:var(--pv-contact-radius-lg);padding:26px;box-shadow:var(--pv-contact-shadow-sm);height:100%;display:flex;flex-direction:column;}
+#pv-contact .pv-contact-bridge-card__actions{margin-top:auto;}
+
+/* FAQ accordion */
+#pv-contact .pv-contact-faq__item{border-bottom:1px solid var(--pv-contact-border);}
+#pv-contact .pv-contact-faq__question{width:100%;text-align:left;background:none;border:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 4px;font-size:1.02rem;font-weight:700;color:var(--pv-contact-navy);cursor:pointer;min-height:48px;}
+#pv-contact .pv-contact-faq__icon{flex-shrink:0;transition:transform .2s ease;}
+#pv-contact .pv-contact-faq__question[aria-expanded="true"] .pv-contact-faq__icon{transform:rotate(45deg);}
+#pv-contact .pv-contact-faq__panel{padding:0 4px 20px;color:var(--pv-contact-muted);font-size:.95rem;max-width:740px;}
+#pv-contact .pv-contact-faq__panel[hidden]{display:none;}
+@media (prefers-reduced-motion:reduce){
+  #pv-contact .pv-contact-faq__icon{transition:none;}
 }
-.pv-contact .pv-contact-faq__icon{flex-shrink:0;width:22px;height:22px;position:relative;}
-.pv-contact .pv-contact-faq__icon::before,.pv-contact .pv-contact-faq__icon::after{
-  content:"";position:absolute;background:var(--pv-contact-navy);top:50%;left:50%;transform:translate(-50%,-50%);
-}
-.pv-contact .pv-contact-faq__icon::before{width:14px;height:2px;}
-.pv-contact .pv-contact-faq__icon::after{width:2px;height:14px;}
-.pv-contact .pv-contact-faq__question[aria-expanded="true"] .pv-contact-faq__icon::after{transform:translate(-50%,-50%) scaleY(0);}
-.pv-contact .pv-contact-faq__answer{padding:0 4px 20px;}
-.pv-contact .pv-contact-faq__answer[hidden]{display:none;}
 
 /* CTA final */
-.pv-contact .pv-contact-final{text-align:center;}
-.pv-contact .pv-contact-final .pv-contact-h2{max-width:700px;margin-left:auto;margin-right:auto;}
-.pv-contact .pv-contact-final .pv-contact-lead{max-width:580px;margin-left:auto;margin-right:auto;}
+#pv-contact .pv-contact-final{text-align:center;}
+#pv-contact .pv-contact-final .pv-contact-h2{max-width:760px;margin-left:auto;margin-right:auto;}
+#pv-contact .pv-contact-final .pv-contact-p{margin-left:auto;margin-right:auto;}
 
-@media (prefers-reduced-motion:reduce){
-  .pv-contact *{transition:none !important;animation:none !important;}
+/* Footer */
+#pv-contact .pv-contact-footer{background:var(--pv-contact-deep);color:rgba(255,255,255,.85);padding:56px 0 28px;}
+#pv-contact .pv-contact-footer__grid{display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:34px;}
+#pv-contact .pv-contact-footer__brand{color:#fff;font-weight:800;font-size:1.1rem;margin:0 0 8px;}
+#pv-contact .pv-contact-footer__tagline{margin:0;font-size:.88rem;color:rgba(255,255,255,.65);}
+#pv-contact .pv-contact-footer__heading{color:#fff;font-weight:700;font-size:.92rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;}
+#pv-contact .pv-contact-footer__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+#pv-contact .pv-contact-footer__list a{text-decoration:none;color:rgba(255,255,255,.8);font-size:.92rem;min-height:24px;display:inline-flex;align-items:center;}
+#pv-contact .pv-contact-footer__list a:hover{color:#fff;text-decoration:underline;}
+#pv-contact .pv-contact-footer__legal{border-top:1px solid rgba(255,255,255,.15);padding-top:22px;font-size:.82rem;color:rgba(255,255,255,.6);}
+#pv-contact .pv-contact-footer__legal p{margin:0 0 8px;}
+#pv-contact .pv-contact-footer__bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin-top:14px;font-size:.8rem;color:rgba(255,255,255,.55);}
+
+/* Responsive */
+@media (min-width:560px){
+  #pv-contact .pv-contact-assistant__grid{grid-template-columns:1fr 1fr;}
 }
-
-@media (max-width:980px){
-  .pv-contact .pv-contact-orientation{grid-template-columns:1fr;}
+@media (min-width:640px){
+  #pv-contact .pv-contact-grid-2{grid-template-columns:1fr 1fr;}
+  #pv-contact .pv-contact-grid-3{grid-template-columns:1fr 1fr;}
+  #pv-contact .pv-contact-grid-4{grid-template-columns:1fr 1fr;}
+  #pv-contact .pv-contact-grid-5{grid-template-columns:1fr 1fr;}
+  #pv-contact .pv-contact-grid-6{grid-template-columns:1fr 1fr;}
 }
-
-@media (max-width:720px){
-  .pv-contact .pv-contact-section{padding:44px 0;}
-  .pv-contact .pv-contact-cta-row{flex-direction:column;}
-  .pv-contact .pv-contact-btn{width:100%;}
+@media (min-width:780px){
+  #pv-contact .pv-contact-needs{grid-template-columns:1fr 1fr;}
+}
+@media (min-width:840px){
+  #pv-contact .pv-contact-footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr;}
+}
+@media (min-width:900px){
+  #pv-contact .pv-contact-nav{display:block;}
+  #pv-contact .pv-contact-header__actions{display:flex;}
+  #pv-contact .pv-contact-menu-toggle{display:none;}
+  #pv-contact .pv-contact-floating{display:flex;}
+  #pv-contact .pv-contact-mobile-bar{display:none;}
+  #pv-contact .pv-contact-hero__inner{grid-template-columns:1.1fr .9fr;}
+  #pv-contact .pv-contact-grid-3{grid-template-columns:1fr 1fr 1fr;}
+  #pv-contact .pv-contact-grid-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+  #pv-contact .pv-contact-grid-5{grid-template-columns:repeat(5,1fr);}
+  #pv-contact .pv-contact-grid-6{grid-template-columns:1fr 1fr 1fr;}
+  #pv-contact .pv-contact-needs{grid-template-columns:1fr 1fr 1fr;}
+}
+@media (max-width:899px){
+  #pv-contact .pv-contact-mobile-bar{display:flex;}
+  #pv-contact{padding-bottom:56px;}
+}
+@media (min-width:1441px){
+  #pv-contact .pv-contact-container{max-width:1320px;}
+  #pv-contact .pv-contact-h1{font-size:70px;}
+}
+@media (max-width:340px){
+  #pv-contact .pv-contact-container{padding:0 14px;}
+  #pv-contact .pv-contact-btn{padding:0 16px;font-size:.9rem;}
+  #pv-contact .pv-contact-h1{font-size:34px;}
+}
+@media (max-width:479px){
+  #pv-contact .pv-contact-section{padding:52px 0;}
 }
 </style>
 
-<!-- =====================================================================
-     BLOC 2 / 5 — HTML A PLACER AVANT LE FORMULAIRE NATIF SYSTEME.IO
-     ===================================================================== -->
-<div class="pv-contact" id="pv-contact-before">
+<a class="pv-contact-skip-link" href="#pv-contact-main">Aller au contenu principal</a>
 
-  <section class="pv-contact-hero">
-    <div class="pv-contact-container">
-      <h1 class="pv-contact-h1">Parlons de votre besoin, pas d’une offre générique</h1>
-      <p class="pv-contact-lead">Décrivez votre activité, votre situation actuelle et votre objectif. PREUVIA vous orientera vers la prestation ou la formation la plus cohérente.</p>
-      <ul class="pv-contact-reassurance">
-        <li>Prise de contact sans engagement</li>
-        <li>Informations traitées de manière confidentielle</li>
+<div id="pv-contact">
+
+  <div class="pv-contact-topbar">
+    <div class="pv-contact-topbar__inner">
+      <span>Besoin d'un échange direct&nbsp;?</span>
+      <a class="pv-contact-topbar__link" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="header-calendly" data-pv-source="contact">Planifier un rendez-vous de 30 minutes</a>
+    </div>
+  </div>
+
+  <header class="pv-contact-header" id="pv-contact-header">
+    <div class="pv-contact-header__inner">
+      <a class="pv-contact-logo" href="/" data-pv-cta="logo-home" data-pv-source="contact">
+        <!-- REMPLACER CE LOGO SVG PAR L'URL DU LOGO PREUVIA CHARGE DANS SYSTEME.IO SI NECESSAIRE. -->
+        <svg class="pv-contact-logo__mark" width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+          <rect width="34" height="34" rx="9" fill="#102B4E"/>
+          <path d="M9 23V11h6.2a4.4 4.4 0 010 8.8H12" stroke="#00A5D8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 11v12" stroke="#0B7F83" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <span>PREUVIA QHSE</span>
+      </a>
+      <nav class="pv-contact-nav" aria-label="Navigation principale">
+        <ul class="pv-contact-nav__list">
+          <li><a href="/" data-pv-cta="nav-home" data-pv-source="contact">Accueil</a></li>
+          <li><a href="/prestations-duerp" data-pv-cta="nav-services" data-pv-source="contact">Prestations DUERP</a></li>
+          <li><a href="/formations-duerp-qhse" data-pv-cta="nav-training" data-pv-source="contact">Formations</a></li>
+          <li><a href="/methode-evaluation-risques" data-pv-cta="nav-method" data-pv-source="contact">Méthode</a></li>
+          <li><a href="/duerp-secteurs-activite" data-pv-cta="nav-sectors" data-pv-source="contact">Secteurs</a></li>
+          <li><a href="/ressources-duerp" data-pv-cta="nav-resources" data-pv-source="contact">Ressources</a></li>
+          <li><a href="/contact" aria-current="page" data-pv-cta="nav-contact" data-pv-source="contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="pv-contact-header__actions">
+        <a class="pv-contact-btn pv-contact-btn--primary pv-contact-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="header-calendly-cta" data-pv-source="contact">Prendre rendez-vous</a>
+      </div>
+      <button type="button" class="pv-contact-menu-toggle" id="pv-contact-menu-toggle" aria-expanded="false" aria-controls="pv-contact-mobile-menu">
+        <span class="pv-contact-visually-hidden">Ouvrir le menu</span>
+        <span class="pv-contact-menu-toggle__bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="pv-contact-mobile-menu" id="pv-contact-mobile-menu">
+    <div class="pv-contact-mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+      <div class="pv-contact-mobile-menu__top">
+        <span class="pv-contact-mobile-menu__title">Menu</span>
+        <button type="button" class="pv-contact-mobile-menu__close" id="pv-contact-mobile-menu-close">
+          <span class="pv-contact-visually-hidden">Fermer le menu</span>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <ul class="pv-contact-mobile-menu__list">
+        <li><a href="/" data-pv-cta="mnav-home" data-pv-source="contact">Accueil</a></li>
+        <li><a href="/prestations-duerp" data-pv-cta="mnav-services" data-pv-source="contact">Prestations DUERP</a></li>
+        <li><a href="/formations-duerp-qhse" data-pv-cta="mnav-training" data-pv-source="contact">Formations</a></li>
+        <li><a href="/methode-evaluation-risques" data-pv-cta="mnav-method" data-pv-source="contact">Méthode</a></li>
+        <li><a href="/duerp-secteurs-activite" data-pv-cta="mnav-sectors" data-pv-source="contact">Secteurs</a></li>
+        <li><a href="/ressources-duerp" data-pv-cta="mnav-resources" data-pv-source="contact">Ressources</a></li>
+        <li><a href="/contact" aria-current="page" data-pv-cta="mnav-contact" data-pv-source="contact">Contact</a></li>
       </ul>
+      <div class="pv-contact-mobile-menu__actions">
+        <a class="pv-contact-btn pv-contact-btn--primary pv-contact-btn--block" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="mnav-calendly" data-pv-source="contact">Prendre rendez-vous</a>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <section class="pv-contact-section" aria-labelledby="pv-contact-orientation-title">
-    <div class="pv-contact-container">
-      <h2 id="pv-contact-orientation-title" class="pv-contact-h2">Quel est votre besoin principal&nbsp;?</h2>
-      <div class="pv-contact-orientation" role="radiogroup" aria-labelledby="pv-contact-orientation-title">
-        <div class="pv-contact-orientation__option">
-          <input type="radio" name="pv-contact-orientation" id="pv-contact-orientation-duerp" class="pv-contact-orientation__input">
-          <label for="pv-contact-orientation-duerp" class="pv-contact-orientation__card">
-            <span class="pv-contact-orientation__title">DUERP</span>
-            <ul class="pv-contact-orientation__list">
-              <li>Création</li>
-              <li>Mise à jour</li>
-              <li>Diagnostic</li>
-              <li>Terrain</li>
-              <li>Multi-sites</li>
-              <li>Plan d’action</li>
-              <li>Risque spécialisé</li>
-            </ul>
-          </label>
+  <div class="pv-contact-floating">
+    <a class="pv-contact-floating__btn pv-contact-floating__btn--whatsapp" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20vous%20pr%C3%A9senter%20mon%20besoin." target="_blank" rel="noopener noreferrer" data-pv-cta="floating-whatsapp" data-pv-source="contact" aria-label="Écrire sur WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" fill="#fff" fill-opacity=".16"/><path d="M8 13.5c1.2 2.4 3.1 3.8 5.4 4.4.8.2 1.5.1 2-.4.4-.4.6-.9.5-1.3l-1.9-.9c-.2-.1-.5 0-.6.2l-.4.6c-1-.4-2.2-1.4-2.8-2.5l.5-.5c.2-.2.2-.4.1-.6l-.9-1.9c-.2-.4-.7-.6-1.2-.4-.6.2-1 .8-1 1.4.1.6.2 1.4.3 2z" fill="#fff"/></svg>
+    </a>
+    <a class="pv-contact-floating__btn pv-contact-floating__btn--calendly" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="floating-calendly" data-pv-source="contact" aria-label="Planifier un échange sur Calendly">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M4 9.5h16M8 3v4M16 3v4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </a>
+  </div>
+
+  <div class="pv-contact-mobile-bar">
+    <a class="pv-contact-mobile-bar__btn" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20vous%20pr%C3%A9senter%20mon%20besoin." target="_blank" rel="noopener noreferrer" data-pv-cta="mobilebar-whatsapp" data-pv-source="contact">WhatsApp</a>
+    <a class="pv-contact-mobile-bar__btn pv-contact-mobile-bar__btn--accent" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="mobilebar-calendly" data-pv-source="contact">Rendez-vous</a>
+  </div>
+
+  <main id="pv-contact-main">
+
+    <!-- SECTION 1 : HERO -->
+    <section class="pv-contact-hero">
+      <div class="pv-contact-container pv-contact-hero__inner">
+        <div>
+          <span class="pv-contact-eyebrow">Contact • Cadrage • Orientation</span>
+          <h1 class="pv-contact-h1">Parlons de votre besoin. Pas d'une offre générique.</h1>
+          <p class="pv-contact-p pv-contact-text-on-dark">Présentez votre activité, votre situation actuelle et votre objectif. PREUVIA vous orientera vers la prestation, la formation ou la ressource la plus cohérente.</p>
+          <div class="pv-contact-cta-row">
+            <a class="pv-contact-btn pv-contact-btn--primary" href="#canaux-contact" data-pv-cta="hero-channels" data-pv-source="contact">Choisir mon canal de contact</a>
+            <a class="pv-contact-btn pv-contact-btn--on-dark" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="hero-calendly" data-pv-source="contact">Planifier un échange de 30 minutes</a>
+            <a class="pv-contact-btn pv-contact-btn--on-dark" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20vous%20pr%C3%A9senter%20mon%20besoin." target="_blank" rel="noopener noreferrer" data-pv-cta="hero-whatsapp" data-pv-source="contact">Écrire sur WhatsApp</a>
+          </div>
+          <p class="pv-contact-reassurance">Premier échange sans engagement • Choix du canal • Informations limitées au besoin • Orientation personnalisée</p>
         </div>
-        <div class="pv-contact-orientation__option">
-          <input type="radio" name="pv-contact-orientation" id="pv-contact-orientation-formation" class="pv-contact-orientation__input">
-          <label for="pv-contact-orientation-formation" class="pv-contact-orientation__card">
-            <span class="pv-contact-orientation__title">Formation</span>
-            <ul class="pv-contact-orientation__list">
-              <li>Programme existant</li>
-              <li>Intra-entreprise</li>
-              <li>Classe virtuelle</li>
-              <li>Sensibilisation</li>
-              <li>Sur mesure</li>
-            </ul>
-          </label>
+        <div class="pv-contact-hero__visual">
+          <svg viewBox="0 0 440 340" fill="none" aria-hidden="true">
+            <rect x="20" y="30" width="140" height="90" rx="10" fill="#173F5F"/><text x="90" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="Inter,sans-serif">Entreprise</text>
+            <rect x="280" y="30" width="140" height="90" rx="10" fill="#0B7F83"/><text x="350" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="Inter,sans-serif">Échange</text><text x="350" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="#fff" font-family="Inter,sans-serif">et cadrage</text>
+            <path d="M160 75h120" stroke="#00A5D8" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="150" y="150" width="140" height="90" rx="10" fill="#00A5D8"/><text x="220" y="190" text-anchor="middle" font-size="12" font-weight="700" fill="#04212f" font-family="Inter,sans-serif">Besoin</text><text x="220" y="208" text-anchor="middle" font-size="11" font-weight="600" fill="#04212f" font-family="Inter,sans-serif">identifié</text>
+            <path d="M220 120v30" stroke="#00A5D8" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="150" y="270" width="140" height="60" rx="10" fill="#102B4E"/><text x="220" y="298" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="Inter,sans-serif">Orientation</text>
+            <path d="M220 240v30" stroke="#00A5D8" stroke-width="2.5" stroke-linecap="round"/>
+            <g font-family="Inter,sans-serif" font-size="9.5" font-weight="800">
+              <rect x="20" y="160" width="70" height="34" rx="8" fill="#173F5F"/><text x="55" y="181" text-anchor="middle" fill="#fff">Calendly</text>
+              <rect x="350" y="160" width="70" height="34" rx="8" fill="#22a559"/><text x="385" y="181" text-anchor="middle" fill="#fff">WhatsApp</text>
+              <rect x="20" y="230" width="70" height="34" rx="8" fill="#245BA7"/><text x="55" y="251" text-anchor="middle" fill="#fff">E-mail</text>
+              <rect x="350" y="230" width="70" height="34" rx="8" fill="#0B7F83"/><text x="385" y="251" text-anchor="middle" fill="#fff">Téléphone</text>
+            </g>
+          </svg>
         </div>
       </div>
-      <p class="pv-contact-orientation__note">Cette sélection vous aide à préciser votre besoin. Merci de le rappeler dans votre message ci-dessous : elle ne remplit pas automatiquement le formulaire.</p>
-    </div>
-  </section>
+    </section>
 
-  <section class="pv-contact-section pv-contact-section--muted" id="pv-contact-form-title" aria-labelledby="pv-contact-form-heading">
-    <div class="pv-contact-container pv-contact-container--narrow">
-      <h2 id="pv-contact-form-heading" class="pv-contact-h2">Présentez votre demande</h2>
-      <p class="pv-contact-p">Les champs marqués comme obligatoires permettent uniquement de comprendre votre besoin et de vous répondre.</p>
-    </div>
-  </section>
+    <!-- SECTION 2 : CHOIX DU CANAL -->
+    <section class="pv-contact-section" id="canaux-contact">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Vous choisissez</span>
+          <h2 class="pv-contact-h2">Choisissez le canal le plus simple pour vous</h2>
+        </div>
+        <div class="pv-contact-grid pv-contact-grid-4">
+          <article class="pv-contact-channel pv-contact-reveal">
+            <span class="pv-contact-channel__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="#0B7F83" stroke-width="1.8"/><path d="M4 9.5h16M8 3v4M16 3v4" stroke="#0B7F83" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <p class="pv-contact-channel__title">Planifier un échange</p>
+            <p class="pv-contact-p pv-contact-p--small">Choisissez directement un créneau disponible pour présenter votre besoin pendant 30 minutes.</p>
+            <div class="pv-contact-channel__actions">
+              <a class="pv-contact-btn pv-contact-btn--primary pv-contact-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="channel-calendly" data-pv-source="contact">Voir les créneaux disponibles</a>
+            </div>
+          </article>
+          <article class="pv-contact-channel pv-contact-reveal">
+            <span class="pv-contact-channel__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" stroke="#0B7F83" stroke-width="1.8"/></svg></span>
+            <p class="pv-contact-channel__title">Écrire sur WhatsApp</p>
+            <p class="pv-contact-p pv-contact-p--small">Envoyez un message court pour présenter votre entreprise et votre besoin principal.</p>
+            <div class="pv-contact-channel__actions">
+              <a class="pv-contact-btn pv-contact-btn--secondary pv-contact-btn--small" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20vous%20pr%C3%A9senter%20mon%20besoin." target="_blank" rel="noopener noreferrer" data-pv-cta="channel-whatsapp" data-pv-source="contact">Ouvrir WhatsApp</a>
+            </div>
+          </article>
+          <article class="pv-contact-channel pv-contact-reveal">
+            <span class="pv-contact-channel__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#0B7F83" stroke-width="1.8"/><path d="M3 7l9 6 9-6" stroke="#0B7F83" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <p class="pv-contact-channel__title">Envoyer un e-mail</p>
+            <p class="pv-contact-p pv-contact-p--small">Utilisez l'e-mail lorsque votre demande nécessite une présentation plus détaillée.</p>
+            <div class="pv-contact-channel__actions">
+              <a class="pv-contact-btn pv-contact-btn--secondary pv-contact-btn--small" href="mailto:contact@preuvia-qhse.com?subject=Demande%20de%20contact%20PREUVIA%20QHSE" data-pv-cta="channel-email" data-pv-source="contact">Préparer un e-mail</a>
+            </div>
+          </article>
+          <article class="pv-contact-channel pv-contact-reveal">
+            <span class="pv-contact-channel__icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 006 6l1.5-2 4 1.5v3a2 2 0 01-2 2C10.5 19 5 13.5 4.5 5.5A2 2 0 016.5 3z" stroke="#0B7F83" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+            <p class="pv-contact-channel__title">Appeler PREUVIA</p>
+            <p class="pv-contact-p pv-contact-p--small">Utilisez le téléphone pour une première prise de contact directe.</p>
+            <div class="pv-contact-channel__actions">
+              <a class="pv-contact-btn pv-contact-btn--secondary pv-contact-btn--small" href="tel:+33663209785" data-pv-cta="channel-phone" data-pv-source="contact">+33 6 63 20 97 85</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-</div>
+    <!-- SECTION 4 : ORIENTEUR DE BESOIN -->
+    <section class="pv-contact-section pv-contact-section--alt" id="orientation-contact">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Orientation</span>
+          <h2 class="pv-contact-h2">Quel est votre besoin principal&nbsp;?</h2>
+        </div>
 
-<!-- =====================================================================
-     >>> INSÉRER ICI LE FORMULAIRE NATIF SYSTEME.IO <<<
-     (élément "Formulaire" natif de l'éditeur Systeme.io, à placer
-     immédiatement après ce bloc et avant le bloc 4 ci-dessous)
-     ===================================================================== -->
+        <p class="pv-contact-announce" id="pv-contact-url-announce" aria-live="polite"></p>
+        <div class="pv-contact-context-banner" id="pv-contact-context-banner" hidden></div>
 
-<!-- =====================================================================
-     BLOC 3 / 5 — STYLES DU FORMULAIRE NATIF SYSTEME.IO
-     A coller dans les styles personnalisés de l'élément formulaire, ou
-     juste avant celui-ci dans un bloc "HTML brut".
-     Remplacez #REMPLACER-ID-FORMULAIRE-SYSTEMEIO par l'identifiant CSS
-     réel généré par Systeme.io pour ce formulaire (visible dans l'éditeur
-     ou l'inspecteur du navigateur une fois le formulaire posé sur la page).
-     ===================================================================== -->
-<style>
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO{
-  max-width:760px;
-  margin:0 auto 56px;
-  padding:0 24px;
-  font-family:inherit;
-  color:#243746;
-}
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO label{
-  display:block;
-  font-size:.88rem;
-  font-weight:700;
-  color:#102B4E;
-  margin:0 0 8px;
-}
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="text"],
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="email"],
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="tel"],
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO textarea,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO select{
-  width:100%;
-  min-height:48px;
-  border:1.5px solid #D9E3E8;
-  border-radius:10px;
-  padding:10px 16px;
-  font-size:.95rem;
-  color:#243746;
-  background:#FFFFFF;
-  margin-bottom:18px;
-}
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO textarea{
-  min-height:140px;
-  resize:vertical;
-}
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="checkbox"]{
-  width:20px;
-  height:20px;
-  margin:0 10px 0 0;
-  accent-color:#00A5D8;
-  vertical-align:middle;
-}
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="text"]:focus,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="email"]:focus,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="tel"]:focus,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO textarea:focus,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO select:focus,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="checkbox"]:focus{
-  outline:3px solid #00A5D8;
-  outline-offset:2px;
-  border-color:#102B4E;
-}
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO button,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="submit"]{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:48px;
-  width:100%;
-  padding:12px 26px;
-  border-radius:10px;
-  border:2px solid transparent;
-  background:#00A5D8;
-  color:#102B4E;
-  font-size:.98rem;
-  font-weight:700;
-  cursor:pointer;
-}
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO button:hover,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="submit"]:hover{
-  background:#0B90BC;
-  color:#FFFFFF;
-}
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO button:focus,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="submit"]:focus{
-  outline:3px solid #00A5D8;
-  outline-offset:3px;
-}
-/* Messages d'erreur : les classes exactes dépendent du rendu de Systeme.io.
-   Adaptez le sélecteur ci-dessous au nom de classe réellement généré
-   (visible via l'inspecteur du navigateur) si besoin. */
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO .error,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO .form-error,
-#REMPLACER-ID-FORMULAIRE-SYSTEMEIO [class*="error-message"]{
-  display:block;
-  color:#9E3A38;
-  font-size:.82rem;
-  font-weight:600;
-  margin:-12px 0 16px;
-}
-@media (max-width:720px){
-  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO{
-    padding:0 16px;
-    margin-bottom:40px;
-  }
-  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="text"],
-  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="email"],
-  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="tel"],
-  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO textarea,
-  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO select{
-    margin-bottom:14px;
-  }
-  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO button,
-  #REMPLACER-ID-FORMULAIRE-SYSTEMEIO input[type="submit"]{
-    width:100%;
-  }
-}
-</style>
+        <div class="pv-contact-needs">
+          <button type="button" class="pv-contact-need__trigger" data-pv-need="duerp" aria-pressed="false" data-pv-cta="need-duerp" data-pv-source="contact">
+            <span class="pv-contact-need__num" aria-hidden="true">1</span>
+            <span class="pv-contact-need__body">
+              <span class="pv-contact-need__title">Prestation DUERP</span>
+              <span class="pv-contact-need__text">Diagnostic, création, mise à jour, terrain, multi-sites ou plan d'action.</span>
+            </span>
+          </button>
+          <button type="button" class="pv-contact-need__trigger" data-pv-need="formation" aria-pressed="false" data-pv-cta="need-training" data-pv-source="contact">
+            <span class="pv-contact-need__num" aria-hidden="true">2</span>
+            <span class="pv-contact-need__body">
+              <span class="pv-contact-need__title">Formation PREUVIA Academy</span>
+              <span class="pv-contact-need__text">Formation DUERP, évaluation des risques, management ou prévention.</span>
+            </span>
+          </button>
+          <button type="button" class="pv-contact-need__trigger" data-pv-need="outil" aria-pressed="false" data-pv-cta="need-tool" data-pv-source="contact">
+            <span class="pv-contact-need__num" aria-hidden="true">3</span>
+            <span class="pv-contact-need__body">
+              <span class="pv-contact-need__title">Outil personnalisé</span>
+              <span class="pv-contact-need__text">Checklist, fiche, tableau, affiche ou support adapté.</span>
+            </span>
+          </button>
+          <button type="button" class="pv-contact-need__trigger" data-pv-need="sectoriel" aria-pressed="false" data-pv-cta="need-sector" data-pv-source="contact">
+            <span class="pv-contact-need__num" aria-hidden="true">4</span>
+            <span class="pv-contact-need__body">
+              <span class="pv-contact-need__title">Intervention sectorielle</span>
+              <span class="pv-contact-need__text">Analyse adaptée à votre secteur et à vos métiers.</span>
+            </span>
+          </button>
+          <button type="button" class="pv-contact-need__trigger" data-pv-need="risque" aria-pressed="false" data-pv-cta="need-risk" data-pv-source="contact">
+            <span class="pv-contact-need__num" aria-hidden="true">5</span>
+            <span class="pv-contact-need__body">
+              <span class="pv-contact-need__title">Risque spécialisé</span>
+              <span class="pv-contact-need__text">Besoin technique nécessitant un cadrage approfondi.</span>
+            </span>
+          </button>
+          <button type="button" class="pv-contact-need__trigger" data-pv-need="partenariat" aria-pressed="false" data-pv-cta="need-partnership" data-pv-source="contact">
+            <span class="pv-contact-need__num" aria-hidden="true">6</span>
+            <span class="pv-contact-need__body">
+              <span class="pv-contact-need__title">Partenariat ou autre demande</span>
+              <span class="pv-contact-need__text">Partenariat, sous-traitance, information générale ou demande spécifique.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
 
-<!-- =====================================================================
-     BLOC 4 / 5 — HTML A PLACER APRES LE FORMULAIRE NATIF SYSTEME.IO
-     ===================================================================== -->
-<div class="pv-contact" id="pv-contact-after">
+    <!-- SECTION 5+6+7+8 : ASSISTANT LOCAL DE QUALIFICATION -->
+    <section class="pv-contact-section" id="assistant-contact">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Préparation du message</span>
+          <h2 class="pv-contact-h2">Préparez votre message en quelques étapes</h2>
+          <p class="pv-contact-p pv-contact-p--center">Les informations saisies restent uniquement dans votre navigateur jusqu'au clic volontaire sur WhatsApp ou e-mail. Elles ne sont ni enregistrées ni transmises par PREUVIA avant cette action.</p>
+        </div>
 
-  <section class="pv-contact-section" aria-labelledby="pv-contact-privacy-title">
-    <div class="pv-contact-container pv-contact-container--narrow">
-      <h2 id="pv-contact-privacy-title" class="pv-contact-h2">Confidentialité</h2>
-      <p class="pv-contact-p">Vos informations sont utilisées pour analyser votre demande et vous répondre. Ne transmettez pas dans ce formulaire public de données médicales, de dossiers d’accidents ou de documents techniques confidentiels.</p>
-      <p class="pv-contact-p"><a class="pv-contact-link" href="/politique-de-confidentialite">Politique de confidentialité</a></p>
-    </div>
-  </section>
+        <div class="pv-contact-assistant">
+          <div class="pv-contact-assistant__grid">
+            <div class="pv-contact-field">
+              <label for="pv-contact-field-organisation">Entreprise ou organisation</label>
+              <input type="text" id="pv-contact-field-organisation" class="pv-contact-field__input" autocomplete="organization" maxlength="120">
+            </div>
+            <div class="pv-contact-field">
+              <label for="pv-contact-field-secteur">Secteur d'activité</label>
+              <input type="text" id="pv-contact-field-secteur" class="pv-contact-field__input" maxlength="80">
+            </div>
+            <div class="pv-contact-field">
+              <label for="pv-contact-field-effectif">Effectif approximatif</label>
+              <input type="text" id="pv-contact-field-effectif" class="pv-contact-field__input" maxlength="40">
+            </div>
+            <div class="pv-contact-field">
+              <label for="pv-contact-field-sites">Nombre de sites</label>
+              <input type="text" id="pv-contact-field-sites" class="pv-contact-field__input" maxlength="20">
+            </div>
+            <div class="pv-contact-field">
+              <label for="pv-contact-field-besoin">Besoin principal</label>
+              <select id="pv-contact-field-besoin" class="pv-contact-field__input">
+                <option value="">Sélectionnez votre besoin principal</option>
+                <option value="diagnostic-duerp">Diagnostic du DUERP</option>
+                <option value="creation-duerp">Création du DUERP</option>
+                <option value="mise-a-jour-duerp">Mise à jour du DUERP</option>
+                <option value="evaluation-terrain">Évaluation terrain</option>
+                <option value="multisites">Organisation multi-sites</option>
+                <option value="plan-action">Plan d'action ou PAPRIPACT</option>
+                <option value="risque-specialise">Risque spécialisé</option>
+                <option value="formation">Formation</option>
+                <option value="outil-personnalise">Outil personnalisé</option>
+                <option value="partenariat">Partenariat</option>
+                <option value="autre">Autre demande</option>
+              </select>
+            </div>
+            <div class="pv-contact-field">
+              <label for="pv-contact-field-delai">Délai ou période envisagée</label>
+              <input type="text" id="pv-contact-field-delai" class="pv-contact-field__input" maxlength="60">
+            </div>
+            <div class="pv-contact-field pv-contact-field--full">
+              <label for="pv-contact-field-message">Message complémentaire</label>
+              <textarea id="pv-contact-field-message" class="pv-contact-field__input pv-contact-field__input--textarea" placeholder="Décrivez brièvement votre activité, votre situation actuelle et le résultat recherché." maxlength="600"></textarea>
+            </div>
+          </div>
 
-  <section class="pv-contact-section pv-contact-section--muted" aria-labelledby="pv-contact-next-title">
-    <div class="pv-contact-container pv-contact-container--narrow">
-      <h2 id="pv-contact-next-title" class="pv-contact-h2">Que se passe-t-il ensuite&nbsp;?</h2>
-      <ol class="pv-contact-steps">
-        <li>Analyse de votre demande.</li>
-        <li>Identification des informations complémentaires.</li>
-        <li>Échange de cadrage si nécessaire.</li>
-        <li>Orientation vers une prestation ou une formation.</li>
-        <li>Préparation d’une proposition lorsque le besoin est défini.</li>
-      </ol>
-    </div>
-  </section>
+          <p class="pv-contact-assistant__note">Ne transmettez pas de données médicales, mots de passe, dossiers d'accidents complets, secrets industriels ou documents confidentiels via ces champs.</p>
 
-  <section class="pv-contact-section" aria-labelledby="pv-contact-coords-title">
-    <div class="pv-contact-container pv-contact-container--narrow">
-      <h2 id="pv-contact-coords-title" class="pv-contact-h2">Coordonnées</h2>
-      <address class="pv-contact-address">
-        <p class="pv-contact-p">PREUVIA QHSE<br>22 rue Paul Verlaine<br>86180 Buxerolles, France</p>
-        <p class="pv-contact-p"><a class="pv-contact-link" href="mailto:contact@preuvia-qhse.com">contact@preuvia-qhse.com</a></p>
-        <p class="pv-contact-p"><a class="pv-contact-link" href="tel:+33663209785">+33 6 63 20 97 85</a></p>
-      </address>
-    </div>
-  </section>
+          <div class="pv-contact-assistant__actions">
+            <a class="pv-contact-btn pv-contact-btn--primary" id="pv-contact-whatsapp-link" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20vous%20pr%C3%A9senter%20mon%20besoin." target="_blank" rel="noopener noreferrer" data-pv-cta="assistant-whatsapp" data-pv-source="contact">Préparer mon message WhatsApp</a>
+            <a class="pv-contact-btn pv-contact-btn--secondary" id="pv-contact-email-link" href="mailto:contact@preuvia-qhse.com?subject=Demande%20de%20contact%20PREUVIA%20QHSE" data-pv-cta="assistant-email" data-pv-source="contact">Préparer mon e-mail</a>
+            <button type="button" class="pv-contact-btn pv-contact-btn--secondary" id="pv-contact-reset">Réinitialiser</button>
+          </div>
 
-  <section class="pv-contact-section pv-contact-section--muted" aria-labelledby="pv-contact-faq-title">
-    <div class="pv-contact-container pv-contact-container--narrow">
-      <h2 id="pv-contact-faq-title" class="pv-contact-h2">Questions fréquentes</h2>
-      <div class="pv-contact-faq">
+          <div class="pv-contact-prepare" id="pv-contact-prepare" hidden>
+            <p class="pv-contact-prepare__title" id="pv-contact-prepare-title">Informations utiles à préparer</p>
+            <ul class="pv-contact-prepare__list" id="pv-contact-prepare-list" aria-live="polite"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div class="pv-contact-faq__item">
-          <h3 class="pv-contact-h3">
-            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q1" aria-expanded="false" aria-controls="pv-contact-faq-a1">
+    <!-- SECTION 9 : CONFIDENTIALITE -->
+    <section class="pv-contact-section pv-contact-section--alt">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Confidentialité</span>
+          <h2 class="pv-contact-h2">Transmettez uniquement les informations nécessaires au premier échange</h2>
+        </div>
+        <div class="pv-contact-grid pv-contact-grid-6">
+          <div class="pv-contact-engagement pv-contact-reveal"><span class="pv-contact-engagement__icon" aria-hidden="true">🔒</span><p class="pv-contact-engagement__text">Minimisation</p></div>
+          <div class="pv-contact-engagement pv-contact-reveal"><span class="pv-contact-engagement__icon" aria-hidden="true">🎯</span><p class="pv-contact-engagement__text">Finalité claire</p></div>
+          <div class="pv-contact-engagement pv-contact-reveal"><span class="pv-contact-engagement__icon" aria-hidden="true">📡</span><p class="pv-contact-engagement__text">Choix du canal</p></div>
+          <div class="pv-contact-engagement pv-contact-reveal"><span class="pv-contact-engagement__icon" aria-hidden="true">🗂️</span><p class="pv-contact-engagement__text">Absence d'enregistrement local</p></div>
+          <div class="pv-contact-engagement pv-contact-reveal"><span class="pv-contact-engagement__icon" aria-hidden="true">🚫</span><p class="pv-contact-engagement__text">Absence d'envoi automatique</p></div>
+          <div class="pv-contact-engagement pv-contact-reveal"><span class="pv-contact-engagement__icon" aria-hidden="true">✋</span><p class="pv-contact-engagement__text">Transmission volontaire</p></div>
+        </div>
+        <p class="pv-contact-disclaimer pv-contact-disclaimer--strong pv-contact-mt-lg pv-contact-disclaimer--centered">Ne transmettez pas par WhatsApp, e-mail ou cette page publique de données médicales individuelles, mots de passe, dossiers d'accidents complets, secrets industriels ou documents confidentiels sans avoir défini au préalable un canal adapté.</p>
+        <div class="pv-contact-cta-row pv-contact-cta-row--center pv-contact-mt-lg">
+          <a class="pv-contact-btn pv-contact-btn--secondary" href="/politique-confidentialite" data-pv-cta="privacy-link" data-pv-source="contact">Consulter la politique de confidentialité</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10 : APRES LA PRISE DE CONTACT -->
+    <section class="pv-contact-section">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Processus</span>
+          <h2 class="pv-contact-h2">Que se passe-t-il ensuite&nbsp;?</h2>
+        </div>
+        <ol class="pv-contact-steps">
+          <li><span class="pv-contact-steps__num" aria-hidden="true">1</span><p class="pv-contact-steps__text">Réception de la demande.</p></li>
+          <li><span class="pv-contact-steps__num" aria-hidden="true">2</span><p class="pv-contact-steps__text">Analyse du besoin.</p></li>
+          <li><span class="pv-contact-steps__num" aria-hidden="true">3</span><p class="pv-contact-steps__text">Demande éventuelle de précisions.</p></li>
+          <li><span class="pv-contact-steps__num" aria-hidden="true">4</span><p class="pv-contact-steps__text">Orientation vers la prestation, la formation ou la ressource adaptée.</p></li>
+          <li><span class="pv-contact-steps__num" aria-hidden="true">5</span><p class="pv-contact-steps__text">Proposition technique et financière lorsque le périmètre est suffisamment défini.</p></li>
+        </ol>
+        <p class="pv-contact-disclaimer pv-contact-mt-lg">Une demande complexe peut nécessiter un échange de cadrage avant toute proposition.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 11 : RENDEZ-VOUS CALENDLY -->
+    <section class="pv-contact-section pv-contact-section--alt">
+      <div class="pv-contact-container pv-contact-text-center">
+        <span class="pv-contact-eyebrow">Rendez-vous</span>
+        <h2 class="pv-contact-h2">Vous préférez présenter directement votre situation&nbsp;?</h2>
+        <p class="pv-contact-p pv-contact-p--center">Planifiez un échange de 30 minutes pour présenter votre organisation, votre contexte et votre objectif.</p>
+        <ul class="pv-contact-list pv-contact-list--plain pv-contact-disclaimer--centered pv-contact-list--left">
+          <li>DUERP</li><li>Évaluation terrain</li><li>Mise à jour</li><li>Multi-sites</li><li>Plan d'action</li><li>Formation</li><li>Outil personnalisé</li><li>Risque spécialisé</li><li>Partenariat</li>
+        </ul>
+        <div class="pv-contact-cta-row pv-contact-cta-row--center pv-contact-mt-lg">
+          <a class="pv-contact-btn pv-contact-btn--primary" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="calendly-section" data-pv-source="contact">Choisir un créneau Calendly</a>
+        </div>
+        <p class="pv-contact-disclaimer pv-contact-mt-lg pv-contact-disclaimer--centered">Le rendez-vous constitue un premier échange de cadrage. Il ne constitue pas automatiquement un audit, une validation réglementaire ou une proposition définitive.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 12 : CONTACTS DIRECTS -->
+    <section class="pv-contact-section">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Coordonnées</span>
+          <h2 class="pv-contact-h2">Contacts directs</h2>
+        </div>
+        <div class="pv-contact-grid pv-contact-grid-3">
+          <div class="pv-contact-direct pv-contact-reveal">
+            <p class="pv-contact-direct__title">E-mail</p>
+            <a class="pv-contact-inline-link" href="mailto:contact@preuvia-qhse.com?subject=Demande%20de%20contact%20PREUVIA%20QHSE" data-pv-cta="direct-email" data-pv-source="contact">contact@preuvia-qhse.com</a>
+          </div>
+          <div class="pv-contact-direct pv-contact-reveal">
+            <p class="pv-contact-direct__title">Téléphone</p>
+            <a class="pv-contact-inline-link" href="tel:+33663209785" data-pv-cta="direct-phone" data-pv-source="contact">+33 6 63 20 97 85</a>
+          </div>
+          <div class="pv-contact-direct pv-contact-reveal">
+            <p class="pv-contact-direct__title">Adresse</p>
+            <p class="pv-contact-p pv-contact-p--small pv-contact-p--flush">PREUVIA QHSE<br>22 rue Paul Verlaine<br>86180 Buxerolles<br>France</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 13 : ORIENTATION AVANT CONTACT -->
+    <section class="pv-contact-section pv-contact-section--alt">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Avant de nous contacter</span>
+          <h2 class="pv-contact-h2">Vous souhaitez d'abord mieux comprendre votre besoin&nbsp;?</h2>
+        </div>
+        <div class="pv-contact-grid pv-contact-grid-5">
+          <article class="pv-contact-bridge-card pv-contact-reveal">
+            <h3 class="pv-contact-h3 pv-contact-h3--compact">Prestations DUERP</h3>
+            <div class="pv-contact-cta-row pv-contact-bridge-card__actions">
+              <a class="pv-contact-inline-link" href="/prestations-duerp" data-pv-cta="bridge-services" data-pv-source="contact">Découvrir</a>
+            </div>
+          </article>
+          <article class="pv-contact-bridge-card pv-contact-reveal">
+            <h3 class="pv-contact-h3 pv-contact-h3--compact">Formations</h3>
+            <div class="pv-contact-cta-row pv-contact-bridge-card__actions">
+              <a class="pv-contact-inline-link" href="/formations-duerp-qhse" data-pv-cta="bridge-training" data-pv-source="contact">Découvrir</a>
+            </div>
+          </article>
+          <article class="pv-contact-bridge-card pv-contact-reveal">
+            <h3 class="pv-contact-h3 pv-contact-h3--compact">Méthode</h3>
+            <div class="pv-contact-cta-row pv-contact-bridge-card__actions">
+              <a class="pv-contact-inline-link" href="/methode-evaluation-risques" data-pv-cta="bridge-method" data-pv-source="contact">Découvrir</a>
+            </div>
+          </article>
+          <article class="pv-contact-bridge-card pv-contact-reveal">
+            <h3 class="pv-contact-h3 pv-contact-h3--compact">Secteurs</h3>
+            <div class="pv-contact-cta-row pv-contact-bridge-card__actions">
+              <a class="pv-contact-inline-link" href="/duerp-secteurs-activite" data-pv-cta="bridge-sectors" data-pv-source="contact">Découvrir</a>
+            </div>
+          </article>
+          <article class="pv-contact-bridge-card pv-contact-reveal">
+            <h3 class="pv-contact-h3 pv-contact-h3--compact">Ressources</h3>
+            <div class="pv-contact-cta-row pv-contact-bridge-card__actions">
+              <a class="pv-contact-inline-link" href="/ressources-duerp" data-pv-cta="bridge-resources" data-pv-source="contact">Découvrir</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 14 : PARTENARIATS -->
+    <section class="pv-contact-section" id="partenariats-preuvia">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Collaborations</span>
+          <h2 class="pv-contact-h2">Vous représentez un consultant, un organisme ou un partenaire technique&nbsp;?</h2>
+          <p class="pv-contact-p pv-contact-p--center">PREUVIA étudie les collaborations cohérentes avec ses activités : expertise spécialisée, intervention terrain, formation, développement commercial ou partenariat sectoriel.</p>
+        </div>
+        <ul class="pv-contact-list pv-contact-list--plain pv-contact-disclaimer--centered pv-contact-list--left">
+          <li>Consultants QHSE</li>
+          <li>Experts spécialisés</li>
+          <li>Organismes de formation</li>
+          <li>Partenaires techniques</li>
+          <li>Prescripteurs</li>
+          <li>Apporteurs d'affaires</li>
+          <li>Organisations multi-sites</li>
+          <li>Acteurs internationaux</li>
+        </ul>
+        <div class="pv-contact-cta-row pv-contact-cta-row--center pv-contact-mt-lg">
+          <a class="pv-contact-btn pv-contact-btn--primary" href="/contact?origine=contact&amp;besoin=partenariat" data-pv-cta="partnership-cta" data-pv-source="contact">Présenter un partenariat</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 15 : FAQ -->
+    <section class="pv-contact-section pv-contact-section--alt" id="faq-contact">
+      <div class="pv-contact-container">
+        <div class="pv-contact-section-intro pv-contact-section-intro--center">
+          <span class="pv-contact-eyebrow">Questions fréquentes</span>
+          <h2 class="pv-contact-h2">Vos questions sur le contact</h2>
+        </div>
+        <div id="pv-contact-faq-list">
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-1" id="pv-contact-faq-q-1">
               <span>Quelles informations faut-il préparer&nbsp;?</span>
-              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
             </button>
-          </h3>
-          <div class="pv-contact-faq__answer" id="pv-contact-faq-a1" role="region" aria-labelledby="pv-contact-faq-q1">
-            <p class="pv-contact-p">Une description de votre activité, le nombre de sites concernés, votre situation actuelle (DUERP existant ou non) et votre objectif principal facilitent l’échange.</p>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-1" role="region" aria-labelledby="pv-contact-faq-q-1" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Cela dépend de votre besoin. L'assistant affiche automatiquement les informations utiles à préparer selon l'option choisie (prestation DUERP, formation, outil personnalisé, secteur, risque spécialisé ou partenariat).</p>
+            </div>
           </div>
-        </div>
-
-        <div class="pv-contact-faq__item">
-          <h3 class="pv-contact-h3">
-            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q2" aria-expanded="false" aria-controls="pv-contact-faq-a2">
-              <span>Puis-je demander une prestation et une formation&nbsp;?</span>
-              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-2" id="pv-contact-faq-q-2">
+              <span>Puis-je prendre rendez-vous sans remplir l'assistant&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
             </button>
-          </h3>
-          <div class="pv-contact-faq__answer" id="pv-contact-faq-a2" role="region" aria-labelledby="pv-contact-faq-q2">
-            <p class="pv-contact-p">Oui. Indiquez les deux besoins dans votre message ; PREUVIA reviendra vers vous sur chaque volet.</p>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-2" role="region" aria-labelledby="pv-contact-faq-q-2" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Oui. Le lien Calendly est disponible directement dans le header, les contacts flottants et plusieurs sections de la page, sans passer par l'assistant.</p>
+            </div>
           </div>
-        </div>
-
-        <div class="pv-contact-faq__item">
-          <h3 class="pv-contact-h3">
-            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q3" aria-expanded="false" aria-controls="pv-contact-faq-a3">
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-3" id="pv-contact-faq-q-3">
+              <span>Puis-je contacter PREUVIA par WhatsApp&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-3" role="region" aria-labelledby="pv-contact-faq-q-3" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Oui. Un lien WhatsApp général est disponible partout sur la page, et l'assistant peut générer un message WhatsApp contextualisé selon votre besoin.</p>
+            </div>
+          </div>
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-4" id="pv-contact-faq-q-4">
+              <span>Mes informations sont-elles enregistrées sur la page&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-4" role="region" aria-labelledby="pv-contact-faq-q-4" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Non. Les informations saisies dans l'assistant servent uniquement à préparer localement un message WhatsApp ou un e-mail. Elles ne sont ni enregistrées ni envoyées avant votre action volontaire.</p>
+            </div>
+          </div>
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-5" id="pv-contact-faq-q-5">
+              <span>Puis-je transmettre mon DUERP par e-mail&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-5" role="region" aria-labelledby="pv-contact-faq-q-5" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Le premier contact doit rester proportionné. Il est préférable de ne pas transmettre immédiatement un DUERP complet ou un document sensible. PREUVIA peut ensuite convenir d'un canal adapté.</p>
+            </div>
+          </div>
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-6" id="pv-contact-faq-q-6">
+              <span>Puis-je envoyer des documents confidentiels&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-6" role="region" aria-labelledby="pv-contact-faq-q-6" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Ne transmettez pas de données médicales, mots de passe, dossiers d'accidents complets, secrets industriels ou documents confidentiels sans avoir défini un moyen de transmission approprié.</p>
+            </div>
+          </div>
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-7" id="pv-contact-faq-q-7">
+              <span>Comment le prix d'une prestation est-il calculé&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-7" role="region" aria-labelledby="pv-contact-faq-q-7" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Le prix dépend du périmètre, du nombre d'unités de travail, du nombre de sites, du mode d'intervention et du niveau de complexité. Il est déterminé après un premier échange de cadrage.</p>
+            </div>
+          </div>
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-8" id="pv-contact-faq-q-8">
               <span>Une visite sur site est-elle obligatoire&nbsp;?</span>
-              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
             </button>
-          </h3>
-          <div class="pv-contact-faq__answer" id="pv-contact-faq-a3" role="region" aria-labelledby="pv-contact-faq-q3">
-            <p class="pv-contact-p">Non systématiquement. Le format de l’échange dépend de votre activité et sera précisé avec vous.</p>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-8" role="region" aria-labelledby="pv-contact-faq-q-8" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Non systématiquement. Le mode d'intervention (à distance, hybride ou sur site) est déterminé selon la complexité des activités et la nécessité d'observer les pratiques réelles.</p>
+            </div>
+          </div>
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-9" id="pv-contact-faq-q-9">
+              <span>Puis-je demander une prestation et une formation&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-9" role="region" aria-labelledby="pv-contact-faq-q-9" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Oui. Précisez les deux besoins dans votre message ; les prestations et les formations restent toutefois distinctes dans leurs objectifs, contrats, modalités et livrables.</p>
+            </div>
+          </div>
+          <div class="pv-contact-faq__item">
+            <button type="button" class="pv-contact-faq__question" aria-expanded="false" aria-controls="pv-contact-faq-panel-10" id="pv-contact-faq-q-10">
+              <span>Que se passe-t-il après ma demande&nbsp;?</span>
+              <span class="pv-contact-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-contact-faq__panel" id="pv-contact-faq-panel-10" role="region" aria-labelledby="pv-contact-faq-q-10" hidden>
+              <p class="pv-contact-p pv-contact-p--small">Réception, analyse du besoin, demande éventuelle de précisions, orientation vers la solution adaptée, puis proposition technique et financière lorsque le périmètre est suffisamment défini.</p>
+            </div>
           </div>
         </div>
-
-        <div class="pv-contact-faq__item">
-          <h3 class="pv-contact-h3">
-            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q4" aria-expanded="false" aria-controls="pv-contact-faq-a4">
-              <span>Puis-je transmettre mon DUERP par le formulaire&nbsp;?</span>
-              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-contact-faq__answer" id="pv-contact-faq-a4" role="region" aria-labelledby="pv-contact-faq-q4">
-            <p class="pv-contact-p">Évitez de joindre des documents confidentiels ou sensibles à ce formulaire public. Les modalités de transmission sécurisée seront précisées lors de l’échange.</p>
-          </div>
-        </div>
-
-        <div class="pv-contact-faq__item">
-          <h3 class="pv-contact-h3">
-            <button type="button" class="pv-contact-faq__question" id="pv-contact-faq-q5" aria-expanded="false" aria-controls="pv-contact-faq-a5">
-              <span>Comment mes informations sont-elles utilisées&nbsp;?</span>
-              <span class="pv-contact-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-contact-faq__answer" id="pv-contact-faq-a5" role="region" aria-labelledby="pv-contact-faq-q5">
-            <p class="pv-contact-p">Elles servent uniquement à analyser votre demande et à vous répondre. Consultez la politique de confidentialité pour plus de détails.</p>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="pv-contact-section pv-contact-section--navy pv-contact-final" aria-labelledby="pv-contact-final-title">
+    <!-- SECTION 16 : CTA FINAL -->
+    <section class="pv-contact-section pv-contact-section--navy pv-contact-final">
+      <div class="pv-contact-container">
+        <h2 class="pv-contact-h2">Votre besoin est-il suffisamment clair pour choisir seul la bonne solution&nbsp;?</h2>
+        <p class="pv-contact-p">Présentez votre activité et votre objectif. PREUVIA vous aidera à déterminer le niveau d'intervention adapté.</p>
+        <div class="pv-contact-cta-row pv-contact-cta-row--center pv-contact-mt-lg">
+          <a class="pv-contact-btn pv-contact-btn--primary" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="final-calendly" data-pv-source="contact">Planifier un échange de 30 minutes</a>
+          <a class="pv-contact-btn pv-contact-btn--on-dark" id="pv-contact-final-whatsapp" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20vous%20pr%C3%A9senter%20mon%20besoin." target="_blank" rel="noopener noreferrer" data-pv-cta="final-whatsapp" data-pv-source="contact">Écrire sur WhatsApp</a>
+        </div>
+        <p class="pv-contact-mt-md">
+          <a class="pv-contact-inline-link pv-contact-text-on-dark" id="pv-contact-final-email" href="mailto:contact@preuvia-qhse.com?subject=Demande%20de%20contact%20PREUVIA%20QHSE" data-pv-cta="final-email" data-pv-source="contact">Envoyer un e-mail</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SECTION 17 : PIED DE PAGE -->
+  <div class="pv-contact-footer" role="contentinfo">
     <div class="pv-contact-container">
-      <h2 id="pv-contact-final-title" class="pv-contact-h2">Votre situation nécessite-t-elle un simple échange ou une analyse approfondie&nbsp;?</h2>
-      <p class="pv-contact-lead">Commencez par décrire votre besoin. Le niveau d’intervention sera défini ensuite.</p>
-      <div class="pv-contact-cta-row pv-contact-cta-row--center">
-        <a class="pv-contact-btn pv-contact-btn--primary" href="#pv-contact-form-title">Remplir le formulaire</a>
+      <div class="pv-contact-footer__grid">
+        <div>
+          <p class="pv-contact-footer__brand">PREUVIA QHSE</p>
+          <p class="pv-contact-footer__tagline">Évaluation des risques • DUERP • Formations</p>
+        </div>
+        <div>
+          <p class="pv-contact-footer__heading">Navigation</p>
+          <ul class="pv-contact-footer__list">
+            <li><a href="/" data-pv-cta="footer-home" data-pv-source="contact">Accueil</a></li>
+            <li><a href="/prestations-duerp" data-pv-cta="footer-services" data-pv-source="contact">Prestations DUERP</a></li>
+            <li><a href="/formations-duerp-qhse" data-pv-cta="footer-training" data-pv-source="contact">Formations</a></li>
+            <li><a href="/methode-evaluation-risques" data-pv-cta="footer-method" data-pv-source="contact">Méthode</a></li>
+            <li><a href="/duerp-secteurs-activite" data-pv-cta="footer-sectors" data-pv-source="contact">Secteurs</a></li>
+            <li><a href="/ressources-duerp" data-pv-cta="footer-resources" data-pv-source="contact">Ressources</a></li>
+            <li><a href="/contact" data-pv-cta="footer-contact" data-pv-source="contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="pv-contact-footer__heading">Contact</p>
+          <ul class="pv-contact-footer__list">
+            <li><a href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="footer-calendly" data-pv-source="contact">Calendly</a></li>
+            <li><a href="https://wa.me/33663209785" target="_blank" rel="noopener noreferrer" data-pv-cta="footer-whatsapp" data-pv-source="contact">WhatsApp</a></li>
+            <li><a href="mailto:contact@preuvia-qhse.com" data-pv-cta="footer-email" data-pv-source="contact">contact@preuvia-qhse.com</a></li>
+            <li><a href="tel:+33663209785" data-pv-cta="footer-phone" data-pv-source="contact">+33 6 63 20 97 85</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="pv-contact-footer__heading">Informations légales</p>
+          <ul class="pv-contact-footer__list">
+            <li><a href="/mentions-legales" data-pv-cta="footer-legal" data-pv-source="contact">Mentions légales</a></li>
+            <li><a href="/politique-confidentialite" data-pv-cta="footer-privacy" data-pv-source="contact">Politique de confidentialité</a></li>
+            <li><a href="/conditions-generales-vente" data-pv-cta="footer-cgv" data-pv-source="contact">Conditions générales de vente</a></li>
+            <li><a href="/politique-cookies" data-pv-cta="footer-cookies" data-pv-source="contact">Politique des cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pv-contact-footer__legal">
+        <p>PREUVIA QHSE — SIREN 831 616 438 — SIRET 831 616 438 00014</p>
+        <p>22 rue Paul Verlaine, 86180 Buxerolles, France</p>
+        <p>PREUVIA accompagne et structure la démarche. L'employeur demeure responsable de l'évaluation, des décisions et de la mise en œuvre des mesures de prévention.</p>
+        <div class="pv-contact-footer__bottom">
+          <span id="pv-contact-copyright"></span>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
 </div>
 
-<!-- =====================================================================
-     BLOC 5 / 5 — JAVASCRIPT (UNIQUEMENT POUR LA FAQ)
-     A coller à la toute fin, après le bloc 4 (ou dans un élément
-     "HTML brut" dédié placé en bas de page).
-     ===================================================================== -->
 <script>
 (function(){
   "use strict";
 
-  // Ce script n'agit que sur la FAQ du bloc "après formulaire".
-  // Les deux cartes d'orientation (DUERP / Formation) sont gérées en CSS pur
-  // (input radio + label), sans aucun JavaScript.
-  var faqRoot = document.getElementById('pv-contact-after');
-  if(!faqRoot){ return; }
+  var root = document.getElementById("pv-contact");
+  if(!root){ return; }
 
-  var questions = Array.prototype.slice.call(faqRoot.querySelectorAll('.pv-contact-faq__question'));
+  root.classList.add("pv-contact-js");
 
-  questions.forEach(function(button){
-    var panel = document.getElementById(button.getAttribute('aria-controls'));
-    if(panel){ panel.hidden = true; }
-    button.setAttribute('aria-expanded', 'false');
+  var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    button.addEventListener('click', function(){
-      var isExpanded = button.getAttribute('aria-expanded') === 'true';
-      button.setAttribute('aria-expanded', String(!isExpanded));
-      if(panel){ panel.hidden = isExpanded; }
+  var WA_GENERAL = "https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20vous%20pr%C3%A9senter%20mon%20besoin.";
+  var WA_DUERP = "https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20%C3%A9changer%20au%20sujet%20de%20mon%20DUERP%20ou%20d%27une%20%C3%A9valuation%20des%20risques%20professionnels.";
+  var WA_FORMATION = "https://wa.me/33663209785?text=Bonjour%20PREUVIA%20Academy%2C%20je%20souhaite%20obtenir%20des%20informations%20sur%20une%20formation%20DUERP%2C%20pr%C3%A9vention%20ou%20QHSE.";
+  var WA_OUTIL = "https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20demander%20un%20outil%20de%20pr%C3%A9vention%20personnalis%C3%A9.";
+  var WA_RISQUE = "https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20vous%20pr%C3%A9senter%20un%20besoin%20concernant%20un%20risque%20professionnel%20sp%C3%A9cialis%C3%A9.";
+
+  var EMAIL_GENERAL = "mailto:contact@preuvia-qhse.com?subject=Demande%20de%20contact%20PREUVIA%20QHSE";
+  var EMAIL_DUERP = "mailto:contact@preuvia-qhse.com?subject=Demande%20de%20prestation%20DUERP&body=Bonjour%20PREUVIA%20QHSE%2C%0A%0AJe%20souhaite%20vous%20pr%C3%A9senter%20mon%20besoin.%0A%0AEntreprise%20%3A%0ASecteur%20%3A%0AEffectif%20%3A%0ANombre%20de%20sites%20%3A%0ADUERP%20existant%20%3A%0ABesoin%20principal%20%3A%0AD%C3%A9lai%20souhait%C3%A9%20%3A";
+  var EMAIL_FORMATION = "mailto:contact@preuvia-qhse.com?subject=Demande%20de%20formation%20PREUVIA%20Academy&body=Bonjour%20PREUVIA%20Academy%2C%0A%0AJe%20souhaite%20obtenir%20des%20informations%20sur%20une%20formation.%0A%0AEntreprise%20%3A%0AFormation%20recherch%C3%A9e%20%3A%0APublic%20concern%C3%A9%20%3A%0ANombre%20de%20participants%20%3A%0AFormat%20souhait%C3%A9%20%3A%0AP%C3%A9riode%20envisag%C3%A9e%20%3A";
+  var EMAIL_OUTIL = "mailto:contact@preuvia-qhse.com?subject=Demande%20d%27outil%20personnalis%C3%A9";
+  var EMAIL_SECTORIEL = "mailto:contact@preuvia-qhse.com?subject=Demande%20sectorielle";
+  var EMAIL_RISQUE = "mailto:contact@preuvia-qhse.com?subject=Demande%20concernant%20un%20risque%20sp%C3%A9cialis%C3%A9";
+  var EMAIL_PARTENARIAT = "mailto:contact@preuvia-qhse.com?subject=Demande%20de%20partenariat";
+
+  var needProfiles = {
+    duerp: {
+      label: "Prestation DUERP",
+      whatsappUrl: WA_DUERP,
+      emailUrl: EMAIL_DUERP,
+      emailSubject: "Demande de prestation DUERP",
+      selectValue: "diagnostic-duerp",
+      prepare: ["Entreprise", "Secteur", "Activité réelle", "Effectif", "Nombre de sites", "Métiers", "DUERP existant", "Changements récents", "Délai", "Objectif"]
+    },
+    formation: {
+      label: "Formation PREUVIA Academy",
+      whatsappUrl: WA_FORMATION,
+      emailUrl: EMAIL_FORMATION,
+      emailSubject: "Demande de formation PREUVIA Academy",
+      selectValue: "formation",
+      prepare: ["Entreprise", "Thème", "Public concerné", "Nombre approximatif de participants", "Niveau actuel", "Format souhaité", "Période", "Objectifs"]
+    },
+    outil: {
+      label: "Outil personnalisé",
+      whatsappUrl: WA_OUTIL,
+      emailUrl: EMAIL_OUTIL,
+      emailSubject: "Demande d'outil personnalisé",
+      selectValue: "outil-personnalise",
+      prepare: ["Type d'outil", "Utilisateurs", "Activité", "Risques concernés", "Format souhaité", "Objectif d'utilisation"]
+    },
+    sectoriel: {
+      label: "Intervention sectorielle",
+      whatsappUrl: WA_GENERAL,
+      emailUrl: EMAIL_SECTORIEL,
+      emailSubject: "Demande sectorielle",
+      selectValue: "autre",
+      prepare: ["Secteur", "Activités", "Métiers", "Sites", "Équipements", "Contraintes", "Risques déjà identifiés"]
+    },
+    risque: {
+      label: "Risque spécialisé",
+      whatsappUrl: WA_RISQUE,
+      emailUrl: EMAIL_RISQUE,
+      emailSubject: "Demande concernant un risque spécialisé",
+      selectValue: "risque-specialise",
+      prepare: ["Activité concernée", "Situation d'exposition", "Personnes concernées", "Équipements ou produits", "Données disponibles", "Mesures existantes", "Niveau d'urgence réel"]
+    },
+    partenariat: {
+      label: "Partenariat ou autre demande",
+      whatsappUrl: WA_GENERAL,
+      emailUrl: EMAIL_PARTENARIAT,
+      emailSubject: "Demande de partenariat",
+      selectValue: "partenariat",
+      prepare: ["Organisation", "Activité", "Territoire", "Nature du partenariat", "Complémentarités recherchées", "Interlocuteur décisionnaire"]
+    }
+  };
+
+  var besoinUrlAliases = {
+    "duerp": "duerp", "diagnostic": "duerp", "diagnostic-duerp": "duerp",
+    "creation-duerp": "duerp", "mise-a-jour-duerp": "duerp", "evaluation-terrain": "duerp",
+    "duerp-multisites": "duerp", "plan-action": "duerp", "plan-action-papripact": "duerp",
+    "risque-specialise": "risque",
+    "formation": "formation", "formation-sur-mesure": "formation", "formation-intra": "formation",
+    "outil-personnalise": "outil", "ressources": "outil",
+    "evaluation-sectorielle": "sectoriel", "activite-specifique": "sectoriel",
+    "partenariat": "partenariat"
+  };
+
+  var selectValueToProfile = {
+    "diagnostic-duerp": "duerp", "creation-duerp": "duerp", "mise-a-jour-duerp": "duerp",
+    "evaluation-terrain": "duerp", "multisites": "duerp", "plan-action": "duerp",
+    "risque-specialise": "risque",
+    "formation": "formation",
+    "outil-personnalise": "outil",
+    "partenariat": "partenariat",
+    "autre": "partenariat"
+  };
+
+  var selectValueLabels = {
+    "diagnostic-duerp": "Diagnostic du DUERP",
+    "creation-duerp": "Création du DUERP",
+    "mise-a-jour-duerp": "Mise à jour du DUERP",
+    "evaluation-terrain": "Évaluation terrain",
+    "multisites": "Organisation multi-sites",
+    "plan-action": "Plan d'action ou PAPRIPACT",
+    "risque-specialise": "Risque spécialisé",
+    "formation": "Formation",
+    "outil-personnalise": "Outil personnalisé",
+    "partenariat": "Partenariat",
+    "autre": "Autre demande"
+  };
+
+  var sectorLabels = {
+    "btp": "BTP et travaux publics",
+    "industrie": "Industrie et maintenance",
+    "transport-logistique": "Transport et logistique",
+    "sante-medico-social": "Santé et médico-social",
+    "tertiaire-services": "Tertiaire et services",
+    "organisme-formation": "Organismes de formation",
+    "agroalimentaire": "Agroalimentaire",
+    "energie-infrastructures": "Énergie, mines et infrastructures",
+    "multisites": "Groupes et organisations multi-sites"
+  };
+
+  var origineLabels = {
+    "accueil": "Accueil",
+    "prestations": "Prestations DUERP",
+    "formations": "Formations",
+    "methode": "Méthode",
+    "secteurs": "Secteurs",
+    "ressources": "Ressources",
+    "contact": "Contact"
+  };
+
+  var needButtons = Array.prototype.slice.call(root.querySelectorAll("[data-pv-need]"));
+  var fieldOrganisation = document.getElementById("pv-contact-field-organisation");
+  var fieldSecteur = document.getElementById("pv-contact-field-secteur");
+  var fieldEffectif = document.getElementById("pv-contact-field-effectif");
+  var fieldSites = document.getElementById("pv-contact-field-sites");
+  var fieldBesoin = document.getElementById("pv-contact-field-besoin");
+  var fieldDelai = document.getElementById("pv-contact-field-delai");
+  var fieldMessage = document.getElementById("pv-contact-field-message");
+  var whatsappLink = document.getElementById("pv-contact-whatsapp-link");
+  var emailLink = document.getElementById("pv-contact-email-link");
+  var finalWhatsappLink = document.getElementById("pv-contact-final-whatsapp");
+  var finalEmailLink = document.getElementById("pv-contact-final-email");
+  var resetBtn = document.getElementById("pv-contact-reset");
+  var prepareBox = document.getElementById("pv-contact-prepare");
+  var prepareTitle = document.getElementById("pv-contact-prepare-title");
+  var prepareList = document.getElementById("pv-contact-prepare-list");
+  var contextBanner = document.getElementById("pv-contact-context-banner");
+  var urlAnnounce = document.getElementById("pv-contact-url-announce");
+  var assistantSection = document.getElementById("assistant-contact");
+
+  var currentProfileKey = null;
+
+  function cleanLine(value){
+    return String(value || "").replace(/[\r\n]+/g, " ").trim();
+  }
+
+  function setPressed(activeKey){
+    needButtons.forEach(function(btn){
+      btn.setAttribute("aria-pressed", btn.getAttribute("data-pv-need") === activeKey ? "true" : "false");
+    });
+  }
+
+  function updatePrepareInfo(profileKey){
+    var profile = needProfiles[profileKey];
+    if(!profile || !prepareBox || !prepareList || !prepareTitle){ return; }
+    prepareTitle.textContent = "Informations utiles à préparer : " + profile.label;
+    prepareList.innerHTML = profile.prepare.map(function(item){
+      return "<li>" + item.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</li>";
+    }).join("");
+    prepareBox.hidden = false;
+  }
+
+  function collectAssistantData(){
+    var besoinLabel = "";
+    if(fieldBesoin && fieldBesoin.value && selectValueLabels[fieldBesoin.value]){
+      besoinLabel = selectValueLabels[fieldBesoin.value];
+    }
+    return {
+      organisation: cleanLine(fieldOrganisation ? fieldOrganisation.value : ""),
+      secteur: cleanLine(fieldSecteur ? fieldSecteur.value : ""),
+      effectif: cleanLine(fieldEffectif ? fieldEffectif.value : ""),
+      sites: cleanLine(fieldSites ? fieldSites.value : ""),
+      besoinLabel: besoinLabel,
+      delai: cleanLine(fieldDelai ? fieldDelai.value : ""),
+      message: cleanLine(fieldMessage ? fieldMessage.value : "").slice(0, 600)
+    };
+  }
+
+  function hasAnyData(data){
+    return !!(data.organisation || data.secteur || data.effectif || data.sites || data.besoinLabel || data.delai || data.message);
+  }
+
+  function buildMessageBody(data){
+    var lines = ["Bonjour PREUVIA QHSE,", "", "Je souhaite vous présenter mon besoin.", ""];
+    if(data.organisation){ lines.push("Entreprise : " + data.organisation); }
+    if(data.secteur){ lines.push("Secteur : " + data.secteur); }
+    if(data.effectif){ lines.push("Effectif : " + data.effectif); }
+    if(data.sites){ lines.push("Nombre de sites : " + data.sites); }
+    if(data.besoinLabel){ lines.push("Besoin : " + data.besoinLabel); }
+    if(data.delai){ lines.push("Délai : " + data.delai); }
+    if(data.message){ lines.push("Message : " + data.message); }
+    return lines.join("\n");
+  }
+
+  function updateGeneratedLinks(){
+    var profile = currentProfileKey ? needProfiles[currentProfileKey] : null;
+    var data = collectAssistantData();
+    var waFallback = profile ? profile.whatsappUrl : WA_GENERAL;
+    var emailFallback = profile ? profile.emailUrl : EMAIL_GENERAL;
+
+    if(!hasAnyData(data)){
+      if(whatsappLink){ whatsappLink.setAttribute("href", waFallback); }
+      if(emailLink){ emailLink.setAttribute("href", emailFallback); }
+      return;
+    }
+
+    var body = buildMessageBody(data);
+    var subject = profile ? profile.emailSubject : "Demande de contact PREUVIA QHSE";
+    var waHref = "https://wa.me/33663209785?text=" + encodeURIComponent(body);
+    var emailHref = "mailto:contact@preuvia-qhse.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
+    if(whatsappLink){ whatsappLink.setAttribute("href", waHref); }
+    if(emailLink){ emailLink.setAttribute("href", emailHref); }
+  }
+
+  function applyProfile(profileKey, options){
+    var profile = needProfiles[profileKey];
+    if(!profile){ return; }
+    currentProfileKey = profileKey;
+    setPressed(profileKey);
+    if(fieldBesoin){ fieldBesoin.value = profile.selectValue; }
+    updatePrepareInfo(profileKey);
+    updateGeneratedLinks();
+    if(options && options.announce && urlAnnounce){
+      urlAnnounce.textContent = "Besoin présélectionné : " + profile.label;
+    }
+    if(options && options.scroll && assistantSection){
+      assistantSection.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+    }
+  }
+
+  needButtons.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var key = btn.getAttribute("data-pv-need");
+      applyProfile(key, { announce: true, scroll: true });
     });
   });
+
+  if(fieldBesoin){
+    fieldBesoin.addEventListener("change", function(){
+      var mappedProfile = selectValueToProfile[fieldBesoin.value];
+      if(mappedProfile){
+        currentProfileKey = mappedProfile;
+        setPressed(mappedProfile);
+        updatePrepareInfo(mappedProfile);
+      }
+      updateGeneratedLinks();
+    });
+  }
+
+  [fieldOrganisation, fieldSecteur, fieldEffectif, fieldSites, fieldDelai, fieldMessage].forEach(function(field){
+    if(field){ field.addEventListener("input", updateGeneratedLinks); }
+  });
+
+  if(resetBtn){
+    resetBtn.addEventListener("click", function(){
+      [fieldOrganisation, fieldSecteur, fieldEffectif, fieldSites, fieldDelai, fieldMessage].forEach(function(field){
+        if(field){ field.value = ""; }
+      });
+      if(fieldBesoin){ fieldBesoin.value = ""; }
+      currentProfileKey = null;
+      setPressed("");
+      if(prepareBox){ prepareBox.hidden = true; }
+      if(whatsappLink){ whatsappLink.setAttribute("href", WA_GENERAL); }
+      if(emailLink){ emailLink.setAttribute("href", EMAIL_GENERAL); }
+    });
+  }
+
+  /* CTA final : reflete le lien assistant le plus recent (ou le fallback general) */
+  function syncFinalLinks(){
+    if(whatsappLink && finalWhatsappLink){ finalWhatsappLink.setAttribute("href", whatsappLink.getAttribute("href")); }
+    if(emailLink && finalEmailLink){ finalEmailLink.setAttribute("href", emailLink.getAttribute("href")); }
+  }
+  var originalUpdateGeneratedLinks = updateGeneratedLinks;
+  updateGeneratedLinks = function(){
+    originalUpdateGeneratedLinks();
+    syncFinalLinks();
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Lecture controlee des parametres d'URL (origine, besoin, secteur,  */
+  /* formation), jamais injectes via innerHTML. Utilises uniquement     */
+  /* pour selectionner un profil reel et afficher des libelles          */
+  /* controles via textContent.                                         */
+  /* ------------------------------------------------------------------ */
+  function handleUrlParameters(){
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var origineRaw = params.get("origine");
+      var besoinRaw = params.get("besoin");
+      var secteurRaw = params.get("secteur");
+      var formationRaw = params.get("formation");
+
+      var origineLabel = origineRaw && origineLabels[String(origineRaw).toLowerCase().trim()] ? origineLabels[String(origineRaw).toLowerCase().trim()] : null;
+      var resolvedProfileKey = besoinRaw ? besoinUrlAliases[String(besoinRaw).toLowerCase().trim()] : null;
+      var sectorLabel = secteurRaw && sectorLabels[String(secteurRaw).toLowerCase().trim()] ? sectorLabels[String(secteurRaw).toLowerCase().trim()] : null;
+
+      if(!resolvedProfileKey && sectorLabel){ resolvedProfileKey = "sectoriel"; }
+      if(!resolvedProfileKey && formationRaw){ resolvedProfileKey = "formation"; }
+
+      if(sectorLabel && fieldSecteur && !fieldSecteur.value){
+        fieldSecteur.value = sectorLabel;
+      }
+
+      if(resolvedProfileKey){
+        applyProfile(resolvedProfileKey, { announce: false, scroll: false });
+      }
+
+      var bannerParts = [];
+      if(origineLabel){ bannerParts.push("Vous venez de : " + origineLabel); }
+      if(resolvedProfileKey){ bannerParts.push("Besoin présélectionné : " + needProfiles[resolvedProfileKey].label); }
+      if(sectorLabel){ bannerParts.push("Secteur détecté : " + sectorLabel); }
+
+      if(bannerParts.length && contextBanner){
+        contextBanner.textContent = bannerParts.join(" • ");
+        contextBanner.hidden = false;
+      }
+      if(bannerParts.length && urlAnnounce){
+        urlAnnounce.textContent = bannerParts.join(". ");
+      }
+    } catch(urlError){
+      /* Un parametre d'URL invalide ne doit jamais provoquer d'erreur visible. */
+    }
+  }
+  handleUrlParameters();
+  updateGeneratedLinks();
+
+  /* Copyright dynamique */
+  var copyrightEl = document.getElementById("pv-contact-copyright");
+  if(copyrightEl){
+    copyrightEl.textContent = "© " + new Date().getFullYear() + " PREUVIA QHSE. Tous droits réservés.";
+  }
+
+  /* Header shadow on scroll */
+  var header = document.getElementById("pv-contact-header");
+  var sentinel = document.createElement("div");
+  sentinel.style.position = "absolute";
+  sentinel.style.top = "0";
+  sentinel.style.height = "1px";
+  sentinel.style.width = "1px";
+  if(root.firstChild){ root.insertBefore(sentinel, root.firstChild); }
+
+  if("IntersectionObserver" in window && header){
+    var headerObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          header.classList.remove("pv-contact-header--scrolled");
+        } else {
+          header.classList.add("pv-contact-header--scrolled");
+        }
+      });
+    }, { threshold: 0 });
+    headerObserver.observe(sentinel);
+  }
+
+  /* Mobile menu */
+  var menuToggle = document.getElementById("pv-contact-menu-toggle");
+  var mobileMenu = document.getElementById("pv-contact-mobile-menu");
+  var mobileMenuClose = document.getElementById("pv-contact-mobile-menu-close");
+
+  function openMenu(){
+    if(!mobileMenu || !menuToggle){ return; }
+    root.classList.add("pv-contact-menu-open");
+    menuToggle.setAttribute("aria-expanded", "true");
+    if(mobileMenuClose){ mobileMenuClose.focus(); }
+  }
+  function closeMenu(){
+    if(!mobileMenu || !menuToggle){ return; }
+    root.classList.remove("pv-contact-menu-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.focus();
+  }
+  if(menuToggle){
+    menuToggle.addEventListener("click", function(){
+      if(root.classList.contains("pv-contact-menu-open")){ closeMenu(); } else { openMenu(); }
+    });
+  }
+  if(mobileMenuClose){ mobileMenuClose.addEventListener("click", closeMenu); }
+  if(mobileMenu){
+    mobileMenu.addEventListener("click", function(evt){
+      if(evt.target === mobileMenu){ closeMenu(); }
+    });
+    Array.prototype.slice.call(mobileMenu.querySelectorAll("a")).forEach(function(link){
+      link.addEventListener("click", closeMenu);
+    });
+  }
+  document.addEventListener("keydown", function(evt){
+    if(evt.key === "Escape" && root.classList.contains("pv-contact-menu-open")){ closeMenu(); }
+  });
+  window.addEventListener("resize", function(){
+    if(window.innerWidth >= 900 && root.classList.contains("pv-contact-menu-open")){ closeMenu(); }
+  });
+
+  /* FAQ accordion */
+  var faqQuestions = Array.prototype.slice.call(root.querySelectorAll(".pv-contact-faq__question"));
+  faqQuestions.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var expanded = btn.getAttribute("aria-expanded") === "true";
+      var panelId = btn.getAttribute("aria-controls");
+      var panel = panelId ? document.getElementById(panelId) : null;
+      btn.setAttribute("aria-expanded", expanded ? "false" : "true");
+      if(panel){ panel.hidden = expanded; }
+    });
+  });
+
+  /* Suivi CTA non bloquant */
+  root.addEventListener("click", function(evt){
+    var trigger = evt.target.closest ? evt.target.closest("[data-pv-cta]") : null;
+    if(!trigger){ return; }
+    try {
+      window.dispatchEvent(new CustomEvent("preuvia:cta", {
+        detail: {
+          cta: trigger.getAttribute("data-pv-cta"),
+          source: trigger.getAttribute("data-pv-source") || "contact"
+        }
+      }));
+    } catch(dispatchError){
+      /* Le suivi ne doit jamais bloquer la navigation. */
+    }
+  });
+
+  /* Reveal on scroll */
+  if(!prefersReducedMotion && "IntersectionObserver" in window){
+    var revealObserver = new IntersectionObserver(function(entries, observer){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("pv-contact-reveal--visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    Array.prototype.slice.call(root.querySelectorAll(".pv-contact-reveal")).forEach(function(el){
+      revealObserver.observe(el);
+    });
+  } else {
+    Array.prototype.slice.call(root.querySelectorAll(".pv-contact-reveal")).forEach(function(el){
+      el.classList.add("pv-contact-reveal--visible");
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Constante et fonction d'audit local. N'affecte jamais l'affichage. */
+  /* Ne s'execute que si PV_CONTACT_DEBUG vaut true.                    */
+  /* ------------------------------------------------------------------ */
+  var PV_CONTACT_DEBUG = false;
+
+  function runPreuviaContactIntegrityAudit(){
+    try {
+      var issues = [];
+      var officialRoutes = ["/", "/prestations-duerp", "/formations-duerp-qhse", "/methode-evaluation-risques", "/duerp-secteurs-activite", "/ressources-duerp", "/contact", "/mentions-legales", "/politique-confidentialite", "/conditions-generales-vente", "/politique-cookies"];
+      var oldTemplateMarkers = ["Lorem ipsum", "Titre de la page", "Votre texte ici"];
+
+      var links = Array.prototype.slice.call(root.querySelectorAll("a"));
+      links.forEach(function(link){
+        var href = link.getAttribute("href");
+        if(href === null){ issues.push("Lien sans attribut href : " + (link.textContent || "").trim()); return; }
+        if(href.trim() === ""){ issues.push("Attribut href vide : " + (link.textContent || "").trim()); return; }
+        if(href.trim().toLowerCase().indexOf("javascript:") === 0){ issues.push("Utilisation de javascript: dans un href : " + href); }
+        if(href === "#"){ issues.push("href vaut # sans ancre reelle : " + (link.textContent || "").trim()); }
+        if(href.charAt(0) === "#" && href.length > 1){
+          var targetId = href.slice(1);
+          if(!document.getElementById(targetId)){ issues.push("Ancre interne sans cible existante : " + href); }
+        }
+        if(link.getAttribute("target") === "_blank"){
+          var rel = (link.getAttribute("rel") || "");
+          if(rel.indexOf("noopener") === -1 || rel.indexOf("noreferrer") === -1){
+            issues.push("target=_blank sans rel=noopener noreferrer : " + href);
+          }
+        }
+        if(!link.textContent.trim() && !link.getAttribute("aria-label")){
+          issues.push("Lien sans libelle accessible : " + href);
+        }
+        if(href.charAt(0) === "/" && officialRoutes.indexOf(href.split("?")[0]) === -1){
+          issues.push("Lien interne hors du routage officiel declare : " + href);
+        }
+      });
+
+      if(whatsappLink){
+        var waHref = whatsappLink.getAttribute("href") || "";
+        if(waHref.indexOf("wa.me/33663209785") === -1){ issues.push("Bouton WhatsApp assistant sans numero correct."); }
+      }
+      if(emailLink){
+        var mailHref = emailLink.getAttribute("href") || "";
+        if(mailHref.indexOf("mailto:contact@preuvia-qhse.com") !== 0){ issues.push("Bouton e-mail assistant sans adresse correcte."); }
+      }
+      var telLink = root.querySelector('a[href^="tel:"]');
+      if(!telLink){ issues.push("Aucun lien tel: detecte sur la page."); }
+      var calendlyLinks = Array.prototype.slice.call(root.querySelectorAll('a[href*="calendly.com"]'));
+      if(calendlyLinks.length === 0){ issues.push("Aucun lien Calendly detecte sur la page."); }
+      calendlyLinks.forEach(function(link){
+        if(link.getAttribute("href").indexOf("calendly.com/preuvia_qhse/30min") === -1){
+          issues.push("Lien Calendly avec une URL incorrecte : " + link.getAttribute("href"));
+        }
+      });
+
+      var buttons = Array.prototype.slice.call(root.querySelectorAll("button"));
+      buttons.forEach(function(btn){
+        if(btn.getAttribute("type") !== "button"){ issues.push("Bouton interactif sans type=button detecte."); }
+        if(!btn.textContent.trim() && !btn.getAttribute("aria-label")){ issues.push("Bouton sans texte accessible."); }
+      });
+
+      needButtons.forEach(function(btn){
+        if(!btn.hasAttribute("aria-pressed")){ issues.push("Option de besoin sans aria-pressed."); }
+      });
+
+      [
+        ["pv-contact-field-organisation", "Entreprise ou organisation"],
+        ["pv-contact-field-secteur", "Secteur d'activité"],
+        ["pv-contact-field-effectif", "Effectif approximatif"],
+        ["pv-contact-field-sites", "Nombre de sites"],
+        ["pv-contact-field-besoin", "Besoin principal"],
+        ["pv-contact-field-delai", "Délai ou période envisagée"],
+        ["pv-contact-field-message", "Message complémentaire"]
+      ].forEach(function(pair){
+        var label = root.querySelector('label[for="' + pair[0] + '"]');
+        if(!label){ issues.push("Champ sans label : " + pair[0]); }
+      });
+
+      if(prepareList && !prepareList.getAttribute("aria-live")){ issues.push("Zone dynamique sans aria-live (liste a preparer)."); }
+      if(urlAnnounce && !urlAnnounce.getAttribute("aria-live")){ issues.push("Zone d'annonce contextuelle sans aria-live."); }
+
+      var seenIds = {};
+      Array.prototype.slice.call(root.querySelectorAll("[id]")).forEach(function(el){
+        var id = el.id;
+        if(seenIds[id]){ issues.push("Identifiant HTML duplique : " + id); }
+        seenIds[id] = true;
+      });
+
+      var h1s = root.querySelectorAll("h1");
+      if(h1s.length === 0){ issues.push("Aucune balise H1 trouvee."); }
+      if(h1s.length > 1){ issues.push("Plusieurs balises H1 trouvees : " + h1s.length); }
+
+      var navEl = root.querySelector("nav");
+      if(navEl && !navEl.getAttribute("aria-label")){ issues.push("Element nav sans aria-label."); }
+      if(navEl && !navEl.querySelector('[aria-current="page"]')){ issues.push("Aucun lien de navigation ne porte aria-current page."); }
+
+      var accordionButtons = Array.prototype.slice.call(root.querySelectorAll(".pv-contact-faq__question"));
+      accordionButtons.forEach(function(btn){
+        if(!btn.getAttribute("aria-controls")){ issues.push("Accordeon sans aria-controls."); }
+      });
+
+      var customForms = root.querySelectorAll("form");
+      if(customForms.length > 0){ issues.push("Element form detecte dans la page (non attendu sur cette page)."); }
+
+      if(root.scrollWidth > root.clientWidth + 1){ issues.push("Debordement horizontal potentiel du conteneur principal."); }
+
+      var bodyText = root.textContent || "";
+      oldTemplateMarkers.forEach(function(marker){
+        if(bodyText.indexOf(marker) !== -1){ issues.push("Texte residuel possible de l'ancien template detecte : " + marker); }
+      });
+
+      try {
+        var testParams = new URLSearchParams(window.location.search);
+        ["origine", "besoin", "secteur", "formation"].forEach(function(paramName){
+          var testRaw = testParams.get(paramName);
+          if(testRaw && bodyText.indexOf(testRaw) !== -1){
+            var normalized = String(testRaw).toLowerCase().trim();
+            var isControlled = Object.prototype.hasOwnProperty.call(besoinUrlAliases, normalized) ||
+              Object.prototype.hasOwnProperty.call(sectorLabels, normalized) ||
+              Object.prototype.hasOwnProperty.call(origineLabels, normalized);
+            if(!isControlled){
+              issues.push("Valeur brute d'URL potentiellement injectee dans le DOM (" + paramName + ") : " + testRaw);
+            }
+          }
+        });
+      } catch(paramCheckError){
+        /* Verification best-effort uniquement. */
+      }
+
+      if(issues.length){
+        console.warn("[PREUVIA audit] " + issues.length + " point(s) a verifier :", issues);
+      } else {
+        console.info("[PREUVIA audit] Aucun probleme detecte.");
+      }
+    } catch (auditError) {
+      /* L'audit ne doit jamais interrompre la page, y compris en cas d'erreur interne. */
+    }
+  }
+
+  if(PV_CONTACT_DEBUG === true){
+    runPreuviaContactIntegrityAudit();
+  }
+
 })();
 </script>
