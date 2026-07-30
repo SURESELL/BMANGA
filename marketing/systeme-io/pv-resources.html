@@ -1,6 +1,8 @@
 <style>
+#pv-resources,#pv-resources *,#pv-resources *::before,#pv-resources *::after{box-sizing:border-box;}
 #pv-resources{
   --pv-resources-navy:#102B4E;
+  --pv-resources-deep:#081A31;
   --pv-resources-blue:#173F5F;
   --pv-resources-teal:#0B7F83;
   --pv-resources-cyan:#00A5D8;
@@ -9,1044 +11,1461 @@
   --pv-resources-text:#243746;
   --pv-resources-muted:#5C6F7B;
   --pv-resources-border:#D9E3E8;
+  --pv-resources-soft-blue:#EAF4F7;
+  --pv-resources-soft-teal:#E5F4F2;
+  --pv-resources-success:#287A54;
   --pv-resources-warning:#B87503;
   --pv-resources-danger:#9E3A38;
-  --pv-resources-success:#287A54;
-  display:block;
-  background:var(--pv-resources-white);
+  --pv-resources-pdf:#A13632;
+  --pv-resources-word:#245BA7;
+  --pv-resources-powerpoint:#B9582A;
+  --pv-resources-excel:#23734D;
+  --pv-resources-shadow-sm:0 8px 24px rgba(16,43,78,.08);
+  --pv-resources-shadow-lg:0 24px 60px rgba(16,43,78,.14);
+  --pv-resources-radius-sm:10px;
+  --pv-resources-radius-md:16px;
+  --pv-resources-radius-lg:24px;
+  --pv-resources-container:1180px;
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
   color:var(--pv-resources-text);
+  background:var(--pv-resources-white);
+  width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);overflow-x:hidden;overflow-x:clip;
+  position:relative;
   line-height:1.55;
+  -webkit-text-size-adjust:100%;
 }
-#pv-resources *{box-sizing:border-box;}
-#pv-resources .pv-resources-container{max-width:1180px;margin:0 auto;padding:0 24px;}
-#pv-resources .pv-resources-section{padding:72px 0;scroll-margin-top:24px;}
-#pv-resources .pv-resources-section--muted{background:var(--pv-resources-light);}
-#pv-resources .pv-resources-section--navy{background:var(--pv-resources-navy);color:var(--pv-resources-white);}
-#pv-resources .pv-resources-h1{
-  font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:800;color:var(--pv-resources-navy);
-  margin:0 0 20px;line-height:1.2;max-width:820px;
-}
-#pv-resources .pv-resources-h2{
-  font-size:clamp(1.35rem,2.3vw,1.8rem);font-weight:800;color:var(--pv-resources-navy);
-  margin:0 0 14px;line-height:1.25;
-}
-#pv-resources .pv-resources-section--navy .pv-resources-h2{color:var(--pv-resources-white);}
-#pv-resources .pv-resources-h3{font-size:1.04rem;font-weight:700;color:var(--pv-resources-navy);margin:0 0 6px;}
-#pv-resources .pv-resources-eyebrow{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.08em;color:var(--pv-resources-teal);margin:0 0 16px;}
-#pv-resources .pv-resources-lead{font-size:1.05rem;color:var(--pv-resources-muted);max-width:680px;margin:0 0 20px;}
-#pv-resources .pv-resources-section--navy .pv-resources-lead{color:#C9D8E2;}
-#pv-resources .pv-resources-p{font-size:.95rem;color:var(--pv-resources-muted);margin:0 0 12px;}
-#pv-resources .pv-resources-section-intro{max-width:780px;margin:0 auto 32px;}
-#pv-resources .pv-resources-section-intro--center{text-align:center;}
+#pv-resources svg{max-width:100%;}
+#pv-resources .pv-resources-container{max-width:var(--pv-resources-container);margin:0 auto;padding:0 24px;}
+#pv-resources .pv-resources-visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+#pv-resources .pv-resources-skip-link{position:absolute;top:-60px;left:12px;background:var(--pv-resources-navy);color:#fff;padding:12px 20px;border-radius:var(--pv-resources-radius-sm);z-index:200;transition:top .2s ease;text-decoration:none;font-weight:600;}
+#pv-resources .pv-resources-skip-link:focus{top:12px;}
+#pv-resources .pv-resources-text-center{text-align:center;}
 
-/* Buttons */
-#pv-resources .pv-resources-btn{
-  display:inline-flex;align-items:center;justify-content:center;min-height:48px;
-  padding:12px 24px;border-radius:10px;font-size:.94rem;font-weight:700;text-decoration:none;
-  border:2px solid transparent;cursor:pointer;
-  transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,color .15s ease;
-}
-#pv-resources .pv-resources-btn--primary{background:var(--pv-resources-cyan);color:var(--pv-resources-navy);}
-#pv-resources .pv-resources-btn--primary:hover{background:#0B90BC;color:var(--pv-resources-white);}
-#pv-resources .pv-resources-btn--secondary{background:transparent;color:var(--pv-resources-navy);border-color:var(--pv-resources-navy);}
-#pv-resources .pv-resources-btn--secondary:hover{background:var(--pv-resources-navy);color:var(--pv-resources-white);}
-#pv-resources .pv-resources-section--navy .pv-resources-btn--secondary{color:var(--pv-resources-white);border-color:var(--pv-resources-white);}
-#pv-resources .pv-resources-btn--quick{min-height:44px;padding:10px 18px;font-size:.86rem;background:var(--pv-resources-white);color:var(--pv-resources-navy);border-color:var(--pv-resources-border);}
-#pv-resources .pv-resources-btn--quick:hover{border-color:var(--pv-resources-cyan);}
-#pv-resources .pv-resources-btn--small{min-height:40px;padding:8px 16px;font-size:.84rem;}
-#pv-resources .pv-resources-btn:focus,
-#pv-resources .pv-resources-chip:focus,
-#pv-resources .pv-resources-faq__question:focus,
-#pv-resources .pv-resources-modal__close:focus,
-#pv-resources input:focus{outline:3px solid var(--pv-resources-cyan);outline-offset:3px;}
-#pv-resources .pv-resources-btn:focus:not(:focus-visible),
-#pv-resources .pv-resources-chip:focus:not(:focus-visible),
-#pv-resources .pv-resources-faq__question:focus:not(:focus-visible),
-#pv-resources .pv-resources-modal__close:focus:not(:focus-visible){outline:none;}
+/* Focus visibility */
+#pv-resources .pv-resources-topbar__link:focus-visible,
+#pv-resources .pv-resources-logo:focus-visible,
+#pv-resources .pv-resources-nav__list a:focus-visible,
+#pv-resources .pv-resources-menu-toggle:focus-visible,
 #pv-resources .pv-resources-btn:focus-visible,
+#pv-resources .pv-resources-mobile-menu__list a:focus-visible,
+#pv-resources .pv-resources-floating__btn:focus-visible,
+#pv-resources .pv-resources-mobile-bar__btn:focus-visible,
 #pv-resources .pv-resources-chip:focus-visible,
 #pv-resources .pv-resources-faq__question:focus-visible,
-#pv-resources .pv-resources-modal__close:focus-visible{outline:3px solid var(--pv-resources-cyan);outline-offset:3px;}
-#pv-resources .pv-resources-cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px;}
+#pv-resources .pv-resources-inline-link:focus-visible,
+#pv-resources .pv-resources-search__input:focus-visible,
+#pv-resources .pv-resources-sort__select:focus-visible,
+#pv-resources .pv-resources-modal__close:focus-visible,
+#pv-resources .pv-resources-footer__list a:focus-visible{
+  outline:3px solid var(--pv-resources-cyan);outline-offset:2px;border-radius:6px;
+}
+
+/* Topbar */
+#pv-resources .pv-resources-topbar{background:var(--pv-resources-deep);color:#fff;font-size:.86rem;}
+#pv-resources .pv-resources-topbar__inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;padding:9px 24px;text-align:center;}
+#pv-resources .pv-resources-topbar__link{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:2px;}
+
+/* Header */
+#pv-resources .pv-resources-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--pv-resources-border);transition:box-shadow .25s ease;}
+#pv-resources .pv-resources-header--scrolled{box-shadow:var(--pv-resources-shadow-sm);}
+#pv-resources .pv-resources-header__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px;max-width:var(--pv-resources-container);margin:0 auto;}
+#pv-resources .pv-resources-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.05rem;color:var(--pv-resources-navy);min-height:48px;}
+#pv-resources .pv-resources-logo__mark{flex-shrink:0;}
+#pv-resources .pv-resources-nav{display:none;}
+#pv-resources .pv-resources-nav__list{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:6px;}
+#pv-resources .pv-resources-nav__list a{display:flex;align-items:center;min-height:48px;padding:0 14px;text-decoration:none;font-weight:600;font-size:.94rem;color:var(--pv-resources-text);border-radius:var(--pv-resources-radius-sm);transition:background .2s ease,color .2s ease;}
+#pv-resources .pv-resources-nav__list a:hover{background:var(--pv-resources-soft-blue);color:var(--pv-resources-teal);}
+#pv-resources .pv-resources-nav__list a[aria-current="page"]{color:var(--pv-resources-teal);font-weight:800;}
+#pv-resources .pv-resources-header__actions{display:none;align-items:center;gap:10px;}
+#pv-resources .pv-resources-menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:var(--pv-resources-radius-sm);border:1.5px solid var(--pv-resources-border);background:#fff;cursor:pointer;}
+#pv-resources .pv-resources-menu-toggle__bar{display:block;width:20px;height:2px;background:var(--pv-resources-navy);position:relative;}
+#pv-resources .pv-resources-menu-toggle__bar::before,#pv-resources .pv-resources-menu-toggle__bar::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--pv-resources-navy);transition:transform .2s ease;}
+#pv-resources .pv-resources-menu-toggle__bar::before{top:-6px;}
+#pv-resources .pv-resources-menu-toggle__bar::after{top:6px;}
+
+/* Mobile menu */
+#pv-resources .pv-resources-mobile-menu{position:fixed;inset:0;background:rgba(8,26,49,.55);z-index:150;display:none;}
+#pv-resources.pv-resources-menu-open .pv-resources-mobile-menu{display:block;}
+#pv-resources .pv-resources-mobile-menu__panel{position:absolute;top:0;right:0;bottom:0;width:min(340px,88vw);background:#fff;padding:22px;overflow-y:auto;box-shadow:var(--pv-resources-shadow-lg);}
+#pv-resources .pv-resources-mobile-menu__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+#pv-resources .pv-resources-mobile-menu__title{font-weight:800;color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-mobile-menu__close{width:44px;height:44px;border-radius:var(--pv-resources-radius-sm);border:1.5px solid var(--pv-resources-border);background:#fff;font-size:1.1rem;cursor:pointer;}
+#pv-resources .pv-resources-mobile-menu__list{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:2px;}
+#pv-resources .pv-resources-mobile-menu__list a{display:flex;align-items:center;min-height:48px;padding:0 10px;text-decoration:none;font-weight:700;color:var(--pv-resources-navy);border-radius:var(--pv-resources-radius-sm);}
+#pv-resources .pv-resources-mobile-menu__list a:hover{background:var(--pv-resources-soft-blue);}
+#pv-resources .pv-resources-mobile-menu__list a[aria-current="page"]{color:var(--pv-resources-teal);}
+#pv-resources .pv-resources-mobile-menu__actions{display:flex;flex-direction:column;gap:10px;}
+
+/* Buttons */
+#pv-resources .pv-resources-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:700;font-size:.98rem;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .2s ease,color .2s ease;text-align:center;}
+#pv-resources .pv-resources-btn--primary{background:var(--pv-resources-cyan);color:#04212f;}
+#pv-resources .pv-resources-btn--primary:hover{background:var(--pv-resources-teal);color:#fff;}
+#pv-resources .pv-resources-btn--secondary{background:#fff;color:var(--pv-resources-navy);border-color:var(--pv-resources-border);}
+#pv-resources .pv-resources-btn--secondary:hover{border-color:var(--pv-resources-teal);color:var(--pv-resources-teal);}
+#pv-resources .pv-resources-btn--on-dark{color:#fff;border-color:rgba(255,255,255,.55);}
+#pv-resources .pv-resources-btn--on-dark:hover{background:rgba(255,255,255,.12);}
+#pv-resources .pv-resources-btn--small{min-height:44px;padding:0 18px;font-size:.9rem;}
+#pv-resources .pv-resources-btn--block{width:100%;}
+#pv-resources .pv-resources-btn:hover{transform:translateY(-1px);}
+
+/* Floating contacts */
+#pv-resources .pv-resources-floating{position:fixed;right:22px;bottom:26px;z-index:120;display:none;flex-direction:column;gap:12px;}
+#pv-resources .pv-resources-floating__btn{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;box-shadow:var(--pv-resources-shadow-lg);text-decoration:none;color:#fff;}
+#pv-resources .pv-resources-floating__btn--whatsapp{background:#22a559;}
+#pv-resources .pv-resources-floating__btn--calendly{background:var(--pv-resources-navy);}
+#pv-resources .pv-resources-mobile-bar{position:fixed;left:0;right:0;bottom:0;z-index:120;display:flex;background:#fff;border-top:1px solid var(--pv-resources-border);box-shadow:0 -8px 24px rgba(16,43,78,.1);}
+#pv-resources .pv-resources-mobile-bar__btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;text-decoration:none;font-weight:700;font-size:.92rem;color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-mobile-bar__btn--accent{background:var(--pv-resources-cyan);color:#04212f;}
+
+/* Sections generic */
+#pv-resources .pv-resources-section{padding:76px 0;}
+#pv-resources .pv-resources-section--alt{background:var(--pv-resources-light);}
+#pv-resources .pv-resources-section--navy{background:linear-gradient(160deg,var(--pv-resources-navy),var(--pv-resources-deep));color:#fff;}
+#pv-resources .pv-resources-eyebrow{display:inline-block;font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--pv-resources-teal);margin-bottom:14px;}
+#pv-resources .pv-resources-section--navy .pv-resources-eyebrow{color:var(--pv-resources-cyan);}
+#pv-resources .pv-resources-h1{font-size:clamp(38px,6vw,68px);line-height:1.08;font-weight:800;margin:0 0 20px;color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-section--navy .pv-resources-h1{color:#fff;}
+#pv-resources .pv-resources-h2{font-size:clamp(29px,4vw,44px);line-height:1.15;font-weight:800;margin:0 0 18px;color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-section--navy .pv-resources-h2{color:#fff;}
+#pv-resources .pv-resources-h3{font-size:clamp(21px,2.6vw,26px);line-height:1.25;font-weight:700;margin:0 0 12px;color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-h3--compact{font-size:1.05rem;}
+#pv-resources .pv-resources-section--navy .pv-resources-h3{color:#fff;}
+#pv-resources .pv-resources-p{font-size:1.05rem;color:var(--pv-resources-muted);margin:0 0 16px;max-width:740px;}
+#pv-resources .pv-resources-section--navy .pv-resources-p{color:rgba(255,255,255,.85);}
+#pv-resources .pv-resources-p--small{font-size:.92rem;}
+#pv-resources .pv-resources-p--center{max-width:740px;margin-left:auto;margin-right:auto;}
+#pv-resources .pv-resources-section-intro{max-width:820px;margin-bottom:44px;}
+#pv-resources .pv-resources-section-intro--center{text-align:center;margin-left:auto;margin-right:auto;}
+#pv-resources .pv-resources-mt-md{margin-top:16px;}
+#pv-resources .pv-resources-mt-lg{margin-top:28px;}
+#pv-resources .pv-resources-mt-xl{margin-top:40px;}
+#pv-resources .pv-resources-cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
 #pv-resources .pv-resources-cta-row--center{justify-content:center;}
+#pv-resources .pv-resources-reassurance{margin-top:22px;font-size:.86rem;color:var(--pv-resources-muted);}
+#pv-resources .pv-resources-section--navy .pv-resources-reassurance{color:rgba(255,255,255,.7);}
+#pv-resources .pv-resources-text-on-dark{color:#fff;}
+
+/* Reveal on scroll */
+#pv-resources.pv-resources-js .pv-resources-reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease;}
+#pv-resources.pv-resources-js .pv-resources-reveal--visible{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){
+  #pv-resources.pv-resources-js .pv-resources-reveal{opacity:1;transform:none;transition:none;}
+}
 
 /* Hero */
-#pv-resources .pv-resources-hero{padding:56px 0 48px;background:linear-gradient(180deg,var(--pv-resources-light) 0%,var(--pv-resources-white) 100%);text-align:center;}
-#pv-resources .pv-resources-hero__content{max-width:780px;margin:0 auto;}
-#pv-resources .pv-resources-hero__content .pv-resources-h1{margin-left:auto;margin-right:auto;}
-#pv-resources .pv-resources-hero__content .pv-resources-lead{margin-left:auto;margin-right:auto;}
-#pv-resources .pv-resources-reassurance{list-style:none;margin:20px 0 28px;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;font-size:.84rem;color:var(--pv-resources-muted);}
-#pv-resources .pv-resources-reassurance li{position:relative;padding-left:16px;}
-#pv-resources .pv-resources-reassurance li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--pv-resources-cyan);}
-#pv-resources .pv-resources-quick-access{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+#pv-resources .pv-resources-hero{background:linear-gradient(160deg,var(--pv-resources-navy),var(--pv-resources-deep));color:#fff;padding:68px 0 64px;position:relative;overflow:hidden;}
+#pv-resources .pv-resources-hero__inner{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;}
+#pv-resources .pv-resources-hero__visual{display:flex;justify-content:center;}
+#pv-resources .pv-resources-hero__visual svg{width:100%;max-width:440px;height:auto;}
 
-/* Category cards */
-#pv-resources .pv-resources-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-#pv-resources .pv-resources-card{
-  background:var(--pv-resources-white);border:1px solid var(--pv-resources-border);border-radius:14px;
-  padding:22px;box-shadow:0 6px 18px rgba(16,43,78,.05);display:flex;flex-direction:column;
-}
-#pv-resources .pv-resources-category-card__icon{
-  width:44px;height:44px;border-radius:10px;background:var(--pv-resources-light);
-  display:flex;align-items:center;justify-content:center;margin-bottom:14px;
-}
-#pv-resources .pv-resources-category-card__icon svg{width:22px;height:22px;}
+/* Cards grid generic */
+#pv-resources .pv-resources-grid{display:grid;gap:22px;}
+#pv-resources .pv-resources-grid-2{grid-template-columns:1fr;}
+#pv-resources .pv-resources-grid-3{grid-template-columns:1fr;}
+#pv-resources .pv-resources-grid-4{grid-template-columns:1fr;}
+#pv-resources .pv-resources-card{background:#fff;border:1px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-md);padding:26px;box-shadow:var(--pv-resources-shadow-sm);height:100%;display:flex;flex-direction:column;}
+#pv-resources .pv-resources-card__icon{width:46px;height:46px;border-radius:12px;background:var(--pv-resources-soft-teal);display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex-shrink:0;}
+#pv-resources .pv-resources-list{margin:0;padding-left:20px;color:var(--pv-resources-muted);font-size:.95rem;}
+#pv-resources .pv-resources-list li{margin-bottom:7px;}
+#pv-resources .pv-resources-list--plain{list-style:none;padding-left:0;}
+#pv-resources .pv-resources-list--plain li{position:relative;padding-left:22px;}
+#pv-resources .pv-resources-list--plain li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:2px;background:var(--pv-resources-teal);}
+#pv-resources .pv-resources-inline-link{color:var(--pv-resources-teal);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;}
+#pv-resources .pv-resources-inline-link:hover{text-decoration:underline;}
+#pv-resources .pv-resources-disclaimer{margin-top:20px;padding:18px 20px;background:var(--pv-resources-soft-blue);border-left:4px solid var(--pv-resources-teal);border-radius:var(--pv-resources-radius-sm);font-size:.92rem;font-weight:700;color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-disclaimer--strong{border-left-color:var(--pv-resources-warning);background:#FBF3E7;}
+#pv-resources .pv-resources-disclaimer--centered{max-width:740px;margin-left:auto;margin-right:auto;}
+#pv-resources .pv-resources-list--centered{max-width:740px;margin-left:auto;margin-right:auto;}
 
-/* Toolbar */
-#pv-resources .pv-resources-toolbar{
-  background:var(--pv-resources-white);border:1px solid var(--pv-resources-border);border-radius:16px;
-  padding:24px;margin-bottom:32px;box-shadow:0 6px 18px rgba(16,43,78,.05);
-}
-#pv-resources .pv-resources-search{margin-bottom:18px;}
-#pv-resources .pv-resources-search label{display:block;font-size:.86rem;font-weight:700;color:var(--pv-resources-navy);margin-bottom:8px;}
-#pv-resources .pv-resources-search input{
-  width:100%;min-height:48px;border-radius:10px;border:1.5px solid var(--pv-resources-border);
-  padding:10px 16px;font-size:.94rem;color:var(--pv-resources-text);background:var(--pv-resources-white);
-}
+/* Objective cards (4) */
+#pv-resources .pv-resources-objective{background:#fff;border:1.5px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-md);padding:26px;box-shadow:var(--pv-resources-shadow-sm);height:100%;display:flex;flex-direction:column;}
+#pv-resources .pv-resources-objective__title{font-size:1.15rem;font-weight:800;color:var(--pv-resources-navy);margin:0 0 10px;}
+#pv-resources .pv-resources-objective__actions{margin-top:auto;}
+
+/* Prevention flow */
+#pv-resources .pv-resources-flow{display:flex;flex-wrap:wrap;gap:16px;align-items:stretch;justify-content:center;}
+#pv-resources .pv-resources-flow__step{flex:1 1 160px;background:#fff;border:1px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-md);padding:20px;text-align:center;box-shadow:var(--pv-resources-shadow-sm);}
+#pv-resources .pv-resources-flow__num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--pv-resources-navy);color:#fff;font-weight:800;font-size:.9rem;margin-bottom:10px;}
+#pv-resources .pv-resources-flow__title{font-weight:800;color:var(--pv-resources-navy);margin:0 0 6px;}
+#pv-resources .pv-resources-flow__text{font-size:.86rem;color:var(--pv-resources-muted);margin:0;}
+#pv-resources .pv-resources-flow__arrow{display:none;align-items:center;color:var(--pv-resources-teal);font-weight:700;font-size:1.3rem;}
+
+/* Tools: search + filters + sort */
+#pv-resources .pv-resources-tools{background:#fff;border:1.5px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-lg);padding:26px;box-shadow:var(--pv-resources-shadow-sm);margin-bottom:36px;}
+#pv-resources .pv-resources-search{margin-bottom:20px;}
+#pv-resources .pv-resources-search label{display:block;font-weight:700;font-size:.92rem;color:var(--pv-resources-navy);margin-bottom:8px;}
+#pv-resources .pv-resources-search__input{width:100%;min-height:52px;border:1.5px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-sm);padding:0 16px;font-size:1rem;background:#fff;color:var(--pv-resources-text);}
 #pv-resources .pv-resources-filter-group{margin-bottom:16px;}
-#pv-resources .pv-resources-filter-group:last-of-type{margin-bottom:0;}
-#pv-resources .pv-resources-filter-group__label{display:block;font-size:.8rem;font-weight:700;letter-spacing:.03em;color:var(--pv-resources-muted);margin-bottom:10px;text-transform:uppercase;}
-#pv-resources .pv-resources-chips{display:flex;flex-wrap:wrap;gap:10px;}
-#pv-resources .pv-resources-chip{
-  min-height:40px;padding:8px 18px;border-radius:999px;border:1.5px solid var(--pv-resources-border);
-  background:var(--pv-resources-white);color:var(--pv-resources-navy);font-size:.86rem;font-weight:700;cursor:pointer;
-}
-#pv-resources .pv-resources-chip[aria-pressed="true"]{background:var(--pv-resources-navy);border-color:var(--pv-resources-navy);color:var(--pv-resources-white);}
-#pv-resources .pv-resources-toolbar__footer{
-  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;
-  margin-top:20px;padding-top:18px;border-top:1px solid var(--pv-resources-border);
-}
-#pv-resources .pv-resources-counter{font-size:.9rem;font-weight:700;color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-filter-group__label{display:block;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--pv-resources-teal);margin-bottom:8px;}
+#pv-resources .pv-resources-filters{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;}
+#pv-resources .pv-resources-chip{flex-shrink:0;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--pv-resources-border);background:#fff;color:var(--pv-resources-navy);font-weight:700;font-size:.88rem;cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease;}
+#pv-resources .pv-resources-chip[aria-pressed="true"]{background:var(--pv-resources-navy);border-color:var(--pv-resources-navy);color:#fff;}
+#pv-resources .pv-resources-chip:hover{border-color:var(--pv-resources-teal);}
+#pv-resources .pv-resources-tools__bottom{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-top:18px;}
+#pv-resources .pv-resources-counter{font-weight:700;color:var(--pv-resources-navy);font-size:.92rem;margin:0;}
+#pv-resources .pv-resources-sort{display:flex;align-items:center;gap:10px;}
+#pv-resources .pv-resources-sort label{font-weight:700;font-size:.88rem;color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-sort__select{min-height:44px;border:1.5px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-sm);padding:0 12px;font-size:.92rem;background:#fff;color:var(--pv-resources-text);}
 
-/* Resource cards grid */
-#pv-resources .pv-resources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-#pv-resources .pv-resources-resource-card{
-  background:var(--pv-resources-white);border:1px solid var(--pv-resources-border);border-radius:14px;
-  padding:22px;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(16,43,78,.05);
-}
-#pv-resources .pv-resources-resource-card__top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px;}
-#pv-resources .pv-resources-resource-card__icon{
-  display:flex;align-items:center;justify-content:center;min-width:44px;height:34px;padding:0 8px;
-  border-radius:8px;font-size:.7rem;font-weight:800;letter-spacing:.02em;
-}
-#pv-resources .pv-resources-resource-card__icon--pdf{background:#FBEAEA;color:var(--pv-resources-danger);}
-#pv-resources .pv-resources-resource-card__icon--word{background:#E7EEF4;color:var(--pv-resources-blue);}
-#pv-resources .pv-resources-resource-card__icon--powerpoint{background:#FCEEDC;color:var(--pv-resources-warning);}
-#pv-resources .pv-resources-resource-card__icon--excel{background:#E6F2EC;color:var(--pv-resources-success);}
-#pv-resources .pv-resources-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.02em;border-radius:999px;padding:5px 12px;}
-#pv-resources .pv-resources-badge--pdf{background:#FBEAEA;color:var(--pv-resources-danger);}
-#pv-resources .pv-resources-badge--word{background:#E7EEF4;color:var(--pv-resources-blue);}
-#pv-resources .pv-resources-badge--powerpoint{background:#FCEEDC;color:var(--pv-resources-warning);}
-#pv-resources .pv-resources-badge--excel{background:#E6F2EC;color:var(--pv-resources-success);}
-#pv-resources .pv-resources-badge--featured{background:var(--pv-resources-navy);color:var(--pv-resources-white);}
-#pv-resources .pv-resources-resource-card__category{font-size:.78rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--pv-resources-teal);margin:0 0 8px;}
-#pv-resources .pv-resources-resource-card__meta{list-style:none;margin:0 0 10px;padding:0;font-size:.82rem;color:var(--pv-resources-muted);}
-#pv-resources .pv-resources-resource-card__meta li{margin-bottom:4px;}
-#pv-resources .pv-resources-resource-card__note{font-size:.8rem;color:var(--pv-resources-muted);font-style:italic;margin:0 0 14px;}
-#pv-resources .pv-resources-resource-card__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;}
+/* Resource cards */
+#pv-resources .pv-resources-catalogue__grid{display:grid;grid-template-columns:1fr;gap:24px;}
+#pv-resources .pv-resources-resource{background:#fff;border:1.5px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-lg);padding:26px;box-shadow:var(--pv-resources-shadow-sm);display:flex;flex-direction:column;}
+#pv-resources .pv-resources-resource__top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
+#pv-resources .pv-resources-resource__icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--pv-resources-soft-blue);}
+#pv-resources .pv-resources-resource__badges{display:flex;flex-wrap:wrap;gap:6px;}
+#pv-resources .pv-resources-badge{display:inline-block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-radius:999px;padding:4px 10px;border:1px solid var(--pv-resources-border);background:var(--pv-resources-soft-blue);color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-badge--format-pdf{background:rgba(161,54,50,.1);border-color:var(--pv-resources-pdf);color:var(--pv-resources-pdf);}
+#pv-resources .pv-resources-badge--format-word{background:rgba(36,91,167,.1);border-color:var(--pv-resources-word);color:var(--pv-resources-word);}
+#pv-resources .pv-resources-badge--format-powerpoint{background:rgba(185,88,42,.1);border-color:var(--pv-resources-powerpoint);color:var(--pv-resources-powerpoint);}
+#pv-resources .pv-resources-badge--format-excel{background:rgba(35,115,77,.1);border-color:var(--pv-resources-excel);color:var(--pv-resources-excel);}
+#pv-resources .pv-resources-badge--featured{background:var(--pv-resources-navy);border-color:var(--pv-resources-navy);color:#fff;}
+#pv-resources .pv-resources-resource__title{font-size:1.1rem;font-weight:800;color:var(--pv-resources-navy);margin:0 0 8px;}
+#pv-resources .pv-resources-resource__desc{font-size:.94rem;color:var(--pv-resources-muted);margin:0 0 14px;}
+#pv-resources .pv-resources-resource__meta{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:4px;font-size:.86rem;color:var(--pv-resources-muted);}
+#pv-resources .pv-resources-resource__meta strong{color:var(--pv-resources-navy);}
+#pv-resources .pv-resources-resource__tags{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-wrap:wrap;gap:6px;}
+#pv-resources .pv-resources-resource__tags li{background:var(--pv-resources-soft-blue);color:var(--pv-resources-navy);font-size:.78rem;font-weight:600;border-radius:999px;padding:4px 10px;border:1px solid var(--pv-resources-border);}
+#pv-resources .pv-resources-resource__note{font-size:.82rem;font-style:italic;color:var(--pv-resources-muted);margin:0 0 14px;}
+#pv-resources .pv-resources-resource__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;}
 
 /* Empty states */
-#pv-resources .pv-resources-empty{
-  max-width:640px;margin:0 auto;text-align:center;background:var(--pv-resources-light);
-  border:1px dashed var(--pv-resources-border);border-radius:16px;padding:40px 30px;
-}
+#pv-resources .pv-resources-empty{max-width:640px;margin:0 auto;text-align:center;background:var(--pv-resources-light);border:1.5px dashed var(--pv-resources-border);border-radius:var(--pv-resources-radius-md);padding:44px 30px;}
 #pv-resources .pv-resources-empty[hidden]{display:none;}
 
-/* Adaptation block */
-#pv-resources .pv-resources-adaptation__points{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-#pv-resources .pv-resources-adaptation__point{
-  background:var(--pv-resources-white);border:1px solid var(--pv-resources-border);border-radius:12px;
-  padding:18px;font-size:.9rem;color:var(--pv-resources-text);position:relative;padding-left:40px;
-}
-#pv-resources .pv-resources-adaptation__point::before{
-  content:"\2713";position:absolute;left:16px;top:18px;color:var(--pv-resources-teal);font-weight:800;
-}
+/* Modal PDF */
+#pv-resources .pv-resources-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(8,26,49,.65);}
+#pv-resources.pv-resources-modal-open .pv-resources-modal{display:flex;}
+#pv-resources .pv-resources-modal__panel{background:#fff;border-radius:var(--pv-resources-radius-lg);box-shadow:var(--pv-resources-shadow-lg);width:min(900px,100%);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+#pv-resources .pv-resources-modal__header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid var(--pv-resources-border);}
+#pv-resources .pv-resources-modal__title{font-size:1.05rem;font-weight:800;color:var(--pv-resources-navy);margin:0;}
+#pv-resources .pv-resources-modal__close{width:44px;height:44px;flex-shrink:0;border-radius:var(--pv-resources-radius-sm);border:1.5px solid var(--pv-resources-border);background:#fff;font-size:1.15rem;cursor:pointer;}
+#pv-resources .pv-resources-modal__body{flex:1;min-height:50vh;background:var(--pv-resources-light);}
+#pv-resources .pv-resources-modal__body iframe{width:100%;height:100%;min-height:50vh;border:none;display:block;}
+#pv-resources .pv-resources-modal__footer{padding:16px 22px;border-top:1px solid var(--pv-resources-border);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;}
+#pv-resources .pv-resources-modal__note{font-size:.82rem;color:var(--pv-resources-muted);margin:0;}
 
-/* Commercial block */
-#pv-resources .pv-resources-commercial{
-  max-width:760px;margin:0 auto;text-align:center;background:var(--pv-resources-white);
-  border:1px solid var(--pv-resources-border);border-radius:16px;padding:32px 28px;
-}
+/* Confiance / proof */
+#pv-resources .pv-resources-engagement{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-sm);padding:16px;}
+#pv-resources .pv-resources-engagement__icon{flex-shrink:0;width:34px;height:34px;border-radius:8px;background:var(--pv-resources-soft-teal);display:flex;align-items:center;justify-content:center;}
+#pv-resources .pv-resources-engagement__text{margin:0;font-size:.92rem;color:var(--pv-resources-text);}
+#pv-resources [data-published="false"]{display:none;}
+#pv-resources .pv-resources-proof{margin-top:24px;}
 
-/* FAQ */
-#pv-resources .pv-resources-faq{max-width:840px;margin:0 auto;}
+/* Bridge / orientation cards */
+#pv-resources .pv-resources-bridge-card{background:#fff;border:1.5px solid var(--pv-resources-border);border-radius:var(--pv-resources-radius-lg);padding:30px;box-shadow:var(--pv-resources-shadow-sm);height:100%;display:flex;flex-direction:column;}
+#pv-resources .pv-resources-bridge-card__actions{margin-top:auto;}
+
+/* FAQ accordion */
 #pv-resources .pv-resources-faq__item{border-bottom:1px solid var(--pv-resources-border);}
-#pv-resources .pv-resources-faq__item:first-child{border-top:1px solid var(--pv-resources-border);}
-#pv-resources .pv-resources-faq__question{
-  width:100%;text-align:left;background:none;border:none;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:20px 4px;font-size:1rem;font-weight:700;color:var(--pv-resources-navy);cursor:pointer;min-height:48px;
+#pv-resources .pv-resources-faq__question{width:100%;text-align:left;background:none;border:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 4px;font-size:1.02rem;font-weight:700;color:var(--pv-resources-navy);cursor:pointer;min-height:48px;}
+#pv-resources .pv-resources-faq__icon{flex-shrink:0;transition:transform .2s ease;}
+#pv-resources .pv-resources-faq__question[aria-expanded="true"] .pv-resources-faq__icon{transform:rotate(45deg);}
+#pv-resources .pv-resources-faq__panel{padding:0 4px 20px;color:var(--pv-resources-muted);font-size:.95rem;max-width:740px;}
+#pv-resources .pv-resources-faq__panel[hidden]{display:none;}
+@media (prefers-reduced-motion:reduce){
+  #pv-resources .pv-resources-faq__icon{transition:none;}
 }
-#pv-resources .pv-resources-faq__icon{flex-shrink:0;width:22px;height:22px;position:relative;}
-#pv-resources .pv-resources-faq__icon::before,#pv-resources .pv-resources-faq__icon::after{
-  content:"";position:absolute;background:var(--pv-resources-navy);top:50%;left:50%;transform:translate(-50%,-50%);
-}
-#pv-resources .pv-resources-faq__icon::before{width:14px;height:2px;}
-#pv-resources .pv-resources-faq__icon::after{width:2px;height:14px;}
-#pv-resources .pv-resources-faq__question[aria-expanded="true"] .pv-resources-faq__icon::after{transform:translate(-50%,-50%) scaleY(0);}
-#pv-resources .pv-resources-faq__answer{padding:0 4px 22px;}
-#pv-resources .pv-resources-faq__answer[hidden]{display:none;}
 
-/* Final CTA */
+/* URL announce */
+#pv-resources .pv-resources-announce{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* CTA final */
 #pv-resources .pv-resources-final{text-align:center;}
 #pv-resources .pv-resources-final .pv-resources-h2{max-width:760px;margin-left:auto;margin-right:auto;}
-#pv-resources .pv-resources-final .pv-resources-lead{max-width:600px;margin-left:auto;margin-right:auto;}
+#pv-resources .pv-resources-final .pv-resources-p{margin-left:auto;margin-right:auto;}
 
-/* Modal */
-#pv-resources .pv-resources-modal{position:fixed;inset:0;z-index:1000;}
-#pv-resources .pv-resources-modal[hidden]{display:none;}
-#pv-resources .pv-resources-modal__overlay{position:absolute;inset:0;background:rgba(16,43,78,.6);}
-#pv-resources .pv-resources-modal__dialog{
-  position:relative;z-index:1;max-width:920px;width:calc(100% - 40px);margin:5vh auto;
-  background:var(--pv-resources-white);border-radius:16px;box-shadow:0 24px 60px rgba(16,43,78,.35);
-  display:flex;flex-direction:column;max-height:90vh;overflow:hidden;
-}
-#pv-resources .pv-resources-modal__header{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:18px 22px;border-bottom:1px solid var(--pv-resources-border);
-}
-#pv-resources .pv-resources-modal__title{font-size:1.02rem;font-weight:800;color:var(--pv-resources-navy);margin:0;}
-#pv-resources .pv-resources-modal__close{
-  min-width:40px;min-height:40px;border-radius:10px;border:1.5px solid var(--pv-resources-border);
-  background:var(--pv-resources-white);color:var(--pv-resources-navy);font-size:1.1rem;font-weight:800;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-}
-#pv-resources .pv-resources-modal__body{flex-grow:1;background:var(--pv-resources-light);min-height:60vh;}
-#pv-resources .pv-resources-modal__iframe{display:block;width:100%;height:100%;min-height:60vh;border:none;}
-#pv-resources .pv-resources-modal__footer{padding:16px 22px;border-top:1px solid var(--pv-resources-border);display:flex;justify-content:flex-end;}
+/* Footer */
+#pv-resources .pv-resources-footer{background:var(--pv-resources-deep);color:rgba(255,255,255,.85);padding:56px 0 28px;}
+#pv-resources .pv-resources-footer__grid{display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:34px;}
+#pv-resources .pv-resources-footer__brand{color:#fff;font-weight:800;font-size:1.1rem;margin:0 0 8px;}
+#pv-resources .pv-resources-footer__tagline{margin:0;font-size:.88rem;color:rgba(255,255,255,.65);}
+#pv-resources .pv-resources-footer__heading{color:#fff;font-weight:700;font-size:.92rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;}
+#pv-resources .pv-resources-footer__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+#pv-resources .pv-resources-footer__list a{text-decoration:none;color:rgba(255,255,255,.8);font-size:.92rem;min-height:24px;display:inline-flex;align-items:center;}
+#pv-resources .pv-resources-footer__list a:hover{color:#fff;text-decoration:underline;}
+#pv-resources .pv-resources-footer__legal{border-top:1px solid rgba(255,255,255,.15);padding-top:22px;font-size:.82rem;color:rgba(255,255,255,.6);}
+#pv-resources .pv-resources-footer__legal p{margin:0 0 8px;}
+#pv-resources .pv-resources-footer__bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;margin-top:14px;font-size:.8rem;color:rgba(255,255,255,.55);}
 
-@media (prefers-reduced-motion:reduce){
-  #pv-resources *{transition:none !important;animation:none !important;}
+/* Responsive */
+@media (min-width:640px){
+  #pv-resources .pv-resources-grid-2{grid-template-columns:1fr 1fr;}
+  #pv-resources .pv-resources-grid-3{grid-template-columns:1fr 1fr;}
+  #pv-resources .pv-resources-grid-4{grid-template-columns:1fr 1fr;}
 }
-
-@media (max-width:980px){
-  #pv-resources .pv-resources-grid-4{grid-template-columns:repeat(2,1fr);}
-  #pv-resources .pv-resources-grid{grid-template-columns:repeat(2,1fr);}
-  #pv-resources .pv-resources-adaptation__points{grid-template-columns:1fr;}
+#pv-resources .pv-resources-flow__arrow{display:none;}
+@media (min-width:780px){
+  #pv-resources .pv-resources-flow{flex-wrap:nowrap;}
+  #pv-resources .pv-resources-flow__arrow{display:flex;}
 }
-
-@media (max-width:720px){
+@media (min-width:840px){
+  #pv-resources .pv-resources-footer__grid{grid-template-columns:1.4fr 1fr 1fr 1fr;}
+  #pv-resources .pv-resources-catalogue__grid{grid-template-columns:1fr 1fr;}
+}
+@media (min-width:900px){
+  #pv-resources .pv-resources-nav{display:block;}
+  #pv-resources .pv-resources-header__actions{display:flex;}
+  #pv-resources .pv-resources-menu-toggle{display:none;}
+  #pv-resources .pv-resources-floating{display:flex;}
+  #pv-resources .pv-resources-mobile-bar{display:none;}
+  #pv-resources .pv-resources-hero__inner{grid-template-columns:1.1fr .9fr;}
+  #pv-resources .pv-resources-grid-3{grid-template-columns:1fr 1fr 1fr;}
+  #pv-resources .pv-resources-grid-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+}
+@media (max-width:899px){
+  #pv-resources .pv-resources-mobile-bar{display:flex;}
+  #pv-resources{padding-bottom:56px;}
+}
+@media (min-width:1441px){
+  #pv-resources .pv-resources-container{max-width:1320px;}
+  #pv-resources .pv-resources-h1{font-size:70px;}
+}
+@media (max-width:340px){
+  #pv-resources .pv-resources-container{padding:0 14px;}
+  #pv-resources .pv-resources-btn{padding:0 16px;font-size:.9rem;}
+  #pv-resources .pv-resources-h1{font-size:34px;}
+}
+@media (max-width:479px){
   #pv-resources .pv-resources-section{padding:52px 0;}
-  #pv-resources .pv-resources-grid-4{grid-template-columns:1fr;}
-  #pv-resources .pv-resources-grid{grid-template-columns:1fr;}
-  #pv-resources .pv-resources-cta-row{flex-direction:column;}
-  #pv-resources .pv-resources-btn{width:100%;}
-  #pv-resources .pv-resources-toolbar__footer{flex-direction:column;align-items:stretch;}
-  #pv-resources .pv-resources-modal__dialog{margin:0;width:100%;max-height:100vh;border-radius:0;}
-}
-
-@media (max-width:480px){
-  #pv-resources .pv-resources-hero{padding:44px 0 36px;}
-  #pv-resources .pv-resources-toolbar{padding:18px;}
-  #pv-resources .pv-resources-quick-access{gap:8px;}
-  #pv-resources .pv-resources-chips{gap:8px;}
-  #pv-resources .pv-resources-chip{padding:7px 14px;font-size:.82rem;}
 }
 </style>
 
-<main id="pv-resources">
+<a class="pv-resources-skip-link" href="#pv-resources-main">Aller au contenu principal</a>
 
-  <section class="pv-resources-hero">
-    <div class="pv-resources-container pv-resources-hero__content">
-      <p class="pv-resources-eyebrow">RESSOURCES PRATIQUES • DUERP • PRÉVENTION • QHSE</p>
-      <h1 class="pv-resources-h1">Des outils concrets pour sensibiliser, observer, signaler et suivre</h1>
-      <p class="pv-resources-lead">Accédez à des affiches, checklists, fiches, registres et tableaux directement utilisables pour structurer la prévention au quotidien.</p>
-      <ul class="pv-resources-reassurance">
-        <li>Documents modifiables selon le format</li>
-        <li>Utilisation en entreprise</li>
-        <li>Adaptation à votre organisation recommandée</li>
+<div id="pv-resources">
+
+  <div class="pv-resources-topbar">
+    <div class="pv-resources-topbar__inner">
+      <span>Vous recherchez un outil adapté à votre organisation&nbsp;?</span>
+      <a class="pv-resources-topbar__link" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="header-calendly" data-pv-source="resources">Planifier un échange de 30 minutes</a>
+    </div>
+  </div>
+
+  <header class="pv-resources-header" id="pv-resources-header">
+    <div class="pv-resources-header__inner">
+      <a class="pv-resources-logo" href="/" data-pv-cta="logo-home" data-pv-source="resources">
+        <!-- REMPLACER CE LOGO SVG PAR L'URL DU LOGO PREUVIA CHARGE DANS SYSTEME.IO SI NECESSAIRE. -->
+        <svg class="pv-resources-logo__mark" width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+          <rect width="34" height="34" rx="9" fill="#102B4E"/>
+          <path d="M9 23V11h6.2a4.4 4.4 0 010 8.8H12" stroke="#00A5D8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 11v12" stroke="#0B7F83" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <span>PREUVIA QHSE</span>
+      </a>
+      <nav class="pv-resources-nav" aria-label="Navigation principale">
+        <ul class="pv-resources-nav__list">
+          <li><a href="/" data-pv-cta="nav-home" data-pv-source="resources">Accueil</a></li>
+          <li><a href="/prestations-duerp" data-pv-cta="nav-services" data-pv-source="resources">Prestations DUERP</a></li>
+          <li><a href="/formations-duerp-qhse" data-pv-cta="nav-training" data-pv-source="resources">Formations</a></li>
+          <li><a href="/methode-evaluation-risques" data-pv-cta="nav-method" data-pv-source="resources">Méthode</a></li>
+          <li><a href="/duerp-secteurs-activite" data-pv-cta="nav-sectors" data-pv-source="resources">Secteurs</a></li>
+          <li><a href="/ressources-duerp" aria-current="page" data-pv-cta="nav-resources" data-pv-source="resources">Ressources</a></li>
+          <li><a href="/contact" data-pv-cta="nav-contact" data-pv-source="resources">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="pv-resources-header__actions">
+        <a class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="header-calendly-secondary" data-pv-source="resources">Prendre rendez-vous</a>
+        <a class="pv-resources-btn pv-resources-btn--primary pv-resources-btn--small" href="/contact?origine=ressources&amp;besoin=outil-personnalise" data-pv-cta="header-contact" data-pv-source="resources">Demander un outil personnalisé</a>
+      </div>
+      <button type="button" class="pv-resources-menu-toggle" id="pv-resources-menu-toggle" aria-expanded="false" aria-controls="pv-resources-mobile-menu">
+        <span class="pv-resources-visually-hidden">Ouvrir le menu</span>
+        <span class="pv-resources-menu-toggle__bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="pv-resources-mobile-menu" id="pv-resources-mobile-menu">
+    <div class="pv-resources-mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+      <div class="pv-resources-mobile-menu__top">
+        <span class="pv-resources-mobile-menu__title">Menu</span>
+        <button type="button" class="pv-resources-mobile-menu__close" id="pv-resources-mobile-menu-close">
+          <span class="pv-resources-visually-hidden">Fermer le menu</span>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <ul class="pv-resources-mobile-menu__list">
+        <li><a href="/" data-pv-cta="mnav-home" data-pv-source="resources">Accueil</a></li>
+        <li><a href="/prestations-duerp" data-pv-cta="mnav-services" data-pv-source="resources">Prestations DUERP</a></li>
+        <li><a href="/formations-duerp-qhse" data-pv-cta="mnav-training" data-pv-source="resources">Formations</a></li>
+        <li><a href="/methode-evaluation-risques" data-pv-cta="mnav-method" data-pv-source="resources">Méthode</a></li>
+        <li><a href="/duerp-secteurs-activite" data-pv-cta="mnav-sectors" data-pv-source="resources">Secteurs</a></li>
+        <li><a href="/ressources-duerp" aria-current="page" data-pv-cta="mnav-resources" data-pv-source="resources">Ressources</a></li>
+        <li><a href="/contact" data-pv-cta="mnav-contact" data-pv-source="resources">Contact</a></li>
       </ul>
-      <ul class="pv-resources-quick-access">
-        <li><button type="button" class="pv-resources-btn pv-resources-btn--quick" data-quick-filter="sensibiliser">Sensibiliser</button></li>
-        <li><button type="button" class="pv-resources-btn pv-resources-btn--quick" data-quick-filter="observer">Observer</button></li>
-        <li><button type="button" class="pv-resources-btn pv-resources-btn--quick" data-quick-filter="signaler">Signaler</button></li>
-        <li><button type="button" class="pv-resources-btn pv-resources-btn--quick" data-quick-filter="suivre">Suivre</button></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="pv-resources-section pv-resources-section--muted" aria-labelledby="pv-resources-categories-title">
-    <div class="pv-resources-container">
-      <div class="pv-resources-section-intro pv-resources-section-intro--center">
-        <h2 id="pv-resources-categories-title" class="pv-resources-h2">Quatre repères pour organiser votre prévention</h2>
-      </div>
-      <div class="pv-resources-grid-4">
-        <article class="pv-resources-card">
-          <div class="pv-resources-category-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 10v4h4l6 4V6L7 10H3z" stroke="#0B7F83" stroke-width="1.6" stroke-linejoin="round"></path><path d="M16 9c1 1 1 5 0 6" stroke="#0B7F83" stroke-width="1.6" stroke-linecap="round"></path></svg>
-          </div>
-          <h3 class="pv-resources-h3">Sensibiliser</h3>
-          <p class="pv-resources-p">Faire connaître les risques, rappeler les bonnes pratiques et animer régulièrement la prévention.</p>
-        </article>
-        <article class="pv-resources-card">
-          <div class="pv-resources-category-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z" stroke="#0B7F83" stroke-width="1.6"></path><circle cx="12" cy="12" r="3" stroke="#0B7F83" stroke-width="1.6"></circle></svg>
-          </div>
-          <h3 class="pv-resources-h3">Observer</h3>
-          <p class="pv-resources-p">Analyser les situations de travail, les équipements, les circulations et les pratiques réelles.</p>
-        </article>
-        <article class="pv-resources-card">
-          <div class="pv-resources-category-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v10" stroke="#0B7F83" stroke-width="1.8" stroke-linecap="round"></path><circle cx="12" cy="18" r="1.4" fill="#0B7F83"></circle></svg>
-          </div>
-          <h3 class="pv-resources-h3">Signaler</h3>
-          <p class="pv-resources-p">Faciliter la remontée des situations dangereuses, presque-accidents et anomalies.</p>
-        </article>
-        <article class="pv-resources-card">
-          <div class="pv-resources-category-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20V10M11 20V4M18 20v-7" stroke="#0B7F83" stroke-width="1.8" stroke-linecap="round"></path></svg>
-          </div>
-          <h3 class="pv-resources-h3">Suivre</h3>
-          <p class="pv-resources-p">Attribuer les actions, contrôler les échéances, conserver les preuves et mesurer l’avancement.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="pv-resources-library" class="pv-resources-section" aria-labelledby="pv-resources-library-title">
-    <div class="pv-resources-container">
-      <div class="pv-resources-section-intro pv-resources-section-intro--center">
-        <h2 id="pv-resources-library-title" class="pv-resources-h2">Bibliothèque de ressources</h2>
-      </div>
-
-      <div id="pv-resources-toolbar" class="pv-resources-toolbar">
-        <div class="pv-resources-search">
-          <label for="pv-resources-search-input">Rechercher une ressource</label>
-          <input type="search" id="pv-resources-search-input" placeholder="Rechercher une affiche, une checklist, une fiche ou un tableau…" autocomplete="off">
-        </div>
-
-        <div class="pv-resources-filter-group">
-          <span class="pv-resources-filter-group__label" id="pv-resources-category-label">Catégorie</span>
-          <div class="pv-resources-chips" role="group" aria-labelledby="pv-resources-category-label">
-            <button type="button" class="pv-resources-chip" data-category-filter="all" aria-pressed="true">Toutes les ressources</button>
-            <button type="button" class="pv-resources-chip" data-category-filter="sensibiliser" aria-pressed="false">Sensibiliser</button>
-            <button type="button" class="pv-resources-chip" data-category-filter="observer" aria-pressed="false">Observer</button>
-            <button type="button" class="pv-resources-chip" data-category-filter="signaler" aria-pressed="false">Signaler</button>
-            <button type="button" class="pv-resources-chip" data-category-filter="suivre" aria-pressed="false">Suivre</button>
-          </div>
-        </div>
-
-        <div class="pv-resources-filter-group">
-          <span class="pv-resources-filter-group__label" id="pv-resources-format-label">Format</span>
-          <div class="pv-resources-chips" role="group" aria-labelledby="pv-resources-format-label">
-            <button type="button" class="pv-resources-chip" data-format-filter="all" aria-pressed="true">Tous les formats</button>
-            <button type="button" class="pv-resources-chip" data-format-filter="pdf" aria-pressed="false">PDF</button>
-            <button type="button" class="pv-resources-chip" data-format-filter="word" aria-pressed="false">Word</button>
-            <button type="button" class="pv-resources-chip" data-format-filter="powerpoint" aria-pressed="false">PowerPoint</button>
-            <button type="button" class="pv-resources-chip" data-format-filter="excel" aria-pressed="false">Excel</button>
-          </div>
-        </div>
-
-        <div class="pv-resources-toolbar__footer">
-          <p class="pv-resources-counter" id="pv-resources-counter" aria-live="polite">0 ressource disponible</p>
-          <button type="button" class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" data-reset-filters>Réinitialiser les filtres</button>
-        </div>
-      </div>
-
-      <div id="pv-resources-grid" class="pv-resources-grid" aria-live="polite"></div>
-
-      <div id="pv-resources-no-results" class="pv-resources-empty" hidden>
-        <h3 class="pv-resources-h3">Aucune ressource ne correspond à ces critères</h3>
-        <p class="pv-resources-p">Essayez un autre mot-clé ou réinitialisez les filtres.</p>
-        <div class="pv-resources-cta-row pv-resources-cta-row--center">
-          <button type="button" class="pv-resources-btn pv-resources-btn--secondary" data-reset-filters>Réinitialiser les filtres</button>
-        </div>
-      </div>
-
-      <div id="pv-resources-empty-library" class="pv-resources-empty" hidden>
-        <h3 class="pv-resources-h3">La bibliothèque PREUVIA est en cours de préparation</h3>
-        <p class="pv-resources-p">Les premiers outils de sensibilisation, d’observation, de signalement et de suivi seront progressivement mis à disposition.</p>
-        <div class="pv-resources-cta-row pv-resources-cta-row--center">
-          <a class="pv-resources-btn pv-resources-btn--primary" href="/contact?besoin=ressources">Être informé des prochaines ressources</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="pv-resources-section pv-resources-section--muted" aria-labelledby="pv-resources-objectifs-title">
-    <div class="pv-resources-container">
-      <div class="pv-resources-section-intro pv-resources-section-intro--center">
-        <h2 id="pv-resources-objectifs-title" class="pv-resources-h2">Choisissez votre objectif</h2>
-      </div>
-      <div class="pv-resources-grid-4">
-        <article class="pv-resources-card">
-          <h3 class="pv-resources-h3">Je veux sensibiliser</h3>
-          <p class="pv-resources-p">Rappeler les bonnes pratiques, animer les équipes et renforcer les réflexes de prévention.</p>
-          <div class="pv-resources-cta-row">
-            <button type="button" class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" data-quick-filter="sensibiliser">Voir les outils de sensibilisation</button>
-          </div>
-        </article>
-        <article class="pv-resources-card">
-          <h3 class="pv-resources-h3">Je veux observer</h3>
-          <p class="pv-resources-p">Structurer les visites, contrôles et observations des situations de travail.</p>
-          <div class="pv-resources-cta-row">
-            <button type="button" class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" data-quick-filter="observer">Voir les outils d’observation</button>
-          </div>
-        </article>
-        <article class="pv-resources-card">
-          <h3 class="pv-resources-h3">Je veux signaler</h3>
-          <p class="pv-resources-p">Faciliter la remontée des situations dangereuses, anomalies et presque-accidents.</p>
-          <div class="pv-resources-cta-row">
-            <button type="button" class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" data-quick-filter="signaler">Voir les outils de signalement</button>
-          </div>
-        </article>
-        <article class="pv-resources-card">
-          <h3 class="pv-resources-h3">Je veux suivre</h3>
-          <p class="pv-resources-p">Centraliser les actions, les échéances, les preuves et les événements.</p>
-          <div class="pv-resources-cta-row">
-            <button type="button" class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" data-quick-filter="suivre">Voir les outils de suivi</button>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="pv-resources-section" aria-labelledby="pv-resources-adaptation-title">
-    <div class="pv-resources-container">
-      <div class="pv-resources-section-intro pv-resources-section-intro--center">
-        <h2 id="pv-resources-adaptation-title" class="pv-resources-h2">Un modèle utile doit être adapté à votre organisation</h2>
-        <p class="pv-resources-p">Ces ressources constituent des supports généraux. Elles doivent être adaptées aux activités, métiers, équipements, responsabilités, circuits de validation et risques réels de votre entreprise.</p>
-      </div>
-      <ul class="pv-resources-adaptation__points">
-        <li class="pv-resources-adaptation__point">Supprimer les rubriques non applicables.</li>
-        <li class="pv-resources-adaptation__point">Ajouter les risques et responsabilités propres à l’organisation.</li>
-        <li class="pv-resources-adaptation__point">Faire valider les usages engageant la sécurité ou la réglementation.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="pv-resources-section pv-resources-section--muted" aria-labelledby="pv-resources-commercial-title">
-    <div class="pv-resources-container">
-      <div class="pv-resources-commercial">
-        <h2 id="pv-resources-commercial-title" class="pv-resources-h2">Vous avez besoin de plus qu’un modèle&nbsp;?</h2>
-        <p class="pv-resources-p">Lorsque les activités, expositions ou risques sont complexes, une analyse personnalisée permet de définir une méthode, des priorités et des actions adaptées au travail réel.</p>
-        <div class="pv-resources-cta-row pv-resources-cta-row--center">
-          <a class="pv-resources-btn pv-resources-btn--primary" href="/prestations-duerp">Découvrir les prestations DUERP</a>
-          <a class="pv-resources-btn pv-resources-btn--secondary" href="/formations-duerp-qhse">Découvrir les formations</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="pv-resources-section" aria-labelledby="pv-resources-faq-title">
-    <div class="pv-resources-container">
-      <div class="pv-resources-section-intro pv-resources-section-intro--center">
-        <h2 id="pv-resources-faq-title" class="pv-resources-h2">Questions fréquentes</h2>
-      </div>
-      <div class="pv-resources-faq">
-
-        <div class="pv-resources-faq__item">
-          <h3 class="pv-resources-h3">
-            <button type="button" class="pv-resources-faq__question" id="pv-resources-faq-q1" aria-expanded="false" aria-controls="pv-resources-faq-a1">
-              <span>Comment télécharger une ressource&nbsp;?</span>
-              <span class="pv-resources-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-resources-faq__answer" id="pv-resources-faq-a1" role="region" aria-labelledby="pv-resources-faq-q1">
-            <p class="pv-resources-p">Cliquez sur le bouton principal de la ressource souhaitée. Le fichier s’ouvre dans un nouvel onglet, avec un comportement qui dépend de votre navigateur.</p>
-          </div>
-        </div>
-
-        <div class="pv-resources-faq__item">
-          <h3 class="pv-resources-h3">
-            <button type="button" class="pv-resources-faq__question" id="pv-resources-faq-q2" aria-expanded="false" aria-controls="pv-resources-faq-a2">
-              <span>Puis-je modifier les fichiers Word, PowerPoint ou Excel&nbsp;?</span>
-              <span class="pv-resources-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-resources-faq__answer" id="pv-resources-faq-a2" role="region" aria-labelledby="pv-resources-faq-q2">
-            <p class="pv-resources-p">Oui. Ces formats sont conçus pour être modifiés et adaptés directement à votre organisation.</p>
-          </div>
-        </div>
-
-        <div class="pv-resources-faq__item">
-          <h3 class="pv-resources-h3">
-            <button type="button" class="pv-resources-faq__question" id="pv-resources-faq-q3" aria-expanded="false" aria-controls="pv-resources-faq-a3">
-              <span>Les modèles sont-ils adaptés à tous les secteurs&nbsp;?</span>
-              <span class="pv-resources-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-resources-faq__answer" id="pv-resources-faq-a3" role="region" aria-labelledby="pv-resources-faq-q3">
-            <p class="pv-resources-p">Non. Ce sont des supports généraux à adapter aux activités, métiers, équipements et risques réels de votre organisation.</p>
-          </div>
-        </div>
-
-        <div class="pv-resources-faq__item">
-          <h3 class="pv-resources-h3">
-            <button type="button" class="pv-resources-faq__question" id="pv-resources-faq-q4" aria-expanded="false" aria-controls="pv-resources-faq-a4">
-              <span>Puis-je utiliser les documents dans mon entreprise&nbsp;?</span>
-              <span class="pv-resources-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-resources-faq__answer" id="pv-resources-faq-a4" role="region" aria-labelledby="pv-resources-faq-q4">
-            <p class="pv-resources-p">Oui, ces ressources sont destinées à un usage en entreprise, après adaptation à votre situation.</p>
-          </div>
-        </div>
-
-        <div class="pv-resources-faq__item">
-          <h3 class="pv-resources-h3">
-            <button type="button" class="pv-resources-faq__question" id="pv-resources-faq-q5" aria-expanded="false" aria-controls="pv-resources-faq-a5">
-              <span>Une ressource remplace-t-elle une évaluation des risques&nbsp;?</span>
-              <span class="pv-resources-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-resources-faq__answer" id="pv-resources-faq-a5" role="region" aria-labelledby="pv-resources-faq-q5">
-            <p class="pv-resources-p">Non. Ces supports facilitent la sensibilisation, l’observation, le signalement ou le suivi. Ils ne remplacent pas une évaluation des risques structurée.</p>
-          </div>
-        </div>
-
-        <div class="pv-resources-faq__item">
-          <h3 class="pv-resources-h3">
-            <button type="button" class="pv-resources-faq__question" id="pv-resources-faq-q6" aria-expanded="false" aria-controls="pv-resources-faq-a6">
-              <span>Comment savoir si une nouvelle version est disponible&nbsp;?</span>
-              <span class="pv-resources-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-resources-faq__answer" id="pv-resources-faq-a6" role="region" aria-labelledby="pv-resources-faq-q6">
-            <p class="pv-resources-p">Lorsqu’une version est renseignée, elle est affichée directement sur la carte de la ressource concernée.</p>
-          </div>
-        </div>
-
-        <div class="pv-resources-faq__item">
-          <h3 class="pv-resources-h3">
-            <button type="button" class="pv-resources-faq__question" id="pv-resources-faq-q7" aria-expanded="false" aria-controls="pv-resources-faq-a7">
-              <span>Puis-je demander un outil personnalisé&nbsp;?</span>
-              <span class="pv-resources-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-resources-faq__answer" id="pv-resources-faq-a7" role="region" aria-labelledby="pv-resources-faq-q7">
-            <p class="pv-resources-p">Oui. Vous pouvez décrire votre besoin depuis le bouton « Demander un outil personnalisé » en bas de page.</p>
-          </div>
-        </div>
-
-        <div class="pv-resources-faq__item">
-          <h3 class="pv-resources-h3">
-            <button type="button" class="pv-resources-faq__question" id="pv-resources-faq-q8" aria-expanded="false" aria-controls="pv-resources-faq-a8">
-              <span>Comment ajouter une ressource dans la bibliothèque&nbsp;?</span>
-              <span class="pv-resources-faq__icon" aria-hidden="true"></span>
-            </button>
-          </h3>
-          <div class="pv-resources-faq__answer" id="pv-resources-faq-a8" role="region" aria-labelledby="pv-resources-faq-q8">
-            <p class="pv-resources-p">Une ressource apparaît dès que son fichier est chargé, son URL renseignée et sa publication activée dans la configuration de la page.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="pv-resources-section pv-resources-section--navy pv-resources-final" aria-labelledby="pv-resources-final-title">
-    <div class="pv-resources-container">
-      <h2 id="pv-resources-final-title" class="pv-resources-h2">Équipez votre organisation avec des outils simples, clairs et directement utilisables</h2>
-      <p class="pv-resources-lead">Commencez par choisir votre objectif : sensibiliser, observer, signaler ou suivre.</p>
-      <div class="pv-resources-cta-row pv-resources-cta-row--center">
-        <a class="pv-resources-btn pv-resources-btn--primary" href="#pv-resources-library">Explorer les ressources</a>
-        <a class="pv-resources-btn pv-resources-btn--secondary" href="/contact?besoin=outil-personnalise">Demander un outil personnalisé</a>
-      </div>
-    </div>
-  </section>
-
-  <div id="pv-resources-modal" class="pv-resources-modal" hidden>
-    <div class="pv-resources-modal__overlay" data-modal-close></div>
-    <div class="pv-resources-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="pv-resources-modal-title">
-      <div class="pv-resources-modal__header">
-        <h2 id="pv-resources-modal-title" class="pv-resources-modal__title">Prévisualisation</h2>
-        <button type="button" class="pv-resources-modal__close" data-modal-close aria-label="Fermer la prévisualisation">&#10005;</button>
-      </div>
-      <div class="pv-resources-modal__body">
-        <iframe id="pv-resources-modal-iframe" class="pv-resources-modal__iframe" title="Aperçu du document PDF" src="about:blank"></iframe>
-      </div>
-      <div class="pv-resources-modal__footer">
-        <a id="pv-resources-modal-open-link" class="pv-resources-btn pv-resources-btn--secondary" href="#" target="_blank" rel="noopener noreferrer">Ouvrir le fichier dans un nouvel onglet</a>
+      <div class="pv-resources-mobile-menu__actions">
+        <a class="pv-resources-btn pv-resources-btn--primary pv-resources-btn--block" href="/contact?origine=ressources&amp;besoin=outil-personnalise" data-pv-cta="mnav-contact-cta" data-pv-source="resources">Demander un outil personnalisé</a>
+        <a class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--block" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="mnav-calendly" data-pv-source="resources">Prendre rendez-vous</a>
       </div>
     </div>
   </div>
 
-</main>
+  <div class="pv-resources-floating">
+    <a class="pv-resources-floating__btn pv-resources-floating__btn--whatsapp" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20obtenir%20des%20informations%20sur%20vos%20ressources%20de%20pr%C3%A9vention%20ou%20demander%20un%20outil%20personnalis%C3%A9." target="_blank" rel="noopener noreferrer" data-pv-cta="floating-whatsapp" data-pv-source="resources" aria-label="Écrire sur WhatsApp">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" fill="#fff" fill-opacity=".16"/><path d="M8 13.5c1.2 2.4 3.1 3.8 5.4 4.4.8.2 1.5.1 2-.4.4-.4.6-.9.5-1.3l-1.9-.9c-.2-.1-.5 0-.6.2l-.4.6c-1-.4-2.2-1.4-2.8-2.5l.5-.5c.2-.2.2-.4.1-.6l-.9-1.9c-.2-.4-.7-.6-1.2-.4-.6.2-1 .8-1 1.4.1.6.2 1.4.3 2z" fill="#fff"/></svg>
+    </a>
+    <a class="pv-resources-floating__btn pv-resources-floating__btn--calendly" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="floating-calendly" data-pv-source="resources" aria-label="Planifier un échange sur Calendly">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M4 9.5h16M8 3v4M16 3v4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </a>
+  </div>
+
+  <div class="pv-resources-mobile-bar">
+    <a class="pv-resources-mobile-bar__btn" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20obtenir%20des%20informations%20sur%20vos%20ressources%20de%20pr%C3%A9vention%20ou%20demander%20un%20outil%20personnalis%C3%A9." target="_blank" rel="noopener noreferrer" data-pv-cta="mobilebar-whatsapp" data-pv-source="resources">WhatsApp</a>
+    <a class="pv-resources-mobile-bar__btn pv-resources-mobile-bar__btn--accent" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="mobilebar-calendly" data-pv-source="resources">Rendez-vous</a>
+  </div>
+
+  <main id="pv-resources-main">
+
+    <!-- SECTION 1 : HERO -->
+    <section class="pv-resources-hero">
+      <div class="pv-resources-container pv-resources-hero__inner">
+        <div>
+          <span class="pv-resources-eyebrow">Ressources pratiques • DUERP • Prévention • QHSE</span>
+          <h1 class="pv-resources-h1">Des outils concrets pour sensibiliser, observer, signaler et suivre.</h1>
+          <p class="pv-resources-p pv-resources-text-on-dark">Accédez à des affiches, checklists, fiches, registres et tableaux conçus pour structurer la prévention au quotidien.</p>
+          <div class="pv-resources-cta-row">
+            <a class="pv-resources-btn pv-resources-btn--primary" href="#bibliotheque-ressources" data-pv-cta="hero-library" data-pv-source="resources">Explorer les ressources</a>
+            <a class="pv-resources-btn pv-resources-btn--on-dark" href="/contact?origine=ressources&amp;besoin=outil-personnalise" data-pv-cta="hero-custom-tool" data-pv-source="resources">Demander un outil personnalisé</a>
+            <a class="pv-resources-btn pv-resources-btn--on-dark" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="hero-calendly" data-pv-source="resources">Planifier un échange de 30 minutes</a>
+          </div>
+          <p class="pv-resources-reassurance">Documents professionnels • Formats modifiables selon la ressource • Adaptation à votre organisation recommandée</p>
+        </div>
+        <div class="pv-resources-hero__visual">
+          <svg viewBox="0 0 440 320" fill="none" aria-hidden="true">
+            <rect x="20" y="20" width="90" height="110" rx="8" fill="#173F5F"/><text x="65" y="45" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">Affiche</text>
+            <path d="M35 65h60M35 80h60M35 95h40" stroke="#00A5D8" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="130" y="60" width="90" height="110" rx="8" fill="#0B7F83"/><text x="175" y="85" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Inter,sans-serif">Checklist</text>
+            <path d="M145 105h60M145 120h60M145 135h60M145 150h40" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+            <rect x="240" y="20" width="90" height="110" rx="8" fill="#A13632"/><text x="285" y="45" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Inter,sans-serif">Signaler</text>
+            <path d="M255 65h60M255 80h60M255 95h30" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+            <rect x="330" y="60" width="90" height="110" rx="8" fill="#23734D"/><text x="375" y="85" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" font-family="Inter,sans-serif">Suivre</text>
+            <path d="M345 105h60M345 120h60M345 135h60" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+            <g font-family="Inter,sans-serif" font-size="10" font-weight="800">
+              <rect x="30" y="200" width="60" height="34" rx="6" fill="#00A5D8"/><text x="60" y="221" text-anchor="middle" fill="#04212f">PDF</text>
+              <rect x="130" y="200" width="60" height="34" rx="6" fill="#245BA7"/><text x="160" y="221" text-anchor="middle" fill="#fff">DOC</text>
+              <rect x="230" y="200" width="60" height="34" rx="6" fill="#B9582A"/><text x="260" y="221" text-anchor="middle" fill="#fff">PPT</text>
+              <rect x="330" y="200" width="60" height="34" rx="6" fill="#23734D"/><text x="360" y="221" text-anchor="middle" fill="#fff">XLS</text>
+            </g>
+            <path d="M40 260h360" stroke="#0B7F83" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>
+            <text x="220" y="290" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="Inter,sans-serif">Sensibiliser → Observer → Signaler → Suivre</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2 : QUATRE OBJECTIFS -->
+    <section class="pv-resources-section" id="objectifs-ressources">
+      <div class="pv-resources-container">
+        <div class="pv-resources-section-intro pv-resources-section-intro--center">
+          <span class="pv-resources-eyebrow">Point de départ</span>
+          <h2 class="pv-resources-h2">Choisissez votre objectif</h2>
+        </div>
+        <div class="pv-resources-grid pv-resources-grid-4">
+          <article class="pv-resources-objective pv-resources-reveal">
+            <p class="pv-resources-objective__title">Sensibiliser</p>
+            <p class="pv-resources-p pv-resources-p--small">Faire connaître les risques, rappeler les bonnes pratiques et animer la prévention.</p>
+            <div class="pv-resources-objective__actions">
+              <a class="pv-resources-inline-link" href="/ressources-duerp?categorie=sensibiliser" data-resources-category-link="sensibiliser" data-pv-cta="objective-sensibiliser" data-pv-source="resources">Voir les ressources</a>
+            </div>
+          </article>
+          <article class="pv-resources-objective pv-resources-reveal">
+            <p class="pv-resources-objective__title">Observer</p>
+            <p class="pv-resources-p pv-resources-p--small">Analyser les situations de travail, équipements, circulations et pratiques réelles.</p>
+            <div class="pv-resources-objective__actions">
+              <a class="pv-resources-inline-link" href="/ressources-duerp?categorie=observer" data-resources-category-link="observer" data-pv-cta="objective-observer" data-pv-source="resources">Voir les ressources</a>
+            </div>
+          </article>
+          <article class="pv-resources-objective pv-resources-reveal">
+            <p class="pv-resources-objective__title">Signaler</p>
+            <p class="pv-resources-p pv-resources-p--small">Faciliter la remontée des situations dangereuses, anomalies et presque-accidents.</p>
+            <div class="pv-resources-objective__actions">
+              <a class="pv-resources-inline-link" href="/ressources-duerp?categorie=signaler" data-resources-category-link="signaler" data-pv-cta="objective-signaler" data-pv-source="resources">Voir les ressources</a>
+            </div>
+          </article>
+          <article class="pv-resources-objective pv-resources-reveal">
+            <p class="pv-resources-objective__title">Suivre</p>
+            <p class="pv-resources-p pv-resources-p--small">Attribuer les actions, suivre les échéances, conserver les preuves et contrôler l'avancement.</p>
+            <div class="pv-resources-objective__actions">
+              <a class="pv-resources-inline-link" href="/ressources-duerp?categorie=suivre" data-resources-category-link="suivre" data-pv-cta="objective-suivre" data-pv-source="resources">Voir les ressources</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3 : LOGIQUE DE PREVENTION -->
+    <section class="pv-resources-section pv-resources-section--alt">
+      <div class="pv-resources-container">
+        <div class="pv-resources-section-intro pv-resources-section-intro--center">
+          <span class="pv-resources-eyebrow">Une dynamique continue</span>
+          <h2 class="pv-resources-h2">Une prévention vivante repose sur des gestes simples et répétés</h2>
+        </div>
+        <div class="pv-resources-flow">
+          <div class="pv-resources-flow__step"><span class="pv-resources-flow__num" aria-hidden="true">1</span><p class="pv-resources-flow__title">Sensibiliser</p><p class="pv-resources-flow__text">Faire connaître les risques et les bons réflexes.</p></div>
+          <span class="pv-resources-flow__arrow" aria-hidden="true">→</span>
+          <div class="pv-resources-flow__step"><span class="pv-resources-flow__num" aria-hidden="true">2</span><p class="pv-resources-flow__title">Observer</p><p class="pv-resources-flow__text">Regarder les situations de travail réelles.</p></div>
+          <span class="pv-resources-flow__arrow" aria-hidden="true">→</span>
+          <div class="pv-resources-flow__step"><span class="pv-resources-flow__num" aria-hidden="true">3</span><p class="pv-resources-flow__title">Signaler</p><p class="pv-resources-flow__text">Faire remonter ce qui doit être connu.</p></div>
+          <span class="pv-resources-flow__arrow" aria-hidden="true">→</span>
+          <div class="pv-resources-flow__step"><span class="pv-resources-flow__num" aria-hidden="true">4</span><p class="pv-resources-flow__title">Suivre</p><p class="pv-resources-flow__text">Attribuer, planifier et vérifier les actions.</p></div>
+          <span class="pv-resources-flow__arrow" aria-hidden="true">→</span>
+          <div class="pv-resources-flow__step"><span class="pv-resources-flow__num" aria-hidden="true">5</span><p class="pv-resources-flow__title">Améliorer</p><p class="pv-resources-flow__text">Ajuster la démarche dans la durée.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4+5+9+10+11 : BIBLIOTHEQUE -->
+    <section class="pv-resources-section" id="bibliotheque-ressources">
+      <div class="pv-resources-container">
+        <div class="pv-resources-section-intro pv-resources-section-intro--center">
+          <span class="pv-resources-eyebrow">Bibliothèque</span>
+          <h2 class="pv-resources-h2">Bibliothèque des ressources PREUVIA</h2>
+          <p class="pv-resources-p pv-resources-p--center">Recherchez une ressource par titre, objectif, mot-clé ou format.</p>
+        </div>
+
+        <p class="pv-resources-announce" id="pv-resources-url-announce" aria-live="polite"></p>
+
+        <div class="pv-resources-tools" id="pv-resources-tools" hidden>
+          <div class="pv-resources-search">
+            <label for="pv-resources-search-input">Rechercher une ressource</label>
+            <input type="search" id="pv-resources-search-input" class="pv-resources-search__input" placeholder="Rechercher une affiche, une checklist, une fiche ou un tableau…" autocomplete="off">
+          </div>
+          <div class="pv-resources-filter-group">
+            <span class="pv-resources-filter-group__label">Objectif</span>
+            <div class="pv-resources-filters" role="group" aria-label="Filtrer par objectif">
+              <button type="button" class="pv-resources-chip" data-resources-category-filter="all" aria-pressed="true">Toutes les ressources</button>
+              <button type="button" class="pv-resources-chip" data-resources-category-filter="sensibiliser" aria-pressed="false">Sensibiliser</button>
+              <button type="button" class="pv-resources-chip" data-resources-category-filter="observer" aria-pressed="false">Observer</button>
+              <button type="button" class="pv-resources-chip" data-resources-category-filter="signaler" aria-pressed="false">Signaler</button>
+              <button type="button" class="pv-resources-chip" data-resources-category-filter="suivre" aria-pressed="false">Suivre</button>
+            </div>
+          </div>
+          <div class="pv-resources-filter-group">
+            <span class="pv-resources-filter-group__label">Format</span>
+            <div class="pv-resources-filters" role="group" aria-label="Filtrer par format">
+              <button type="button" class="pv-resources-chip" data-resources-format-filter="all" aria-pressed="true">Tous les formats</button>
+              <button type="button" class="pv-resources-chip" data-resources-format-filter="pdf" aria-pressed="false">PDF</button>
+              <button type="button" class="pv-resources-chip" data-resources-format-filter="word" aria-pressed="false">Word</button>
+              <button type="button" class="pv-resources-chip" data-resources-format-filter="powerpoint" aria-pressed="false">PowerPoint</button>
+              <button type="button" class="pv-resources-chip" data-resources-format-filter="excel" aria-pressed="false">Excel</button>
+            </div>
+          </div>
+          <div class="pv-resources-tools__bottom">
+            <p class="pv-resources-counter" id="pv-resources-counter" aria-live="polite">0 ressource affichée</p>
+            <div class="pv-resources-sort">
+              <label for="pv-resources-sort-select">Trier par</label>
+              <select class="pv-resources-sort__select" id="pv-resources-sort-select">
+                <option value="featured">Ressources mises en avant</option>
+                <option value="alphabetical">Ordre alphabétique</option>
+                <option value="recent">Plus récentes</option>
+                <option value="category">Catégorie</option>
+              </select>
+            </div>
+            <button type="button" class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" id="pv-resources-reset-filters">Réinitialiser les filtres</button>
+          </div>
+        </div>
+
+        <div class="pv-resources-catalogue__grid" id="pv-resources-catalogue-grid" aria-live="polite" hidden></div>
+
+        <div class="pv-resources-empty" id="pv-resources-preparation-state" hidden>
+          <h3 class="pv-resources-h3">La bibliothèque PREUVIA est en cours de préparation</h3>
+          <p class="pv-resources-p pv-resources-p--center">Les premiers outils de sensibilisation, d'observation, de signalement et de suivi seront progressivement mis à disposition.</p>
+          <div class="pv-resources-cta-row pv-resources-cta-row--center">
+            <a class="pv-resources-btn pv-resources-btn--primary" href="/contact?origine=ressources&amp;besoin=outil-personnalise" data-pv-cta="preparation-contact" data-pv-source="resources">Demander un outil personnalisé</a>
+            <a class="pv-resources-btn pv-resources-btn--secondary" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="preparation-calendly" data-pv-source="resources">Planifier un échange</a>
+          </div>
+        </div>
+
+        <div class="pv-resources-empty" id="pv-resources-no-match-state" hidden>
+          <h3 class="pv-resources-h3">Aucune ressource ne correspond à votre recherche</h3>
+          <p class="pv-resources-p pv-resources-p--center">Modifiez vos mots-clés ou réinitialisez les filtres.</p>
+          <div class="pv-resources-cta-row pv-resources-cta-row--center">
+            <button type="button" class="pv-resources-btn pv-resources-btn--secondary" id="pv-resources-no-match-reset">Réinitialiser les filtres</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 12 : ADAPTER LES DOCUMENTS -->
+    <section class="pv-resources-section pv-resources-section--alt">
+      <div class="pv-resources-container">
+        <div class="pv-resources-section-intro pv-resources-section-intro--center">
+          <span class="pv-resources-eyebrow">Bon usage</span>
+          <h2 class="pv-resources-h2">Un modèle utile doit être adapté à votre organisation</h2>
+        </div>
+        <ul class="pv-resources-list pv-resources-list--plain pv-resources-list--centered">
+          <li>Supprimer les rubriques non applicables</li>
+          <li>Ajouter les risques propres à l'activité</li>
+          <li>Définir les responsables</li>
+          <li>Préciser les circuits de validation</li>
+          <li>Adapter le vocabulaire</li>
+          <li>Faire valider les usages engageant la sécurité ou la réglementation</li>
+        </ul>
+        <p class="pv-resources-disclaimer pv-resources-mt-lg pv-resources-disclaimer--centered">Une ressource générale ne remplace pas une évaluation personnalisée des risques professionnels.</p>
+        <div class="pv-resources-cta-row pv-resources-cta-row--center pv-resources-mt-lg">
+          <a class="pv-resources-btn pv-resources-btn--secondary" href="/methode-evaluation-risques" data-pv-cta="method-link" data-pv-source="resources">Découvrir la méthode PREUVIA</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 13 : ORIENTATION PAR BESOIN -->
+    <section class="pv-resources-section">
+      <div class="pv-resources-container">
+        <div class="pv-resources-section-intro pv-resources-section-intro--center">
+          <span class="pv-resources-eyebrow">Aller plus loin</span>
+          <h2 class="pv-resources-h2">Vous avez besoin de plus qu'un document&nbsp;?</h2>
+        </div>
+        <div class="pv-resources-grid pv-resources-grid-3">
+          <div class="pv-resources-bridge-card pv-resources-reveal">
+            <h3 class="pv-resources-h3">Prestation DUERP</h3>
+            <p class="pv-resources-p pv-resources-p--small">Une évaluation complète adaptée à votre organisation, vos activités et vos risques réels.</p>
+            <div class="pv-resources-cta-row pv-resources-bridge-card__actions">
+              <a class="pv-resources-btn pv-resources-btn--secondary" href="/prestations-duerp" data-pv-cta="services-link" data-pv-source="resources">Découvrir les prestations</a>
+            </div>
+          </div>
+          <div class="pv-resources-bridge-card pv-resources-reveal">
+            <h3 class="pv-resources-h3">Formation</h3>
+            <p class="pv-resources-p pv-resources-p--small">Développez les compétences de vos équipes avec PREUVIA Academy.</p>
+            <div class="pv-resources-cta-row pv-resources-bridge-card__actions">
+              <a class="pv-resources-btn pv-resources-btn--secondary" href="/formations-duerp-qhse" data-pv-cta="training-link" data-pv-source="resources">Découvrir les formations</a>
+            </div>
+          </div>
+          <div class="pv-resources-bridge-card pv-resources-reveal">
+            <h3 class="pv-resources-h3">Outil personnalisé</h3>
+            <p class="pv-resources-p pv-resources-p--small">Décrivez votre besoin. PREUVIA peut concevoir un outil adapté à votre contexte.</p>
+            <div class="pv-resources-cta-row pv-resources-bridge-card__actions">
+              <a class="pv-resources-btn pv-resources-btn--secondary" href="/contact?origine=ressources&amp;besoin=outil-personnalise" data-pv-cta="custom-tool-link" data-pv-source="resources">Demander un outil</a>
+            </div>
+          </div>
+        </div>
+        <p class="pv-resources-disclaimer pv-resources-mt-lg">Les prestations et les formations restent distinctes dans leurs objectifs, contrats, modalités et livrables.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 14 : RESSOURCES PAR SECTEUR -->
+    <section class="pv-resources-section pv-resources-section--alt">
+      <div class="pv-resources-container pv-resources-text-center">
+        <span class="pv-resources-eyebrow">Adaptation sectorielle</span>
+        <h2 class="pv-resources-h2">Un même outil ne s'utilise pas de la même manière dans tous les secteurs</h2>
+        <p class="pv-resources-p pv-resources-p--center">Le contenu, le vocabulaire, les risques et les responsabilités doivent être adaptés aux réalités de l'activité.</p>
+        <div class="pv-resources-cta-row pv-resources-cta-row--center pv-resources-mt-lg">
+          <a class="pv-resources-btn pv-resources-btn--secondary" href="/duerp-secteurs-activite" data-pv-cta="sectors-link" data-pv-source="resources">Voir les secteurs accompagnés</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 15 : CONFIANCE ET TRANSPARENCE -->
+    <section class="pv-resources-section">
+      <div class="pv-resources-container">
+        <div class="pv-resources-section-intro pv-resources-section-intro--center">
+          <span class="pv-resources-eyebrow">Transparence</span>
+          <h2 class="pv-resources-h2">Publier moins, mais publier des outils réellement vérifiés</h2>
+        </div>
+        <div class="pv-resources-grid pv-resources-grid-4">
+          <div class="pv-resources-engagement pv-resources-reveal"><span class="pv-resources-engagement__icon" aria-hidden="true">✅</span><p class="pv-resources-engagement__text">Publication après contrôle</p></div>
+          <div class="pv-resources-engagement pv-resources-reveal"><span class="pv-resources-engagement__icon" aria-hidden="true">🔢</span><p class="pv-resources-engagement__text">Version identifiable</p></div>
+          <div class="pv-resources-engagement pv-resources-reveal"><span class="pv-resources-engagement__icon" aria-hidden="true">🔗</span><p class="pv-resources-engagement__text">Lien testé</p></div>
+          <div class="pv-resources-engagement pv-resources-reveal"><span class="pv-resources-engagement__icon" aria-hidden="true">📋</span><p class="pv-resources-engagement__text">Limites visibles</p></div>
+        </div>
+        <div class="pv-resources-grid pv-resources-grid-4 pv-resources-proof">
+          <div class="pv-resources-card" data-published="false"><h3 class="pv-resources-h3 pv-resources-h3--compact">Nombre de téléchargements</h3></div>
+          <div class="pv-resources-card" data-published="false"><h3 class="pv-resources-h3 pv-resources-h3--compact">Avis</h3></div>
+          <div class="pv-resources-card" data-published="false"><h3 class="pv-resources-h3 pv-resources-h3--compact">Entreprises utilisatrices</h3></div>
+          <div class="pv-resources-card" data-published="false"><h3 class="pv-resources-h3 pv-resources-h3--compact">Statistiques d'utilisation</h3></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 16 : FAQ -->
+    <section class="pv-resources-section pv-resources-section--alt" id="faq-ressources">
+      <div class="pv-resources-container">
+        <div class="pv-resources-section-intro pv-resources-section-intro--center">
+          <span class="pv-resources-eyebrow">Questions fréquentes</span>
+          <h2 class="pv-resources-h2">Vos questions sur les ressources</h2>
+        </div>
+        <div id="pv-resources-faq-list">
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-1" id="pv-resources-faq-q-1">
+              <span>Comment ouvrir une ressource&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-1" role="region" aria-labelledby="pv-resources-faq-q-1" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Chaque ressource publiée dispose d'un bouton d'ouverture réel. Les fichiers PDF proposent en plus une prévisualisation directement sur la page.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-2" id="pv-resources-faq-q-2">
+              <span>Puis-je modifier les documents Word, PowerPoint ou Excel&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-2" role="region" aria-labelledby="pv-resources-faq-q-2" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Oui pour les ressources identifiées « Format modifiable ». Les ressources identifiées « Format de consultation » sont conçues pour être lues telles quelles.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-3" id="pv-resources-faq-q-3">
+              <span>Les ressources sont-elles adaptées à tous les secteurs&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-3" role="region" aria-labelledby="pv-resources-faq-q-3" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Non systématiquement. Le vocabulaire, les risques et les responsabilités doivent souvent être adaptés à votre secteur d'activité.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-4" id="pv-resources-faq-q-4">
+              <span>Puis-je utiliser ces documents dans mon entreprise&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-4" role="region" aria-labelledby="pv-resources-faq-q-4" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Oui. Ces ressources sont conçues pour être utilisées et adaptées par les organisations qui en ont besoin.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-5" id="pv-resources-faq-q-5">
+              <span>Une ressource remplace-t-elle le DUERP&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-5" role="region" aria-labelledby="pv-resources-faq-q-5" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Non. Ces ressources outillent la prévention quotidienne mais ne remplacent pas le document unique d'évaluation des risques professionnels.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-6" id="pv-resources-faq-q-6">
+              <span>Une checklist remplace-t-elle une observation terrain&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-6" role="region" aria-labelledby="pv-resources-faq-q-6" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Non. Une checklist facilite la collecte mais ne remplace pas l'observation directe lorsque celle-ci est nécessaire.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-7" id="pv-resources-faq-q-7">
+              <span>Comment savoir si une version est à jour&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-7" role="region" aria-labelledby="pv-resources-faq-q-7" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Le numéro de version et la date de mise à jour, lorsqu'ils sont renseignés, sont affichés directement sur la carte de la ressource.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-8" id="pv-resources-faq-q-8">
+              <span>Puis-je demander un outil personnalisé&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-8" role="region" aria-labelledby="pv-resources-faq-q-8" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Oui. Décrivez votre besoin via le formulaire de contact, WhatsApp, e-mail ou lors d'un échange Calendly.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-9" id="pv-resources-faq-q-9">
+              <span>Pourquoi certaines ressources ne sont-elles pas visibles&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-9" role="region" aria-labelledby="pv-resources-faq-q-9" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Seules les ressources finalisées, vérifiées et réellement accessibles sont publiées.</p>
+            </div>
+          </div>
+          <div class="pv-resources-faq__item">
+            <button type="button" class="pv-resources-faq__question" aria-expanded="false" aria-controls="pv-resources-faq-panel-10" id="pv-resources-faq-q-10">
+              <span>Comment publier une nouvelle ressource dans le code&nbsp;?</span>
+              <span class="pv-resources-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div class="pv-resources-faq__panel" id="pv-resources-faq-panel-10" role="region" aria-labelledby="pv-resources-faq-q-10" hidden>
+              <p class="pv-resources-p pv-resources-p--small">Téléverser le fichier dans Systeme.io, copier son URL publique, la coller dans le champ fileUrl de la ressource concernée, vérifier fileType, fileExtension et fileName, renseigner la version et la date, puis passer published à true avant de tester le lien sur la page publiée.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 17 : CTA FINAL -->
+    <section class="pv-resources-section pv-resources-section--navy pv-resources-final">
+      <div class="pv-resources-container">
+        <h2 class="pv-resources-h2">Équipez votre organisation avec des outils simples, clairs et directement utilisables.</h2>
+        <p class="pv-resources-p">Commencez par sensibiliser, observer, signaler ou suivre. Lorsque le besoin dépasse le modèle, PREUVIA peut vous accompagner.</p>
+        <div class="pv-resources-cta-row pv-resources-cta-row--center pv-resources-mt-lg">
+          <a class="pv-resources-btn pv-resources-btn--primary" href="/contact?origine=ressources&amp;besoin=outil-personnalise" data-pv-cta="final-custom-tool" data-pv-source="resources">Demander un outil personnalisé</a>
+          <a class="pv-resources-btn pv-resources-btn--on-dark" href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="final-calendly" data-pv-source="resources">Planifier un échange de 30 minutes</a>
+          <a class="pv-resources-btn pv-resources-btn--on-dark" href="https://wa.me/33663209785?text=Bonjour%20PREUVIA%20QHSE%2C%20je%20souhaite%20obtenir%20des%20informations%20sur%20vos%20ressources%20de%20pr%C3%A9vention%20ou%20demander%20un%20outil%20personnalis%C3%A9." target="_blank" rel="noopener noreferrer" data-pv-cta="final-whatsapp" data-pv-source="resources">Écrire sur WhatsApp</a>
+        </div>
+        <p class="pv-resources-mt-md">
+          <a class="pv-resources-inline-link pv-resources-text-on-dark" href="mailto:contact@preuvia-qhse.com?subject=Demande%20concernant%20les%20ressources%20PREUVIA&amp;body=Bonjour%20PREUVIA%20QHSE%2C%0A%0AJe%20souhaite%20obtenir%20des%20informations%20sur%20une%20ressource%20ou%20demander%20un%20outil%20personnalis%C3%A9.%0A%0AEntreprise%20%3A%0ASecteur%20%3A%0ARessource%20recherch%C3%A9e%20%3A%0AObjectif%20%3A" data-pv-cta="final-email" data-pv-source="resources">Envoyer un e-mail</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SECTION 18 : PIED DE PAGE -->
+  <div class="pv-resources-footer" role="contentinfo">
+    <div class="pv-resources-container">
+      <div class="pv-resources-footer__grid">
+        <div>
+          <p class="pv-resources-footer__brand">PREUVIA QHSE</p>
+          <p class="pv-resources-footer__tagline">Évaluation des risques • DUERP • Formations</p>
+        </div>
+        <div>
+          <p class="pv-resources-footer__heading">Navigation</p>
+          <ul class="pv-resources-footer__list">
+            <li><a href="/" data-pv-cta="footer-home" data-pv-source="resources">Accueil</a></li>
+            <li><a href="/prestations-duerp" data-pv-cta="footer-services" data-pv-source="resources">Prestations DUERP</a></li>
+            <li><a href="/formations-duerp-qhse" data-pv-cta="footer-training" data-pv-source="resources">Formations</a></li>
+            <li><a href="/methode-evaluation-risques" data-pv-cta="footer-method" data-pv-source="resources">Méthode</a></li>
+            <li><a href="/duerp-secteurs-activite" data-pv-cta="footer-sectors" data-pv-source="resources">Secteurs</a></li>
+            <li><a href="/ressources-duerp" data-pv-cta="footer-resources" data-pv-source="resources">Ressources</a></li>
+            <li><a href="/contact" data-pv-cta="footer-contact" data-pv-source="resources">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="pv-resources-footer__heading">Contact</p>
+          <ul class="pv-resources-footer__list">
+            <li><a href="https://calendly.com/preuvia_qhse/30min" target="_blank" rel="noopener noreferrer" data-pv-cta="footer-calendly" data-pv-source="resources">Calendly</a></li>
+            <li><a href="https://wa.me/33663209785" target="_blank" rel="noopener noreferrer" data-pv-cta="footer-whatsapp" data-pv-source="resources">WhatsApp</a></li>
+            <li><a href="mailto:contact@preuvia-qhse.com" data-pv-cta="footer-email" data-pv-source="resources">contact@preuvia-qhse.com</a></li>
+            <li><a href="tel:+33663209785" data-pv-cta="footer-phone" data-pv-source="resources">+33 6 63 20 97 85</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="pv-resources-footer__heading">Informations légales</p>
+          <ul class="pv-resources-footer__list">
+            <li><a href="/mentions-legales" data-pv-cta="footer-legal" data-pv-source="resources">Mentions légales</a></li>
+            <li><a href="/politique-confidentialite" data-pv-cta="footer-privacy" data-pv-source="resources">Politique de confidentialité</a></li>
+            <li><a href="/conditions-generales-vente" data-pv-cta="footer-cgv" data-pv-source="resources">Conditions générales de vente</a></li>
+            <li><a href="/politique-cookies" data-pv-cta="footer-cookies" data-pv-source="resources">Politique des cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pv-resources-footer__legal">
+        <p>PREUVIA QHSE — SIREN 831 616 438 — SIRET 831 616 438 00014</p>
+        <p>22 rue Paul Verlaine, 86180 Buxerolles, France</p>
+        <p>Les ressources PREUVIA sont des supports généraux à adapter. Elles ne remplacent pas une évaluation personnalisée des risques professionnels. PREUVIA accompagne et structure la démarche. L'employeur demeure responsable des décisions et mesures mises en œuvre.</p>
+        <div class="pv-resources-footer__bottom">
+          <span id="pv-resources-copyright"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PDF -->
+  <div class="pv-resources-modal" id="pv-resources-modal">
+    <div class="pv-resources-modal__panel" role="dialog" aria-modal="true" aria-labelledby="pv-resources-modal-title">
+      <div class="pv-resources-modal__header">
+        <h3 class="pv-resources-modal__title" id="pv-resources-modal-title">Prévisualisation</h3>
+        <button type="button" class="pv-resources-modal__close" id="pv-resources-modal-close">
+          <span class="pv-resources-visually-hidden">Fermer la prévisualisation</span>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="pv-resources-modal__body">
+        <iframe id="pv-resources-modal-iframe" title="Prévisualisation du document PDF" src="about:blank"></iframe>
+      </div>
+      <div class="pv-resources-modal__footer">
+        <p class="pv-resources-modal__note">L'affichage dépend des capacités de votre navigateur.</p>
+        <a class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" id="pv-resources-modal-open-link" href="about:blank" target="_blank" rel="noopener noreferrer" data-pv-cta="resource-open-from-modal" data-pv-source="resources">Ouvrir dans un nouvel onglet</a>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <script>
 (function(){
   "use strict";
 
-  var root = document.getElementById('pv-resources');
+  var root = document.getElementById("pv-resources");
   if(!root){ return; }
 
-  /* =====================================================================
-     POUR RENOMMER UNE RESSOURCE :
-     modifiez uniquement la valeur de "title" ci-dessous.
-     Exemple : title: "Nouveau titre de la ressource"
-     ===================================================================== */
+  root.classList.add("pv-resources-js");
 
-  /* =====================================================================
-     POUR AJOUTER UN FICHIER :
-     1. chargez le document dans le gestionnaire de fichiers de Systeme.io ;
-     2. copiez son URL publique ;
-     3. collez cette URL dans "fileUrl" ;
-     4. renseignez le format dans "fileType" (pdf, word, powerpoint, excel) ;
-     5. renseignez l'extension affichée dans "fileExtension" (PDF, DOCX, ...) ;
-     6. passez "published" de false à true.
-     Exemple :
-       fileUrl: "https://votre-url-systemeio/document.pdf",
-       published: true
-     ===================================================================== */
+  var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* POUR AJOUTER UNE NOUVELLE RESSOURCE : dupliquez un objet ci-dessous,
-     donnez-lui un "id" unique, puis complétez ses champs. */
+  function escapeHtml(value){
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
 
+  /* Copyright dynamique */
+  var copyrightEl = document.getElementById("pv-resources-copyright");
+  if(copyrightEl){
+    copyrightEl.textContent = "© " + new Date().getFullYear() + " PREUVIA QHSE. Tous droits réservés.";
+  }
+
+  /* Header shadow on scroll */
+  var header = document.getElementById("pv-resources-header");
+  var sentinel = document.createElement("div");
+  sentinel.style.position = "absolute";
+  sentinel.style.top = "0";
+  sentinel.style.height = "1px";
+  sentinel.style.width = "1px";
+  if(root.firstChild){ root.insertBefore(sentinel, root.firstChild); }
+
+  if("IntersectionObserver" in window && header){
+    var headerObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          header.classList.remove("pv-resources-header--scrolled");
+        } else {
+          header.classList.add("pv-resources-header--scrolled");
+        }
+      });
+    }, { threshold: 0 });
+    headerObserver.observe(sentinel);
+  }
+
+  /* Mobile menu */
+  var menuToggle = document.getElementById("pv-resources-menu-toggle");
+  var mobileMenu = document.getElementById("pv-resources-mobile-menu");
+  var mobileMenuClose = document.getElementById("pv-resources-mobile-menu-close");
+
+  function openMenu(){
+    if(!mobileMenu || !menuToggle){ return; }
+    root.classList.add("pv-resources-menu-open");
+    menuToggle.setAttribute("aria-expanded", "true");
+    if(mobileMenuClose){ mobileMenuClose.focus(); }
+  }
+  function closeMenu(){
+    if(!mobileMenu || !menuToggle){ return; }
+    root.classList.remove("pv-resources-menu-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.focus();
+  }
+  if(menuToggle){
+    menuToggle.addEventListener("click", function(){
+      if(root.classList.contains("pv-resources-menu-open")){ closeMenu(); } else { openMenu(); }
+    });
+  }
+  if(mobileMenuClose){ mobileMenuClose.addEventListener("click", closeMenu); }
+  if(mobileMenu){
+    mobileMenu.addEventListener("click", function(evt){
+      if(evt.target === mobileMenu){ closeMenu(); }
+    });
+    Array.prototype.slice.call(mobileMenu.querySelectorAll("a")).forEach(function(link){
+      link.addEventListener("click", closeMenu);
+    });
+  }
+  document.addEventListener("keydown", function(evt){
+    if(evt.key === "Escape" && root.classList.contains("pv-resources-menu-open")){ closeMenu(); }
+  });
+  window.addEventListener("resize", function(){
+    if(window.innerWidth >= 900 && root.classList.contains("pv-resources-menu-open")){ closeMenu(); }
+  });
+
+  /* FAQ accordion */
+  var faqQuestions = Array.prototype.slice.call(root.querySelectorAll(".pv-resources-faq__question"));
+  faqQuestions.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var expanded = btn.getAttribute("aria-expanded") === "true";
+      var panelId = btn.getAttribute("aria-controls");
+      var panel = panelId ? document.getElementById(panelId) : null;
+      btn.setAttribute("aria-expanded", expanded ? "false" : "true");
+      if(panel){ panel.hidden = expanded; }
+    });
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* POUR PUBLIER UNE RESSOURCE :                                       */
+  /* 1. Televerser le fichier dans Systeme.io.                          */
+  /* 2. Copier son URL publique.                                        */
+  /* 3. Coller l'URL dans fileUrl.                                      */
+  /* 4. Verifier fileType.                                              */
+  /* 5. Verifier fileExtension.                                         */
+  /* 6. Verifier fileName.                                              */
+  /* 7. Renseigner version.                                             */
+  /* 8. Renseigner updatedAt si disponible.                             */
+  /* 9. Renseigner fileSize si disponible.                              */
+  /* 10. Passer published a true.                                       */
+  /* 11. Tester le lien sur la page publiee.                            */
+  /* ------------------------------------------------------------------ */
   var preuviaResources = [
     {
-      id: "pack-10-affiches-prevention",
+      id: "pack-affiches-prevention",
       category: "sensibiliser",
       title: "Pack de 10 affiches de prévention",
-      shortTitle: "",
-      description: "Ensemble d’affiches destinées à rappeler les principaux réflexes de prévention dans les espaces de travail.",
-      keywords: ["affiches", "sensibilisation", "prévention", "communication sécurité"],
+      description: "Dix affiches prêtes à imprimer pour rappeler les bons réflexes de prévention sur le terrain.",
+      keywords: ["affiche", "sensibilisation", "prévention", "sécurité"],
       fileType: "pdf",
       fileExtension: "PDF",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "pack-10-affiches-prevention-preuvia.pdf",
+      fileName: "pack-affiches-prevention.pdf",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger le pack",
-      note: ""
+      accessLabel: "Ouvrir le fichier",
+      note: "",
+      audience: "Entreprises et professionnels",
+      editable: false
     },
     {
       id: "kit-minute-prevention",
       category: "sensibiliser",
       title: "Kit « Minute prévention »",
-      shortTitle: "",
-      description: "Fiches d’animation courtes permettant d’organiser des séquences de prévention de 5 à 10 minutes avec les équipes.",
-      keywords: ["minute prévention", "briefing", "animation sécurité", "causerie", "équipe"],
+      description: "Un support court pour animer une minute de sensibilisation en réunion ou en brief d'équipe.",
+      keywords: ["minute prévention", "animation", "brief", "sensibilisation"],
       fileType: "pdf",
       fileExtension: "PDF",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "kit-minute-prevention-preuvia.pdf",
+      fileName: "kit-minute-prevention.pdf",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger le kit",
-      note: ""
+      accessLabel: "Ouvrir le fichier",
+      note: "",
+      audience: "Managers et animateurs prévention",
+      editable: false
     },
     {
-      id: "kit-accueil-securite-nouvel-arrivant",
+      id: "kit-accueil-securite",
       category: "sensibiliser",
-      title: "Kit d’accueil sécurité du nouvel arrivant",
-      shortTitle: "",
-      description: "Supports pour structurer l’accueil, l’information et les premiers réflexes de prévention d’un nouvel arrivant.",
-      keywords: ["accueil sécurité", "nouvel arrivant", "intégration", "information", "prévention"],
+      title: "Kit d'accueil sécurité du nouvel arrivant",
+      description: "Support de présentation pour accueillir un nouvel arrivant et présenter les consignes essentielles.",
+      keywords: ["accueil sécurité", "nouvel arrivant", "intégration"],
       fileType: "powerpoint",
       fileExtension: "PPTX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "kit-accueil-securite-nouvel-arrivant-preuvia.pptx",
+      fileName: "kit-accueil-securite.pptx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: false,
-      accessLabel: "Télécharger le kit",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "RH et managers",
+      editable: true
     },
     {
       id: "quiz-reflexes-prevention",
       category: "sensibiliser",
       title: "Quiz général sur les réflexes de prévention",
-      shortTitle: "",
-      description: "Quiz destiné à tester et renforcer les connaissances générales des équipes en matière de prévention.",
-      keywords: ["quiz", "prévention", "sensibilisation", "réflexes sécurité", "évaluation"],
+      description: "Un quiz support pour tester et renforcer les connaissances de base en prévention.",
+      keywords: ["quiz", "réflexes", "sensibilisation", "animation"],
       fileType: "powerpoint",
       fileExtension: "PPTX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "quiz-reflexes-prevention-preuvia.pptx",
+      fileName: "quiz-reflexes-prevention.pptx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: false,
-      accessLabel: "Télécharger le quiz",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "Équipes et animateurs",
+      editable: true
     },
     {
-      id: "checklist-quotidienne-prise-poste",
+      id: "checklist-avant-prise-poste",
       category: "observer",
       title: "Checklist quotidienne avant prise de poste",
-      shortTitle: "",
-      description: "Liste de contrôle permettant de vérifier les conditions essentielles avant le démarrage d’une activité.",
-      keywords: ["prise de poste", "checklist quotidienne", "vérification", "sécurité", "démarrage"],
+      description: "Une checklist courte à utiliser avant de démarrer une activité pour vérifier les points essentiels.",
+      keywords: ["checklist", "prise de poste", "quotidien", "observation"],
       fileType: "pdf",
       fileExtension: "PDF",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "checklist-quotidienne-prise-poste-preuvia.pdf",
+      fileName: "checklist-avant-prise-poste.pdf",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger la checklist",
-      note: ""
+      accessLabel: "Ouvrir le fichier",
+      note: "",
+      audience: "Opérateurs et équipes terrain",
+      editable: false
     },
     {
       id: "checklist-visite-securite-manager",
       category: "observer",
       title: "Checklist de visite sécurité manager",
-      shortTitle: "",
-      description: "Support de visite destiné aux managers pour observer les pratiques, les conditions de travail et les écarts de prévention.",
-      keywords: ["visite sécurité", "manager", "observation", "terrain", "prévention"],
+      description: "Un support pour structurer une visite sécurité réalisée par un manager sur le terrain.",
+      keywords: ["visite sécurité", "manager", "observation", "terrain"],
       fileType: "word",
       fileExtension: "DOCX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "checklist-visite-securite-manager-preuvia.docx",
+      fileName: "checklist-visite-securite-manager.docx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: false,
-      accessLabel: "Télécharger la checklist",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "Managers",
+      editable: true
     },
     {
       id: "grille-observation-situation-travail",
       category: "observer",
-      title: "Grille d’observation d’une situation de travail",
-      shortTitle: "",
-      description: "Grille structurée pour analyser une activité réelle, ses variations, ses contraintes, ses dangers et ses mesures de prévention.",
-      keywords: ["observation travail réel", "situation de travail", "danger", "exposition", "analyse"],
+      title: "Grille d'observation d'une situation de travail",
+      description: "Une grille pour structurer l'observation d'une activité et recueillir les éléments utiles à l'évaluation.",
+      keywords: ["grille", "observation", "situation de travail", "activité réelle"],
       fileType: "word",
       fileExtension: "DOCX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "grille-observation-situation-travail-preuvia.docx",
+      fileName: "grille-observation-situation-travail.docx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger la grille",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "Préventeurs et encadrants",
+      editable: true
     },
     {
-      id: "checklist-mensuelle-locaux-equipements-circulations",
+      id: "checklist-locaux-equipements-circulations",
       category: "observer",
       title: "Checklist mensuelle des locaux, équipements et circulations",
-      shortTitle: "",
-      description: "Support mensuel de vérification des locaux, équipements, accès, stockages et voies de circulation.",
-      keywords: ["locaux", "équipements", "circulation", "inspection", "checklist mensuelle"],
+      description: "Un support pour vérifier périodiquement l'état des locaux, des équipements et des zones de circulation.",
+      keywords: ["checklist", "locaux", "équipements", "circulation", "mensuelle"],
       fileType: "excel",
       fileExtension: "XLSX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "checklist-mensuelle-locaux-equipements-circulations-preuvia.xlsx",
+      fileName: "checklist-locaux-equipements-circulations.xlsx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: false,
-      accessLabel: "Télécharger la checklist",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "QHSE et maintenance",
+      editable: true
     },
     {
       id: "carte-signalement-situation-dangereuse",
       category: "signaler",
-      title: "Carte de signalement d’une situation dangereuse",
-      shortTitle: "",
-      description: "Support simple permettant à un salarié de signaler rapidement une situation présentant un risque.",
-      keywords: ["signalement", "situation dangereuse", "remontée terrain", "alerte", "salarié"],
+      title: "Carte de signalement d'une situation dangereuse",
+      description: "Une carte simple à conserver sur soi pour signaler rapidement une situation dangereuse.",
+      keywords: ["signalement", "situation dangereuse", "carte", "terrain"],
       fileType: "pdf",
       fileExtension: "PDF",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "carte-signalement-situation-dangereuse-preuvia.pdf",
+      fileName: "carte-signalement-situation-dangereuse.pdf",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger la carte",
-      note: ""
+      accessLabel: "Ouvrir le fichier",
+      note: "",
+      audience: "Toutes les équipes",
+      editable: false
     },
     {
       id: "fiche-declaration-presque-accident",
       category: "signaler",
-      title: "Fiche de déclaration d’un presque-accident",
-      shortTitle: "",
-      description: "Fiche destinée à documenter un événement sans dommage ayant pu conduire à un accident.",
-      keywords: ["presque-accident", "quasi-accident", "déclaration", "incident", "prévention"],
+      title: "Fiche de déclaration d'un presque-accident",
+      description: "Un support pour déclarer un presque-accident et documenter les circonstances observées.",
+      keywords: ["presque-accident", "déclaration", "signalement", "fiche"],
       fileType: "word",
       fileExtension: "DOCX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "fiche-declaration-presque-accident-preuvia.docx",
+      fileName: "fiche-declaration-presque-accident.docx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger la fiche",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "Toutes les équipes",
+      editable: true
     },
     {
-      id: "fiche-equipement-defectueux-consigne-inapplicable",
+      id: "fiche-remontee-equipement-defectueux",
       category: "signaler",
-      title: "Fiche de remontée d’un équipement défectueux ou d’une consigne inapplicable",
-      shortTitle: "",
-      description: "Support permettant de signaler un équipement défectueux, une difficulté technique ou une consigne impossible à appliquer.",
-      keywords: ["équipement défectueux", "consigne", "anomalie", "signalement", "maintenance"],
+      title: "Fiche de remontée d'un équipement défectueux ou d'une consigne inapplicable",
+      description: "Un support pour signaler un équipement défectueux ou une consigne difficile à appliquer sur le terrain.",
+      keywords: ["équipement défectueux", "consigne", "remontée", "signalement"],
       fileType: "word",
       fileExtension: "DOCX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "fiche-remontee-equipement-consigne-preuvia.docx",
+      fileName: "fiche-remontee-equipement-defectueux.docx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: false,
-      accessLabel: "Télécharger la fiche",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "Toutes les équipes",
+      editable: true
     },
     {
       id: "tableau-suivi-actions-prevention",
       category: "suivre",
       title: "Tableau de suivi des actions de prévention",
-      shortTitle: "",
-      description: "Tableau permettant de centraliser les actions, responsables, échéances, coûts, preuves et niveaux d’avancement.",
-      keywords: ["plan action", "prévention", "suivi", "responsable", "échéance", "preuve"],
+      description: "Un tableau pour suivre l'avancement des actions de prévention, leurs responsables et leurs échéances.",
+      keywords: ["tableau de suivi", "actions", "prévention", "échéances"],
       fileType: "excel",
       fileExtension: "XLSX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "tableau-suivi-actions-prevention-preuvia.xlsx",
+      fileName: "tableau-suivi-actions-prevention.xlsx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger le tableau",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "QHSE et direction",
+      editable: true
     },
     {
-      id: "fiche-action-prevention",
+      id: "fiche-action-responsable-echeance-preuve-statut",
       category: "suivre",
       title: "Fiche action avec responsable, échéance, preuve et statut",
-      shortTitle: "",
-      description: "Fiche opérationnelle pour définir une action, son responsable, ses ressources, son échéance et les preuves attendues.",
-      keywords: ["fiche action", "responsable", "échéance", "preuve", "statut", "action prévention"],
+      description: "Un support pour documenter une action de prévention de façon précise et vérifiable.",
+      keywords: ["fiche action", "responsable", "échéance", "preuve", "statut"],
       fileType: "word",
       fileExtension: "DOCX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "fiche-action-prevention-preuvia.docx",
+      fileName: "fiche-action-responsable-echeance-preuve-statut.docx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger la fiche",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "QHSE et encadrement",
+      editable: true
     },
     {
-      id: "registre-incidents-presque-accidents-situations-dangereuses",
+      id: "registre-incidents-presque-accidents",
       category: "suivre",
       title: "Registre simplifié des incidents, presque-accidents et situations dangereuses",
-      shortTitle: "",
-      description: "Registre permettant de centraliser les événements, constats, causes, actions engagées et suites données.",
-      keywords: ["registre", "incident", "presque-accident", "situation dangereuse", "analyse", "suivi"],
+      description: "Un registre pour consigner et suivre dans la durée les incidents et situations dangereuses signalées.",
+      keywords: ["registre", "incidents", "presque-accidents", "situations dangereuses"],
       fileType: "excel",
       fileExtension: "XLSX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "registre-incidents-presque-accidents-situations-dangereuses-preuvia.xlsx",
+      fileName: "registre-incidents-presque-accidents.xlsx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: false,
-      accessLabel: "Télécharger le registre",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "QHSE",
+      editable: true
     },
     {
       id: "calendrier-annuel-prevention",
       category: "suivre",
       title: "Calendrier annuel de prévention, contrôles et sensibilisations",
-      shortTitle: "",
-      description: "Calendrier destiné à planifier les actions de prévention, visites, contrôles, vérifications et sensibilisations de l’année.",
-      keywords: ["calendrier prévention", "contrôles", "sensibilisation", "planification", "annuel"],
+      description: "Un calendrier pour planifier sur l'année les contrôles, vérifications et actions de sensibilisation.",
+      keywords: ["calendrier", "prévention", "contrôles", "sensibilisation", "planification"],
       fileType: "excel",
       fileExtension: "XLSX",
       fileUrl: "",
-      previewUrl: "",
-      fileName: "calendrier-annuel-prevention-preuvia.xlsx",
+      fileName: "calendrier-annuel-prevention.xlsx",
       version: "1.0",
       updatedAt: "",
       fileSize: "",
       published: false,
       featured: true,
-      accessLabel: "Télécharger le calendrier",
-      note: ""
+      accessLabel: "Ouvrir le document",
+      note: "",
+      audience: "QHSE et direction",
+      editable: true
     }
   ];
 
-  /* ------------------------------------------------------------------ */
-  /* Etat courant des filtres                                          */
-  /* ------------------------------------------------------------------ */
-  var state = { category: "all", format: "all", query: "" };
-
+  var categoryAliases = {
+    "sensibiliser": "sensibiliser",
+    "observer": "observer",
+    "signaler": "signaler",
+    "suivre": "suivre"
+  };
   var categoryLabels = {
-    sensibiliser: "Sensibiliser",
-    observer: "Observer",
-    signaler: "Signaler",
-    suivre: "Suivre"
+    "sensibiliser": "Sensibiliser",
+    "observer": "Observer",
+    "signaler": "Signaler",
+    "suivre": "Suivre"
   };
   var formatLabels = {
-    pdf: "PDF",
-    word: "Word",
-    powerpoint: "PowerPoint",
-    excel: "Excel"
+    "pdf": "PDF",
+    "word": "Word",
+    "powerpoint": "PowerPoint",
+    "excel": "Excel"
+  };
+  var formatIconColors = {
+    "pdf": "#A13632",
+    "word": "#245BA7",
+    "powerpoint": "#B9582A",
+    "excel": "#23734D"
   };
 
-  /* ------------------------------------------------------------------ */
-  /* Elements                                                          */
-  /* ------------------------------------------------------------------ */
-  var toolbar = document.getElementById('pv-resources-toolbar');
-  var grid = document.getElementById('pv-resources-grid');
-  var counter = document.getElementById('pv-resources-counter');
-  var noResults = document.getElementById('pv-resources-no-results');
-  var emptyLibrary = document.getElementById('pv-resources-empty-library');
-  var searchInput = document.getElementById('pv-resources-search-input');
-  var categoryButtons = Array.prototype.slice.call(root.querySelectorAll('[data-category-filter]'));
-  var formatButtons = Array.prototype.slice.call(root.querySelectorAll('[data-format-filter]'));
+  var resourcesState = { category: "all", format: "all", query: "", sort: "featured" };
+  var searchTimer = null;
 
-  var modal = document.getElementById('pv-resources-modal');
-  var modalTitle = document.getElementById('pv-resources-modal-title');
-  var modalIframe = document.getElementById('pv-resources-modal-iframe');
-  var modalOpenLink = document.getElementById('pv-resources-modal-open-link');
-  var modalCloseButtons = Array.prototype.slice.call(modal.querySelectorAll('[data-modal-close]'));
-  var lastFocusedElement = null;
+  var toolsPanel = document.getElementById("pv-resources-tools");
+  var catalogueGrid = document.getElementById("pv-resources-catalogue-grid");
+  var counterEl = document.getElementById("pv-resources-counter");
+  var preparationState = document.getElementById("pv-resources-preparation-state");
+  var noMatchState = document.getElementById("pv-resources-no-match-state");
+  var searchInput = document.getElementById("pv-resources-search-input");
+  var sortSelect = document.getElementById("pv-resources-sort-select");
+  var resetBtn = document.getElementById("pv-resources-reset-filters");
+  var noMatchResetBtn = document.getElementById("pv-resources-no-match-reset");
+  var categoryButtons = Array.prototype.slice.call(root.querySelectorAll("[data-resources-category-filter]"));
+  var formatButtons = Array.prototype.slice.call(root.querySelectorAll("[data-resources-format-filter]"));
+  var categoryLinks = Array.prototype.slice.call(root.querySelectorAll("[data-resources-category-link]"));
+  var urlAnnounce = document.getElementById("pv-resources-url-announce");
 
-  /* ------------------------------------------------------------------ */
-  /* Utilitaires                                                       */
-  /* ------------------------------------------------------------------ */
-  function escapeHtml(value){
-    return String(value === null || value === undefined ? "" : value).replace(/[&<>"']/g, function(ch){
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[ch];
-    });
-  }
+  var publishedResources = preuviaResources.filter(function(r){ return r.published === true && r.id && r.category; });
 
-  function prefersReducedMotion(){
-    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-
-  /* Une ressource n'est réellement disponible que si elle est publiée
-     ET qu'un fichier a été renseigné (jamais d'URL vide affichée). */
-  function isAvailable(resource){
-    return resource.published === true && typeof resource.fileUrl === "string" && resource.fileUrl.trim() !== "";
-  }
-
-  function canPreview(resource){
-    if(resource.fileType !== "pdf"){ return false; }
-    var url = (resource.previewUrl && resource.previewUrl.trim()) || (resource.fileUrl && resource.fileUrl.trim());
-    return !!url;
-  }
-
-  function matchesSearch(resource, query){
+  function matchesQuery(resource, query){
     if(!query){ return true; }
-    var q = query.toLowerCase();
     var haystack = [
-      resource.title,
-      resource.description,
-      resource.category,
-      resource.fileType
-    ].concat(resource.keywords || []).join(" ").toLowerCase();
-    return haystack.indexOf(q) !== -1;
+      resource.title, resource.description,
+      (resource.keywords || []).join(" "), resource.category,
+      resource.fileType, resource.fileName, resource.audience, resource.note
+    ].join(" ").toLowerCase();
+    return haystack.indexOf(query.toLowerCase()) !== -1;
   }
 
   function getFilteredResources(){
-    return preuviaResources.filter(isAvailable).filter(function(resource){
-      var categoryOk = state.category === "all" || resource.category === state.category;
-      var formatOk = state.format === "all" || resource.fileType === state.format;
-      return categoryOk && formatOk && matchesSearch(resource, state.query);
+    var list = publishedResources.filter(function(resource){
+      var categoryOk = resourcesState.category === "all" || resource.category === resourcesState.category;
+      var formatOk = resourcesState.format === "all" || resource.fileType === resourcesState.format;
+      return categoryOk && formatOk && matchesQuery(resource, resourcesState.query);
     });
+    var sorted = list.slice();
+    if(resourcesState.sort === "alphabetical"){
+      sorted.sort(function(a, b){ return a.title.localeCompare(b.title, "fr"); });
+    } else if(resourcesState.sort === "recent"){
+      sorted.sort(function(a, b){
+        var da = a.updatedAt || "";
+        var db = b.updatedAt || "";
+        return db.localeCompare(da);
+      });
+    } else if(resourcesState.sort === "category"){
+      sorted.sort(function(a, b){ return a.category.localeCompare(b.category, "fr"); });
+    } else {
+      sorted.sort(function(a, b){
+        var fa = a.featured ? 0 : 1;
+        var fb = b.featured ? 0 : 1;
+        if(fa !== fb){ return fa - fb; }
+        return a.title.localeCompare(b.title, "fr");
+      });
+    }
+    return sorted;
   }
 
-  function buildMetaListHtml(resource){
-    var items = [];
-    items.push("<li>Format : " + escapeHtml(formatLabels[resource.fileType] || resource.fileExtension) + "</li>");
-    if(resource.version){ items.push("<li>Version : " + escapeHtml(resource.version) + "</li>"); }
-    if(resource.updatedAt){ items.push("<li>Mise à jour : " + escapeHtml(resource.updatedAt) + "</li>"); }
-    if(resource.fileSize){ items.push("<li>Taille : " + escapeHtml(resource.fileSize) + "</li>"); }
-    return "<ul class=\"pv-resources-resource-card__meta\">" + items.join("") + "</ul>";
+  function buildFormatIconSvg(fileType){
+    var color = formatIconColors[fileType] || "#173F5F";
+    return '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" stroke="' + color + '" stroke-width="1.8"/><path d="M8 9h8M8 13h8M8 17h5" stroke="' + color + '" stroke-width="1.6" stroke-linecap="round"/></svg>';
   }
 
-  function buildCardHtml(resource){
-    var badgeClass = "pv-resources-badge--" + resource.fileType;
-    var iconClass = "pv-resources-resource-card__icon--" + resource.fileType;
-    var formatLabel = formatLabels[resource.fileType] || resource.fileExtension;
-
+  function buildResourceCardHtml(resource){
     var html = "";
-    html += "<article class=\"pv-resources-resource-card\" data-resource-id=\"" + escapeHtml(resource.id) + "\">";
-    html += "<div class=\"pv-resources-resource-card__top\">";
-    html += "<span class=\"pv-resources-resource-card__icon " + iconClass + "\" aria-hidden=\"true\">" + escapeHtml(resource.fileExtension) + "</span>";
-    html += "<span class=\"pv-resources-badge " + badgeClass + "\">" + escapeHtml(formatLabel) + "</span>";
+    html += '<article class="pv-resources-resource" id="' + escapeHtml(resource.id) + '" data-resources-id="' + escapeHtml(resource.id) + '">';
+    html += '<div class="pv-resources-resource__top">';
+    html += '<span class="pv-resources-resource__icon" aria-hidden="true">' + buildFormatIconSvg(resource.fileType) + '</span>';
+    html += '<div class="pv-resources-resource__badges">';
+    html += '<span class="pv-resources-badge">' + escapeHtml(categoryLabels[resource.category] || resource.category) + '</span>';
+    html += '<span class="pv-resources-badge pv-resources-badge--format-' + escapeHtml(resource.fileType) + '">' + escapeHtml(resource.fileExtension || formatLabels[resource.fileType] || resource.fileType) + '</span>';
     if(resource.featured){
-      html += "<span class=\"pv-resources-badge pv-resources-badge--featured\">Ressource mise en avant</span>";
+      html += '<span class="pv-resources-badge pv-resources-badge--featured">Ressource mise en avant</span>';
     }
-    html += "</div>";
-    html += "<h3 class=\"pv-resources-h3\">" + escapeHtml(resource.title) + "</h3>";
-    html += "<p class=\"pv-resources-resource-card__category\">" + escapeHtml(categoryLabels[resource.category] || resource.category) + "</p>";
-    html += "<p class=\"pv-resources-p\">" + escapeHtml(resource.description) + "</p>";
-    html += buildMetaListHtml(resource);
+    html += '</div>';
+    html += '</div>';
+    html += '<h3 class="pv-resources-resource__title">' + escapeHtml(resource.title) + '</h3>';
+    html += '<p class="pv-resources-resource__desc">' + escapeHtml(resource.description) + '</p>';
+
+    var metaItems = [];
+    if(resource.audience){ metaItems.push('<li><strong>Public :</strong> ' + escapeHtml(resource.audience) + '</li>'); }
+    if(resource.version){ metaItems.push('<li><strong>Version :</strong> ' + escapeHtml(resource.version) + '</li>'); }
+    if(resource.updatedAt){ metaItems.push('<li><strong>Mise à jour :</strong> ' + escapeHtml(resource.updatedAt) + '</li>'); }
+    if(resource.fileSize){ metaItems.push('<li><strong>Taille :</strong> ' + escapeHtml(resource.fileSize) + '</li>'); }
+    metaItems.push('<li><strong>' + (resource.editable ? "Format modifiable" : "Format de consultation") + '</strong></li>');
+    html += '<ul class="pv-resources-resource__meta">' + metaItems.join("") + '</ul>';
+
+    if(resource.keywords && resource.keywords.length){
+      html += '<ul class="pv-resources-resource__tags">' + resource.keywords.slice(0, 5).map(function(k){ return '<li>' + escapeHtml(k) + '</li>'; }).join("") + '</ul>';
+    }
+
     if(resource.note){
-      html += "<p class=\"pv-resources-resource-card__note\">" + escapeHtml(resource.note) + "</p>";
+      html += '<p class="pv-resources-resource__note">' + escapeHtml(resource.note) + '</p>';
     }
-    html += "<div class=\"pv-resources-resource-card__actions\">";
-    html += "<a class=\"pv-resources-btn pv-resources-btn--primary\" href=\"" + escapeHtml(resource.fileUrl) + "\" target=\"_blank\" rel=\"noopener noreferrer\">" + escapeHtml(resource.accessLabel || "Télécharger") + "</a>";
-    if(canPreview(resource)){
-      html += "<button type=\"button\" class=\"pv-resources-btn pv-resources-btn--secondary\" data-preview-id=\"" + escapeHtml(resource.id) + "\">Prévisualiser</button>";
+
+    html += '<div class="pv-resources-resource__actions">';
+    if(resource.fileUrl && resource.fileUrl.trim() !== ""){
+      if(resource.fileType === "pdf"){
+        html += '<button type="button" class="pv-resources-btn pv-resources-btn--secondary pv-resources-btn--small" data-resources-preview="' + escapeHtml(resource.id) + '" data-pv-cta="resource-preview" data-pv-source="resources">Prévisualiser</button>';
+        html += '<a class="pv-resources-btn pv-resources-btn--primary pv-resources-btn--small" href="' + escapeHtml(resource.fileUrl) + '" target="_blank" rel="noopener noreferrer" data-pv-cta="resource-open" data-pv-source="resources">' + escapeHtml(resource.accessLabel || "Ouvrir le fichier") + '</a>';
+      } else {
+        html += '<a class="pv-resources-btn pv-resources-btn--primary pv-resources-btn--small" href="' + escapeHtml(resource.fileUrl) + '" target="_blank" rel="noopener noreferrer" data-pv-cta="resource-open" data-pv-source="resources">' + escapeHtml(resource.accessLabel || "Ouvrir le document") + '</a>';
+      }
     }
-    html += "</div>";
-    html += "</article>";
+    html += '</div>';
+    html += '</article>';
     return html;
   }
 
-  /* ------------------------------------------------------------------ */
-  /* Rendu                                                              */
-  /* ------------------------------------------------------------------ */
-  function render(){
-    var totalAvailable = preuviaResources.filter(isAvailable).length;
+  function bindPreviewButtons(){
+    Array.prototype.slice.call(catalogueGrid.querySelectorAll("[data-resources-preview]")).forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var resourceId = btn.getAttribute("data-resources-preview");
+        var resource = publishedResources.filter(function(r){ return r.id === resourceId; })[0];
+        if(resource){ openPdfModal(resource, btn); }
+      });
+    });
+  }
 
-    if(totalAvailable === 0){
-      toolbar.hidden = true;
-      grid.hidden = true;
-      grid.innerHTML = "";
-      noResults.hidden = true;
-      emptyLibrary.hidden = false;
+  function renderResourcesLibrary(){
+    if(!catalogueGrid){ return; }
+    if(publishedResources.length === 0){
+      if(toolsPanel){ toolsPanel.hidden = true; }
+      catalogueGrid.hidden = true;
+      catalogueGrid.innerHTML = "";
+      if(noMatchState){ noMatchState.hidden = true; }
+      if(preparationState){ preparationState.hidden = false; }
       return;
     }
-
-    toolbar.hidden = false;
-    emptyLibrary.hidden = true;
+    if(toolsPanel){ toolsPanel.hidden = false; }
+    if(preparationState){ preparationState.hidden = true; }
 
     var filtered = getFilteredResources();
-    counter.textContent = filtered.length + (filtered.length > 1 ? " ressources disponibles" : " ressource disponible");
-
+    if(counterEl){
+      var count = filtered.length;
+      counterEl.textContent = count === 0 ? "Aucune ressource affichée" : (count === 1 ? "1 ressource affichée" : count + " ressources affichées");
+    }
     if(filtered.length === 0){
-      grid.hidden = true;
-      grid.innerHTML = "";
-      noResults.hidden = false;
+      catalogueGrid.hidden = true;
+      catalogueGrid.innerHTML = "";
+      if(noMatchState){ noMatchState.hidden = false; }
     } else {
-      noResults.hidden = true;
-      grid.hidden = false;
-      grid.innerHTML = filtered.map(buildCardHtml).join("");
+      if(noMatchState){ noMatchState.hidden = true; }
+      catalogueGrid.hidden = false;
+      catalogueGrid.innerHTML = filtered.map(buildResourceCardHtml).join("");
+      bindPreviewButtons();
+      if(!prefersReducedMotion && "IntersectionObserver" in window){
+        var cardObserver = new IntersectionObserver(function(entries, observer){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              entry.target.classList.add("pv-resources-reveal--visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08 });
+        Array.prototype.slice.call(catalogueGrid.querySelectorAll(".pv-resources-resource")).forEach(function(card){
+          card.classList.add("pv-resources-reveal");
+          cardObserver.observe(card);
+        });
+      }
     }
   }
 
@@ -1056,166 +1475,342 @@
     });
   }
 
+  categoryButtons.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      resourcesState.category = btn.getAttribute("data-resources-category-filter");
+      setPressed(categoryButtons, btn);
+      renderResourcesLibrary();
+    });
+  });
+  formatButtons.forEach(function(btn){
+    btn.addEventListener("click", function(){
+      resourcesState.format = btn.getAttribute("data-resources-format-filter");
+      setPressed(formatButtons, btn);
+      renderResourcesLibrary();
+    });
+  });
+
+  if(searchInput){
+    searchInput.addEventListener("input", function(){
+      var value = searchInput.value;
+      if(searchTimer){ clearTimeout(searchTimer); }
+      searchTimer = setTimeout(function(){
+        resourcesState.query = value.trim();
+        renderResourcesLibrary();
+      }, 180);
+    });
+  }
+  if(sortSelect){
+    sortSelect.addEventListener("change", function(){
+      resourcesState.sort = sortSelect.value;
+      renderResourcesLibrary();
+    });
+  }
+
   function resetFilters(){
-    state = { category: "all", format: "all", query: "" };
+    resourcesState = { category: "all", format: "all", query: "", sort: "featured" };
     if(searchInput){ searchInput.value = ""; }
+    if(sortSelect){ sortSelect.value = "featured"; }
     setPressed(categoryButtons, categoryButtons[0]);
     setPressed(formatButtons, formatButtons[0]);
-    render();
+    renderResourcesLibrary();
   }
+  if(resetBtn){ resetBtn.addEventListener("click", resetFilters); }
+  if(noMatchResetBtn){ noMatchResetBtn.addEventListener("click", resetFilters); }
 
-  function applyQuickFilter(category){
-    state.category = category;
+  function applyCategoryFilter(category){
+    resourcesState.category = category;
     var matchingButton = categoryButtons.filter(function(btn){
-      return btn.getAttribute("data-category-filter") === category;
+      return btn.getAttribute("data-resources-category-filter") === category;
     })[0];
     if(matchingButton){ setPressed(categoryButtons, matchingButton); }
-    render();
-    var library = document.getElementById('pv-resources-library');
-    if(library){
-      library.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
-    }
+    renderResourcesLibrary();
   }
+  categoryLinks.forEach(function(link){
+    link.addEventListener("click", function(){
+      var category = link.getAttribute("data-resources-category-link");
+      if(category){ applyCategoryFilter(category); }
+    });
+  });
+
+  renderResourcesLibrary();
 
   /* ------------------------------------------------------------------ */
-  /* Fenêtre modale de prévisualisation PDF                             */
+  /* Modal PDF : iframe chargee uniquement apres clic, videe a la       */
+  /* fermeture, focus piege et restaure.                                */
   /* ------------------------------------------------------------------ */
+  var modal = document.getElementById("pv-resources-modal");
+  var modalTitle = document.getElementById("pv-resources-modal-title");
+  var modalClose = document.getElementById("pv-resources-modal-close");
+  var modalIframe = document.getElementById("pv-resources-modal-iframe");
+  var modalOpenLink = document.getElementById("pv-resources-modal-open-link");
+  var lastFocusedBeforeModal = null;
+
   function getFocusableInModal(){
-    return Array.prototype.slice.call(
-      modal.querySelectorAll('a[href], button:not([disabled])')
-    );
+    if(!modal){ return []; }
+    return Array.prototype.slice.call(modal.querySelectorAll('a[href], button:not([disabled])')).filter(function(el){
+      return el.offsetParent !== null;
+    });
   }
 
-  function openModal(resource, triggerElement){
-    lastFocusedElement = triggerElement;
-    modalTitle.textContent = resource.title;
-    modalIframe.src = (resource.previewUrl && resource.previewUrl.trim()) || resource.fileUrl;
-    modalOpenLink.href = resource.fileUrl;
-    modal.hidden = false;
-    var closeButton = modal.querySelector('.pv-resources-modal__close');
-    if(closeButton){ closeButton.focus(); }
+  function openPdfModal(resource, triggerEl){
+    if(!modal){ return; }
+    lastFocusedBeforeModal = triggerEl || document.activeElement;
+    if(modalTitle){ modalTitle.textContent = resource.title + " (" + (resource.fileExtension || "PDF") + ")"; }
+    if(modalIframe){ modalIframe.src = resource.fileUrl; }
+    if(modalOpenLink){ modalOpenLink.setAttribute("href", resource.fileUrl); }
+    root.classList.add("pv-resources-modal-open");
+    if(modalClose){ modalClose.focus(); }
   }
 
-  function closeModal(){
-    if(modal.hidden){ return; }
-    modal.hidden = true;
-    modalIframe.src = "about:blank";
-    if(lastFocusedElement && typeof lastFocusedElement.focus === "function"){
-      lastFocusedElement.focus();
+  function closePdfModal(){
+    if(!modal){ return; }
+    root.classList.remove("pv-resources-modal-open");
+    if(modalIframe){ modalIframe.src = "about:blank"; }
+    if(lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === "function"){
+      lastFocusedBeforeModal.focus();
     }
+    lastFocusedBeforeModal = null;
   }
 
-  function handleModalKeydown(event){
-    if(modal.hidden){ return; }
-    if(event.key === "Escape"){
-      closeModal();
-      return;
-    }
-    if(event.key === "Tab"){
+  if(modalClose){ modalClose.addEventListener("click", closePdfModal); }
+  if(modal){
+    modal.addEventListener("click", function(evt){
+      if(evt.target === modal){ closePdfModal(); }
+    });
+  }
+  document.addEventListener("keydown", function(evt){
+    if(!root.classList.contains("pv-resources-modal-open")){ return; }
+    if(evt.key === "Escape"){ closePdfModal(); return; }
+    if(evt.key === "Tab"){
       var focusable = getFocusableInModal();
       if(focusable.length === 0){ return; }
       var first = focusable[0];
       var last = focusable[focusable.length - 1];
-      if(event.shiftKey && document.activeElement === first){
-        event.preventDefault();
+      if(evt.shiftKey && document.activeElement === first){
+        evt.preventDefault();
         last.focus();
-      } else if(!event.shiftKey && document.activeElement === last){
-        event.preventDefault();
+      } else if(!evt.shiftKey && document.activeElement === last){
+        evt.preventDefault();
         first.focus();
       }
     }
-  }
-
-  /* ------------------------------------------------------------------ */
-  /* FAQ accessible                                                     */
-  /* ------------------------------------------------------------------ */
-  var faqQuestions = Array.prototype.slice.call(root.querySelectorAll('.pv-resources-faq__question'));
-  faqQuestions.forEach(function(btn){
-    var panel = document.getElementById(btn.getAttribute('aria-controls'));
-    if(panel){ panel.hidden = true; }
-    btn.setAttribute('aria-expanded', 'false');
   });
 
-  function toggleFaq(btn){
-    var panel = document.getElementById(btn.getAttribute('aria-controls'));
-    var expanded = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', String(!expanded));
-    if(panel){ panel.hidden = expanded; }
+  /* ------------------------------------------------------------------ */
+  /* Lecture controlee du parametre d'URL categorie, jamais injecte via */
+  /* innerHTML. Uniquement utilise pour activer un filtre reel, faire   */
+  /* defiler vers la bibliotheque et annoncer un libelle controle.      */
+  /* ------------------------------------------------------------------ */
+  function handleCategoryUrlParameter(){
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var rawValue = params.get("categorie");
+      if(!rawValue){ return; }
+      var normalized = String(rawValue).toLowerCase().trim();
+      var resolvedCategory = Object.prototype.hasOwnProperty.call(categoryAliases, normalized) ? categoryAliases[normalized] : null;
+      if(!resolvedCategory){ return; }
+      applyCategoryFilter(resolvedCategory);
+      var libraryEl = document.getElementById("bibliotheque-ressources");
+      if(libraryEl){
+        libraryEl.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+      }
+      if(urlAnnounce){
+        urlAnnounce.textContent = "Filtre appliqué depuis le lien partagé : " + (categoryLabels[resolvedCategory] || resolvedCategory);
+      }
+    } catch(urlError){
+      /* Un parametre d'URL invalide ne doit jamais provoquer d'erreur visible. */
+    }
   }
+  handleCategoryUrlParameter();
 
-  /* ------------------------------------------------------------------ */
-  /* Délégation d'événements (un seul écouteur clic pour toute la page) */
-  /* ------------------------------------------------------------------ */
-  root.addEventListener('click', function(event){
-    var target = event.target;
-
-    var quickFilterBtn = target.closest('[data-quick-filter]');
-    if(quickFilterBtn){
-      applyQuickFilter(quickFilterBtn.getAttribute('data-quick-filter'));
-      return;
-    }
-
-    var categoryBtn = target.closest('[data-category-filter]');
-    if(categoryBtn){
-      state.category = categoryBtn.getAttribute('data-category-filter');
-      setPressed(categoryButtons, categoryBtn);
-      render();
-      return;
-    }
-
-    var formatBtn = target.closest('[data-format-filter]');
-    if(formatBtn){
-      state.format = formatBtn.getAttribute('data-format-filter');
-      setPressed(formatButtons, formatBtn);
-      render();
-      return;
-    }
-
-    var resetBtn = target.closest('[data-reset-filters]');
-    if(resetBtn){
-      resetFilters();
-      return;
-    }
-
-    var previewBtn = target.closest('[data-preview-id]');
-    if(previewBtn){
-      var resourceId = previewBtn.getAttribute('data-preview-id');
-      var resource = preuviaResources.filter(function(r){ return r.id === resourceId; })[0];
-      if(resource){ openModal(resource, previewBtn); }
-      return;
-    }
-
-    var modalCloseBtn = target.closest('[data-modal-close]');
-    if(modalCloseBtn){
-      closeModal();
-      return;
-    }
-
-    var faqBtn = target.closest('.pv-resources-faq__question');
-    if(faqBtn){
-      toggleFaq(faqBtn);
-      return;
+  /* Suivi CTA non bloquant */
+  root.addEventListener("click", function(evt){
+    var trigger = evt.target.closest ? evt.target.closest("[data-pv-cta]") : null;
+    if(!trigger){ return; }
+    try {
+      window.dispatchEvent(new CustomEvent("preuvia:cta", {
+        detail: {
+          cta: trigger.getAttribute("data-pv-cta"),
+          source: trigger.getAttribute("data-pv-source") || "resources"
+        }
+      }));
+    } catch(dispatchError){
+      /* Le suivi ne doit jamais bloquer la navigation. */
     }
   });
 
-  /* Recherche avec un léger anti-rebond pour éviter un rendu à chaque frappe */
-  if(searchInput){
-    var searchTimer = null;
-    searchInput.addEventListener('input', function(){
-      var value = searchInput.value;
-      clearTimeout(searchTimer);
-      searchTimer = setTimeout(function(){
-        state.query = value;
-        render();
-      }, 250);
+  /* Reveal on scroll (contenu statique hors bibliotheque) */
+  if(!prefersReducedMotion && "IntersectionObserver" in window){
+    var revealObserver = new IntersectionObserver(function(entries, observer){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("pv-resources-reveal--visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    Array.prototype.slice.call(root.querySelectorAll(".pv-resources-reveal")).forEach(function(el){
+      revealObserver.observe(el);
+    });
+  } else {
+    Array.prototype.slice.call(root.querySelectorAll(".pv-resources-reveal")).forEach(function(el){
+      el.classList.add("pv-resources-reveal--visible");
     });
   }
 
-  document.addEventListener('keydown', handleModalKeydown);
+  /* ------------------------------------------------------------------ */
+  /* Constante et fonction d'audit local. N'affecte jamais l'affichage. */
+  /* Ne s'execute que si PV_RESOURCES_DEBUG vaut true.                  */
+  /* ------------------------------------------------------------------ */
+  var PV_RESOURCES_DEBUG = false;
 
-  /* ------------------------------------------------------------------ */
-  /* Rendu initial                                                      */
-  /* ------------------------------------------------------------------ */
-  render();
+  function runPreuviaResourcesIntegrityAudit(){
+    try {
+      var issues = [];
+      var officialRoutes = ["/", "/prestations-duerp", "/formations-duerp-qhse", "/methode-evaluation-risques", "/duerp-secteurs-activite", "/ressources-duerp", "/contact", "/mentions-legales", "/politique-confidentialite", "/conditions-generales-vente", "/politique-cookies"];
+      var oldTemplateMarkers = ["Lorem ipsum", "Titre de la page", "Votre texte ici"];
+      var allowedCategories = ["sensibiliser", "observer", "signaler", "suivre"];
+      var allowedFileTypes = ["pdf", "word", "powerpoint", "excel"];
+
+      var links = Array.prototype.slice.call(root.querySelectorAll("a"));
+      links.forEach(function(link){
+        var href = link.getAttribute("href");
+        if(href === null){ issues.push("Lien sans attribut href : " + (link.textContent || "").trim()); return; }
+        if(href.trim() === ""){ issues.push("Attribut href vide : " + (link.textContent || "").trim()); return; }
+        if(href.trim().toLowerCase().indexOf("javascript:") === 0){ issues.push("Utilisation de javascript: dans un href : " + href); }
+        if(href === "#"){ issues.push("href vaut # sans ancre reelle : " + (link.textContent || "").trim()); }
+        if(href.charAt(0) === "#" && href.length > 1){
+          var targetId = href.slice(1);
+          if(!document.getElementById(targetId)){ issues.push("Ancre interne sans cible existante : " + href); }
+        }
+        if(link.getAttribute("target") === "_blank"){
+          var rel = (link.getAttribute("rel") || "");
+          if(rel.indexOf("noopener") === -1 || rel.indexOf("noreferrer") === -1){
+            issues.push("target=_blank sans rel=noopener noreferrer : " + href);
+          }
+        }
+        if(!link.textContent.trim() && !link.getAttribute("aria-label")){
+          issues.push("Lien sans libelle accessible : " + href);
+        }
+        if(href.charAt(0) === "/" && officialRoutes.indexOf(href.split("?")[0]) === -1){
+          issues.push("Lien interne hors du routage officiel declare : " + href);
+        }
+      });
+
+      var buttons = Array.prototype.slice.call(root.querySelectorAll("button"));
+      buttons.forEach(function(btn){
+        if(btn.getAttribute("type") !== "button"){ issues.push("Bouton interactif sans type=button detecte."); }
+        if(!btn.textContent.trim() && !btn.getAttribute("aria-label")){ issues.push("Bouton sans texte accessible."); }
+      });
+
+      var filterButtons = Array.prototype.slice.call(root.querySelectorAll("[data-resources-category-filter], [data-resources-format-filter]"));
+      filterButtons.forEach(function(btn){
+        if(!btn.hasAttribute("aria-pressed")){ issues.push("Filtre sans aria-pressed."); }
+      });
+
+      if(searchInput){
+        var searchLabel = root.querySelector('label[for="' + searchInput.id + '"]');
+        if(!searchLabel){ issues.push("Champ de recherche sans label associe."); }
+      }
+      if(counterEl && !counterEl.getAttribute("aria-live")){ issues.push("Compteur sans aria-live."); }
+
+      var seenIds = {};
+      Array.prototype.slice.call(root.querySelectorAll("[id]")).forEach(function(el){
+        var id = el.id;
+        if(seenIds[id]){ issues.push("Identifiant HTML duplique : " + id); }
+        seenIds[id] = true;
+      });
+
+      var seenResourceIds = {};
+      preuviaResources.forEach(function(resource){
+        if(!resource.id){ issues.push("Ressource sans identifiant."); }
+        if(seenResourceIds[resource.id]){ issues.push("Identifiants de ressources dupliques : " + resource.id); }
+        seenResourceIds[resource.id] = true;
+        if(allowedFileTypes.indexOf(resource.fileType) === -1){ issues.push("Type de fichier non reconnu : " + resource.fileType + " (" + resource.id + ")"); }
+        if(allowedCategories.indexOf(resource.category) === -1){ issues.push("Categorie non reconnue : " + resource.category + " (" + resource.id + ")"); }
+        if(resource.published === true && (!resource.fileUrl || resource.fileUrl.trim() === "")){
+          issues.push("Ressource publiee sans fileUrl : " + resource.id);
+        }
+        if(resource.published === false){
+          var hiddenEl = document.getElementById(resource.id);
+          if(hiddenEl){ issues.push("Ressource non publiee presente dans le DOM public : " + resource.id); }
+        }
+      });
+
+      publishedResources.forEach(function(resource){
+        var cardEl = document.getElementById(resource.id);
+        if(cardEl){
+          var hasFileUrl = resource.fileUrl && resource.fileUrl.trim() !== "";
+          var openBtn = cardEl.querySelector('[data-pv-cta="resource-open"]');
+          var previewBtn = cardEl.querySelector('[data-resources-preview]');
+          if(!hasFileUrl && (openBtn || previewBtn)){
+            issues.push("Bouton d'ouverture visible avec fileUrl vide : " + resource.id);
+          }
+          if(previewBtn && resource.fileType !== "pdf"){
+            issues.push("Bouton de previsualisation sur un fichier non PDF : " + resource.id);
+          }
+        }
+      });
+
+      if(modal){
+        if(modal.getAttribute("role") !== "dialog"){
+          var panel = modal.querySelector('[role="dialog"]');
+          if(!panel){ issues.push("Modal sans role=dialog."); }
+        }
+        var modalPanel = modal.querySelector('[aria-modal="true"]');
+        if(!modalPanel){ issues.push("Modal sans aria-modal."); }
+      }
+      if(modalIframe && modalIframe.getAttribute("src") && modalIframe.getAttribute("src") !== "about:blank" && !root.classList.contains("pv-resources-modal-open")){
+        issues.push("Iframe chargee avant clic.");
+      }
+
+      var h1s = root.querySelectorAll("h1");
+      if(h1s.length === 0){ issues.push("Aucune balise H1 trouvee."); }
+      if(h1s.length > 1){ issues.push("Plusieurs balises H1 trouvees : " + h1s.length); }
+
+      var navEl = root.querySelector("nav");
+      if(navEl && !navEl.getAttribute("aria-label")){ issues.push("Element nav sans aria-label."); }
+      if(navEl && !navEl.querySelector('[aria-current="page"]')){ issues.push("Aucun lien de navigation ne porte aria-current page."); }
+
+      var accordionButtons = Array.prototype.slice.call(root.querySelectorAll(".pv-resources-faq__question"));
+      accordionButtons.forEach(function(btn){
+        if(!btn.getAttribute("aria-controls")){ issues.push("Accordeon sans aria-controls."); }
+      });
+
+      var customForms = root.querySelectorAll("form");
+      if(customForms.length > 0){ issues.push("Element form detecte dans la page (non attendu sur cette page)."); }
+
+      if(root.scrollWidth > root.clientWidth + 1){ issues.push("Debordement horizontal potentiel du conteneur principal."); }
+
+      var bodyText = root.textContent || "";
+      oldTemplateMarkers.forEach(function(marker){
+        if(bodyText.indexOf(marker) !== -1){ issues.push("Texte residuel possible de l'ancien template detecte : " + marker); }
+      });
+
+      try {
+        var testParams = new URLSearchParams(window.location.search);
+        var testRaw = testParams.get("categorie");
+        if(testRaw && bodyText.indexOf(testRaw) !== -1 && !Object.prototype.hasOwnProperty.call(categoryAliases, String(testRaw).toLowerCase().trim())){
+          issues.push("Valeur brute d'URL potentiellement injectee dans le DOM : " + testRaw);
+        }
+      } catch(paramCheckError){
+        /* Verification best-effort uniquement. */
+      }
+
+      if(issues.length){
+        console.warn("[PREUVIA audit] " + issues.length + " point(s) a verifier :", issues);
+      } else {
+        console.info("[PREUVIA audit] Aucun probleme detecte.");
+      }
+    } catch (auditError) {
+      /* L'audit ne doit jamais interrompre la page, y compris en cas d'erreur interne. */
+    }
+  }
+
+  if(PV_RESOURCES_DEBUG === true){
+    runPreuviaResourcesIntegrityAudit();
+  }
+
 })();
 </script>
