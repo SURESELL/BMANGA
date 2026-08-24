@@ -1,0 +1,7 @@
+# PlannerVids is a separate, isolated app (its own package.json, lockfile,
+# Next.js build) living at plannervids/. It is not part of the PREUVIA
+# DUERP Vercel project and must never be uploaded/considered by its
+# deployments — a second lockfile/Next.js app at the repo root otherwise
+# confuses Vercel's zero-config framework/monorepo detection for this
+# project. PlannerVids will get its own deployment target when it's ready.
+plannervids
