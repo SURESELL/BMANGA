@@ -1,0 +1,765 @@
+// PlannerVids — Social Media Command Center
+// Data model. Single-admin V1, but users/workspaces/brands/roles are modeled
+// from day one so a move to multi-tenant SaaS later does not require a rewrite.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Identity & workspace
+// ---------------------------------------------------------------------------
+
+enum RoleName {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  failedLoginAttempts Int @default(0)
+  lockedUntil  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deletedAt    DateTime?
+
+  memberships     WorkspaceMember[]
+  approvals       Approval[]
+  auditLogs       AuditLog[]
+  notifications   Notification[]
+  aiGenerations   AiGeneration[]
+
+  @@index([email])
+}
+
+model Workspace {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  timezone  String   @default("Europe/Paris")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  members      WorkspaceMember[]
+  brands       Brand[]
+  settings     Setting[]
+  auditLogs    AuditLog[]
+  notifications Notification[]
+  aiCosts      AiCost[]
+}
+
+model WorkspaceMember {
+  id          String   @id @default(uuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role        RoleName  @default(ADMIN)
+  createdAt   DateTime  @default(now())
+
+  @@unique([workspaceId, userId])
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------------------
+// Brands — strict isolation boundary. Every content-bearing table below
+// carries a brandId and application code must always scope queries by it.
+// ---------------------------------------------------------------------------
+
+model Brand {
+  id          String   @id @default(uuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name        String
+  slug        String
+  logoMediaId String?
+  logoMedia   MediaAsset? @relation("BrandLogo", fields: [logoMediaId], references: [id])
+  colors      Json?      // { primary, secondary, accent, ... }
+  languages   String[]   @default(["fr"])
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+
+  guideline          BrandGuideline?
+  cadence            PublishingCadence[]
+  socialAccounts      SocialAccount[]
+  products            Product[]
+  affiliateLinks      AffiliateLink[]
+  campaigns           Campaign[]
+  contentIdeas        ContentIdea[]
+  contentMasters      ContentMaster[]
+  mediaAssets         MediaAsset[] @relation("BrandMedia")
+  videoProjects       VideoProject[]
+  videoTemplates      VideoTemplate[]
+  posts               Post[]
+  analyticsSnapshots  AnalyticsSnapshot[]
+  clickEvents         ClickEvent[]
+  aiGenerations       AiGeneration[]
+  aiCosts             AiCost[]
+
+  @@unique([workspaceId, slug])
+  @@index([workspaceId])
+}
+
+// "Brand Brain": the full editorial identity of a brand, always fetched by
+// the AI engine before generating any content for that brand.
+model BrandGuideline {
+  id                 String  @id @default(uuid())
+  brandId            String  @unique
+  brand              Brand   @relation(fields: [brandId], references: [id], onDelete: Cascade)
+
+  description        String?
+  positioning        String?
+  mission            String?
+  audiences           Json?    // list of audience descriptions
+  personas            Json?    // list of personas
+  services            Json?
+  productsSummary     String?
+  promise             String?
+  tone                String?
+  vocabulary          String[] @default([])
+  forbiddenPhrases    String[] @default([])
+  ctas                String[] @default([])
+  hashtags            String[] @default([])
+  priorityTopics      String[] @default([])
+  forbiddenTopics     String[] @default([])
+  competitors         String[] @default([])
+  disclaimers         Json?    // { fr: "...", en: "..." }
+  affiliationRules    Json?
+  exampleUrls         String[] @default([])
+  referenceDocs       Json?    // list of { title, mediaAssetId | url }
+  typography          Json?
+  editorialRatios     Json?    // { expertise: 60, authority: 20, engagement: 10, commercial: 10 }
+
+  updatedAt DateTime @updatedAt
+}
+
+enum SocialPlatform {
+  LINKEDIN
+  FACEBOOK
+  INSTAGRAM
+  TIKTOK
+  YOUTUBE
+  X
+  PINTEREST
+  THREADS
+  BLUESKY
+  GOOGLE_BUSINESS
+}
+
+model PublishingCadence {
+  id          String   @id @default(uuid())
+  brandId     String
+  brand       Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  platform    SocialPlatform
+  perWeek     Int      @default(2)
+  updatedAt   DateTime @updatedAt
+
+  @@unique([brandId, platform])
+}
+
+// ---------------------------------------------------------------------------
+// Social accounts & credentials (credentials are always encrypted at rest;
+// the app layer must never return decrypted tokens to the browser)
+// ---------------------------------------------------------------------------
+
+enum SocialAccountStatus {
+  CONNECTED
+  DISCONNECTED
+  TOKEN_EXPIRING
+  ERROR
+}
+
+model SocialAccount {
+  id              String   @id @default(uuid())
+  brandId         String
+  brand           Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  platform        SocialPlatform
+  displayName     String
+  externalId      String?  // page/org/channel id on the platform
+  avatarUrl       String?
+  status          SocialAccountStatus @default(DISCONNECTED)
+  permissions     String[] @default([])
+  lastSyncAt      DateTime?
+  lastError       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  credential      SocialCredential?
+  variants        ContentVariant[]
+  platformPosts   PlatformPost[]
+
+  @@index([brandId, platform])
+}
+
+// Encrypted OAuth material. Never selected into any API response by default.
+model SocialCredential {
+  id                String   @id @default(uuid())
+  socialAccountId   String   @unique
+  socialAccount     SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  encryptedAccessToken   String
+  encryptedRefreshToken  String?
+  tokenExpiresAt         DateTime?
+  scopes                 String[] @default([])
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Products & affiliate links
+// ---------------------------------------------------------------------------
+
+enum ProductType {
+  EBOOK
+  KDP_BOOK
+  TRAINING
+  SAAS
+  APP
+  SERVICE
+  DIGITAL_PRODUCT
+  AFFILIATE
+  OTHER
+}
+
+model Product {
+  id            String   @id @default(uuid())
+  brandId       String
+  brand         Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  name          String
+  category      String?
+  type          ProductType
+  description   String?
+  imageMediaId  String?
+  imageMedia    MediaAsset? @relation(fields: [imageMediaId], references: [id], onDelete: SetNull)
+  price         Decimal? @db.Decimal(10, 2)
+  currency      String?  @default("EUR")
+  storeName     String?
+  url           String?
+  affiliateUrl  String?
+  commissionPct Decimal? @db.Decimal(5, 2)
+  affiliateNetwork String?
+  audience      String?
+  country       String?
+  language      String?  @default("fr")
+  cta           String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  affiliateLinks AffiliateLink[]
+  contentIdeas   ContentIdea[]
+  contentMasters ContentMaster[]
+
+  @@index([brandId])
+}
+
+model AffiliateLink {
+  id                String   @id @default(uuid())
+  brandId           String
+  brand             Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  productId         String?
+  product           Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  campaignId        String?
+  campaign          Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  destinationUrl    String
+  slug              String   @unique
+  source            String?
+  medium            String?
+  utmCampaign       String?
+  utmContent        String?
+  utmTerm           String?
+  isAffiliate       Boolean  @default(false)
+  commissionPct     Decimal? @db.Decimal(5, 2)
+  startsAt          DateTime?
+  endsAt            DateTime?
+  isSponsored       Boolean  @default(false)
+  disclosureRequired Boolean @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  clickEvents  ClickEvent[]
+  conversions  Conversion[]
+
+  @@index([brandId])
+}
+
+// ---------------------------------------------------------------------------
+// Campaigns & editorial content pipeline
+// ---------------------------------------------------------------------------
+
+model Campaign {
+  id          String   @id @default(uuid())
+  brandId     String
+  brand       Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  startsAt    DateTime?
+  endsAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  contentIdeas   ContentIdea[]
+  contentMasters ContentMaster[]
+  affiliateLinks AffiliateLink[]
+
+  @@index([brandId])
+}
+
+enum EditorialCategory {
+  EXPERTISE
+  EDUCATION
+  PROBLEM
+  SOLUTION
+  AUTHORITY
+  PROOF
+  BEHIND_THE_SCENES
+  CASE_STUDY
+  ENGAGEMENT
+  PRODUCT
+  OFFER
+  CTA
+}
+
+model ContentIdea {
+  id          String   @id @default(uuid())
+  brandId     String
+  brand       Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  campaignId  String?
+  campaign    Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  title       String
+  summary     String?
+  category    EditorialCategory?
+  sourceType  String?  // topic | product | url | campaign | previous_content | document
+  sourceRef   String?
+  createdAt   DateTime @default(now())
+
+  contentMasters ContentMaster[]
+
+  @@index([brandId])
+}
+
+enum ContentStatus {
+  DRAFT
+  GENERATED
+  AWAITING_APPROVAL
+  APPROVED
+  SCHEDULED
+  PUBLISHING
+  PUBLISHED
+  FAILED
+  CANCELLED
+  NEEDS_REVISION
+}
+
+enum ContentLanguage {
+  FR
+  EN
+}
+
+model ContentMaster {
+  id          String   @id @default(uuid())
+  brandId     String
+  brand       Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  campaignId  String?
+  campaign    Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  ideaId      String?
+  idea        ContentIdea? @relation(fields: [ideaId], references: [id], onDelete: SetNull)
+  title       String
+  language    ContentLanguage @default(FR)
+  category    EditorialCategory?
+  status      ContentStatus @default(DRAFT)
+  approvedApprovalVoidedAt DateTime? // set when a substantial edit invalidates a prior approval
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  variants      ContentVariant[]
+  approvals     Approval[]
+  videoProject  VideoProject?
+  auditLogs     AuditLog[]
+
+  @@index([brandId, status])
+}
+
+model ContentVariant {
+  id              String   @id @default(uuid())
+  contentMasterId String
+  contentMaster   ContentMaster @relation(fields: [contentMasterId], references: [id], onDelete: Cascade)
+  platform        SocialPlatform
+  socialAccountId String?
+  socialAccount   SocialAccount? @relation(fields: [socialAccountId], references: [id], onDelete: SetNull)
+  hook            String?
+  bodyText        String?
+  title           String?
+  description     String?
+  hashtags        String[] @default([])
+  cta             String?
+  link            String?
+  mediaAssetIds   String[] @default([])
+  format          String?   // e.g. "single_image", "carousel", "reel_9_16", "video_16_9"
+  scheduledAt     DateTime?
+  isAffiliate     Boolean  @default(false)
+  isSponsored     Boolean  @default(false)
+  disclosureText  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  post Post?
+
+  @@index([contentMasterId, platform])
+}
+
+// ---------------------------------------------------------------------------
+// Media library
+// ---------------------------------------------------------------------------
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  LOGO
+  DOCUMENT
+  THUMBNAIL
+}
+
+model MediaAsset {
+  id            String   @id @default(uuid())
+  brandId       String?
+  brand         Brand?   @relation("BrandMedia", fields: [brandId], references: [id], onDelete: Cascade)
+  type          MediaType
+  storageKey    String   // key/path in the object storage bucket
+  url           String?  // public or signed URL, resolved at read time
+  width         Int?
+  height        Int?
+  durationMs    Int?
+  sizeBytes     Int?
+  tags          String[] @default([])
+  campaignId    String?
+  productId     String?
+  createdAt     DateTime @default(now())
+
+  brandLogos      Brand[] @relation("BrandLogo")
+  products        Product[]
+  videoScenes     VideoScene[]
+
+  @@index([brandId, type])
+}
+
+// ---------------------------------------------------------------------------
+// Short Factory (template-based video pipeline)
+// ---------------------------------------------------------------------------
+
+model VideoTemplate {
+  id          String   @id @default(uuid())
+  brandId     String?
+  brand       Brand?   @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  name        String
+  kind        String   // corporate | educational | breaking_fact | listicle | problem_solution | product | quote | storytelling | before_after | cta
+  config      Json     // logo placement, fonts, colors, animations, subtitle style, intro/outro refs
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  videoProjects VideoProject[]
+
+  @@index([brandId])
+}
+
+enum VideoProjectStatus {
+  DRAFT
+  SCRIPTING
+  STORYBOARD
+  RENDERING
+  READY
+  FAILED
+}
+
+model VideoProject {
+  id              String   @id @default(uuid())
+  brandId         String
+  brand           Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  contentMasterId String?  @unique
+  contentMaster   ContentMaster? @relation(fields: [contentMasterId], references: [id], onDelete: SetNull)
+  templateId      String?
+  template        VideoTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  title           String
+  language        ContentLanguage @default(FR)
+  status          VideoProjectStatus @default(DRAFT)
+  script          String?
+  voiceOverScript String?
+  aspectRatio     String   @default("9:16")
+  renderedMediaId String?
+  errorMessage    String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  scenes VideoScene[]
+
+  @@index([brandId, status])
+}
+
+model VideoScene {
+  id             String   @id @default(uuid())
+  videoProjectId String
+  videoProject   VideoProject @relation(fields: [videoProjectId], references: [id], onDelete: Cascade)
+  order          Int
+  text           String?
+  mediaAssetId   String?
+  mediaAsset     MediaAsset? @relation(fields: [mediaAssetId], references: [id], onDelete: SetNull)
+  durationMs     Int      @default(3000)
+  transition     String?  // ken_burns | pan | zoom | cut | fade
+  subtitle       String?
+  createdAt      DateTime @default(now())
+
+  @@unique([videoProjectId, order])
+}
+
+// ---------------------------------------------------------------------------
+// Publishing pipeline: posts, approvals, scheduling, attempts
+// ---------------------------------------------------------------------------
+
+model Post {
+  id               String   @id @default(uuid())
+  brandId          String
+  brand            Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  contentVariantId String   @unique
+  contentVariant   ContentVariant @relation(fields: [contentVariantId], references: [id], onDelete: Cascade)
+  platform         SocialPlatform
+  status           ContentStatus @default(DRAFT)
+  scheduledAt      DateTime?
+  publishedAt      DateTime?
+  idempotencyKey   String   @unique @default(uuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  approvals            Approval[]
+  publicationAttempts  PublicationAttempt[]
+  platformPost         PlatformPost?
+
+  @@index([brandId, status])
+  @@index([scheduledAt])
+}
+
+enum ApprovalDecision {
+  APPROVED
+  REJECTED
+  NEEDS_REVISION
+}
+
+model Approval {
+  id              String   @id @default(uuid())
+  postId          String?
+  post            Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  contentMasterId String?
+  contentMaster   ContentMaster? @relation(fields: [contentMasterId], references: [id], onDelete: Cascade)
+  decision        ApprovalDecision
+  note            String?
+  decidedById     String
+  decidedBy       User     @relation(fields: [decidedById], references: [id])
+  decidedAt       DateTime @default(now())
+
+  @@index([postId])
+}
+
+enum PublicationAttemptStatus {
+  PENDING
+  LOCKED
+  SUCCESS
+  FAILED
+  RETRYING
+}
+
+model PublicationAttempt {
+  id             String   @id @default(uuid())
+  postId         String
+  post           Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  attemptNumber  Int
+  status         PublicationAttemptStatus @default(PENDING)
+  idempotencyKey String
+  requestPayload Json?
+  responsePayload Json?
+  errorCode      String?
+  errorMessage   String?
+  startedAt      DateTime @default(now())
+  finishedAt     DateTime?
+
+  @@unique([postId, attemptNumber])
+  @@index([status])
+}
+
+model PlatformPost {
+  id              String   @id @default(uuid())
+  postId          String   @unique
+  post            Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  socialAccountId String
+  socialAccount   SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  providerPostId  String
+  providerUrl     String?
+  rawResponse     Json?
+  createdAt       DateTime @default(now())
+
+  @@unique([socialAccountId, providerPostId])
+}
+
+// ---------------------------------------------------------------------------
+// Analytics (normalized; unavailable metrics are stored as null, never 0)
+// ---------------------------------------------------------------------------
+
+model AnalyticsSnapshot {
+  id            String   @id @default(uuid())
+  brandId       String
+  brand         Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  postId        String?
+  platform      SocialPlatform
+  capturedAt    DateTime @default(now())
+  impressions   Int?
+  reach         Int?
+  views         Int?
+  likes         Int?
+  comments      Int?
+  shares        Int?
+  saves         Int?
+  clicks        Int?
+  followers     Int?
+  source        String   // "api" | "manual_import"
+
+  @@index([brandId, platform, capturedAt])
+}
+
+model ClickEvent {
+  id              String   @id @default(uuid())
+  affiliateLinkId String
+  affiliateLink   AffiliateLink @relation(fields: [affiliateLinkId], references: [id], onDelete: Cascade)
+  brandId         String
+  brand           Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  postId          String?
+  platform        SocialPlatform?
+  occurredAt      DateTime @default(now())
+  ipHash          String?
+  userAgent       String?
+  referrer        String?
+
+  @@index([affiliateLinkId, occurredAt])
+  @@index([brandId])
+}
+
+enum ConversionSource {
+  IMPORTED
+  API
+  DECLARED
+}
+
+model Conversion {
+  id              String   @id @default(uuid())
+  affiliateLinkId String
+  affiliateLink   AffiliateLink @relation(fields: [affiliateLinkId], references: [id], onDelete: Cascade)
+  source          ConversionSource
+  isVerified      Boolean  @default(false)
+  amount          Decimal? @db.Decimal(10, 2)
+  currency        String?  @default("EUR")
+  occurredAt      DateTime @default(now())
+  note            String?
+
+  @@index([affiliateLinkId])
+}
+
+// ---------------------------------------------------------------------------
+// AI generations & cost control
+// ---------------------------------------------------------------------------
+
+enum AiGenerationKind {
+  TEXT
+  IMAGE
+  TTS
+  VIDEO
+}
+
+model AiGeneration {
+  id           String   @id @default(uuid())
+  brandId      String?
+  brand        Brand?   @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  kind         AiGenerationKind
+  provider     String
+  prompt       String?
+  resultRef    String?  // media asset id or content id produced
+  costEstimateCents Int?
+  createdAt    DateTime @default(now())
+
+  @@index([brandId, kind])
+}
+
+model AiCost {
+  id           String   @id @default(uuid())
+  workspaceId  String
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  brandId      String?
+  brand        Brand?   @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  category     String   // llm | image | tts | video | storage | other
+  costCents    Int
+  occurredAt   DateTime @default(now())
+
+  @@index([workspaceId, occurredAt])
+}
+
+// ---------------------------------------------------------------------------
+// Notifications, audit log, settings
+// ---------------------------------------------------------------------------
+
+model Notification {
+  id          String   @id @default(uuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  kind        String   // publication_failed | budget_alert | token_expiring | ...
+  title       String
+  body        String?
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([workspaceId, isRead])
+}
+
+model AuditLog {
+  id              String   @id @default(uuid())
+  workspaceId     String
+  workspace       Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  contentMasterId String?
+  contentMaster   ContentMaster? @relation(fields: [contentMasterId], references: [id], onDelete: SetNull)
+  action          String   // login | logout | connect_account | generate | approve | edit_after_approval | schedule | publish | fail | delete | settings_change
+  entityType      String?
+  entityId        String?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+
+  @@index([workspaceId, action, createdAt])
+}
+
+model Setting {
+  id          String   @id @default(uuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  key         String
+  value       Json
+  updatedAt   DateTime @updatedAt
+
+  @@unique([workspaceId, key])
+}
