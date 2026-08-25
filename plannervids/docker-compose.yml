@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: plannervids
+      POSTGRES_PASSWORD: plannervids
+      POSTGRES_DB: plannervids
+    ports:
+      - "5432:5432"
+    volumes:
+      - plannervids_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plannervids"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3100:3100"
+    env_file:
+      - .env.local
+    environment:
+      DATABASE_URL: postgresql://plannervids:plannervids@db:5432/plannervids
+
+volumes:
+  plannervids_db_data:
