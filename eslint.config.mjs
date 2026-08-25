@@ -16,6 +16,7 @@ const eslintConfig = [
       "prisma/generated/**",
       "*.tsbuildinfo",
       "next-env.d.ts",
+      "plannervids/**",
     ],
   },
   {
